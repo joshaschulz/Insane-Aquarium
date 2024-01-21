@@ -30,7 +30,6 @@ public class Scr_Move : MonoBehaviour
 
         SetNewTarget();
 
-
     }
 
     void Update()

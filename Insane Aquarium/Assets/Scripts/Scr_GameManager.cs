@@ -17,11 +17,14 @@ public class Scr_GameManager : MonoBehaviour
     public int feedingCost;
 
     public int goldCoinWorth;
+    private int fishIdCounter = 0;
 
     public GameObject goldfish;
     public Vector3 spawnPosition;
 
     public List<GameObject> foodPelletList = new List<GameObject>();
+    public List<GameObject> fishList = new List<GameObject>();
+
 
     private void Awake()
     {
@@ -65,6 +68,9 @@ public class Scr_GameManager : MonoBehaviour
             foodPelletList.Add(newfoodPellet);
 
             SetMoneyAmount(GetMoneyAmount() - feedingCost);
+
+            if (fishList != null)
+                CalculateClosestPellet();
         }
         else
         {
@@ -73,6 +79,34 @@ public class Scr_GameManager : MonoBehaviour
     }
     public void SpawnFish()
     {
-        Instantiate(goldfish, spawnPosition, Quaternion.identity);
+
+        GameObject newFish = Instantiate(goldfish, spawnPosition, Quaternion.identity);
+        fishList.Add(newFish);
+
+        newFish.GetComponent<Scr_Move>().fishId = fishIdCounter;
+        fishIdCounter++;
+
+        Debug.Log(newFish.GetComponent<Scr_Move>().fishId);
+
+    }
+
+    public void CalculateClosestPellet()
+    {
+        for (int i = 0; i < fishList.Count; i++)
+        {
+            GameObject closestFoodPellet = foodPelletList[0];
+            float minDistance = float.MaxValue;
+            for (int j = 0; j < foodPelletList.Count; j++)
+            {
+                float distance = Vector2.Distance(fishList[i].transform.position, foodPelletList[j].transform.position);
+                if(distance < minDistance)
+                {
+                    minDistance = distance;
+                    closestFoodPellet = foodPelletList[j];
+                }
+            }
+            fishList[i].GetComponent<Scr_Move>().closestPellet = closestFoodPellet;
+
+        }
     }
 }

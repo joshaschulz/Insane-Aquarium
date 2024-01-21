@@ -10,13 +10,19 @@ public class Scr_Move : MonoBehaviour
     public GameObject side;
     public GameObject front;
 
+    public GameObject closestPellet;
+
     private bool idle;
     private bool invoked;
+    public bool isHungry;
 
-    Vector2 target;
+    public int fishId;
+
+    public Vector2 target;
     public float MinX, MaxX, MinY, MaxY;
     public float speed;
     public float transitionLength;
+    public float hungryTimer;
 
     public GameObject boundingBox;
     private Vector2 boundingBoxSize;
@@ -30,6 +36,7 @@ public class Scr_Move : MonoBehaviour
         startScaleX = gameObject.transform.localScale.x;
         idle = false;
         invoked = false;
+        isHungry = true;
         SetMinAndMax();
 
 
@@ -44,27 +51,62 @@ public class Scr_Move : MonoBehaviour
         Debug.DrawLine(transform.position, target);
 
         //if food pellet exists, go to it
-        if (gameManager.foodPelletList != null && gameManager.foodPelletList.Count > 0)
+        if (closestPellet != null && isHungry)
         {
-            target = gameManager.foodPelletList[0].transform.position;
+            MoveToPellet();
+        }
+
+
+        if (!(gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y) && !idle && !invoked)
             Move();
-            SetInvokedFalse(); //seems inefficient
-        }
+        else if (gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y && !idle)
+            SetIdleState();
 
-        if (1==1)
+    }
+
+    public void InvokeSetHungry()
+    {
+        Invoke("SetHungry", hungryTimer);
+    }
+
+    public void SetHungry()
+    {
+        isHungry = true;
+        if (gameManager.foodPelletList.Count > 0)
+            FindClosestPellet();
+
+        if (closestPellet != null)
+            MoveToPellet();
+    }
+
+    private void MoveToPellet()
+    {
+        target = closestPellet.transform.position;
+
+        Move();
+        SetInvokedFalse(); //seems inefficient
+    }
+
+    //like CalculateClosestPellet on game manager. need to do this here when hungry timer runs out
+    public void FindClosestPellet()
+    {
+        GameObject closestFoodPellet = gameManager.foodPelletList[0];
+        float minDistance = float.MaxValue;
+        for (int j = 0; j < gameManager.foodPelletList.Count; j++)
         {
-            if (!(gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y) && !idle && !invoked)
-                Move();
-            else if (gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y && !idle)
-                SetIdleState();
+            float distance = Vector2.Distance(transform.position, gameManager.foodPelletList[j].transform.position);
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+                closestFoodPellet = gameManager.foodPelletList[j];
+            }
         }
-
+        closestPellet = closestFoodPellet;
     }
 
     private void SetNewTarget()
     {
-        if (!(gameManager.foodPelletList.Count > 0))
-            target = new Vector2(Random.Range(MinX, MaxX), Random.Range(MinY, MaxY));
+        target = new Vector2(Random.Range(MinX, MaxX), Random.Range(MinY, MaxY));
 
         idle = true;
 
@@ -78,7 +120,6 @@ public class Scr_Move : MonoBehaviour
         }
         else
             SetInvokedFalse();
-
     }
 
     private void SetIdleState()

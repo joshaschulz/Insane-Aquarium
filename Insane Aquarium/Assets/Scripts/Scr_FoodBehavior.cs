@@ -47,14 +47,21 @@ public class Scr_FoodBehavior : MonoBehaviour
         transform.Rotate(0, 0, spinAmount);
     }
 
-    private void OnColisionEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Hello");
+        GameObject colliderFish = collision.gameObject;
         // Check if the collider belongs to a food object
-        if (collision.CompareTag("Fish"))
+        if (colliderFish.tag == "Fish")
         {
             gameManager.foodPelletList.Remove(gameObject);
+
+            //parent because collider is on side container and scr_move is on goldfish
+            colliderFish.transform.parent.gameObject.GetComponent<Scr_Move>().isHungry = false;
+            colliderFish.transform.parent.gameObject.GetComponent<Scr_Move>().InvokeSetHungry();
+
             Destroy(gameObject);
+
+
         }
 
     }

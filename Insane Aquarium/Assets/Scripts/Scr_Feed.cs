@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class Scr_Feed : MonoBehaviour
 {
-
+    Scr_GameManager gameManager;
     public GameObject foodPellet;
+
+    public int feedingCost;
 
     private Camera _Camera;
     private void Awake()
     {
+        gameManager = GetComponent<Scr_GameManager>();
         _Camera = Camera.main;
     }
 
@@ -17,17 +20,27 @@ public class Scr_Feed : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0)) // Left-Click - Attempt to drop food
         {
-            Vector3 mousePixelPos = Input.mousePosition;
+            if (gameManager.GetMoneyAmount() >= feedingCost)
+            {
 
-            mousePixelPos.z = 20f;
+                Vector3 mousePixelPos = Input.mousePosition;
 
-            Vector3 mouseWorldPosition = _Camera.ScreenToWorldPoint(mousePixelPos);
+                mousePixelPos.z = 20f;
 
-            mouseWorldPosition.z = 0;
+                Vector3 mouseWorldPosition = _Camera.ScreenToWorldPoint(mousePixelPos);
 
-            Instantiate(foodPellet, mouseWorldPosition, Quaternion.identity);
+                mouseWorldPosition.z = 0;
+
+                Instantiate(foodPellet, mouseWorldPosition, Quaternion.identity);
+
+                gameManager.SetMoneyAmount(gameManager.GetMoneyAmount() - feedingCost);
+            }
+            else
+            {
+                Debug.Log("Insufficient Money to Feed");
+            }
         }
     }
 }

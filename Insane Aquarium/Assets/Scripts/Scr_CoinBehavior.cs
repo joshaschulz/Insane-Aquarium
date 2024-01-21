@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Scr_CoinBehavior : MonoBehaviour
 {
+    private Scr_GameManager gameManager;
 
     public SpriteRenderer spriteRenderer;
     public Sprite Coin1;
@@ -18,6 +19,8 @@ public class Scr_CoinBehavior : MonoBehaviour
 
     private void Start()
     {
+        gameManager = Scr_GameManager.GMinstance;
+
         spinCounter = Random.Range(1, 5);
         InvokeRepeating("rotateCoin", 0f, 1/spinSpeed);
     }
@@ -55,5 +58,11 @@ public class Scr_CoinBehavior : MonoBehaviour
             spriteRenderer.sprite = Coin4;
             spinCounter = 1;
         }
+    }
+
+    private void OnMouseDown()
+    {
+        gameManager.SetMoneyAmount(gameManager.GetMoneyAmount() + gameManager.goldCoinWorth);
+        Destroy(gameObject);
     }
 }

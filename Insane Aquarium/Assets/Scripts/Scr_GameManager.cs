@@ -7,11 +7,11 @@ using TMPro;
 public class Scr_GameManager : MonoBehaviour
 {
     public static Scr_GameManager GMinstance;
-    
+
     private Camera _Camera;
 
     public int moneyAmount;
-    public  TextMeshProUGUI moneyText;
+    public TextMeshProUGUI moneyText;
 
     public GameObject foodPellet;
     public int feedingCost;
@@ -20,6 +20,8 @@ public class Scr_GameManager : MonoBehaviour
 
     public GameObject goldfish;
     public Vector3 spawnPosition;
+
+    public List<GameObject> foodPelletList = new List<GameObject>();
 
     private void Awake()
     {
@@ -56,16 +58,11 @@ public class Scr_GameManager : MonoBehaviour
     {
         if (GetMoneyAmount() >= feedingCost)
         {
+            Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            Vector3 mousePixelPos = Input.mousePosition;
+            GameObject newfoodPellet = Instantiate(foodPellet, mouseWorldPosition, Quaternion.identity);
 
-            mousePixelPos.z = 20f;
-
-            Vector3 mouseWorldPosition = _Camera.ScreenToWorldPoint(mousePixelPos);
-
-            mouseWorldPosition.z = 0;
-
-            Instantiate(foodPellet, mouseWorldPosition, Quaternion.identity);
+            foodPelletList.Add(newfoodPellet);
 
             SetMoneyAmount(GetMoneyAmount() - feedingCost);
         }

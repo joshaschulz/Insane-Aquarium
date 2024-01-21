@@ -921,6 +921,7 @@ MonoBehaviour:
   goldCoinWorth: 50
   goldfish: {fileID: 5133132848119239875, guid: b5ae87b070dc5b14685e0feefc3a131e, type: 3}
   spawnPosition: {x: 0, y: 0, z: 0}
+  foodPelletList: []
 --- !u!114 &1031440124
 MonoBehaviour:
   m_ObjectHideFlags: 0

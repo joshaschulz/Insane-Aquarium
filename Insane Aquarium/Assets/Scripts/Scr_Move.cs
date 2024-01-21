@@ -51,21 +51,11 @@ public class Scr_Move : MonoBehaviour
         target = new Vector2(Random.Range(MinX, MaxX), Random.Range(MinY, MaxY));
         idle = true;
 
-        if (target.x < transform.position.x && gameObject.transform.localScale.x > 0)
+        if ((target.x < transform.position.x && gameObject.transform.localScale.x > 0) || (target.x > transform.position.x && gameObject.transform.localScale.x < 0))
         {
             //play transition
             invoked = true;
             Invoke("SetInvokedFalse", 0.1f);
-            gameObject.transform.localScale = new Vector2(startScaleX * -1, gameObject.transform.localScale.y);
-            side.SetActive(false);
-            front.SetActive(true);
-        }
-        else if (target.x > transform.position.x && gameObject.transform.localScale.x < 0)
-        {
-            //play transition
-            invoked = true;
-            Invoke("SetInvokedFalse", 0.1f);
-            gameObject.transform.localScale = new Vector2(startScaleX, gameObject.transform.localScale.y);
             side.SetActive(false);
             front.SetActive(true);
         }
@@ -100,6 +90,11 @@ public class Scr_Move : MonoBehaviour
         front.SetActive(false);
         side.SetActive(true);
         idle = false;
+
+        if (target.x < side.transform.position.x && side.transform.localScale.x > 0)
+            side.transform.localScale = new Vector2(startScaleX * -1, gameObject.transform.localScale.y);
+        else if(target.x > side.transform.position.x && side.transform.localScale.x < 0)
+            side.transform.localScale = new Vector2(startScaleX, gameObject.transform.localScale.y);
     }
 
     private void Move()

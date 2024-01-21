@@ -829,10 +829,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b77b669bbd33384f86d03dea7788d8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
-  foodPellet: {fileID: 5447806642486513699, guid: 81deed014d0d31c43902697f2bc0e3d8, type: 3}
-  feedingCost: 5
-  _Camera: {fileID: 0}
 --- !u!4 &1031440121
 Transform:
   m_ObjectHideFlags: 0
@@ -891,71 +887,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ba8904a937459478d9b73e6e9c0879, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &2777685045228052315
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3771310843079071294, guid: b5ae87b070dc5b14685e0feefc3a131e, type: 3}
-      propertyPath: transitionSpeed
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3771310843079071294, guid: b5ae87b070dc5b14685e0feefc3a131e, type: 3}
-      propertyPath: transitionLength
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4129722000939723122, guid: b5ae87b070dc5b14685e0feefc3a131e, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4129722000939723122, guid: b5ae87b070dc5b14685e0feefc3a131e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4129722000939723122, guid: b5ae87b070dc5b14685e0feefc3a131e, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4129722000939723122, guid: b5ae87b070dc5b14685e0feefc3a131e, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4129722000939723122, guid: b5ae87b070dc5b14685e0feefc3a131e, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4129722000939723122, guid: b5ae87b070dc5b14685e0feefc3a131e, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4129722000939723122, guid: b5ae87b070dc5b14685e0feefc3a131e, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4129722000939723122, guid: b5ae87b070dc5b14685e0feefc3a131e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4129722000939723122, guid: b5ae87b070dc5b14685e0feefc3a131e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4129722000939723122, guid: b5ae87b070dc5b14685e0feefc3a131e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5133132848119239875, guid: b5ae87b070dc5b14685e0feefc3a131e, type: 3}
-      propertyPath: m_Name
-      value: Goldfish
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b5ae87b070dc5b14685e0feefc3a131e, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -965,5 +896,4 @@ SceneRoots:
   - {fileID: 672596399}
   - {fileID: 753793626}
   - {fileID: 1031440121}
-  - {fileID: 2777685045228052315}
   - {fileID: 818775175}

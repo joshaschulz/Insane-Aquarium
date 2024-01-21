@@ -211,6 +211,7 @@ GameObject:
   - component: {fileID: 6080946140826696211}
   - component: {fileID: 240480623521552886}
   - component: {fileID: 1591696679561999873}
+  - component: {fileID: 5937067018638762078}
   m_Layer: 0
   m_Name: Goldfish Side Container
   m_TagString: Untagged
@@ -273,6 +274,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!210 &5937067018638762078
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2201271576406803968}
+  m_Enabled: 1
+  m_SortingLayerID: -119188961
+  m_SortingLayer: 2
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!1 &4420583315416528449
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,7 +426,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

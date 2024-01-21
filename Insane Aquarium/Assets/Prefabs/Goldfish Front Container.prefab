@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1762907242872758933}
   - component: {fileID: 2526873400864714609}
+  - component: {fileID: 5573220355840468267}
   m_Layer: 0
   m_Name: Goldfish Front Container
   m_TagString: Untagged
@@ -54,6 +55,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!210 &5573220355840468267
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1839346589596145173}
+  m_Enabled: 1
+  m_SortingLayerID: -119188961
+  m_SortingLayer: 2
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!1 &3243834047972039551
 GameObject:
   m_ObjectHideFlags: 0

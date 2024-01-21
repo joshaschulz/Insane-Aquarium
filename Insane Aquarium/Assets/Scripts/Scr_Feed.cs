@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Feed : MonoBehaviour
+public class Scr_Feed : MonoBehaviour
 {
 
     public GameObject foodPellet;

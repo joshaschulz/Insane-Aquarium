@@ -103,4 +103,4 @@ MonoBehaviour:
   Coin3: {fileID: 21300000, guid: 19fc83effa43482428dd5ef9fcd7c777, type: 3}
   Coin4: {fileID: 21300000, guid: 427faf5daea4955418c814aba39d7ce7, type: 3}
   fallSpeed: 1
-  spinSpeed: 3
+  spinSpeed: 10

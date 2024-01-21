@@ -18,6 +18,7 @@ public class Scr_CoinBehavior : MonoBehaviour
 
     private void Start()
     {
+        spinCounter = Random.Range(1, 5);
         InvokeRepeating("rotateCoin", 0f, 1/spinSpeed);
     }
 

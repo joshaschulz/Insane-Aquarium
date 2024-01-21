@@ -13,6 +13,7 @@ public class Scr_Move : MonoBehaviour
     Vector2 target;
     private float MinX, MaxX, MinY, MaxY;
     public float speed;
+    public float transitionLength;
 
     public GameObject boundingBox;
     private Vector2 boundingBoxSize;
@@ -55,7 +56,7 @@ public class Scr_Move : MonoBehaviour
         {
             //play transition
             invoked = true;
-            Invoke("SetInvokedFalse", 0.1f);
+            Invoke("SetInvokedFalse", transitionLength);
             side.SetActive(false);
             front.SetActive(true);
         }

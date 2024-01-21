@@ -48,8 +48,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   side: {fileID: 1850135220432125194}
   front: {fileID: 1730624680251130110}
-  idle: 0
   speed: 2
+  transitionLength: 0.2
   boundingBox: {fileID: 5393677550066083701}
 --- !u!1001 &108862647915566827
 PrefabInstance:

@@ -60,7 +60,7 @@ public class Scr_CoinBehavior : MonoBehaviour
         }
     }
 
-    private void OnMouseDown()
+    public void GetClicked()
     {
         gameManager.SetMoneyAmount(gameManager.GetMoneyAmount() + gameManager.goldCoinWorth);
         Destroy(gameObject);

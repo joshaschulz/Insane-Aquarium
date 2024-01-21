@@ -7,17 +7,15 @@ public class Scr_Move : MonoBehaviour
     public GameObject side;
     public GameObject front;
 
-    public bool idle;
+    private bool idle;
+    private bool invoked;
 
     Vector2 target;
     private float MinX, MaxX, MinY, MaxY;
     public float speed;
 
-    //public SpriteRenderer spriteRenderer;
-
     public GameObject boundingBox;
     private Vector2 boundingBoxSize;
-    //private float scaleX, scaleY;
 
     private float startScaleX;
 
@@ -25,10 +23,12 @@ public class Scr_Move : MonoBehaviour
     {
         startScaleX = gameObject.transform.localScale.x;
         idle = false;
+        invoked = false;
         SetMinAndMax();
 
 
-        SetNewTarget();
+        //SetNewTarget();
+        target = gameObject.transform.position;
 
     }
 
@@ -39,21 +39,77 @@ public class Scr_Move : MonoBehaviour
 
         //Move();
 
-        if (!(gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y))
+        if (!(gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y) && !idle && !invoked)
             Move();
+        else if (gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y && !idle)
+            SetIdleState();
 
-        if (gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y && !idle)
+    }
+
+    private void SetNewTarget()
+    {
+        target = new Vector2(Random.Range(MinX, MaxX), Random.Range(MinY, MaxY));
+        idle = true;
+
+        if (target.x < transform.position.x && gameObject.transform.localScale.x > 0)
+        {
+            //play transition
+            invoked = true;
+            Invoke("SetInvokedFalse", 0.1f);
+            gameObject.transform.localScale = new Vector2(startScaleX * -1, gameObject.transform.localScale.y);
+            side.SetActive(false);
+            front.SetActive(true);
+        }
+        else if (target.x > transform.position.x && gameObject.transform.localScale.x < 0)
+        {
+            //play transition
+            invoked = true;
+            Invoke("SetInvokedFalse", 0.1f);
+            gameObject.transform.localScale = new Vector2(startScaleX, gameObject.transform.localScale.y);
+            side.SetActive(false);
+            front.SetActive(true);
+        }
+        else
+            SetInvokedFalse();
+
+    }
+
+    private void SetIdleState()
+    {
+        int randInt = Random.Range(0, 2);
+
+        if (randInt == 0)
+        {
+            if (side.activeSelf)
+            {
+                side.SetActive(false);
+                front.SetActive(true);
+            }
+            idle = true;
+            Invoke("SetIdleState", 2);
+        }
+        else
+        {
             SetNewTarget();
+        }
+    }
 
+    private void SetInvokedFalse()
+    {
+        invoked = false;
+        front.SetActive(false);
+        side.SetActive(true);
+        idle = false;
+    }
+
+    private void Move()
+    {
+        gameObject.transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
     }
 
     private void SetMinAndMax()
     {
         Vector2 Bounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-
-        /*fishRect = spriteRenderer.sprite.rect;
-        fishRectSize = new Vector2(fishRect.width/Screen.width * Bounds.x / 4, fishRect.height / Screen.height * Bounds.y / 4);
-        fishRectSize = new Vector2(fishRect.width / Screen.width * Bounds.x / 4, fishRect.height / Screen.height * Bounds.y / 4);*/
 
         boundingBoxSize = new Vector2(boundingBox.transform.localScale.x * gameObject.transform.localScale.x, boundingBox.transform.localScale.y * gameObject.transform.localScale.y);
 
@@ -63,43 +119,4 @@ public class Scr_Move : MonoBehaviour
         MaxY = Bounds.y - (0.5f * boundingBoxSize.y * transform.localScale.y);
 
     }
-
-    private void SetNewTarget()
-    {
-        int randInt = Random.Range(0, 2);
-        //Debug.Log(randInt);
-        if (randInt == 1)
-        {
-            target = new Vector2(Random.Range(MinX, MaxX), Random.Range(MinY, MaxY));
-            if (!side.activeSelf)
-            {
-                side.SetActive(true);
-                front.SetActive(false);
-            }
-            idle = false;
-        }
-        else
-        {
-            if (side.activeSelf)
-            {
-                side.SetActive(false);
-                front.SetActive(true);
-            }
-            Invoke("SetNewTarget", 2);
-            idle = true;
-        }
-
-    }
-
-    private void Move()
-    {
-        if (target.x < transform.position.x)
-            gameObject.transform.localScale = new Vector2(startScaleX * -1, gameObject.transform.localScale.y);
-        else
-            gameObject.transform.localScale = new Vector2(startScaleX, gameObject.transform.localScale.y);
-
-
-        gameObject.transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
-    }
-
 }

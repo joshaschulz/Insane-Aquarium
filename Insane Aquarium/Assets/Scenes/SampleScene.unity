@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &126128072 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2201271576406803968, guid: e072986f9ea40854c8d1f7af200b7b70, type: 3}
+  m_PrefabInstance: {fileID: 3454485061350405344}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &126128074 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6080946140826696211, guid: e072986f9ea40854c8d1f7af200b7b70, type: 3}
@@ -266,7 +271,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faea4f01ac1d5754da7ead743b3376d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  side: {fileID: 126128072}
+  front: {fileID: 1730730941}
+  idle: 0
+  speed: 2
   boundingBox: {fileID: 883007370}
 --- !u!1 &672596395
 GameObject:
@@ -692,6 +700,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1730730941 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1839346589596145173, guid: ee57cd479972eff4cbd6aac35f8220ed, type: 3}
+  m_PrefabInstance: {fileID: 2286570120240807848}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1730730943 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1762907242872758933, guid: ee57cd479972eff4cbd6aac35f8220ed, type: 3}
@@ -766,6 +779,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 548956120}
     m_Modifications:
+    - target: {fileID: 1081685312689911939, guid: e072986f9ea40854c8d1f7af200b7b70, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.4908407
+      objectReference: {fileID: 0}
     - target: {fileID: 2201271576406803968, guid: e072986f9ea40854c8d1f7af200b7b70, type: 3}
       propertyPath: m_Name
       value: Goldfish Side Container
@@ -773,6 +790,14 @@ PrefabInstance:
     - target: {fileID: 2201271576406803968, guid: e072986f9ea40854c8d1f7af200b7b70, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3149495068161625103, guid: e072986f9ea40854c8d1f7af200b7b70, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 3149495068161625103, guid: e072986f9ea40854c8d1f7af200b7b70, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.4908407
       objectReference: {fileID: 0}
     - target: {fileID: 6080946140826696211, guid: e072986f9ea40854c8d1f7af200b7b70, type: 3}
       propertyPath: m_LocalPosition.x

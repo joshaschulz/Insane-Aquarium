@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4129722000939723122}
   - component: {fileID: 3771310843079071294}
+  - component: {fileID: 8595764363448963285}
   m_Layer: 0
   m_Name: Goldfish
-  m_TagString: Untagged
+  m_TagString: Fish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,9 +49,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   side: {fileID: 1850135220432125194}
   front: {fileID: 1730624680251130110}
+  MinX: 0
+  MaxX: 0
+  MinY: 0
+  MaxY: 0
   speed: 2
   transitionLength: 0.2
   boundingBox: {fileID: 5393677550066083701}
+--- !u!58 &8595764363448963285
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5133132848119239875}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 1.07, y: 1.05}
+  serializedVersion: 2
+  m_Radius: 0.21174312
 --- !u!1001 &108862647915566827
 PrefabInstance:
   m_ObjectHideFlags: 0

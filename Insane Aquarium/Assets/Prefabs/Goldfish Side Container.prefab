@@ -214,7 +214,7 @@ GameObject:
   - component: {fileID: 5937067018638762078}
   m_Layer: 0
   m_Name: Goldfish Side Container
-  m_TagString: Untagged
+  m_TagString: Fish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -250,6 +250,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   side: {fileID: 0}
   front: {fileID: 0}
+  MinX: 0
+  MaxX: 0
+  MinY: 0
+  MaxY: 0
   speed: 5
   transitionLength: 0
   boundingBox: {fileID: 5619170568992447615}

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Scr_Move : MonoBehaviour
 {
+    public static Scr_Move Moveinstance;
+    private Scr_GameManager gameManager;
+
     public GameObject side;
     public GameObject front;
 
@@ -11,7 +14,7 @@ public class Scr_Move : MonoBehaviour
     private bool invoked;
 
     Vector2 target;
-    private float MinX, MaxX, MinY, MaxY;
+    public float MinX, MaxX, MinY, MaxY;
     public float speed;
     public float transitionLength;
 
@@ -22,6 +25,8 @@ public class Scr_Move : MonoBehaviour
 
     void Start()
     {
+        gameManager = Scr_GameManager.GMinstance;
+
         startScaleX = gameObject.transform.localScale.x;
         idle = false;
         invoked = false;
@@ -38,18 +43,29 @@ public class Scr_Move : MonoBehaviour
         //Debug.Log(target);
         Debug.DrawLine(transform.position, target);
 
-        //Move();
-
-        if (!(gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y) && !idle && !invoked)
+        //if food pellet exists, go to it
+        if (gameManager.foodPelletList != null && gameManager.foodPelletList.Count > 0)
+        {
+            target = gameManager.foodPelletList[0].transform.position;
             Move();
-        else if (gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y && !idle)
-            SetIdleState();
+            SetInvokedFalse(); //seems inefficient
+        }
+
+        if (1==1)
+        {
+            if (!(gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y) && !idle && !invoked)
+                Move();
+            else if (gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y && !idle)
+                SetIdleState();
+        }
 
     }
 
     private void SetNewTarget()
     {
-        target = new Vector2(Random.Range(MinX, MaxX), Random.Range(MinY, MaxY));
+        if (!(gameManager.foodPelletList.Count > 0))
+            target = new Vector2(Random.Range(MinX, MaxX), Random.Range(MinY, MaxY));
+
         idle = true;
 
         if ((target.x < side.transform.position.x && side.transform.localScale.x > 0) || (target.x > side.transform.position.x && side.transform.localScale.x < 0))

@@ -52,7 +52,7 @@ public class Scr_Move : MonoBehaviour
         target = new Vector2(Random.Range(MinX, MaxX), Random.Range(MinY, MaxY));
         idle = true;
 
-        if ((target.x < transform.position.x && gameObject.transform.localScale.x > 0) || (target.x > transform.position.x && gameObject.transform.localScale.x < 0))
+        if ((target.x < side.transform.position.x && side.transform.localScale.x > 0) || (target.x > side.transform.position.x && side.transform.localScale.x < 0))
         {
             //play transition
             invoked = true;

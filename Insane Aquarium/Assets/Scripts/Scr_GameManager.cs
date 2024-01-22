@@ -22,7 +22,6 @@ public class Scr_GameManager : MonoBehaviour
 
     public float coinDropTimer;
 
-    public GameObject goldfish;
     public Vector3 spawnPosition;
 
     public List<GameObject> foodPelletList = new List<GameObject>();
@@ -81,10 +80,10 @@ public class Scr_GameManager : MonoBehaviour
             Debug.Log("Insufficient Money to Feed");
         }
     }
-    public void SpawnFish()
+    public void SpawnFish(GameObject _fishToSpawn)
     {
 
-        GameObject newFish = Instantiate(goldfish, spawnPosition, Quaternion.identity);
+        GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
         fishList.Add(newFish);
 
         newFish.GetComponent<Scr_Move>().fishId = fishIdCounter;
@@ -103,7 +102,7 @@ public class Scr_GameManager : MonoBehaviour
             for (int j = 0; j < foodPelletList.Count; j++)
             {
                 float distance = Vector2.Distance(fishList[i].transform.position, foodPelletList[j].transform.position);
-                if(distance < minDistance)
+                if (distance < minDistance)
                 {
                     minDistance = distance;
                     closestFoodPellet = foodPelletList[j];

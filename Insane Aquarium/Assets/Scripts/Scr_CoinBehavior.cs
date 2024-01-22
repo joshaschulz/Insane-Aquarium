@@ -14,6 +14,8 @@ public class Scr_CoinBehavior : MonoBehaviour
 
     private int spinCounter = 1;
 
+    public float groundBarrierPercentage;
+    private Vector2 groundBarrier;
     public float fallSpeed;
     public float spinSpeed;
 
@@ -23,12 +25,19 @@ public class Scr_CoinBehavior : MonoBehaviour
 
         spinCounter = Random.Range(1, 5);
         InvokeRepeating("rotateCoin", 0f, 1/spinSpeed);
+
+        groundBarrier = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height * groundBarrierPercentage));
     }
 
     // Update is called once per frame
     void Update()
     {
         transform.Translate(0, -fallSpeed / 1000, 0);
+
+        if (transform.position.y < groundBarrier.y)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnBecameInvisible()

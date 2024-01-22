@@ -59,8 +59,9 @@ MonoBehaviour:
   MaxY: 0
   speed: 2
   transitionLength: 0.2
-  hungryTimer: 5
-  dieTimer: 3
+  hungryTimer: 10
+  dieTimer: 10
+  coinDropTimer: 10
   boundingBox: {fileID: 5430298658368350893}
 --- !u!1001 &7580349024561203920
 PrefabInstance:

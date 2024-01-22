@@ -26,6 +26,7 @@ public class Scr_Move : MonoBehaviour
     public float transitionLength;
     public float hungryTimer;
     public float dieTimer;
+    public float coinDropTimer;
 
 
     public GameObject boundingBox;
@@ -54,7 +55,7 @@ public class Scr_Move : MonoBehaviour
         FindClosestPellet();
         StartCoroutine(Die());
 
-        InvokeRepeating("DropCoin", gameManager.coinDropTimer, gameManager.coinDropTimer);
+        InvokeRepeating("DropCoin", coinDropTimer, coinDropTimer);
     }
 
     void Update()

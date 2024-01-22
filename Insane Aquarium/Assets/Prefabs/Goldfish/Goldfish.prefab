@@ -1238,8 +1238,9 @@ MonoBehaviour:
   MaxY: 0
   speed: 2
   transitionLength: 0.2
-  hungryTimer: 5
-  dieTimer: 3
+  hungryTimer: 10
+  dieTimer: 10
+  coinDropTimer: 10
   boundingBox: {fileID: 4342824915456064264}
 --- !u!1 &9031824185968622659
 GameObject:

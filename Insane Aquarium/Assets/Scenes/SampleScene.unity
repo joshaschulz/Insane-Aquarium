@@ -1000,7 +1000,8 @@ MonoBehaviour:
   goldCoin: {fileID: 2252203884047013309, guid: 5ca8bd730ade2b24fa71893d29efd325, type: 3}
   feedingCost: 5
   goldCoinWorth: 50
-  coinDropTimer: 5
+  fishIdCounter: 0
+  coinDropTimer: 10
   spawnPosition: {x: 0, y: 0, z: 0}
   foodPelletList: []
   fishList: []

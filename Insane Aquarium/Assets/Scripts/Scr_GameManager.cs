@@ -20,8 +20,6 @@ public class Scr_GameManager : MonoBehaviour
     public int goldCoinWorth;
     public int fishIdCounter = 0;
 
-    public float coinDropTimer;
-
     public Vector3 spawnPosition;
 
     public List<GameObject> foodPelletList = new List<GameObject>();

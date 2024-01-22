@@ -14,6 +14,7 @@ public class Scr_Move : MonoBehaviour
 
     private bool idle;
     private bool invoked;
+    private bool atTarget;
     public bool isHungry;
     public bool dieCorRunning;
 
@@ -36,6 +37,9 @@ public class Scr_Move : MonoBehaviour
     {
 
         gameManager = Scr_GameManager.GMinstance;
+
+        gameManager.fishList.Add(gameObject);
+        fishId = gameManager.fishIdCounter;
 
         startScaleX = side.transform.localScale.x;
         idle = false;
@@ -63,17 +67,20 @@ public class Scr_Move : MonoBehaviour
         {
             MoveToPellet();
         }
-
-
-        if (!(gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y) && !idle && !invoked)
-            Move();
-        else if (gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y && !idle && isHungry && closestPellet != null)
+        else if (closestPellet == null && isHungry)
+        {
+            FindClosestPellet();
             MoveToPellet();
-        else if (gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y && !idle)
+        }
+
+        atTarget = gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y;
+
+        if (!atTarget && !idle && !invoked)
+            Move();
+        else if (atTarget && !idle && isHungry && closestPellet != null)
+            MoveToPellet();
+        else if (atTarget && !idle)
             SetIdleState();
-
-
-
     }
 
     public void InvokeSetHungry()
@@ -93,22 +100,37 @@ public class Scr_Move : MonoBehaviour
         {
             MoveToPellet();
         }
-        
-
     }
 
     private void MoveToPellet()
     {
-        target = closestPellet.transform.position;
+        if (closestPellet != null)
+            target = closestPellet.transform.position;
 
-        Move();
-        SetInvokedFalse(); //seems inefficient
+        TransitionAnimation();
+
+    }
+
+    public void TransitionAnimation()
+    {
+        idle = true;
+
+        if ((target.x < side.transform.position.x && side.transform.localScale.x > 0) || (target.x > side.transform.position.x && side.transform.localScale.x < 0))
+        {
+            //play transition
+            invoked = true;
+            Invoke("SetInvokedFalse", transitionLength);
+            side.SetActive(false);
+            front.SetActive(true);
+        }
+        else
+            SetInvokedFalse();
     }
 
     //like CalculateClosestPellet on game manager. need to do this here when hungry timer runs out
     public void FindClosestPellet()
     {
-        if (gameManager.foodPelletList.Count > 0 && gameManager.foodPelletList != null)
+        if (gameManager.foodPelletList.Count > 0)
         {
             Debug.Log("looking for closest pellet");
             GameObject closestFoodPellet = gameManager.foodPelletList[0];
@@ -130,18 +152,7 @@ public class Scr_Move : MonoBehaviour
     {
         target = new Vector2(Random.Range(MinX, MaxX), Random.Range(MinY, MaxY));
 
-        idle = true;
-
-        if ((target.x < side.transform.position.x && side.transform.localScale.x > 0) || (target.x > side.transform.position.x && side.transform.localScale.x < 0))
-        {
-            //play transition
-            invoked = true;
-            Invoke("SetInvokedFalse", transitionLength);
-            side.SetActive(false);
-            front.SetActive(true);
-        }
-        else
-            SetInvokedFalse();
+        TransitionAnimation();
     }
 
     private void SetIdleState()

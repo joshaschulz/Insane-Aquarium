@@ -18,7 +18,7 @@ public class Scr_GameManager : MonoBehaviour
     public int feedingCost;
 
     public int goldCoinWorth;
-    private int fishIdCounter = 0;
+    public int fishIdCounter = 0;
 
     public float coinDropTimer;
 
@@ -72,8 +72,7 @@ public class Scr_GameManager : MonoBehaviour
             SetMoneyAmount(GetMoneyAmount() - feedingCost);
 
             Debug.Log(fishList.Count);
-            if (fishList.Count > 0)
-                CalculateClosestPellet();
+
         }
         else
         {
@@ -84,15 +83,12 @@ public class Scr_GameManager : MonoBehaviour
     {
 
         GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
-        fishList.Add(newFish);
-
-        newFish.GetComponent<Scr_Move>().fishId = fishIdCounter;
-        fishIdCounter++;
 
         Debug.Log(newFish.GetComponent<Scr_Move>().fishId);
 
     }
 
+    /*
     public void CalculateClosestPellet()
     {
         for (int i = 0; i < fishList.Count; i++)
@@ -111,5 +107,5 @@ public class Scr_GameManager : MonoBehaviour
             fishList[i].GetComponent<Scr_Move>().closestPellet = closestFoodPellet;
 
         }
-    }
+    }*/
 }

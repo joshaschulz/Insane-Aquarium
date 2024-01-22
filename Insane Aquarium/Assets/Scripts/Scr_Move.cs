@@ -48,6 +48,8 @@ public class Scr_Move : MonoBehaviour
 
         FindClosestPellet();
         StartCoroutine(Die());
+
+        InvokeRepeating("DropCoin", 5f, 5f);
     }
 
     void Update()
@@ -81,6 +83,8 @@ public class Scr_Move : MonoBehaviour
     public void SetHungry()
     {
         isHungry = true;
+        StartCoroutine(Die());
+
         side.GetComponent<CircleCollider2D>().enabled = true;
         FindClosestPellet();
 
@@ -88,8 +92,8 @@ public class Scr_Move : MonoBehaviour
         {
             MoveToPellet();
         }
-        else
-            StartCoroutine(Die());
+        
+
     }
 
     private void MoveToPellet()
@@ -157,6 +161,11 @@ public class Scr_Move : MonoBehaviour
         {
             SetNewTarget();
         }
+    }
+
+    private void DropCoin()
+    {
+        Instantiate(gameManager.goldCoin, new Vector2(transform.position.x, transform.position.y - boundingBoxSize.y/2), Quaternion.identity);
     }
 
     private void SetInvokedFalse()

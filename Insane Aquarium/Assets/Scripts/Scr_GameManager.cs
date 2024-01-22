@@ -14,6 +14,7 @@ public class Scr_GameManager : MonoBehaviour
     public TextMeshProUGUI moneyText;
 
     public GameObject foodPellet;
+    public GameObject goldCoin;
     public int feedingCost;
 
     public int goldCoinWorth;

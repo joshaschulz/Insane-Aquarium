@@ -26,6 +26,7 @@ public class Scr_Move : MonoBehaviour
     public float hungryTimer;
     public float dieTimer;
 
+
     public GameObject boundingBox;
     private Vector2 boundingBoxSize;
 
@@ -36,7 +37,7 @@ public class Scr_Move : MonoBehaviour
 
         gameManager = Scr_GameManager.GMinstance;
 
-        startScaleX = gameObject.transform.localScale.x;
+        startScaleX = side.transform.localScale.x;
         idle = false;
         invoked = false;
         isHungry = true;
@@ -49,7 +50,7 @@ public class Scr_Move : MonoBehaviour
         FindClosestPellet();
         StartCoroutine(Die());
 
-        InvokeRepeating("DropCoin", 5f, 5f);
+        InvokeRepeating("DropCoin", gameManager.coinDropTimer, gameManager.coinDropTimer);
     }
 
     void Update()
@@ -176,9 +177,9 @@ public class Scr_Move : MonoBehaviour
         idle = false;
 
         if (target.x < side.transform.position.x && side.transform.localScale.x > 0)
-            side.transform.localScale = new Vector2(startScaleX * -1, gameObject.transform.localScale.y);
+            side.transform.localScale = new Vector2(startScaleX * -1, side.transform.localScale.y);
         else if(target.x > side.transform.position.x && side.transform.localScale.x < 0)
-            side.transform.localScale = new Vector2(startScaleX, gameObject.transform.localScale.y);
+            side.transform.localScale = new Vector2(startScaleX, side.transform.localScale.y);
     }
 
     private void Move()

@@ -20,6 +20,8 @@ public class Scr_GameManager : MonoBehaviour
     public int goldCoinWorth;
     private int fishIdCounter = 0;
 
+    public float coinDropTimer;
+
     public GameObject goldfish;
     public Vector3 spawnPosition;
 

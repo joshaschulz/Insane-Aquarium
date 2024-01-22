@@ -51,13 +51,22 @@ public class Scr_FoodBehavior : MonoBehaviour
     {
         GameObject colliderFish = collision.gameObject;
         // Check if the collider belongs to a food object
-        if (colliderFish.tag == "Fish")
+        if (colliderFish.tag == "Fish" && colliderFish.transform.parent.gameObject.GetComponent<Scr_Move>().isHungry)
         {
             gameManager.foodPelletList.Remove(gameObject);
 
+            Scr_Move fishScrMove = colliderFish.transform.parent.gameObject.GetComponent<Scr_Move>();
+
             //parent because collider is on side container and scr_move is on goldfish
-            colliderFish.transform.parent.gameObject.GetComponent<Scr_Move>().isHungry = false;
-            colliderFish.transform.parent.gameObject.GetComponent<Scr_Move>().InvokeSetHungry();
+            fishScrMove.isHungry = false;
+            fishScrMove.side.GetComponent<CircleCollider2D>().enabled = false;
+            fishScrMove.InvokeSetHungry();
+
+            if (fishScrMove.dieCorRunning)
+            {
+                StopCoroutine(fishScrMove.Die());
+                fishScrMove.dieCorRunning = false;
+            }
 
             Destroy(gameObject);
 

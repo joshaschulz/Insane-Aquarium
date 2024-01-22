@@ -81,16 +81,12 @@ public class Scr_Move : MonoBehaviour
     public void SetHungry()
     {
         isHungry = true;
+        side.GetComponent<CircleCollider2D>().enabled = true;
         FindClosestPellet();
 
         if (closestPellet != null)
         {
             MoveToPellet();
-            if (dieCorRunning)
-            {
-                StopCoroutine(Die());
-                dieCorRunning = false;
-            }
         }
         else
             StartCoroutine(Die());
@@ -194,7 +190,7 @@ public class Scr_Move : MonoBehaviour
 
     }
 
-    IEnumerator Die()
+    public IEnumerator Die()
     {
         dieCorRunning = true;
         yield return new WaitForSeconds(dieTimer);

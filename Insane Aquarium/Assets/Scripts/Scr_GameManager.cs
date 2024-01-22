@@ -69,7 +69,8 @@ public class Scr_GameManager : MonoBehaviour
 
             SetMoneyAmount(GetMoneyAmount() - feedingCost);
 
-            if (fishList != null)
+            Debug.Log(fishList.Count);
+            if (fishList.Count > 0)
                 CalculateClosestPellet();
         }
         else

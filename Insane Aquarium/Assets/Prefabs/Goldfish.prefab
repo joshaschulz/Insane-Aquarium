@@ -1229,6 +1229,7 @@ MonoBehaviour:
   front: {fileID: 4127276781669342597}
   closestPellet: {fileID: 0}
   isHungry: 0
+  dieCorRunning: 0
   fishId: 0
   target: {x: 0, y: 0}
   MinX: 0
@@ -1237,7 +1238,8 @@ MonoBehaviour:
   MaxY: 0
   speed: 2
   transitionLength: 0.2
-  hungryTimer: 3
+  hungryTimer: 5
+  dieTimer: 3
   boundingBox: {fileID: 4342824915456064264}
 --- !u!1 &9031824185968622659
 GameObject:

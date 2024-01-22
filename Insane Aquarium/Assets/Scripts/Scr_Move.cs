@@ -15,6 +15,7 @@ public class Scr_Move : MonoBehaviour
     private bool idle;
     private bool invoked;
     public bool isHungry;
+    public bool dieCorRunning;
 
     public int fishId;
 
@@ -23,6 +24,7 @@ public class Scr_Move : MonoBehaviour
     public float speed;
     public float transitionLength;
     public float hungryTimer;
+    public float dieTimer;
 
     public GameObject boundingBox;
     private Vector2 boundingBoxSize;
@@ -31,6 +33,7 @@ public class Scr_Move : MonoBehaviour
 
     void Start()
     {
+
         gameManager = Scr_GameManager.GMinstance;
 
         startScaleX = gameObject.transform.localScale.x;
@@ -43,6 +46,8 @@ public class Scr_Move : MonoBehaviour
         //SetNewTarget();
         target = gameObject.transform.position;
 
+        FindClosestPellet();
+        StartCoroutine(Die());
     }
 
     void Update()
@@ -59,8 +64,12 @@ public class Scr_Move : MonoBehaviour
 
         if (!(gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y) && !idle && !invoked)
             Move();
+        else if (gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y && !idle && isHungry && closestPellet != null)
+            MoveToPellet();
         else if (gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y && !idle)
             SetIdleState();
+
+
 
     }
 
@@ -72,11 +81,19 @@ public class Scr_Move : MonoBehaviour
     public void SetHungry()
     {
         isHungry = true;
-        if (gameManager.foodPelletList.Count > 0)
-            FindClosestPellet();
+        FindClosestPellet();
 
         if (closestPellet != null)
+        {
             MoveToPellet();
+            if (dieCorRunning)
+            {
+                StopCoroutine(Die());
+                dieCorRunning = false;
+            }
+        }
+        else
+            StartCoroutine(Die());
     }
 
     private void MoveToPellet()
@@ -90,18 +107,22 @@ public class Scr_Move : MonoBehaviour
     //like CalculateClosestPellet on game manager. need to do this here when hungry timer runs out
     public void FindClosestPellet()
     {
-        GameObject closestFoodPellet = gameManager.foodPelletList[0];
-        float minDistance = float.MaxValue;
-        for (int j = 0; j < gameManager.foodPelletList.Count; j++)
+        if (gameManager.foodPelletList.Count > 0 && gameManager.foodPelletList != null)
         {
-            float distance = Vector2.Distance(transform.position, gameManager.foodPelletList[j].transform.position);
-            if (distance < minDistance)
+            Debug.Log("looking for closest pellet");
+            GameObject closestFoodPellet = gameManager.foodPelletList[0];
+            float minDistance = float.MaxValue;
+            for (int j = 0; j < gameManager.foodPelletList.Count; j++)
             {
-                minDistance = distance;
-                closestFoodPellet = gameManager.foodPelletList[j];
+                float distance = Vector2.Distance(transform.position, gameManager.foodPelletList[j].transform.position);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    closestFoodPellet = gameManager.foodPelletList[j];
+                }
             }
+            closestPellet = closestFoodPellet;
         }
-        closestPellet = closestFoodPellet;
     }
 
     private void SetNewTarget()
@@ -171,5 +192,17 @@ public class Scr_Move : MonoBehaviour
         MinY = -Bounds.y + (0.5f * boundingBoxSize.y * transform.localScale.y);
         MaxY = Bounds.y - (0.5f * boundingBoxSize.y * transform.localScale.y);
 
+    }
+
+    IEnumerator Die()
+    {
+        dieCorRunning = true;
+        yield return new WaitForSeconds(dieTimer);
+        if (isHungry == true)
+        {
+            Debug.Log(gameObject.name + " died due to hunger!");
+            gameManager.fishList.Remove(gameObject);
+            Destroy(gameObject);
+        }
     }
 }

@@ -20,7 +20,8 @@ public class Scr_GameManager : MonoBehaviour
     public int goldCoinWorth;
     private int fishIdCounter = 0;
 
-    public GameObject goldfish;
+    //public GameObject goldfish;
+    //public GameObject bettaFish;
     public Vector3 spawnPosition;
 
     public List<GameObject> foodPelletList = new List<GameObject>();
@@ -79,10 +80,10 @@ public class Scr_GameManager : MonoBehaviour
             Debug.Log("Insufficient Money to Feed");
         }
     }
-    public void SpawnFish()
+    public void SpawnFish(GameObject _fishToSpawn)
     {
 
-        GameObject newFish = Instantiate(goldfish, spawnPosition, Quaternion.identity);
+        GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
         fishList.Add(newFish);
 
         newFish.GetComponent<Scr_Move>().fishId = fishIdCounter;

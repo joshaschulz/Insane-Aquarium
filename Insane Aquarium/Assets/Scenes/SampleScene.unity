@@ -926,6 +926,7 @@ GameObject:
   - component: {fileID: 1031440121}
   - component: {fileID: 1031440123}
   - component: {fileID: 1031440124}
+  - component: {fileID: 1031440125}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -960,6 +961,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcbfa85d6a80f1d418dda7b33d4c42e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AS: {fileID: 1031440125}
   moneyAmount: 100
   moneyText: {fileID: 82281158}
   foodPellet: {fileID: 5447806642486513699, guid: 81deed014d0d31c43902697f2bc0e3d8, type: 3}
@@ -970,6 +972,12 @@ MonoBehaviour:
   spawnPosition: {x: 0, y: 0, z: 0}
   foodPelletList: []
   fishList: []
+  SFX_DropCoin: {fileID: 8300000, guid: 5ddd5e4b84097c64e8fe6b8b28fc1296, type: 3}
+  SFX_DropFish: {fileID: 8300000, guid: 23c6049ea0e728142973a9c84341ac3a, type: 3}
+  SFX_DropFood: {fileID: 8300000, guid: 96e7efc54c26eac40b24ba697bac8d47, type: 3}
+  SFX_FishDeath: {fileID: 8300000, guid: 6bf3ebc48b3dacc40be411b92d22036e, type: 3}
+  SFX_FishEat: {fileID: 8300000, guid: 05e920cfe9f14644787107602a488dad, type: 3}
+  SFX_MoneyPickup: {fileID: 8300000, guid: 7491ac99fa1b1d34bb7bc1262704fe7a, type: 3}
 --- !u!114 &1031440124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -982,6 +990,102 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ba8904a937459478d9b73e6e9c0879, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!82 &1031440125
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031440119}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: -5278039253870840251, guid: cf2a04c0dd72560439165a42d93979ad, type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1931123912
 GameObject:
   m_ObjectHideFlags: 0

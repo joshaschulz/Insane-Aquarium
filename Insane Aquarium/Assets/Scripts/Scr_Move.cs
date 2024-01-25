@@ -15,17 +15,19 @@ public class Scr_Move : MonoBehaviour
     private bool idle;
     private bool invoked;
     private bool atTarget;
-    public bool isHungry;
-    public bool dieCorRunning;
+
+    private int HungerCount = 0;
+    public bool IsHungry;
+    public float SecondsUntilHungry;
+    public float SecondsUntilDead;
 
     public int fishId;
+    public int fishCost;
 
     public Vector2 target;
     public float MinX, MaxX, MinY, MaxY;
     public float speed;
     public float transitionLength;
-    public float hungryTimer;
-    public float dieTimer;
     public float coinDropTimer;
     public Color hungryColor;
 
@@ -37,7 +39,6 @@ public class Scr_Move : MonoBehaviour
 
     void Start()
     {
-
         gameManager = Scr_GameManager.GMinstance;
 
         gameManager.fishList.Add(gameObject);
@@ -46,67 +47,77 @@ public class Scr_Move : MonoBehaviour
         startScaleX = side.transform.localScale.x;
         idle = false;
         invoked = false;
-        isHungry = true;
         SetMinAndMax();
 
-
-        //SetNewTarget();
         target = gameObject.transform.position;
 
-        FindClosestPellet();
-        StartCoroutine(Die());
-
+        InvokeRepeating("HungerCounter", 0, 1);
         InvokeRepeating("DropCoin", coinDropTimer, coinDropTimer);
     }
 
     void Update()
     {
-        //Debug.Log(target);
         Debug.DrawLine(transform.position, target);
 
-        //if food pellet exists, go to it
-        if (closestPellet != null && isHungry)
+        // If fish is hungry and food exists, go to it
+        if (FindClosestPellet() != null && IsHungry)
         {
-            MoveToPellet();
-        }
-        else if (closestPellet == null && isHungry)
-        {
-            FindClosestPellet();
             MoveToPellet();
         }
 
+        // Bool which decides if fish is at its target
         atTarget = gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y;
 
+        // If fish is not at its target and not idle and ready to move, move.
         if (!atTarget && !idle && !invoked)
             Move();
-        else if (atTarget && !idle && isHungry && closestPellet != null)
+        
+        // If fish is at its target and is hungry and food exists, go to it
+        else if (atTarget && !idle && IsHungry && FindClosestPellet() != null)
             MoveToPellet();
+        // If fish is at its target, set it to idle
         else if (atTarget && !idle)
             SetIdleState();
+
     }
 
-    public void InvokeSetHungry()
+    public void HungerCounter()
     {
-        Invoke("SetHungry", hungryTimer);
+        Debug.Log(gameObject.name + "'s hunger counter is at : " + HungerCount);
+
+        if (HungerCount == SecondsUntilHungry)
+        {
+            SetHungry();
+        }
+        if (HungerCount == SecondsUntilDead)
+        {
+            Die();
+        }
+        HungerCount++;
     }
 
     public void SetHungry()
     {
-        isHungry = true;
-        StartCoroutine(Die());
-
+        IsHungry = true;
         side.GetComponent<CircleCollider2D>().enabled = true;
-        FindClosestPellet();
-
-        // Josh Code - Turn Fish Green - Other bit of code in the food behavior script
-        // Go through all children of the prefab and if it has a sprite renderer, turn it green
         ChangeFishColor(transform, hungryColor);
-
-        if (closestPellet != null)
-        {
-            MoveToPellet();
-        }
     }
+    public void SetNotHungry()
+    {
+        IsHungry = false;
+        HungerCount = 0;
+        side.GetComponent<CircleCollider2D>().enabled = false;
+        ChangeFishColor(transform, Color.white);
+    }
+
+    public void Die()
+    {
+        Debug.Log(gameObject.name + " died due to hunger!");
+        gameManager.PlaySoundEffect(gameManager.SFX_FishDeath, 1, 0.5f, 1.5f);
+        gameManager.fishList.Remove(gameObject);
+        Destroy(gameObject);
+    }
+
 
     public void ChangeFishColor(Transform _fishParentObject, Color _colorToChange) // Checks ALL children, except for those named "Bounding Box"
     {
@@ -127,35 +138,18 @@ public class Scr_Move : MonoBehaviour
 
     private void MoveToPellet()
     {
-        if (closestPellet != null)
-            target = closestPellet.transform.position;
+        if (FindClosestPellet() != null)
+            target = FindClosestPellet().transform.position;
 
         TransitionAnimation();
 
     }
 
-    public void TransitionAnimation()
+    public GameObject FindClosestPellet() // Returns the closest pellet to the fish or NULL if no pellets exist.
     {
-        idle = true;
-
-        if ((target.x < side.transform.position.x && side.transform.localScale.x > 0) || (target.x > side.transform.position.x && side.transform.localScale.x < 0))
-        {
-            //play transition
-            invoked = true;
-            Invoke("SetInvokedFalse", transitionLength);
-            side.SetActive(false);
-            front.SetActive(true);
-        }
-        else
-            SetInvokedFalse();
-    }
-
-    //like CalculateClosestPellet on game manager. need to do this here when hungry timer runs out
-    public void FindClosestPellet()
-    {
+        // If there are food pellets...
         if (gameManager.foodPelletList.Count > 0)
         {
-            Debug.Log("looking for closest pellet");
             GameObject closestFoodPellet = gameManager.foodPelletList[0];
             float minDistance = float.MaxValue;
             for (int j = 0; j < gameManager.foodPelletList.Count; j++)
@@ -167,8 +161,25 @@ public class Scr_Move : MonoBehaviour
                     closestFoodPellet = gameManager.foodPelletList[j];
                 }
             }
-            closestPellet = closestFoodPellet;
+            return closestFoodPellet;
         }
+        return null;
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        GameObject colliderFood = collision.gameObject;
+
+        // Check if the collider belongs to a food object
+        if (colliderFood.CompareTag("Food") && IsHungry)
+        {
+            SetNotHungry();
+            SetIdleState();
+
+            gameManager.PlaySoundEffect(gameManager.SFX_FishEat, 0.7f, 0.8f, 1.2f);
+            gameManager.foodPelletList.Remove(colliderFood);
+            Destroy(colliderFood);
+        }
+
     }
 
     private void SetNewTarget()
@@ -201,6 +212,7 @@ public class Scr_Move : MonoBehaviour
     private void DropCoin()
     {
         Instantiate(gameManager.goldCoin, new Vector2(transform.position.x, transform.position.y - boundingBoxSize.y/2), Quaternion.identity);
+        gameManager.PlaySoundEffect(gameManager.SFX_DropCoin, 0.3f, 0.8f, 1.2f);
     }
 
     private void SetInvokedFalse()
@@ -212,8 +224,24 @@ public class Scr_Move : MonoBehaviour
 
         if (target.x < side.transform.position.x && side.transform.localScale.x > 0)
             side.transform.localScale = new Vector2(startScaleX * -1, side.transform.localScale.y);
-        else if(target.x > side.transform.position.x && side.transform.localScale.x < 0)
+        else if (target.x > side.transform.position.x && side.transform.localScale.x < 0)
             side.transform.localScale = new Vector2(startScaleX, side.transform.localScale.y);
+    }
+
+    public void TransitionAnimation()
+    {
+        idle = true;
+
+        if ((target.x < side.transform.position.x && side.transform.localScale.x > 0) || (target.x > side.transform.position.x && side.transform.localScale.x < 0))
+        {
+            //play transition
+            invoked = true;
+            Invoke("SetInvokedFalse", transitionLength);
+            side.SetActive(false);
+            front.SetActive(true);
+        }
+        else
+            SetInvokedFalse();
     }
 
     private void Move()
@@ -234,15 +262,4 @@ public class Scr_Move : MonoBehaviour
 
     }
 
-    public IEnumerator Die()
-    {
-        dieCorRunning = true;
-        yield return new WaitForSeconds(dieTimer);
-        if (isHungry == true)
-        {
-            Debug.Log(gameObject.name + " died due to hunger!");
-            gameManager.fishList.Remove(gameObject);
-            Destroy(gameObject);
-        }
-    }
 }

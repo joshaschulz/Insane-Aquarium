@@ -47,35 +47,4 @@ public class Scr_FoodBehavior : MonoBehaviour
         transform.Rotate(0, 0, spinAmount);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        GameObject colliderFish = collision.gameObject;
-        // Check if the collider belongs to a food object
-        if (colliderFish.tag == "Fish" && colliderFish.transform.parent.gameObject.GetComponent<Scr_Move>().isHungry)
-        {
-            gameManager.foodPelletList.Remove(gameObject);
-
-            Scr_Move fishScrMove = colliderFish.transform.parent.gameObject.GetComponent<Scr_Move>();
-
-            //parent because collider is on side container and scr_move is on goldfish
-            fishScrMove.isHungry = false;
-            fishScrMove.side.GetComponent<CircleCollider2D>().enabled = false;
-            fishScrMove.InvokeSetHungry();
-            fishScrMove.SetIdleState();
-
-            // Josh Code - Turn Fish Back to normal color - Other bit of code in the move script
-            fishScrMove.ChangeFishColor(fishScrMove.transform, Color.white);
-
-            if (fishScrMove.dieCorRunning)
-            {
-                StopCoroutine(fishScrMove.Die());
-                fishScrMove.dieCorRunning = false;
-            }
-
-            Destroy(gameObject);
-
-
-        }
-
-    }
 }

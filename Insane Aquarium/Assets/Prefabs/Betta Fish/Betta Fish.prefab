@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6943579493492925485}
   - component: {fileID: 1130785147421547439}
+  - component: {fileID: 4021542319324231719}
   m_Layer: 0
   m_Name: Betta Fish
   m_TagString: Fish
@@ -49,9 +50,11 @@ MonoBehaviour:
   side: {fileID: 7964857540707324171}
   front: {fileID: 2822489125385185820}
   closestPellet: {fileID: 0}
-  isHungry: 0
-  dieCorRunning: 0
+  IsHungry: 0
+  SecondsUntilHungry: 5
+  SecondsUntilDead: 10
   fishId: 0
+  fishCost: 100
   target: {x: 0, y: 0}
   MinX: 0
   MaxX: 0
@@ -59,11 +62,36 @@ MonoBehaviour:
   MaxY: 0
   speed: 3
   transitionLength: 0.2
-  hungryTimer: 10
-  dieTimer: 10
   coinDropTimer: 10
   hungryColor: {r: 0.21960784, g: 1, b: 0.15686275, a: 1}
   boundingBox: {fileID: 5430298658368350893}
+--- !u!50 &4021542319324231719
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863455049823253984}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1001 &7580349024561203920
 PrefabInstance:
   m_ObjectHideFlags: 0

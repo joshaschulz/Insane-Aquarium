@@ -37,6 +37,8 @@ public class Scr_ClickDetection : MonoBehaviour
                     {
                         // Clicked on a coin
                         Debug.Log("Clicked a coin");
+
+                        gameManager.PlaySoundEffect(gameManager.SFX_MoneyPickup, 1, 0.5f, 1.5f);
                         hit.collider.gameObject.GetComponent<Scr_CoinBehavior>().GetClicked();
                     }
                 }

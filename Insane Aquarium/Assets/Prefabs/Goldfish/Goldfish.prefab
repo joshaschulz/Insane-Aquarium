@@ -1093,7 +1093,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3389921948431230594
 Transform:
   m_ObjectHideFlags: 0
@@ -1236,11 +1236,12 @@ MonoBehaviour:
   MaxX: 0
   MinY: 0
   MaxY: 0
-  speed: 2
+  speed: 3
   transitionLength: 0.2
   hungryTimer: 10
   dieTimer: 10
   coinDropTimer: 10
+  hungryColor: {r: 0.21960784, g: 1, b: 0.15686275, a: 1}
   boundingBox: {fileID: 4342824915456064264}
 --- !u!1 &9031824185968622659
 GameObject:

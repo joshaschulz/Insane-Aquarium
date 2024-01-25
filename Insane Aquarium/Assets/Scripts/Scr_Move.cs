@@ -27,6 +27,7 @@ public class Scr_Move : MonoBehaviour
     public float hungryTimer;
     public float dieTimer;
     public float coinDropTimer;
+    public Color hungryColor;
 
 
     public GameObject boundingBox;
@@ -97,11 +98,32 @@ public class Scr_Move : MonoBehaviour
         side.GetComponent<CircleCollider2D>().enabled = true;
         FindClosestPellet();
 
+        // Josh Code - Turn Fish Green - Other bit of code in the food behavior script
+        // Go through all children of the prefab and if it has a sprite renderer, turn it green
+        ChangeFishColor(transform, hungryColor);
+
         if (closestPellet != null)
         {
             MoveToPellet();
         }
     }
+
+    public void ChangeFishColor(Transform _fishParentObject, Color _colorToChange) // Checks ALL children, except for those named "Bounding Box"
+    {
+        foreach (Transform child in _fishParentObject)
+        {
+            if (child.gameObject.GetComponent<SpriteRenderer>() != null && child.name != "Bounding Box")
+            {
+                child.gameObject.GetComponent<SpriteRenderer>().color = _colorToChange;
+            }
+
+            if (child.childCount > 0)
+            {
+                ChangeFishColor(child, _colorToChange);
+            }
+        }
+    }
+    
 
     private void MoveToPellet()
     {
@@ -156,7 +178,7 @@ public class Scr_Move : MonoBehaviour
         TransitionAnimation();
     }
 
-    private void SetIdleState()
+    public void SetIdleState()
     {
         int randInt = Random.Range(0, 2);
 

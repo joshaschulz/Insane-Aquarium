@@ -61,6 +61,10 @@ public class Scr_FoodBehavior : MonoBehaviour
             fishScrMove.isHungry = false;
             fishScrMove.side.GetComponent<CircleCollider2D>().enabled = false;
             fishScrMove.InvokeSetHungry();
+            fishScrMove.SetIdleState();
+
+            // Josh Code - Turn Fish Back to normal color - Other bit of code in the move script
+            fishScrMove.ChangeFishColor(fishScrMove.transform, Color.white);
 
             if (fishScrMove.dieCorRunning)
             {

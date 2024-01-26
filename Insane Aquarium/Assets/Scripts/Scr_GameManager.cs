@@ -50,7 +50,8 @@ public class Scr_GameManager : MonoBehaviour
 
     public void UpdateMoneyText()
     {
-        moneyText.text = "$" + moneyAmount.ToString();
+        //moneyText.text = "$" + moneyAmount.ToString();
+        moneyText.GetComponent<Scr_NumberCounter>().SetValue = moneyAmount;
     }
 
     public int GetMoneyAmount()

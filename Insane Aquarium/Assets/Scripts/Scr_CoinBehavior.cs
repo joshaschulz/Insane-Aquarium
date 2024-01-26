@@ -6,7 +6,7 @@ public class Scr_CoinBehavior : MonoBehaviour
 {
     private Scr_GameManager gameManager;
 
-    public SpriteRenderer spriteRenderer;
+    private SpriteRenderer spriteRenderer;
     public Sprite Coin1;
     public Sprite Coin2;
     public Sprite Coin3;
@@ -19,9 +19,13 @@ public class Scr_CoinBehavior : MonoBehaviour
     public float fallSpeed;
     public float spinSpeed;
 
+    private bool fadeOut = false;
+    private float currentTimeforFade = 0f;
+
     private void Start()
     {
         gameManager = Scr_GameManager.GMinstance;
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         spinCounter = Random.Range(1, 5);
         InvokeRepeating("rotateCoin", 0f, 1/spinSpeed);
@@ -34,9 +38,24 @@ public class Scr_CoinBehavior : MonoBehaviour
     {
         transform.Translate(0, -fallSpeed / 1000, 0);
 
-        if (transform.position.y < groundBarrier.y)
+        if (transform.position.y < groundBarrier.y && fadeOut == false)
         {
-            Destroy(gameObject);
+            fallSpeed = 0;
+            fadeOut = true;
+        }
+        if (fadeOut == true)
+        {
+            currentTimeforFade += Time.deltaTime;
+            float alpha = 1f - Mathf.Clamp01(currentTimeforFade / gameManager.groundTimeUntilDespawn);
+
+            Color currentColor = spriteRenderer.material.color;
+            currentColor.a = alpha;
+            spriteRenderer.material.color = currentColor;
+
+            if (currentTimeforFade >= gameManager.groundTimeUntilDespawn)
+            {
+                Despawn();
+            }
         }
     }
 
@@ -72,6 +91,11 @@ public class Scr_CoinBehavior : MonoBehaviour
     public void GetClicked()
     {
         gameManager.SetMoneyAmount(gameManager.GetMoneyAmount() + gameManager.goldCoinWorth);
+        Destroy(gameObject);
+    }
+
+    public void Despawn()
+    {
         Destroy(gameObject);
     }
 }

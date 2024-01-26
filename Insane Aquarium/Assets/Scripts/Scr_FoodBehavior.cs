@@ -5,17 +5,22 @@ using UnityEngine;
 public class Scr_FoodBehavior : MonoBehaviour
 {
     private Scr_GameManager gameManager;
+    private SpriteRenderer spriteRenderer;
 
     public float groundBarrierPercentage;
     private Vector2 groundBarrier;
     public float fallSpeed;
     public float spinSpeed;
     public float spinAmount;
-    int spinDirection;
+    private int spinDirection;
+
+    private bool fadeOut = false;
+    private float currentTimeforFade = 0f;
 
     private void Start()
     {
         gameManager = Scr_GameManager.GMinstance;
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         spinDirection = Random.Range(0, 2);
         if (spinDirection == 1)
@@ -30,10 +35,24 @@ public class Scr_FoodBehavior : MonoBehaviour
     {
         transform.Translate(0, -fallSpeed / 1000, 0, Space.World);
 
-        if (transform.position.y < groundBarrier.y)
+        if (transform.position.y < groundBarrier.y && fadeOut == false)
         {
-            gameManager.foodPelletList.Remove(gameObject);
-            Destroy(gameObject);
+            fallSpeed = 0;
+            fadeOut = true;
+        }
+        if (fadeOut == true)
+        {
+            currentTimeforFade += Time.deltaTime;
+            float alpha = 1f - Mathf.Clamp01(currentTimeforFade / gameManager.groundTimeUntilDespawn);
+
+            Color currentColor = spriteRenderer.material.color;
+            currentColor.a = alpha;
+            spriteRenderer.material.color = currentColor;
+
+            if (currentTimeforFade >= gameManager.groundTimeUntilDespawn)
+            {
+                Despawn();
+            }
         }
     }
 
@@ -47,4 +66,9 @@ public class Scr_FoodBehavior : MonoBehaviour
         transform.Rotate(0, 0, spinAmount);
     }
 
+    public void Despawn()
+    {
+        gameManager.foodPelletList.Remove(gameObject);
+        Destroy(gameObject);
+    }
 }

@@ -18,6 +18,7 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject foodPellet;
     public GameObject goldCoin;
     public int feedingCost;
+    public float groundTimeUntilDespawn;
 
     public int goldCoinWorth;
     public int fishIdCounter = 0;

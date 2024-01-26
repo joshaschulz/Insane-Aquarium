@@ -11,6 +11,7 @@ public class Scr_Move : MonoBehaviour
     public GameObject front;
 
     public GameObject closestPellet;
+    public GameObject bloodEffectPrefab;
 
     private bool idle;
     private bool invoked;
@@ -114,6 +115,13 @@ public class Scr_Move : MonoBehaviour
     {
         Debug.Log(gameObject.name + " died due to hunger!");
         gameManager.PlaySoundEffect(gameManager.SFX_FishDeath, 1, 0.5f, 1.5f);
+
+        // Instantiate blood particles, then un-child it before destroying the fish, then the particle system after 5 seconds
+        GameObject bloodEffect = Instantiate(bloodEffectPrefab, transform.position, transform.rotation);
+        ParticleSystem bloodParticleSystem = bloodEffect.GetComponent<ParticleSystem>();
+        bloodParticleSystem.Play();
+        Destroy(bloodEffect, 5);
+
         gameManager.fishList.Remove(gameObject);
         Destroy(gameObject);
     }

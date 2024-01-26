@@ -1193,6 +1193,7 @@ MonoBehaviour:
   side: {fileID: 8670457961373675106}
   front: {fileID: 4127276781669342597}
   closestPellet: {fileID: 0}
+  bloodEffectPrefab: {fileID: 7699653466035250317, guid: 29a6421998a7dcd48a84d3e1c2dcec44, type: 3}
   IsHungry: 0
   SecondsUntilHungry: 5
   SecondsUntilDead: 10

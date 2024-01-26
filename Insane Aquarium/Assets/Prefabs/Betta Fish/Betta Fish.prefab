@@ -50,9 +50,10 @@ MonoBehaviour:
   side: {fileID: 7964857540707324171}
   front: {fileID: 2822489125385185820}
   closestPellet: {fileID: 0}
+  bloodEffectPrefab: {fileID: 7699653466035250317, guid: 29a6421998a7dcd48a84d3e1c2dcec44, type: 3}
   IsHungry: 0
-  SecondsUntilHungry: 5
-  SecondsUntilDead: 10
+  SecondsUntilHungry: 8
+  SecondsUntilDead: 16
   fishId: 0
   fishCost: 100
   target: {x: 0, y: 0}
@@ -62,7 +63,7 @@ MonoBehaviour:
   MaxY: 0
   speed: 3
   transitionLength: 0.2
-  coinDropTimer: 10
+  coinDropTimer: 8
   hungryColor: {r: 0.21960784, g: 1, b: 0.15686275, a: 1}
   boundingBox: {fileID: 5430298658368350893}
 --- !u!50 &4021542319324231719

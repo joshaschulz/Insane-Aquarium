@@ -26,7 +26,7 @@ public class Scr_Move : MonoBehaviour
     public int fishCost;
 
     public Vector2 target;
-    public float MinX, MaxX, MinY, MaxY;
+    public float minX, maxX, minY, maxY;
     public float speed;
     public float transitionLength;
     public float coinDropTimer;
@@ -34,13 +34,19 @@ public class Scr_Move : MonoBehaviour
 
 
     public GameObject boundingBox;
-    private Vector2 boundingBoxSize;
+    public Vector2 boundingBoxSize;
 
     private float startScaleX;
+
+    private Animator animatorSpawn;
 
     void Start()
     {
         gameManager = Scr_GameManager.GMinstance;
+
+        //play the spawn animation
+        animatorSpawn = front.GetComponent<Animator>();
+        animatorSpawn.Play("Fish Spawn");
 
         gameManager.fishList.Add(gameObject);
         fishId = gameManager.fishIdCounter;
@@ -58,33 +64,37 @@ public class Scr_Move : MonoBehaviour
 
     void Update()
     {
-        Debug.DrawLine(transform.position, target);
-
-        // If fish is hungry and food exists, go to it
-        if (FindClosestPellet() != null && IsHungry)
+        if (!animatorSpawn.GetCurrentAnimatorStateInfo(0).IsName("Fish Spawn"))
         {
-            MoveToPellet();
+            Debug.DrawLine(transform.position, target);
+
+            // If fish is hungry and food exists, go to it
+            if (FindClosestPellet() != null && IsHungry)
+            {
+                MoveToPellet();
+            }
+
+            // Bool which decides if fish is at its target
+            atTarget = gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y;
+
+            // If fish is not at its target and not idle and ready to move, move.
+            if (!atTarget && !idle && !invoked)
+                Move();
+
+            // If fish is at its target and is hungry and food exists, go to it
+            else if (atTarget && !idle && IsHungry && FindClosestPellet() != null)
+                MoveToPellet();
+            // If fish is at its target, set it to idle
+            else if (atTarget && !idle)
+                SetIdleState();
         }
 
-        // Bool which decides if fish is at its target
-        atTarget = gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y;
-
-        // If fish is not at its target and not idle and ready to move, move.
-        if (!atTarget && !idle && !invoked)
-            Move();
-        
-        // If fish is at its target and is hungry and food exists, go to it
-        else if (atTarget && !idle && IsHungry && FindClosestPellet() != null)
-            MoveToPellet();
-        // If fish is at its target, set it to idle
-        else if (atTarget && !idle)
-            SetIdleState();
 
     }
 
     public void HungerCounter()
     {
-        Debug.Log(gameObject.name + "'s hunger counter is at : " + HungerCount);
+        //Debug.Log(gameObject.name + "'s hunger counter is at : " + HungerCount);
 
         if (HungerCount == SecondsUntilHungry)
         {
@@ -103,6 +113,7 @@ public class Scr_Move : MonoBehaviour
         side.GetComponent<CircleCollider2D>().enabled = true;
         ChangeFishColor(transform, hungryColor);
     }
+
     public void SetNotHungry()
     {
         IsHungry = false;
@@ -126,7 +137,6 @@ public class Scr_Move : MonoBehaviour
         Destroy(gameObject);
     }
 
-
     public void ChangeFishColor(Transform _fishParentObject, Color _colorToChange) // Checks ALL children, except for those named "Bounding Box"
     {
         foreach (Transform child in _fishParentObject)
@@ -143,7 +153,6 @@ public class Scr_Move : MonoBehaviour
         }
     }
     
-
     private void MoveToPellet()
     {
         if (FindClosestPellet() != null)
@@ -173,6 +182,7 @@ public class Scr_Move : MonoBehaviour
         }
         return null;
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject colliderFood = collision.gameObject;
@@ -192,7 +202,7 @@ public class Scr_Move : MonoBehaviour
 
     private void SetNewTarget()
     {
-        target = new Vector2(Random.Range(MinX, MaxX), Random.Range(MinY, MaxY));
+        target = new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
 
         TransitionAnimation();
     }
@@ -263,10 +273,10 @@ public class Scr_Move : MonoBehaviour
 
         boundingBoxSize = new Vector2(boundingBox.transform.localScale.x * gameObject.transform.localScale.x, boundingBox.transform.localScale.y * gameObject.transform.localScale.y);
 
-        MinX = -Bounds.x + (0.5f * boundingBoxSize.x * transform.localScale.x);
-        MaxX = Bounds.x - (0.5f * boundingBoxSize.x * transform.localScale.x);
-        MinY = -Bounds.y + (0.5f * boundingBoxSize.y * transform.localScale.y);
-        MaxY = Bounds.y - (0.5f * boundingBoxSize.y * transform.localScale.y);
+        minX = -Bounds.x + (0.5f * boundingBoxSize.x * transform.localScale.x);
+        maxX = Bounds.x - (0.5f * boundingBoxSize.x * transform.localScale.x);
+        minY = -Bounds.y + (0.5f * boundingBoxSize.y * transform.localScale.y);
+        maxY = Bounds.y - (0.5f * boundingBoxSize.y * transform.localScale.y);
 
     }
 

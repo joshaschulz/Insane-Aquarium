@@ -59,6 +59,7 @@ public class Scr_GameManager : MonoBehaviour
     {
         return moneyAmount;
     }
+
     public void SetMoneyAmount(int _newMoneyAmount)
     {
         moneyAmount = _newMoneyAmount;
@@ -89,11 +90,27 @@ public class Scr_GameManager : MonoBehaviour
     }
     public void SpawnFish(GameObject _fishToSpawn)
     {
+        //spawn fish at random x coordinate at same designated y coordinate
+
+        //set the x bounds of where the fish can spawn based on the fish to spawn bounding box
+        Vector2 Bounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+        float tempMinX = -Bounds.x + (0.5f * _fishToSpawn.GetComponent<Scr_Move>().boundingBoxSize.x * _fishToSpawn.transform.localScale.x);
+        float tempMaxX = Bounds.x - (0.5f * _fishToSpawn.GetComponent<Scr_Move>().boundingBoxSize.x * _fishToSpawn.transform.localScale.x);
+
+        //random x coordinate based on fish bounding box
+        float randfloat = Random.Range(tempMinX, tempMaxX);
+        spawnPosition.x = randfloat;
+
+        Debug.Log(randfloat);
+
+
+
         int fishCost = _fishToSpawn.GetComponent<Scr_Move>().fishCost;
         if (GetMoneyAmount() >= fishCost)
         {
             SetMoneyAmount(GetMoneyAmount() - fishCost);
             GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
+
 
             PlaySoundEffect(SFX_DropFish, 1, 0.5f, 1.5f);
             Debug.Log(newFish.GetComponent<Scr_Move>().fishId);

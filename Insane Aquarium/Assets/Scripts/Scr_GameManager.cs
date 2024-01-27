@@ -94,15 +94,14 @@ public class Scr_GameManager : MonoBehaviour
 
         //set the x bounds of where the fish can spawn based on the fish to spawn bounding box
         Vector2 Bounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-        float tempMinX = -Bounds.x + (0.5f * _fishToSpawn.GetComponent<Scr_Move>().boundingBoxSize.x * _fishToSpawn.transform.localScale.x);
-        float tempMaxX = Bounds.x - (0.5f * _fishToSpawn.GetComponent<Scr_Move>().boundingBoxSize.x * _fishToSpawn.transform.localScale.x);
+        Vector2 boundingBoxSize = new Vector2(_fishToSpawn.GetComponent<Scr_Move>().boundingBox.transform.localScale.x * gameObject.transform.localScale.x, _fishToSpawn.GetComponent<Scr_Move>().boundingBox.transform.localScale.y * gameObject.transform.localScale.y);
+
+        float tempMinX = -Bounds.x + (0.5f * boundingBoxSize.x * _fishToSpawn.transform.localScale.x);
+        float tempMaxX = Bounds.x - (0.5f * boundingBoxSize.x * _fishToSpawn.transform.localScale.x);
 
         //random x coordinate based on fish bounding box
         float randfloat = Random.Range(tempMinX, tempMaxX);
         spawnPosition.x = randfloat;
-
-        Debug.Log(randfloat);
-
 
 
         int fishCost = _fishToSpawn.GetComponent<Scr_Move>().fishCost;

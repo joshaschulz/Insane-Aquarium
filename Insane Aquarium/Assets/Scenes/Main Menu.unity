@@ -964,7 +964,7 @@ MonoBehaviour:
     m_Top: 10
     m_Bottom: 10
   m_ChildAlignment: 0
-  fitType: 4
+  fitType: 1
   rows: 1
   columns: 2
   cellSize: {x: 295, y: 255.00003}
@@ -2233,14 +2233,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding:
     m_Left: 0
-    m_Right: 10
+    m_Right: 0
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
   fitType: 4
   rows: 2
   columns: 1
-  cellSize: {x: 290, y: 122.500015}
+  cellSize: {x: 295, y: 122.500015}
   spacing: {x: 0, y: 10}
   fitX: 1
   fitY: 1
@@ -4461,14 +4461,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding:
     m_Left: 0
-    m_Right: 10
+    m_Right: 0
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
   fitType: 4
   rows: 2
   columns: 1
-  cellSize: {x: 290, y: 122.500015}
+  cellSize: {x: 295, y: 122.500015}
   spacing: {x: 0, y: 10}
   fitX: 1
   fitY: 1
@@ -4534,14 +4534,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding:
     m_Left: 10
-    m_Right: 0
+    m_Right: 10
     m_Top: 10
     m_Bottom: 10
   m_ChildAlignment: 0
   fitType: 4
   rows: 1
   columns: 2
-  cellSize: {x: 300, y: 255.00003}
+  cellSize: {x: 295, y: 255.00003}
   spacing: {x: 10, y: 0}
   fitX: 1
   fitY: 1
@@ -4800,14 +4800,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding:
     m_Left: 10
-    m_Right: 0
+    m_Right: 10
     m_Top: 10
     m_Bottom: 10
   m_ChildAlignment: 0
   fitType: 4
   rows: 1
   columns: 2
-  cellSize: {x: 300, y: 255.00003}
+  cellSize: {x: 295, y: 255.00003}
   spacing: {x: 10, y: 0}
   fitX: 1
   fitY: 1

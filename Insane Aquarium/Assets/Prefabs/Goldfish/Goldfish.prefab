@@ -1209,6 +1209,10 @@ MonoBehaviour:
   transitionLength: 0.2
   coinDropTimer: 12
   hungryColor: {r: 0.21960784, g: 1, b: 0.15686275, a: 1}
+  smoothSpeed: 500
+  maxSpeed: 0
+  velocity: {x: 0, y: 0}
+  moving: 0
   boundingBox: {fileID: 4342824915456064264}
   boundingBoxSize: {x: 0, y: 0}
 --- !u!50 &8517045197110992644

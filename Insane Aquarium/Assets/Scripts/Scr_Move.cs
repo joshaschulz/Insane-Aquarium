@@ -32,6 +32,12 @@ public class Scr_Move : MonoBehaviour
     public float coinDropTimer;
     public Color hungryColor;
 
+    //failed movement attempts
+    /*public float smoothSpeed;
+    public float maxSpeed;
+    public Vector2 velocity = Vector2.zero;
+    public bool moving = false;*/
+
 
     public GameObject boundingBox;
     public Vector2 boundingBoxSize;
@@ -69,10 +75,9 @@ public class Scr_Move : MonoBehaviour
             Debug.DrawLine(transform.position, target);
 
             // If fish is hungry and food exists, go to it
-            if (FindClosestPellet() != null && IsHungry)
-            {
-                MoveToPellet();
-            }
+            if (IsHungry)
+                if (FindClosestPellet() != null)
+                    SetPelletTarget();
 
             // Bool which decides if fish is at its target
             atTarget = gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y;
@@ -83,13 +88,11 @@ public class Scr_Move : MonoBehaviour
 
             // If fish is at its target and is hungry and food exists, go to it
             else if (atTarget && !idle && IsHungry && FindClosestPellet() != null)
-                MoveToPellet();
+                SetPelletTarget();
             // If fish is at its target, set it to idle
             else if (atTarget && !idle)
                 SetIdleState();
         }
-
-
     }
 
     public void HungerCounter()
@@ -153,13 +156,12 @@ public class Scr_Move : MonoBehaviour
         }
     }
     
-    private void MoveToPellet()
+    private void SetPelletTarget()
     {
-        if (FindClosestPellet() != null)
-            target = FindClosestPellet().transform.position;
+        //if (FindClosestPellet() != null)
+        target = FindClosestPellet().transform.position;
 
         TransitionAnimation();
-
     }
 
     public GameObject FindClosestPellet() // Returns the closest pellet to the fish or NULL if no pellets exist.
@@ -176,6 +178,8 @@ public class Scr_Move : MonoBehaviour
                 {
                     minDistance = distance;
                     closestFoodPellet = gameManager.foodPelletList[j];
+
+                    closestPellet = closestFoodPellet;
                 }
             }
             return closestFoodPellet;
@@ -233,7 +237,7 @@ public class Scr_Move : MonoBehaviour
         gameManager.PlaySoundEffect(gameManager.SFX_DropCoin, 0.3f, 0.8f, 1.2f);
     }
 
-    private void SetInvokedFalse()
+    private void StartMoving()
     {
         invoked = false;
         front.SetActive(false);
@@ -254,17 +258,55 @@ public class Scr_Move : MonoBehaviour
         {
             //play transition
             invoked = true;
-            Invoke("SetInvokedFalse", transitionLength);
+            Invoke("StartMoving", transitionLength);
             side.SetActive(false);
             front.SetActive(true);
         }
         else
-            SetInvokedFalse();
+            StartMoving();
     }
 
     private void Move()
     {
-        gameObject.transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
+
+        
+        
+        /*if (FindClosestPellet() != null)
+        {
+            if (target == new Vector2(closestPellet.transform.position.x, closestPellet.transform.position.y))
+                transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
+        }
+        else
+            transform.position = Vector2.SmoothDamp(transform.position, target, ref velocity, smoothSpeed * Time.deltaTime);*/
+
+
+
+        /*
+        if (closestPellet != null && IsHungry)
+
+        if (target == new Vector2(closestPellet.transform.position.x, closestPellet.transform.position.y))
+            transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
+        else
+            transform.position = Vector2.SmoothDamp(transform.position, target, ref velocity, smoothSpeed * Time.deltaTime);*/
+
+        //failed movement attempts
+        /* float step = smoothSpeed * Time.deltaTime;
+         transform.position = Vector2.Lerp(transform.position, target, step);*/
+
+        /*if (closestPellet == null)
+            transform.position = Vector2.SmoothDamp(transform.position, target, ref velocity, smoothSpeed * Time.smoothDeltaTime);
+        else
+            transform.position = Vector2.SmoothDamp(transform.position, closestPellet.transform.position, ref velocity,  Time.smoothDeltaTime);*/
+
+        //StartCoroutine(LerpPosition(target, 3));
+
+        /*float dist = Vector2.Distance(side.GetComponent<CircleCollider2D>().transform.position, target);
+        dist = Mathf.Clamp(Mathf.Abs(dist), 0f, 1.5f);
+        Debug.Log(Time.deltaTime);
+
+        transform.position = Vector2.SmoothDamp(transform.position, target, ref velocity, smoothSpeed * Time.deltaTime * dist);*/
+
     }
 
     private void SetMinAndMax()

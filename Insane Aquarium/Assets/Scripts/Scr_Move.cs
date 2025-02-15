@@ -12,6 +12,7 @@ public class Scr_Move : MonoBehaviour
 
     public GameObject closestPellet;
     public GameObject bloodEffectPrefab;
+    public GameObject bubblesEffectPrefab;
 
     private bool idle;
     private bool invoked;
@@ -29,7 +30,7 @@ public class Scr_Move : MonoBehaviour
     public float minX, maxX, minY, maxY;
     public float speed;
     public float transitionLength;
-    public float coinDropTimer;
+    //public float coinDropTimer;
     public Color hungryColor;
 
     //failed movement attempts
@@ -65,7 +66,7 @@ public class Scr_Move : MonoBehaviour
         target = gameObject.transform.position;
 
         InvokeRepeating("HungerCounter", 0, 1);
-        InvokeRepeating("DropCoin", coinDropTimer, coinDropTimer);
+        //InvokeRepeating("DropCoin", coinDropTimer, coinDropTimer);
     }
 
     void Update()
@@ -114,7 +115,7 @@ public class Scr_Move : MonoBehaviour
     {
         IsHungry = true;
         side.GetComponent<CircleCollider2D>().enabled = true;
-        ChangeFishColor(transform, hungryColor);
+        gameManager.ChangeColor(gameObject, hungryColor);
     }
 
     public void SetNotHungry()
@@ -122,7 +123,7 @@ public class Scr_Move : MonoBehaviour
         IsHungry = false;
         HungerCount = 0;
         side.GetComponent<CircleCollider2D>().enabled = false;
-        ChangeFishColor(transform, Color.white);
+        gameManager.ChangeColor(gameObject, Color.white);
     }
 
     public void Die()
@@ -138,22 +139,6 @@ public class Scr_Move : MonoBehaviour
 
         gameManager.fishList.Remove(gameObject);
         Destroy(gameObject);
-    }
-
-    public void ChangeFishColor(Transform _fishParentObject, Color _colorToChange) // Checks ALL children, except for those named "Bounding Box"
-    {
-        foreach (Transform child in _fishParentObject)
-        {
-            if (child.gameObject.GetComponent<SpriteRenderer>() != null && child.name != "Bounding Box")
-            {
-                child.gameObject.GetComponent<SpriteRenderer>().color = _colorToChange;
-            }
-
-            if (child.childCount > 0)
-            {
-                ChangeFishColor(child, _colorToChange);
-            }
-        }
     }
     
     private void SetPelletTarget()
@@ -200,6 +185,13 @@ public class Scr_Move : MonoBehaviour
             gameManager.PlaySoundEffect(gameManager.SFX_FishEat, 0.7f, 0.8f, 1.2f);
             gameManager.foodPelletList.Remove(colliderFood);
             Destroy(colliderFood);
+
+            // Instantiate bubbles particles, then un-child it, then destroy the particle system after 5 seconds
+            gameManager.PlaySoundEffect(gameManager.SFX_Bubbles, 3, 0.9f, 1.1f);
+            GameObject bubblesEffect = Instantiate(bubblesEffectPrefab, transform.position, transform.rotation);
+            ParticleSystem bubblesParticleSystem = bubblesEffect.GetComponent<ParticleSystem>();
+            bubblesParticleSystem.Play();
+            Destroy(bubblesEffect, 5);
         }
 
     }
@@ -231,11 +223,13 @@ public class Scr_Move : MonoBehaviour
         }
     }
 
+    /*
     private void DropCoin()
     {
         Instantiate(gameManager.goldCoin, new Vector2(transform.position.x, transform.position.y - boundingBoxSize.y/2), Quaternion.identity);
         gameManager.PlaySoundEffect(gameManager.SFX_DropCoin, 0.3f, 0.8f, 1.2f);
     }
+    */
 
     private void StartMoving()
     {

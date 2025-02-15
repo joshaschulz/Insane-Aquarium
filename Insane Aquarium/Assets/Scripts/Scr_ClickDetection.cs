@@ -46,8 +46,31 @@ public class Scr_ClickDetection : MonoBehaviour
                 // Clicked on nothing - attempt to feed
                 else
                 {
-                    gameManager.DropFood();
+                    if (gameManager.currentFishFoodSelected != null)
+                    {
+                        if (gameManager.GetFishFoodAmount(gameManager.currentFishFoodSelected) > 0)
+                        {
+                            gameManager.DropFood(gameManager.currentFishFoodSelected);
+
+                        }
+                        else // Out of selected food
+                        {
+                            gameManager.PlaySoundEffect(gameManager.SFX_Error, 0.3f);
+                            Debug.Log("Out of Selected Fish Food");
+
+                            // Make cursor icon and selected food button flash red
+                            gameManager.FlashColor(gameManager.cursorFollower.gameObject, Color.red, 0.5f, 0.1f);
+                            gameManager.FlashColor(gameManager.currentFishFoodButtonSelected, Color.red, 0.5f, 0.1f);
+                        }
+                    }
                 }
+            }
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (gameManager.currentFishFoodSelected != null)
+            {
+                gameManager.ChangeFishFoodTypeToDrop(null);
             }
         }
     }

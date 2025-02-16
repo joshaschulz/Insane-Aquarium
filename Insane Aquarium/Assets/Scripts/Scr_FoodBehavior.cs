@@ -7,6 +7,8 @@ public class Scr_FoodBehavior : MonoBehaviour
     private Scr_GameManager gameManager;
     private SpriteRenderer spriteRenderer;
 
+    public List<Sprite> SpriteOptions;
+
     public float groundBarrierPercentage;
     private Vector2 groundBarrier;
     public float fallSpeed;
@@ -21,6 +23,13 @@ public class Scr_FoodBehavior : MonoBehaviour
     {
         gameManager = Scr_GameManager.GMinstance;
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        // Add multiple sprites in this list in the inspector to randomly assign one
+        if (SpriteOptions.Count > 0)
+        {
+            int spriteIndex = Random.Range(0, SpriteOptions.Count);
+            spriteRenderer.sprite = SpriteOptions[spriteIndex];
+        }
 
         spinDirection = Random.Range(0, 2);
         if (spinDirection == 1)

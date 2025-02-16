@@ -53,6 +53,9 @@ TagManager:
   - name: WaterGraph
     uniqueID: 2202278807
     locked: 0
+  - name: Effects
+    uniqueID: 3530348689
+    locked: 0
   - name: UI
     uniqueID: 686396841
     locked: 0

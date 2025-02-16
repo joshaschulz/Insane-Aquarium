@@ -187,7 +187,11 @@ public class Scr_Move : MonoBehaviour
             Destroy(colliderFood);
 
             // Instantiate bubbles particles, then un-child it, then destroy the particle system after 5 seconds
-            gameManager.PlaySoundEffect(gameManager.SFX_Bubbles, 3, 0.9f, 1.1f);
+            List<AudioClip> bubblesSFX = new List<AudioClip>{ gameManager.SFX_Bubbles1, gameManager.SFX_Bubbles2 };
+            List<float> bubblesVolumes = new List<float> { 3f, 0.2f };
+            List<float> bubblesLowerPitches = new List<float> { 0.9f, 0.6f };
+            List<float> bubblesUpperPitches = new List<float> { 1.1f, 0.8f };
+            gameManager.PlayRandomSoundEffect(bubblesSFX, bubblesVolumes, bubblesLowerPitches, bubblesUpperPitches);
             GameObject bubblesEffect = Instantiate(bubblesEffectPrefab, transform.position, transform.rotation);
             ParticleSystem bubblesParticleSystem = bubblesEffect.GetComponent<ParticleSystem>();
             bubblesParticleSystem.Play();

@@ -18,11 +18,15 @@ public class Scr_GameManager : MonoBehaviour
 
     public int fishFood_1_Amount;
     public TextMeshProUGUI fishFood_1_AmountText;
+    public int fishFood_2_Amount;
+    public TextMeshProUGUI fishFood_2_AmountText;
 
     public GameObject fishFood_1_Button;
+    public GameObject fishFood_2_Button;
     public GameObject currentFishFoodButtonSelected;
 
     public GameObject fishFood_1_Prefab;
+    public GameObject fishFood_2_Prefab;
     public GameObject currentFishFoodSelected;
 
     //public GameObject goldCoin;
@@ -41,7 +45,7 @@ public class Scr_GameManager : MonoBehaviour
 
     // List of Sounds
 
-    public AudioClip SFX_DropCoin, SFX_DropFish, SFX_DropFood, SFX_FishDeath, SFX_FishEat, SFX_MoneyPickup, SFX_Select, SFX_Error, SFX_Bubbles;
+    public AudioClip SFX_DropCoin, SFX_DropFish, SFX_DropFood, SFX_FishDeath, SFX_FishEat, SFX_MoneyPickup, SFX_Select, SFX_Error, SFX_Bubbles1, SFX_Bubbles2;
 
 
     private void Awake()
@@ -59,6 +63,7 @@ public class Scr_GameManager : MonoBehaviour
 
         UpdateText(moneyText, moneyAmount);
         UpdateText(fishFood_1_AmountText, fishFood_1_Amount);
+        UpdateText(fishFood_2_AmountText, fishFood_2_Amount);
     }
 
 
@@ -138,6 +143,10 @@ public class Scr_GameManager : MonoBehaviour
         {
             return fishFood_1_Amount;
         }
+        else if (_fishFoodType == fishFood_2_Prefab)
+        {
+            return fishFood_2_Amount;
+        }
         else
         {
             Debug.Log("INVALID FISH FOOD TYPE");
@@ -151,30 +160,76 @@ public class Scr_GameManager : MonoBehaviour
             fishFood_1_Amount = _newFishFoodAmount;
             UpdateText(fishFood_1_AmountText, fishFood_1_Amount);
         }
+        else if (_fishFoodType == fishFood_2_Prefab)
+        {
+            fishFood_2_Amount = _newFishFoodAmount;
+            UpdateText(fishFood_2_AmountText, fishFood_2_Amount);
+        }
         else
         {
             Debug.Log("INVALID FISH FOOD TYPE");
         }
     }
 
-
     public void PlaySoundEffect(AudioClip _soundEffect, float _volumeScale)
     {
+        GameObject tempAudioObject = new GameObject("TempAudio");
+        AudioSource tempAudioSource = tempAudioObject.AddComponent<AudioSource>();
+
+        tempAudioSource.clip = _soundEffect;
+        tempAudioSource.volume = _volumeScale;
+        tempAudioSource.Play();
+
+        Destroy(tempAudioObject, _soundEffect.length);
+
         AS.PlayOneShot(_soundEffect, _volumeScale);
     }
     public void PlaySoundEffect(AudioClip _soundEffect, float _volumeScale, float _pitch)
     {
-        AS.pitch = _pitch;
+        GameObject tempAudioObject = new GameObject("TempAudio");
+        AudioSource tempAudioSource = tempAudioObject.AddComponent<AudioSource>();
+
+        tempAudioSource.clip = _soundEffect;
+        tempAudioSource.volume = _volumeScale;
+        tempAudioSource.pitch = _pitch;
+        tempAudioSource.Play();
+
+        Destroy(tempAudioObject, _soundEffect.length);
+
         AS.PlayOneShot(_soundEffect, _volumeScale);
-        StartCoroutine(ResetPitchAfterDelay(_soundEffect.length));
     }
     public void PlaySoundEffect(AudioClip _soundEffect, float _volumeScale, float _lowerPitch, float _upperPitch)
     {
         float newPitch = Random.Range(_lowerPitch, _upperPitch);
-        AS.pitch = newPitch;
+        GameObject tempAudioObject = new GameObject("TempAudio");
+        AudioSource tempAudioSource = tempAudioObject.AddComponent<AudioSource>();
+
+        tempAudioSource.clip = _soundEffect;
+        tempAudioSource.volume = _volumeScale;
+        tempAudioSource.pitch = newPitch;
+        tempAudioSource.Play();
+
+        Destroy(tempAudioObject, _soundEffect.length);
+
         AS.PlayOneShot(_soundEffect, _volumeScale);
-        StartCoroutine(ResetPitchAfterDelay(_soundEffect.length));
     }
+
+    public void PlayRandomSoundEffect(List<AudioClip> _soundEffectsList, List<float> _volumeScalesList)
+    {
+        int clipIndex = Random.Range(0, _soundEffectsList.Count);
+        PlaySoundEffect(_soundEffectsList[clipIndex], _volumeScalesList[clipIndex]);
+    }
+    public void PlayRandomSoundEffect(List<AudioClip> _soundEffectsList, List<float> _volumeScalesList, List<float> _pitchesList)
+    {
+        int clipIndex = Random.Range(0, _soundEffectsList.Count);
+        PlaySoundEffect(_soundEffectsList[clipIndex], _volumeScalesList[clipIndex], _pitchesList[clipIndex]);
+    }
+    public void PlayRandomSoundEffect(List<AudioClip> _soundEffectsList, List<float> _volumeScalesList, List<float> _lowerPitchesList, List<float> _upperPitchesList)
+    {
+        int clipIndex = Random.Range(0, _soundEffectsList.Count);
+        PlaySoundEffect(_soundEffectsList[clipIndex], _volumeScalesList[clipIndex], _lowerPitchesList[clipIndex], _upperPitchesList[clipIndex]);
+    }
+
     IEnumerator ResetPitchAfterDelay(float _delay)
     {
         yield return new WaitForSeconds(_delay);
@@ -198,8 +253,17 @@ public class Scr_GameManager : MonoBehaviour
             PlaySoundEffect(SFX_Select, 0.7f);
 
             cursorFollower.gameObject.SetActive(true);
-            cursorFollower.GetComponent<Image>().sprite = fishFood_1_Prefab.GetComponent<SpriteRenderer>().sprite;
+            cursorFollower.GetComponent<Image>().sprite = fishFood_1_Button.GetComponent<Image>().sprite;
             currentFishFoodButtonSelected = fishFood_1_Button;
+        }
+        else if (_fishFoodType == fishFood_2_Prefab)
+        {
+            currentFishFoodSelected = fishFood_2_Prefab;
+            PlaySoundEffect(SFX_Select, 0.7f);
+
+            cursorFollower.gameObject.SetActive(true);
+            cursorFollower.GetComponent<Image>().sprite = fishFood_2_Button.GetComponent<Image>().sprite;
+            currentFishFoodButtonSelected = fishFood_2_Button;
         }
     }
 

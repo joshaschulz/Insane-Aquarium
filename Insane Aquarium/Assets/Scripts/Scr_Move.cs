@@ -7,8 +7,11 @@ public class Scr_Move : MonoBehaviour
     public static Scr_Move Moveinstance;
     private Scr_GameManager gameManager;
 
-    public GameObject side;
-    public GameObject front;
+    private GameObject sideContainer;
+    private GameObject frontContainer;
+
+    private Animator sideAnimator;
+    private Animator frontAnimator;
 
     public GameObject closestPellet;
     public GameObject bloodEffectPrefab;
@@ -30,14 +33,8 @@ public class Scr_Move : MonoBehaviour
     public float minX, maxX, minY, maxY;
     public float speed;
     public float transitionLength;
-    //public float coinDropTimer;
     public Color hungryColor;
 
-    //failed movement attempts
-    /*public float smoothSpeed;
-    public float maxSpeed;
-    public Vector2 velocity = Vector2.zero;
-    public bool moving = false;*/
 
 
     public GameObject boundingBox;
@@ -45,20 +42,29 @@ public class Scr_Move : MonoBehaviour
 
     private float startScaleX;
 
-    private Animator animatorSpawn;
 
     void Start()
     {
         gameManager = Scr_GameManager.GMinstance;
+        
+
+        // These are the gameobjects that hold the front and side images of the fish and their animators. The side one also has the mouth collision circle
+        sideContainer = transform.GetChild(0).gameObject;
+        frontContainer = transform.GetChild(1).gameObject;
+        if (!sideContainer.name.Contains("Side Container"))
+            Debug.Log(gameObject.name + "'s first child's name does not contain 'Side Container'.");
+        if (!frontContainer.name.Contains("Front Container"))
+            Debug.Log(gameObject.name + "'s second child's name does not contain 'Front Container'.");
+
 
         //play the spawn animation
-        animatorSpawn = front.GetComponent<Animator>();
-        animatorSpawn.Play("Fish Spawn");
+        frontAnimator = frontContainer.GetComponent<Animator>();
+        sideAnimator = sideContainer.GetComponent<Animator>();
+        frontAnimator.Play("Fish Spawn");
 
-        gameManager.fishList.Add(gameObject);
         fishId = gameManager.fishIdCounter;
 
-        startScaleX = side.transform.localScale.x;
+        startScaleX = sideContainer.transform.localScale.x;
         idle = false;
         invoked = false;
         SetMinAndMax();
@@ -66,19 +72,18 @@ public class Scr_Move : MonoBehaviour
         target = gameObject.transform.position;
 
         InvokeRepeating("HungerCounter", 0, 1);
-        //InvokeRepeating("DropCoin", coinDropTimer, coinDropTimer);
     }
 
     void Update()
     {
-        if (!animatorSpawn.GetCurrentAnimatorStateInfo(0).IsName("Fish Spawn"))
+        // If the fish has finished dropping into the tank
+        if (!frontAnimator.GetCurrentAnimatorStateInfo(0).IsName("Fish Spawn"))
         {
             Debug.DrawLine(transform.position, target);
 
             // If fish is hungry and food exists, go to it
-            if (IsHungry)
-                if (FindClosestPellet() != null)
-                    SetPelletTarget();
+            if (IsHungry && FindClosestPellet() != null)
+                SetPelletTarget();
 
             // Bool which decides if fish is at its target
             atTarget = gameObject.transform.position.x == target.x && gameObject.transform.position.y == target.y;
@@ -110,32 +115,25 @@ public class Scr_Move : MonoBehaviour
         }
         HungerCount++;
     }
-
     public void SetHungry()
     {
         IsHungry = true;
-        side.GetComponent<CircleCollider2D>().enabled = true;
+        sideContainer.GetComponent<CircleCollider2D>().enabled = true;
         gameManager.ChangeColor(gameObject, hungryColor);
     }
-
     public void SetNotHungry()
     {
         IsHungry = false;
         HungerCount = 0;
-        side.GetComponent<CircleCollider2D>().enabled = false;
+        sideContainer.GetComponent<CircleCollider2D>().enabled = false;
         gameManager.ChangeColor(gameObject, Color.white);
     }
-
     public void Die()
     {
         Debug.Log(gameObject.name + " died due to hunger!");
         gameManager.PlaySoundEffect(gameManager.SFX_FishDeath, 1, 0.5f, 1.5f);
 
-        // Instantiate blood particles, then un-child it before destroying the fish, then the particle system after 5 seconds
-        GameObject bloodEffect = Instantiate(bloodEffectPrefab, transform.position, transform.rotation);
-        ParticleSystem bloodParticleSystem = bloodEffect.GetComponent<ParticleSystem>();
-        bloodParticleSystem.Play();
-        Destroy(bloodEffect, 5);
+        gameManager.SpawnParticles(bloodEffectPrefab, transform.position, transform.rotation);
 
         gameManager.fishList.Remove(gameObject);
         Destroy(gameObject);
@@ -186,16 +184,13 @@ public class Scr_Move : MonoBehaviour
             gameManager.foodPelletList.Remove(colliderFood);
             Destroy(colliderFood);
 
-            // Instantiate bubbles particles, then un-child it, then destroy the particle system after 5 seconds
             List<AudioClip> bubblesSFX = new List<AudioClip>{ gameManager.SFX_Bubbles1, gameManager.SFX_Bubbles2 };
             List<float> bubblesVolumes = new List<float> { 3f, 0.2f };
             List<float> bubblesLowerPitches = new List<float> { 0.9f, 0.6f };
             List<float> bubblesUpperPitches = new List<float> { 1.1f, 0.8f };
             gameManager.PlayRandomSoundEffect(bubblesSFX, bubblesVolumes, bubblesLowerPitches, bubblesUpperPitches);
-            GameObject bubblesEffect = Instantiate(bubblesEffectPrefab, transform.position, transform.rotation);
-            ParticleSystem bubblesParticleSystem = bubblesEffect.GetComponent<ParticleSystem>();
-            bubblesParticleSystem.Play();
-            Destroy(bubblesEffect, 5);
+
+            gameManager.SpawnParticles(bubblesEffectPrefab, transform.position, transform.rotation);
         }
 
     }
@@ -213,10 +208,10 @@ public class Scr_Move : MonoBehaviour
 
         if (randInt == 0)
         {
-            if (side.activeSelf)
+            if (sideContainer.activeSelf)
             {
-                side.SetActive(false);
-                front.SetActive(true);
+                sideContainer.SetActive(false);
+                frontContainer.SetActive(true);
             }
             idle = true;
             Invoke("SetIdleState", 2);
@@ -227,38 +222,30 @@ public class Scr_Move : MonoBehaviour
         }
     }
 
-    /*
-    private void DropCoin()
-    {
-        Instantiate(gameManager.goldCoin, new Vector2(transform.position.x, transform.position.y - boundingBoxSize.y/2), Quaternion.identity);
-        gameManager.PlaySoundEffect(gameManager.SFX_DropCoin, 0.3f, 0.8f, 1.2f);
-    }
-    */
-
     private void StartMoving()
     {
         invoked = false;
-        front.SetActive(false);
-        side.SetActive(true);
+        frontContainer.SetActive(false);
+        sideContainer.SetActive(true);
         idle = false;
 
-        if (target.x < side.transform.position.x && side.transform.localScale.x > 0)
-            side.transform.localScale = new Vector2(startScaleX * -1, side.transform.localScale.y);
-        else if (target.x > side.transform.position.x && side.transform.localScale.x < 0)
-            side.transform.localScale = new Vector2(startScaleX, side.transform.localScale.y);
+        if (target.x < sideContainer.transform.position.x && sideContainer.transform.localScale.x > 0)
+            sideContainer.transform.localScale = new Vector2(startScaleX * -1, sideContainer.transform.localScale.y);
+        else if (target.x > sideContainer.transform.position.x && sideContainer.transform.localScale.x < 0)
+            sideContainer.transform.localScale = new Vector2(startScaleX, sideContainer.transform.localScale.y);
     }
 
     public void TransitionAnimation()
     {
         idle = true;
 
-        if ((target.x < side.transform.position.x && side.transform.localScale.x > 0) || (target.x > side.transform.position.x && side.transform.localScale.x < 0))
+        if ((target.x < sideContainer.transform.position.x && sideContainer.transform.localScale.x > 0) || (target.x > sideContainer.transform.position.x && sideContainer.transform.localScale.x < 0))
         {
             //play transition
             invoked = true;
             Invoke("StartMoving", transitionLength);
-            side.SetActive(false);
-            front.SetActive(true);
+            sideContainer.SetActive(false);
+            frontContainer.SetActive(true);
         }
         else
             StartMoving();
@@ -267,43 +254,6 @@ public class Scr_Move : MonoBehaviour
     private void Move()
     {
         transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
-
-        
-        
-        /*if (FindClosestPellet() != null)
-        {
-            if (target == new Vector2(closestPellet.transform.position.x, closestPellet.transform.position.y))
-                transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
-        }
-        else
-            transform.position = Vector2.SmoothDamp(transform.position, target, ref velocity, smoothSpeed * Time.deltaTime);*/
-
-
-
-        /*
-        if (closestPellet != null && IsHungry)
-
-        if (target == new Vector2(closestPellet.transform.position.x, closestPellet.transform.position.y))
-            transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
-        else
-            transform.position = Vector2.SmoothDamp(transform.position, target, ref velocity, smoothSpeed * Time.deltaTime);*/
-
-        //failed movement attempts
-        /* float step = smoothSpeed * Time.deltaTime;
-         transform.position = Vector2.Lerp(transform.position, target, step);*/
-
-        /*if (closestPellet == null)
-            transform.position = Vector2.SmoothDamp(transform.position, target, ref velocity, smoothSpeed * Time.smoothDeltaTime);
-        else
-            transform.position = Vector2.SmoothDamp(transform.position, closestPellet.transform.position, ref velocity,  Time.smoothDeltaTime);*/
-
-        //StartCoroutine(LerpPosition(target, 3));
-
-        /*float dist = Vector2.Distance(side.GetComponent<CircleCollider2D>().transform.position, target);
-        dist = Mathf.Clamp(Mathf.Abs(dist), 0f, 1.5f);
-        Debug.Log(Time.deltaTime);
-
-        transform.position = Vector2.SmoothDamp(transform.position, target, ref velocity, smoothSpeed * Time.deltaTime * dist);*/
 
     }
 

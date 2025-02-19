@@ -29,8 +29,6 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject fishFood_2_Prefab;
     public GameObject currentFishFoodSelected;
 
-    //public GameObject goldCoin;
-    //public int feedingCost;
 
     public float groundTimeUntilDespawn;
     public float foodSpawnYLevel;
@@ -44,7 +42,6 @@ public class Scr_GameManager : MonoBehaviour
     public List<GameObject> fishList = new List<GameObject>();
 
     // List of Sounds
-
     public AudioClip SFX_DropCoin, SFX_DropFish, SFX_DropFood, SFX_FishDeath, SFX_FishEat, SFX_MoneyPickup, SFX_Select, SFX_Error, SFX_Bubbles1, SFX_Bubbles2;
 
 
@@ -92,7 +89,7 @@ public class Scr_GameManager : MonoBehaviour
 
         //set the x bounds of where the fish can spawn based on the fish to spawn bounding box
         Vector2 Bounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-        Vector2 boundingBoxSize = new Vector2(_fishToSpawn.GetComponent<Scr_Move>().boundingBox.transform.localScale.x * gameObject.transform.localScale.x, _fishToSpawn.GetComponent<Scr_Move>().boundingBox.transform.localScale.y * gameObject.transform.localScale.y);
+        Vector2 boundingBoxSize = new Vector2(_fishToSpawn.GetComponent<Scr_Fish>().boundingBox.transform.localScale.x * gameObject.transform.localScale.x, _fishToSpawn.GetComponent<Scr_Fish>().boundingBox.transform.localScale.y * gameObject.transform.localScale.y);
 
         float tempMinX = -Bounds.x + (0.5f * boundingBoxSize.x * _fishToSpawn.transform.localScale.x);
         float tempMaxX = Bounds.x - (0.5f * boundingBoxSize.x * _fishToSpawn.transform.localScale.x);
@@ -102,15 +99,14 @@ public class Scr_GameManager : MonoBehaviour
         spawnPosition.x = randfloat;
 
 
-        int fishCost = _fishToSpawn.GetComponent<Scr_Move>().fishCost;
+        int fishCost = _fishToSpawn.GetComponent<Scr_Fish>().fishCost;
         if (GetMoneyAmount() >= fishCost)
         {
             SetMoneyAmount(GetMoneyAmount() - fishCost);
             GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
-
+            fishList.Add(newFish);
 
             PlaySoundEffect(SFX_DropFish, 1, 0.5f, 1.5f);
-            Debug.Log(newFish.GetComponent<Scr_Move>().fishId);
         }
         else
         {
@@ -265,6 +261,15 @@ public class Scr_GameManager : MonoBehaviour
             cursorFollower.GetComponent<Image>().sprite = fishFood_2_Button.GetComponent<Image>().sprite;
             currentFishFoodButtonSelected = fishFood_2_Button;
         }
+    }
+
+    public void SpawnParticles(GameObject _particles, Vector3 _position, Quaternion _rotation)
+    {
+        GameObject newParticlesObject = Instantiate(_particles, _position, _rotation);
+        ParticleSystem newParticleSystem = newParticlesObject.GetComponent<ParticleSystem>();
+        newParticleSystem.Play();
+        float totalLifetime = newParticleSystem.main.duration + newParticleSystem.main.startLifetime.constantMax;
+        Destroy(newParticlesObject, totalLifetime);
     }
 
     public void ChangeColor(GameObject _Object, Color _colorToChange) // Checks ALL children, except for those named "Bounding Box"

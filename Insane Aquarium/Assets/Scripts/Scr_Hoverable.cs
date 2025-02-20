@@ -8,8 +8,8 @@ public class Scr_Hoverable : MonoBehaviour
     private bool isHovering = false;
     private Coroutine pulseRoutine;
 
-    public float scaleAmount = 1.05f;  // Maximum size multiplier
-    public float pulseSpeed = 1.1f;   // Speed of pulsing
+    public float scaleAmount = 1.2f;  // Maximum size multiplier
+    public float pulseSpeed = 1.5f;   // Speed of pulsing
 
     void Start()
     {

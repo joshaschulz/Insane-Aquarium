@@ -307,7 +307,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 681399494}
+  m_Father: {fileID: 672596399}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -995,6 +995,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 249612460}
   - {fileID: 681399494}
   - {fileID: 1780107371}
   - {fileID: 390013541}
@@ -1034,7 +1035,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1629433267}
-  - {fileID: 249612460}
   - {fileID: 1765217030}
   - {fileID: 1034296666}
   - {fileID: 82281157}
@@ -2005,7 +2005,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AS: {fileID: 1031440125}
   cursorFollower: {fileID: 249612465}
-  tank: {fileID: 681399493}
   moneyAmount: 10000
   moneyText: {fileID: 82281158}
   fishFood_1_Amount: 25
@@ -2023,8 +2022,7 @@ MonoBehaviour:
   goldCoinWorth: 25
   fishIdCounter: 0
   spawnPosition: {x: 0, y: 1.5, z: 0}
-  foodPelletList: []
-  fishList: []
+  foodList: []
   SFX_DropCoin: {fileID: 8300000, guid: 5ddd5e4b84097c64e8fe6b8b28fc1296, type: 3}
   SFX_DropFish: {fileID: 8300000, guid: 23c6049ea0e728142973a9c84341ac3a, type: 3}
   SFX_DropFood: {fileID: 8300000, guid: 96e7efc54c26eac40b24ba697bac8d47, type: 3}

@@ -13,6 +13,8 @@ public class Scr_GameManager : MonoBehaviour
     public AudioSource AS;
     public Scr_CursorFollower cursorFollower;
 
+    public GameObject tank;
+
     public int moneyAmount;
     public TextMeshProUGUI moneyText;
 
@@ -57,12 +59,24 @@ public class Scr_GameManager : MonoBehaviour
         }
 
         _Camera = Camera.main;
+        
+        if (!tank.activeSelf)
+        {
+            tank.SetActive(true);
 
-        UpdateText(moneyText, moneyAmount);
-        UpdateText(fishFood_1_AmountText, fishFood_1_Amount);
-        UpdateText(fishFood_2_AmountText, fishFood_2_Amount);
+            UpdateText(moneyText, moneyAmount);
+            UpdateText(fishFood_1_AmountText, fishFood_1_Amount);
+            UpdateText(fishFood_2_AmountText, fishFood_2_Amount);
+
+            tank.SetActive(false);
+        }
+
     }
 
+    private void Update()
+    {
+            
+    }
 
     public void DropFood(GameObject _foodToDrop)
     {
@@ -341,5 +355,20 @@ public class Scr_GameManager : MonoBehaviour
             yield return new WaitForSeconds(_flashInterval);
             elapsedTime += _flashInterval;
         }
+    }
+
+    public void MoveToScene(Transform transform)
+    {
+        _Camera.transform.position = new Vector3(transform.position.x, transform.position.y, _Camera.transform.position.z);
+    }
+
+    public void EnableUI(GameObject UI)
+    {
+        UI.SetActive(true);
+    }
+
+    public void DisableUI(GameObject UI)
+    {
+        UI.SetActive(false);
     }
 }

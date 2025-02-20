@@ -135,7 +135,6 @@ public class Scr_Move : MonoBehaviour
 
         gameManager.SpawnParticles(bloodEffectPrefab, transform.position, transform.rotation);
 
-        gameManager.fishList.Remove(gameObject);
         Destroy(gameObject);
     }
     
@@ -150,17 +149,17 @@ public class Scr_Move : MonoBehaviour
     public GameObject FindClosestPellet() // Returns the closest pellet to the fish or NULL if no pellets exist.
     {
         // If there are food pellets...
-        if (gameManager.foodPelletList.Count > 0)
+        if (gameManager.foodList.Count > 0)
         {
-            GameObject closestFoodPellet = gameManager.foodPelletList[0];
+            GameObject closestFoodPellet = gameManager.foodList[0];
             float minDistance = float.MaxValue;
-            for (int j = 0; j < gameManager.foodPelletList.Count; j++)
+            for (int j = 0; j < gameManager.foodList.Count; j++)
             {
-                float distance = Vector2.Distance(transform.position, gameManager.foodPelletList[j].transform.position);
+                float distance = Vector2.Distance(transform.position, gameManager.foodList[j].transform.position);
                 if (distance < minDistance)
                 {
                     minDistance = distance;
-                    closestFoodPellet = gameManager.foodPelletList[j];
+                    closestFoodPellet = gameManager.foodList[j];
 
                     closestPellet = closestFoodPellet;
                 }
@@ -181,7 +180,7 @@ public class Scr_Move : MonoBehaviour
             SetIdleState();
 
             gameManager.PlaySoundEffect(gameManager.SFX_FishEat, 0.7f, 0.8f, 1.2f);
-            gameManager.foodPelletList.Remove(colliderFood);
+            gameManager.foodList.Remove(colliderFood);
             Destroy(colliderFood);
 
             List<AudioClip> bubblesSFX = new List<AudioClip>{ gameManager.SFX_Bubbles1, gameManager.SFX_Bubbles2 };

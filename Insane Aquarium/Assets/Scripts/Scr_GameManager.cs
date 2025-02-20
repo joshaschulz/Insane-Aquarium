@@ -40,8 +40,8 @@ public class Scr_GameManager : MonoBehaviour
     public Vector3 spawnPosition;
 
 
-    public List<GameObject> foodPelletList = new List<GameObject>();
-    public List<GameObject> fishList = new List<GameObject>();
+    // Food List will also contain all fish, as fish can be foods for other fish
+    public List<GameObject> foodList = new List<GameObject>();
 
     // List of Sounds
     public AudioClip SFX_DropCoin, SFX_DropFish, SFX_DropFood, SFX_FishDeath, SFX_FishEat, SFX_MoneyPickup, SFX_Select, SFX_Error, SFX_Bubbles1, SFX_Bubbles2;
@@ -86,11 +86,10 @@ public class Scr_GameManager : MonoBehaviour
             Vector2 foodSpawnPos = new Vector2(mouseWorldPosition.x, foodSpawnYLevel);
             GameObject newfoodPellet = Instantiate(_foodToDrop, foodSpawnPos, Quaternion.identity);
 
-            foodPelletList.Add(newfoodPellet);
+            foodList.Add(newfoodPellet);
+            Debug.Log("Food list contains:" + string.Join(", ", foodList));
 
             SetFishFoodAmount(_foodToDrop, GetFishFoodAmount(_foodToDrop) - 1);
-
-            Debug.Log(fishList.Count);
 
             PlaySoundEffect(SFX_DropFood, 1, 0.5f, 1.5f);
 
@@ -118,7 +117,8 @@ public class Scr_GameManager : MonoBehaviour
         {
             SetMoneyAmount(GetMoneyAmount() - fishCost);
             GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
-            fishList.Add(newFish);
+            foodList.Add(newFish);
+            Debug.Log("Food list contains:" + string.Join(", ", foodList));
 
             PlaySoundEffect(SFX_DropFish, 1, 0.5f, 1.5f);
         }

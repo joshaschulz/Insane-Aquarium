@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
+using System.Linq;
 
 public class Scr_Fish : MonoBehaviour
 {
@@ -47,6 +49,8 @@ public class Scr_Fish : MonoBehaviour
     public GameObject bloodEffectPrefab;
     public GameObject bubblesEffectPrefab;
 
+    public List<GameObject> fishDiet;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -85,10 +89,10 @@ public class Scr_Fish : MonoBehaviour
         if (IsHungry)
         {
             // Find a food to eat
-            GameObject pellet = FindClosestPellet();
+            GameObject food = FindClosestFood();
 
             // If there is no food, keep going towards same target
-            if (pellet == null)
+            if (food == null)
             {
                 if (target != new Vector2(transform.position.x, transform.position.y))
                 {
@@ -114,10 +118,10 @@ public class Scr_Fish : MonoBehaviour
             }
 
             // Move towards it
-            transform.position = Vector2.MoveTowards(transform.position, pellet.transform.position, baseSpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, food.transform.position, baseSpeed * Time.deltaTime);
 
             // If pellet is left of the fish, then set the fish left, otherwise set the fish right
-            int leftOrRight = (pellet.transform.position.x < transform.position.x) ? -1 : 1;
+            int leftOrRight = (food.transform.position.x < transform.position.x) ? -1 : 1;
             sideContainer.transform.localScale = new Vector2(leftOrRight, sideContainer.transform.localScale.y);
         }
         // If the fish has a target that is not itself
@@ -138,10 +142,25 @@ public class Scr_Fish : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        GameObject colliderFood = collision.gameObject;
+        GameObject colliderFood;
 
-        // Check if the collider belongs to a food object
-        if (colliderFood.CompareTag("Food") && IsHungry)
+        if (collision.CompareTag("Fish"))
+        {
+            colliderFood = collision.gameObject;
+        }
+        else if (collision.CompareTag("FishFood"))
+        {
+            colliderFood = collision.gameObject;
+        }
+        else
+        {
+            Debug.Log(gameObject + " collided with something without 'Fish' or 'FishFood' tags");
+            return;
+        }
+
+        // Check if the collider belongs to a food object that is in this fish's diet
+        // Any() checks if any element in fishDiet satisfies a condition
+        if (fishDiet.Any(prefab => colliderFood.name.StartsWith(prefab.name)) && IsHungry)
         {
             SetNotHungry();
             frontContainer.SetActive(true);
@@ -151,8 +170,19 @@ public class Scr_Fish : MonoBehaviour
             target = new Vector2(transform.position.x, transform.position.y);
 
             gameManager.PlaySoundEffect(gameManager.SFX_FishEat, 0.7f, 0.8f, 1.2f);
-            gameManager.foodPelletList.Remove(colliderFood);
-            Destroy(colliderFood);
+
+            // If the food is a fish, make it run Die(), so sound/blood effects happen
+            if (colliderFood.GetComponent<Scr_Fish>() != null)
+            {
+                Debug.Log("Food was a fish: " + colliderFood.name);
+                colliderFood.GetComponent<Scr_Fish>().Die();
+            }
+            else
+            {
+
+                Debug.Log("Food was NOT a fish: " + colliderFood.name);
+                colliderFood.GetComponent<Scr_FoodBehavior>().Despawn();
+            }
 
             List<AudioClip> bubblesSFX = new List<AudioClip> { gameManager.SFX_Bubbles1, gameManager.SFX_Bubbles2 };
             List<float> bubblesVolumes = new List<float> { 3f, 0.2f };
@@ -214,44 +244,48 @@ public class Scr_Fish : MonoBehaviour
     public void SetHungry()
     {
         IsHungry = true;
-        sideContainer.GetComponent<BoxCollider2D>().enabled = true;
+        //sideContainer.GetComponent<BoxCollider2D>().enabled = true;
         gameManager.ChangeColor(gameObject, hungryColor);
     }
     public void SetNotHungry()
     {
         IsHungry = false;
         HungerCount = 0;
-        sideContainer.GetComponent<BoxCollider2D>().enabled = false;
+        //sideContainer.GetComponent<BoxCollider2D>().enabled = false;
         gameManager.ChangeColor(gameObject, Color.white);
     }
     public void Die()
     {
-        Debug.Log(gameObject.name + " died due to hunger!");
+        Debug.Log(gameObject.name + " died!");
 
         gameManager.PlaySoundEffect(gameManager.SFX_FishDeath, 1, 0.5f, 1.5f);
-
         gameManager.SpawnParticles(bloodEffectPrefab, transform.position, transform.rotation);
+
+        gameManager.foodList.Remove(gameObject);
 
         Destroy(gameObject);
     }
 
-    public GameObject FindClosestPellet() // Returns the closest pellet to the fish or NULL if no pellets exist.
+    public GameObject FindClosestFood() // Returns the closest edible food to the fish or NULL if no edible food exist.
     {
-        // If there are food pellets...
-        if (gameManager.foodPelletList.Count > 0)
+        // If there are food objects in the scene...
+        if (gameManager.foodList.Count > 0)
         {
-            GameObject closestFoodPellet = gameManager.foodPelletList[0];
+
+            GameObject closestEdibleFood = gameManager.foodList[0];
             float minDistance = float.MaxValue;
-            for (int j = 0; j < gameManager.foodPelletList.Count; j++)
+            for (int j = 0; j < gameManager.foodList.Count; j++)
             {
-                float distance = Vector2.Distance(transform.position, gameManager.foodPelletList[j].transform.position);
-                if (distance < minDistance)
+                float distance = Vector2.Distance(transform.position, gameManager.foodList[j].transform.position);
+
+                // Any() checks if any element in fishDiet satisfies a condition
+                if (distance < minDistance && fishDiet.Any(prefab => gameManager.foodList[j].name.StartsWith(prefab.name)))
                 {
                     minDistance = distance;
-                    closestFoodPellet = gameManager.foodPelletList[j];
+                    closestEdibleFood = gameManager.foodList[j];
                 }
             }
-            return closestFoodPellet;
+            return closestEdibleFood;
         }
         return null;
     }

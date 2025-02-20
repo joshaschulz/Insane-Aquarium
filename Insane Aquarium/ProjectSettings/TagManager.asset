@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Coin
   - Fish
-  - Food
+  - FishFood
   layers:
   - Default
   - TransparentFX

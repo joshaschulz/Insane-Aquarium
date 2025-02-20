@@ -329,7 +329,7 @@ GameObject:
   - component: {fileID: 1816217595411020440}
   m_Layer: 0
   m_Name: Goldfish Front Container
-  m_TagString: Untagged
+  m_TagString: Fish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1050,7 +1050,6 @@ GameObject:
   - component: {fileID: 3389921948431230594}
   - component: {fileID: 6125300384810272067}
   - component: {fileID: 6859385956037291389}
-  - component: {fileID: 5434688676039337541}
   m_Layer: 0
   m_Name: Goldfish Side Container
   m_TagString: Fish
@@ -1108,51 +1107,6 @@ SortingGroup:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_SortAtRoot: 0
---- !u!61 &5434688676039337541
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8670457961373675106}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.42992878, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.8598576, y: 1}
-  m_EdgeRadius: 0
 --- !u!1 &8672692834543181141
 GameObject:
   m_ObjectHideFlags: 0
@@ -1164,6 +1118,7 @@ GameObject:
   - component: {fileID: 1060343861014338719}
   - component: {fileID: 1864728848697632817}
   - component: {fileID: 8517045197110992644}
+  - component: {fileID: 1991056545837165877}
   m_Layer: 0
   m_Name: Goldfish
   m_TagString: Fish
@@ -1208,6 +1163,9 @@ MonoBehaviour:
   boundingBox: {fileID: 5430298658368350893, guid: e5a1f7f46bf4022458352e81b301f5c8, type: 3}
   bloodEffectPrefab: {fileID: 7699653466035250317, guid: 29a6421998a7dcd48a84d3e1c2dcec44, type: 3}
   bubblesEffectPrefab: {fileID: 7699653466035250317, guid: 4e2ec060f025af64ba8ccc7e09d540eb, type: 3}
+  fishDiet:
+  - {fileID: 5447806642486513699, guid: 81deed014d0d31c43902697f2bc0e3d8, type: 3}
+  - {fileID: 5447806642486513699, guid: ef302d57c9a62814f8e8425e495c442f, type: 3}
 --- !u!50 &8517045197110992644
 Rigidbody2D:
   serializedVersion: 4
@@ -1235,6 +1193,41 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &1991056545837165877
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8672692834543181141}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.28
 --- !u!1 &9031824185968622659
 GameObject:
   m_ObjectHideFlags: 0

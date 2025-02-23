@@ -34,7 +34,8 @@ public class Scr_Fish : MonoBehaviour
     public float SecondsUntilDead;
     public Color hungryColor;
 
-    public float spawnHeightPercentage;
+    [Range(0f, 1f)]
+    public float spawnHeight;
 
     public float baseSpeed;
     private float currentSpeed;

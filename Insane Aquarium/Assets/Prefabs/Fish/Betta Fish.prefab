@@ -387,7 +387,7 @@ MonoBehaviour:
   SecondsUntilHungry: 8
   SecondsUntilDead: 16
   hungryColor: {r: 0.21960786, g: 1, b: 0.15686275, a: 1}
-  spawnHeightPercentage: 0.7
+  spawnHeight: 0.7
   baseSpeed: 3
   fishCost: 100
   bloodEffectPrefab: {fileID: 7699653466035250317, guid: 29a6421998a7dcd48a84d3e1c2dcec44, type: 3}

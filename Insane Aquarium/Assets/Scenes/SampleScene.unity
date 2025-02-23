@@ -2019,7 +2019,6 @@ MonoBehaviour:
   fishFood_2_Prefab: {fileID: 5447806642486513699, guid: ef302d57c9a62814f8e8425e495c442f, type: 3}
   currentFishFoodSelected: {fileID: 0}
   groundTimeUntilDespawn: 1
-  fishSpawnHeightPercentage: 0.75
   goldCoinWorth: 25
   fishIdCounter: 0
   SFX_DropCoin: {fileID: 8300000, guid: 5ddd5e4b84097c64e8fe6b8b28fc1296, type: 3}
@@ -3909,7 +3908,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -240.4, y: -132.5}
+  m_AnchoredPosition: {x: -254, y: -143}
   m_SizeDelta: {x: 297.6907, y: 166.59}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2120305128

@@ -248,8 +248,8 @@ public class Scr_Fish : MonoBehaviour
         gameManager.PlaySoundEffect(gameManager.SFX_FishDeath, 1, 0.5f, 1.5f);
         gameManager.SpawnParticles(bloodEffectPrefab, transform.position, transform.rotation);
 
-        gameManager.RemoveFoodFromFishFoodLists(gameObject);
-        gameManager.fishList.Remove(gameObject);
+        gameManager.RemoveThisFishOrFoodFromOtherFishFoodLists(gameObject);
+        gameManager.fishDictionary.Remove(gameObject);
 
         Destroy(gameObject);
     }

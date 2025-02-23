@@ -85,8 +85,31 @@ public class Scr_GameManager : MonoBehaviour
         {
             Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
+            Vector2 spawnTank = new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.y);
+
+            float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
             float screenHeightWorld = Camera.main.orthographicSize * 2;
-            Vector2 foodSpawnPos = new Vector2(mouseWorldPosition.x, Camera.main.transform.position.y + screenHeightWorld / 2);
+
+            float maxX = spawnTank.x + screenWidthWorld / 2;
+            float minX = spawnTank.x - screenWidthWorld / 2;
+
+            Vector2 foodSpawnPos;
+
+            //checks if the placed food is outside the screen
+            if (mouseWorldPosition.x > maxX)
+            {
+                foodSpawnPos = new Vector2(maxX, Camera.main.transform.position.y + screenHeightWorld / 2);
+
+            }
+            else if (mouseWorldPosition.x < minX)
+            {
+                foodSpawnPos = new Vector2(minX, Camera.main.transform.position.y + screenHeightWorld / 2);
+
+            }
+            else
+            {
+                foodSpawnPos = new Vector2(mouseWorldPosition.x, Camera.main.transform.position.y + screenHeightWorld / 2);
+            }
 
             GameObject newfoodPellet = Instantiate(_foodToDrop, foodSpawnPos, Quaternion.identity);
 

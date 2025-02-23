@@ -82,7 +82,10 @@ public class Scr_GameManager : MonoBehaviour
         if (_foodToDrop != null)
         {
             Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 foodSpawnPos = new Vector2(mouseWorldPosition.x, foodSpawnYLevel);
+
+            float screenHeightWorld = Camera.main.orthographicSize * 2;
+            Vector2 foodSpawnPos = new Vector2(mouseWorldPosition.x, Camera.main.transform.position.y + screenHeightWorld / 2);
+
             GameObject newfoodPellet = Instantiate(_foodToDrop, foodSpawnPos, Quaternion.identity);
 
             AddFoodToFishFoodLists(_foodToDrop, newfoodPellet);
@@ -97,14 +100,8 @@ public class Scr_GameManager : MonoBehaviour
     }
     public void SpawnFish(GameObject _fishToSpawn)
     {
-        //USE THE SCR_FISH SETMINMAX CODE HERE
-        //THEN CALL IT IN THE SCR_FISH
-
-
         //spawn fish at random x coordinate at same designated y coordinate
-
         //set the x bounds of where the fish can spawn based on the fish to spawn bounding box
-        Vector2 Bounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
 
         Vector2 boundingBoxSize = new Vector2(_fishToSpawn.GetComponent<Scr_Fish>().boundingBox.transform.localScale.x * _fishToSpawn.transform.localScale.x, _fishToSpawn.GetComponent<Scr_Fish>().boundingBox.transform.localScale.y * _fishToSpawn.transform.localScale.y);
 

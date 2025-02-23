@@ -259,7 +259,6 @@ public class Scr_Fish : MonoBehaviour
         // If there are food objects in the scene that this fish can eat...
         if (foodInScene.Count > 0)
         {
-
             GameObject closestEdibleFood = foodInScene[0];
             float minDistance = float.MaxValue;
             for (int j = 0; j < foodInScene.Count; j++)
@@ -273,21 +272,44 @@ public class Scr_Fish : MonoBehaviour
                     closestEdibleFood = foodInScene[j];
                 }
             }
-            return closestEdibleFood;
+
+            //if the food is within the tank that the fish is contained in
+            if (IsWithinBoundsOfTank(closestEdibleFood))
+            {
+                return closestEdibleFood;
+            }
         }
         return null;
     }
     
     private void SetMinAndMax()
     {
-        Vector2 Bounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+        //get the size of the bounding box on the fish
+        //use that bounding box size and where the camera is (which tank it's in) to determine the max range the fish can travel
 
         boundingBoxSize = new Vector2(boundingBox.transform.localScale.x * gameObject.transform.localScale.x, boundingBox.transform.localScale.y * gameObject.transform.localScale.y);
 
-        minX = -Bounds.x + (0.5f * boundingBoxSize.x * transform.localScale.x);
-        maxX = Bounds.x - (0.5f * boundingBoxSize.x * transform.localScale.x);
-        minY = -Bounds.y + (0.5f * boundingBoxSize.y * transform.localScale.y);
-        maxY = Bounds.y - (0.5f * boundingBoxSize.y * transform.localScale.y);
+        Vector2 spawnPosition = new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.y);
 
+        float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
+        float screenHeightWorld = Camera.main.orthographicSize * 2;
+
+        minX = spawnPosition.x - screenWidthWorld / 2 + boundingBoxSize.x / 2;
+        maxX = spawnPosition.x + screenWidthWorld / 2 - boundingBoxSize.x / 2;
+        minY = spawnPosition.y - screenHeightWorld / 2 + boundingBoxSize.y / 2;
+        maxY = spawnPosition.y + screenHeightWorld / 2 - boundingBoxSize.y / 2;
+
+    }
+
+    private bool IsWithinBoundsOfTank(GameObject obj) //used to determine if a certain object is within the bounds of the tank a fish is contained in
+    {
+        if (obj.transform.position.x >= minX && obj.transform.position.x <= maxX && obj.transform.position.y >= minY && obj.transform.position.y <= maxY)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

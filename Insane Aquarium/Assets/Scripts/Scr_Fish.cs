@@ -50,6 +50,7 @@ public class Scr_Fish : MonoBehaviour
     public GameObject bubblesEffectPrefab;
 
     public List<GameObject> fishDiet;
+    public List<GameObject> foodInScene;
 
     // Start is called before the first frame update
     void Start()
@@ -140,27 +141,16 @@ public class Scr_Fish : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        GameObject colliderFood;
+        GameObject colliderFood = collision.gameObject;
 
-        if (collision.CompareTag("Fish"))
+        if (!foodInScene.Contains(colliderFood))
         {
-            colliderFood = collision.gameObject;
-        }
-        else if (collision.CompareTag("FishFood"))
-        {
-            colliderFood = collision.gameObject;
-        }
-        else
-        {
-            Debug.Log(gameObject + " collided with something without 'Fish' or 'FishFood' tags");
             return;
         }
 
-        // Check if the collider belongs to a food object that is in this fish's diet
-        // Any() checks if any element in fishDiet satisfies a condition
-        if (fishDiet.Any(prefab => colliderFood.name.StartsWith(prefab.name)) && IsHungry)
+        if (IsHungry)
         {
             SetNotHungry();
             frontContainer.SetActive(true);
@@ -174,13 +164,10 @@ public class Scr_Fish : MonoBehaviour
             // If the food is a fish, make it run Die(), so sound/blood effects happen
             if (colliderFood.GetComponent<Scr_Fish>() != null)
             {
-                Debug.Log("Food was a fish: " + colliderFood.name);
                 colliderFood.GetComponent<Scr_Fish>().Die();
             }
             else
             {
-
-                Debug.Log("Food was NOT a fish: " + colliderFood.name);
                 colliderFood.GetComponent<Scr_FoodBehavior>().Despawn();
             }
 
@@ -261,35 +248,36 @@ public class Scr_Fish : MonoBehaviour
         gameManager.PlaySoundEffect(gameManager.SFX_FishDeath, 1, 0.5f, 1.5f);
         gameManager.SpawnParticles(bloodEffectPrefab, transform.position, transform.rotation);
 
-        gameManager.foodList.Remove(gameObject);
+        gameManager.RemoveFoodFromFishFoodLists(gameObject);
+        gameManager.fishList.Remove(gameObject);
 
         Destroy(gameObject);
     }
 
     public GameObject FindClosestFood() // Returns the closest edible food to the fish or NULL if no edible food exist.
     {
-        // If there are food objects in the scene...
-        if (gameManager.foodList.Count > 0)
+        // If there are food objects in the scene that this fish can eat...
+        if (foodInScene.Count > 0)
         {
 
-            GameObject closestEdibleFood = gameManager.foodList[0];
+            GameObject closestEdibleFood = foodInScene[0];
             float minDistance = float.MaxValue;
-            for (int j = 0; j < gameManager.foodList.Count; j++)
+            for (int j = 0; j < foodInScene.Count; j++)
             {
-                float distance = Vector2.Distance(transform.position, gameManager.foodList[j].transform.position);
 
-                // Any() checks if any element in fishDiet satisfies a condition
-                if (distance < minDistance && fishDiet.Any(prefab => gameManager.foodList[j].name.StartsWith(prefab.name)))
+                float distance = Vector2.Distance(transform.position, foodInScene[j].transform.position);
+
+                if (distance < minDistance)
                 {
                     minDistance = distance;
-                    closestEdibleFood = gameManager.foodList[j];
+                    closestEdibleFood = foodInScene[j];
                 }
             }
             return closestEdibleFood;
         }
         return null;
     }
-
+    
     private void SetMinAndMax()
     {
         Vector2 Bounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));

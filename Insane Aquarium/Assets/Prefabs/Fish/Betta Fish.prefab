@@ -395,6 +395,7 @@ MonoBehaviour:
   fishDiet:
   - {fileID: 5447806642486513699, guid: 81deed014d0d31c43902697f2bc0e3d8, type: 3}
   - {fileID: 5447806642486513699, guid: ef302d57c9a62814f8e8425e495c442f, type: 3}
+  foodInScene: []
 --- !u!50 &4021542319324231719
 Rigidbody2D:
   serializedVersion: 4

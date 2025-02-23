@@ -39,9 +39,13 @@ public class Scr_GameManager : MonoBehaviour
 
     public Vector3 spawnPosition;
 
+    public List<GameObject> fishList;
+
 
     // Food List will also contain all fish, as fish can be foods for other fish
-    public List<GameObject> foodList = new List<GameObject>();
+    //public List<GameObject> foodList = new List<GameObject>();
+
+    //public Dictionary<string, List<string>> fishDiets;
 
     // List of Sounds
     public AudioClip SFX_DropCoin, SFX_DropFish, SFX_DropFood, SFX_FishDeath, SFX_FishEat, SFX_MoneyPickup, SFX_Select, SFX_Error, SFX_Bubbles1, SFX_Bubbles2;
@@ -81,8 +85,8 @@ public class Scr_GameManager : MonoBehaviour
             Vector2 foodSpawnPos = new Vector2(mouseWorldPosition.x, foodSpawnYLevel);
             GameObject newfoodPellet = Instantiate(_foodToDrop, foodSpawnPos, Quaternion.identity);
 
-            foodList.Add(newfoodPellet);
-            Debug.Log("Food list contains:" + string.Join(", ", foodList));
+            AddFoodToFishFoodLists(_foodToDrop, newfoodPellet);
+
 
             SetFishFoodAmount(_foodToDrop, GetFishFoodAmount(_foodToDrop) - 1);
 
@@ -93,18 +97,28 @@ public class Scr_GameManager : MonoBehaviour
     }
     public void SpawnFish(GameObject _fishToSpawn)
     {
+        //USE THE SCR_FISH SETMINMAX CODE HERE
+        //THEN CALL IT IN THE SCR_FISH
+
+
         //spawn fish at random x coordinate at same designated y coordinate
 
         //set the x bounds of where the fish can spawn based on the fish to spawn bounding box
         Vector2 Bounds = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-        Vector2 boundingBoxSize = new Vector2(_fishToSpawn.GetComponent<Scr_Fish>().boundingBox.transform.localScale.x * gameObject.transform.localScale.x, _fishToSpawn.GetComponent<Scr_Fish>().boundingBox.transform.localScale.y * gameObject.transform.localScale.y);
 
-        float tempMinX = -Bounds.x + (0.5f * boundingBoxSize.x * _fishToSpawn.transform.localScale.x);
-        float tempMaxX = Bounds.x - (0.5f * boundingBoxSize.x * _fishToSpawn.transform.localScale.x);
+        Vector2 boundingBoxSize = new Vector2(_fishToSpawn.GetComponent<Scr_Fish>().boundingBox.transform.localScale.x * _fishToSpawn.transform.localScale.x, _fishToSpawn.GetComponent<Scr_Fish>().boundingBox.transform.localScale.y * _fishToSpawn.transform.localScale.y);
 
-        //random x coordinate based on fish bounding box
-        float randfloat = Random.Range(tempMinX, tempMaxX);
-        spawnPosition.x = randfloat;
+        spawnPosition = new Vector2(_Camera.transform.position.x, _Camera.transform.position.y);
+
+        float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
+
+        Vector2 randomSpawnBounds = new Vector2(spawnPosition.x - screenWidthWorld / 2 + boundingBoxSize.x / 2, spawnPosition.x + screenWidthWorld / 2 - boundingBoxSize.x / 2);
+
+
+
+        float randPosX = Random.Range(randomSpawnBounds.x, randomSpawnBounds.y);
+
+        spawnPosition.x = randPosX;
 
 
         int fishCost = _fishToSpawn.GetComponent<Scr_Fish>().fishCost;
@@ -112,8 +126,10 @@ public class Scr_GameManager : MonoBehaviour
         {
             SetMoneyAmount(GetMoneyAmount() - fishCost);
             GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
-            foodList.Add(newFish);
-            Debug.Log("Food list contains:" + string.Join(", ", foodList));
+
+            fishList.Add(newFish);
+
+            AddFoodToFishFoodLists(_fishToSpawn, newFish);
 
             PlaySoundEffect(SFX_DropFish, 1, 0.5f, 1.5f);
         }
@@ -125,7 +141,28 @@ public class Scr_GameManager : MonoBehaviour
     }
 
 
-
+    public void AddFoodToFishFoodLists(GameObject _foodToAdd, GameObject _foodInstance)
+    {
+        foreach (GameObject fish in fishList)
+        {
+            Scr_Fish fishScript = fish.GetComponent<Scr_Fish>();
+            if (fishScript.fishDiet.Contains(_foodToAdd))
+            {
+                fishScript.foodInScene.Add(_foodInstance);
+            }
+        }
+    }
+    public void RemoveFoodFromFishFoodLists(GameObject _foodInstance)
+    {
+        foreach (GameObject fish in fishList)
+        {
+            Scr_Fish fishScript = fish.GetComponent<Scr_Fish>();
+            if (fishScript.foodInScene.Contains(_foodInstance))
+            {
+                fishScript.foodInScene.Remove(_foodInstance);
+            }
+        }
+    }
 
     public void UpdateText(TextMeshProUGUI _textObject, int _amount)
     {

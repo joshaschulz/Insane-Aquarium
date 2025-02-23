@@ -103,7 +103,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6de8f85ffc8244142a6f5b59b85f97ce, type: 3}
   - {fileID: 21300000, guid: 1e893aba0987ddc4c9a2da34d0b6acb5, type: 3}
   groundBarrierPercentage: 0.15
-  fallSpeed: 1
+  fallSpeed: 20
   spinSpeed: 5
   spinAmount: 30
 --- !u!58 &-8377279493207297222

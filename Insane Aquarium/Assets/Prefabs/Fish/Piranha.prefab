@@ -221,11 +221,12 @@ MonoBehaviour:
   hungryColor: {r: 0.21960786, g: 1, b: 0.15686275, a: 1}
   baseSpeed: 4
   fishCost: 150
-  boundingBox: {fileID: 5430298658368350893, guid: e5a1f7f46bf4022458352e81b301f5c8, type: 3}
+  boundingBox: {fileID: 5430298658368350893}
   bloodEffectPrefab: {fileID: 7699653466035250317, guid: 29a6421998a7dcd48a84d3e1c2dcec44, type: 3}
   bubblesEffectPrefab: {fileID: 7699653466035250317, guid: 4e2ec060f025af64ba8ccc7e09d540eb, type: 3}
   fishDiet:
   - {fileID: 8672692834543181141, guid: 1e8f852235a4ef746860883a25c3714f, type: 3}
+  foodInScene: []
 --- !u!50 &4021542319324231719
 Rigidbody2D:
   serializedVersion: 4

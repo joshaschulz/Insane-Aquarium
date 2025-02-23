@@ -2023,7 +2023,7 @@ MonoBehaviour:
   goldCoinWorth: 25
   fishIdCounter: 0
   spawnPosition: {x: 0, y: 1.5, z: 0}
-  foodList: []
+  fishList: []
   SFX_DropCoin: {fileID: 8300000, guid: 5ddd5e4b84097c64e8fe6b8b28fc1296, type: 3}
   SFX_DropFish: {fileID: 8300000, guid: 23c6049ea0e728142973a9c84341ac3a, type: 3}
   SFX_DropFood: {fileID: 8300000, guid: 96e7efc54c26eac40b24ba697bac8d47, type: 3}
@@ -3911,7 +3911,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -251.15253, y: -144.1049}
+  m_AnchoredPosition: {x: -240.4, y: -132.5}
   m_SizeDelta: {x: 297.6907, y: 166.59}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2120305128
@@ -4050,8 +4050,8 @@ MonoBehaviour:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1031440121}
   - {fileID: 519420032}
   - {fileID: 672596399}
   - {fileID: 753793626}
-  - {fileID: 1031440121}
   - {fileID: 2104815768}

@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpriteOptions: []
   groundBarrierPercentage: 0.15
-  fallSpeed: 20
+  fallSpeed: 2
   spinSpeed: 5
   spinAmount: 30
 --- !u!58 &-8377279493207297222

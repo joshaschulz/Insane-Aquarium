@@ -43,8 +43,6 @@ public class Scr_Fish : MonoBehaviour
     private Vector2 target;
 
     private float minX, maxX, minY, maxY;
-    public GameObject boundingBox;
-    private Vector2 boundingBoxSize;
 
     public GameObject bloodEffectPrefab;
     public GameObject bubblesEffectPrefab;
@@ -283,26 +281,12 @@ public class Scr_Fish : MonoBehaviour
         return null;
     }
     
-    private void SetMinAndMax()
+    private void SetMinAndMax() //set the min and max of where fish can travel
     {
-        //get the size of the bounding box on the fish
-        //use that bounding box size and where the camera is (which tank it's in) to determine the max range the fish can travel
-
-        //boundingBoxSize = new Vector2(boundingBox.transform.localScale.x * gameObject.transform.localScale.x, boundingBox.transform.localScale.y * gameObject.transform.localScale.y);
-
         Vector2 spawnTank = new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.y);
 
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
         float screenHeightWorld = Camera.main.orthographicSize * 2;
-
-        Debug.Log($"screen height: {screenHeightWorld}, screen width: {screenWidthWorld}");
-
-        /*
-        minX = spawnPosition.x - screenWidthWorld / 2 + boundingBoxSize.x / 2;
-        maxX = spawnPosition.x + screenWidthWorld / 2 - boundingBoxSize.x / 2;
-        minY = spawnPosition.y - screenHeightWorld / 2 + boundingBoxSize.y / 2;
-        maxY = spawnPosition.y + screenHeightWorld / 2 - boundingBoxSize.y / 2;
-        */
 
         minX = spawnTank.x - screenWidthWorld / 2;
         maxX = spawnTank.x + screenWidthWorld / 2;

@@ -127,15 +127,11 @@ public class Scr_GameManager : MonoBehaviour
     public void SpawnFish(GameObject _fishToSpawn)
     {
         //spawn fish at random x coordinate at same designated y coordinate
-        //set the x bounds of where the fish can spawn based on the fish to spawn bounding box
-
-        //Vector2 boundingBoxSize = new Vector2(_fishToSpawn.GetComponent<Scr_Fish>().boundingBox.transform.localScale.x * _fishToSpawn.transform.localScale.x, _fishToSpawn.GetComponent<Scr_Fish>().boundingBox.transform.localScale.y * _fishToSpawn.transform.localScale.y);
+        //set the x bounds of where the fish can spawn based on screen size
 
         Vector2 spawnPosition = new Vector2(_Camera.transform.position.x, _Camera.transform.position.y);
 
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
-
-        //Vector2 randomSpawnBounds = new Vector2(spawnTank.x - screenWidthWorld / 2 + boundingBoxSize.x / 2, spawnTank.x + screenWidthWorld / 2 - boundingBoxSize.x / 2);
 
         Vector2 randomSpawnBounds = new Vector2(spawnPosition.x - screenWidthWorld / 2, spawnPosition.x + screenWidthWorld / 2);
 
@@ -405,7 +401,7 @@ public class Scr_GameManager : MonoBehaviour
         Destroy(newParticlesObject, totalLifetime);
     }
 
-    public void ChangeColor(GameObject _Object, Color _colorToChange) // Checks ALL children, except for those named "Bounding Box"
+    public void ChangeColor(GameObject _Object, Color _colorToChange) // Checks ALL children
     {
         // Check for Sprite Renderer components in the object and its children and change the color
 
@@ -418,7 +414,7 @@ public class Scr_GameManager : MonoBehaviour
         // Change the color of the object's children
         foreach (Transform child in _Object.transform)
         {
-            if (child.gameObject.GetComponent<SpriteRenderer>() != null && child.name != "Bounding Box")
+            if (child.gameObject.GetComponent<SpriteRenderer>() != null)
             {
                 child.gameObject.GetComponent<SpriteRenderer>().color = _colorToChange;
             }
@@ -441,7 +437,7 @@ public class Scr_GameManager : MonoBehaviour
         // Change the color of the object's children
         foreach (Transform child in _Object.transform)
         {
-            if (child.gameObject.GetComponent<Image>() != null && child.name != "Bounding Box")
+            if (child.gameObject.GetComponent<Image>() != null)
             {
                 child.gameObject.GetComponent<Image>().color = _colorToChange;
             }

@@ -77,7 +77,8 @@ public class Scr_FoodBehavior : MonoBehaviour
 
     public void Despawn()
     {
-        gameManager.RemoveThisFishOrFoodFromOtherFishFoodLists(gameObject);
+        gameManager.foodFishDictionary.Remove(gameObject);
+        gameManager.RemoveFoodFromExistingFishFoodDiets(gameObject);
         Destroy(gameObject);
     }
 }

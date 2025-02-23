@@ -40,6 +40,8 @@ public class Scr_GameManager : MonoBehaviour
     public Vector3 spawnPosition;
 
     public Dictionary<GameObject, GameObject> fishDictionary; //instance is the key, prefab is the value
+    public Dictionary<GameObject, GameObject> foodFishDictionary; //instance is the key, prefab is the value
+
 
 
     // Food List will also contain all fish, as fish can be foods for other fish
@@ -65,6 +67,8 @@ public class Scr_GameManager : MonoBehaviour
         _Camera = Camera.main;
 
         fishDictionary = new Dictionary<GameObject, GameObject>(); //have to instantiate a dictionary for some reason
+        foodFishDictionary = new Dictionary<GameObject, GameObject>(); //have to instantiate a dictionary for some reason
+
 
         if (!tank.activeSelf)
         {
@@ -90,7 +94,8 @@ public class Scr_GameManager : MonoBehaviour
 
             GameObject newfoodPellet = Instantiate(_foodToDrop, foodSpawnPos, Quaternion.identity);
 
-            AddThisFishOrFoodToOtherFishFoodLists(_foodToDrop, newfoodPellet);
+            foodFishDictionary.Add(newfoodPellet, _foodToDrop);
+            AddFoodToSpawnedFishAndSpawnedFishToOtherFishFoodDiets(newfoodPellet, _foodToDrop);
 
 
             SetFishFoodAmount(_foodToDrop, GetFishFoodAmount(_foodToDrop) - 1);
@@ -126,11 +131,9 @@ public class Scr_GameManager : MonoBehaviour
             SetMoneyAmount(GetMoneyAmount() - fishCost);
             GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
 
-            //fishList.Add(newFish);
-            fishDictionary.Add(newFish, _fishToSpawn);
+            foodFishDictionary.Add(newFish, _fishToSpawn);
 
-            AddThisFishOrFoodToOtherFishFoodLists(_fishToSpawn, newFish);
-            AddOtherFishToThisFishFoodLists(newFish);
+            AddFoodToSpawnedFishAndSpawnedFishToOtherFishFoodDiets(newFish, _fishToSpawn);
 
             PlaySoundEffect(SFX_DropFish, 1, 0.5f, 1.5f);
         }
@@ -141,7 +144,55 @@ public class Scr_GameManager : MonoBehaviour
 
     }
 
+    public void AddFoodToSpawnedFishAndSpawnedFishToOtherFishFoodDiets(GameObject _spawnedFishOrFood, GameObject _spawnedFishOrFoodPrefab)
+    {
+        foreach ((GameObject fishOrFoodInstance, GameObject fishOrFoodPrefab) in foodFishDictionary) //loops through all fish or food in the scene
+        {
+            //adds spawned fish or food to all other fish food diets (if in their diet)
 
+            if (fishOrFoodInstance.GetComponent<Scr_Fish>() != null) //if the gameobject in dictionary is a fish
+            {
+                Scr_Fish existingFishScript = fishOrFoodInstance.GetComponent<Scr_Fish>();
+
+                if (existingFishScript.fishDiet.Contains(_spawnedFishOrFoodPrefab))
+                {
+                    if (!existingFishScript.foodInScene.Contains(_spawnedFishOrFood))
+                        existingFishScript.foodInScene.Add(_spawnedFishOrFood);
+                }
+            }
+
+            //adds existing fish or food to the spawned fish food diet (if in their diet)
+
+            if (_spawnedFishOrFood.GetComponent<Scr_Fish>() != null) //if the spawned fish or food is a fish
+            {
+                Scr_Fish spawnedFishScript = _spawnedFishOrFood.GetComponent<Scr_Fish>();
+
+                if (spawnedFishScript.fishDiet.Contains(fishOrFoodPrefab))
+                {
+                    if (!spawnedFishScript.foodInScene.Contains(fishOrFoodInstance))
+                        spawnedFishScript.foodInScene.Add(fishOrFoodInstance);
+                }
+            }
+        }
+    }
+
+    public void RemoveFoodFromExistingFishFoodDiets(GameObject _foodToRemove) //removes fish or food from existing fish diets
+    {
+        foreach ((GameObject fishOrFoodInstance, GameObject fishOrFoodPrefab) in foodFishDictionary)
+        {
+            if (fishOrFoodInstance.GetComponent<Scr_Fish>() != null) //if the gameobject in dictionary is a fish
+            {
+                Scr_Fish existingFishScript = fishOrFoodInstance.GetComponent<Scr_Fish>();
+
+                if (existingFishScript.foodInScene.Contains(_foodToRemove))
+                {
+                    existingFishScript.foodInScene.Remove(_foodToRemove);
+                }
+            }
+        }
+    }
+
+    /*
     public void AddThisFishOrFoodToOtherFishFoodLists(GameObject _foodToAdd, GameObject _foodInstance) //adds the spawning fish or food pellet to foodlists of all other fish in the scene
     {
         foreach ((GameObject fishInstance, GameObject fishPrefab) in fishDictionary)
@@ -177,7 +228,7 @@ public class Scr_GameManager : MonoBehaviour
             }
         }
     }
-
+    */
 
     public void UpdateText(TextMeshProUGUI _textObject, int _amount)
     {

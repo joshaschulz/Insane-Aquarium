@@ -249,7 +249,7 @@ public class Scr_Fish : MonoBehaviour
         gameManager.SpawnParticles(bloodEffectPrefab, transform.position, transform.rotation);
 
         gameManager.foodFishDictionary.Remove(gameObject);
-        gameManager.RemoveFoodFromExistingFishFoodDiets(gameObject);
+        gameManager.RemoveFoodFromExistingFishDiets(gameObject);
 
 
         Destroy(gameObject);
@@ -288,17 +288,26 @@ public class Scr_Fish : MonoBehaviour
         //get the size of the bounding box on the fish
         //use that bounding box size and where the camera is (which tank it's in) to determine the max range the fish can travel
 
-        boundingBoxSize = new Vector2(boundingBox.transform.localScale.x * gameObject.transform.localScale.x, boundingBox.transform.localScale.y * gameObject.transform.localScale.y);
+        //boundingBoxSize = new Vector2(boundingBox.transform.localScale.x * gameObject.transform.localScale.x, boundingBox.transform.localScale.y * gameObject.transform.localScale.y);
 
-        Vector2 spawnPosition = new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.y);
+        Vector2 spawnTank = new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.y);
 
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
         float screenHeightWorld = Camera.main.orthographicSize * 2;
 
+        Debug.Log($"screen height: {screenHeightWorld}, screen width: {screenWidthWorld}");
+
+        /*
         minX = spawnPosition.x - screenWidthWorld / 2 + boundingBoxSize.x / 2;
         maxX = spawnPosition.x + screenWidthWorld / 2 - boundingBoxSize.x / 2;
         minY = spawnPosition.y - screenHeightWorld / 2 + boundingBoxSize.y / 2;
         maxY = spawnPosition.y + screenHeightWorld / 2 - boundingBoxSize.y / 2;
+        */
+
+        minX = spawnTank.x - screenWidthWorld / 2;
+        maxX = spawnTank.x + screenWidthWorld / 2;
+        minY = spawnTank.y - screenHeightWorld / 2;
+        maxY = spawnTank.y + screenHeightWorld / 2;
 
     }
 

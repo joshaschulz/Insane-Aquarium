@@ -37,9 +37,6 @@ public class Scr_GameManager : MonoBehaviour
     public int goldCoinWorth;
     public int fishIdCounter = 0;
 
-    public Vector3 spawnPosition;
-
-    public Dictionary<GameObject, GameObject> fishDictionary; //instance is the key, prefab is the value
     public Dictionary<GameObject, GameObject> foodFishDictionary; //instance is the key, prefab is the value
 
 
@@ -66,7 +63,6 @@ public class Scr_GameManager : MonoBehaviour
 
         _Camera = Camera.main;
 
-        fishDictionary = new Dictionary<GameObject, GameObject>(); //have to instantiate a dictionary for some reason
         foodFishDictionary = new Dictionary<GameObject, GameObject>(); //have to instantiate a dictionary for some reason
 
 
@@ -95,7 +91,7 @@ public class Scr_GameManager : MonoBehaviour
             GameObject newfoodPellet = Instantiate(_foodToDrop, foodSpawnPos, Quaternion.identity);
 
             foodFishDictionary.Add(newfoodPellet, _foodToDrop);
-            AddFoodToSpawnedFishAndSpawnedFishToOtherFishFoodDiets(newfoodPellet, _foodToDrop);
+            AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(newfoodPellet, _foodToDrop);
 
 
             SetFishFoodAmount(_foodToDrop, GetFishFoodAmount(_foodToDrop) - 1);
@@ -110,13 +106,15 @@ public class Scr_GameManager : MonoBehaviour
         //spawn fish at random x coordinate at same designated y coordinate
         //set the x bounds of where the fish can spawn based on the fish to spawn bounding box
 
-        Vector2 boundingBoxSize = new Vector2(_fishToSpawn.GetComponent<Scr_Fish>().boundingBox.transform.localScale.x * _fishToSpawn.transform.localScale.x, _fishToSpawn.GetComponent<Scr_Fish>().boundingBox.transform.localScale.y * _fishToSpawn.transform.localScale.y);
+        //Vector2 boundingBoxSize = new Vector2(_fishToSpawn.GetComponent<Scr_Fish>().boundingBox.transform.localScale.x * _fishToSpawn.transform.localScale.x, _fishToSpawn.GetComponent<Scr_Fish>().boundingBox.transform.localScale.y * _fishToSpawn.transform.localScale.y);
 
-        spawnPosition = new Vector2(_Camera.transform.position.x, _Camera.transform.position.y);
+        Vector2 spawnPosition = new Vector2(_Camera.transform.position.x, _Camera.transform.position.y);
 
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
 
-        Vector2 randomSpawnBounds = new Vector2(spawnPosition.x - screenWidthWorld / 2 + boundingBoxSize.x / 2, spawnPosition.x + screenWidthWorld / 2 - boundingBoxSize.x / 2);
+        //Vector2 randomSpawnBounds = new Vector2(spawnTank.x - screenWidthWorld / 2 + boundingBoxSize.x / 2, spawnTank.x + screenWidthWorld / 2 - boundingBoxSize.x / 2);
+
+        Vector2 randomSpawnBounds = new Vector2(spawnPosition.x - screenWidthWorld / 2, spawnPosition.x + screenWidthWorld / 2);
 
 
 
@@ -133,7 +131,7 @@ public class Scr_GameManager : MonoBehaviour
 
             foodFishDictionary.Add(newFish, _fishToSpawn);
 
-            AddFoodToSpawnedFishAndSpawnedFishToOtherFishFoodDiets(newFish, _fishToSpawn);
+            AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(newFish, _fishToSpawn);
 
             PlaySoundEffect(SFX_DropFish, 1, 0.5f, 1.5f);
         }
@@ -144,7 +142,7 @@ public class Scr_GameManager : MonoBehaviour
 
     }
 
-    public void AddFoodToSpawnedFishAndSpawnedFishToOtherFishFoodDiets(GameObject _spawnedFishOrFood, GameObject _spawnedFishOrFoodPrefab)
+    public void AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(GameObject _spawnedFishOrFood, GameObject _spawnedFishOrFoodPrefab)
     {
         foreach ((GameObject fishOrFoodInstance, GameObject fishOrFoodPrefab) in foodFishDictionary) //loops through all fish or food in the scene
         {
@@ -176,7 +174,7 @@ public class Scr_GameManager : MonoBehaviour
         }
     }
 
-    public void RemoveFoodFromExistingFishFoodDiets(GameObject _foodToRemove) //removes fish or food from existing fish diets
+    public void RemoveFoodFromExistingFishDiets(GameObject _foodToRemove) //removes fish or food from existing fish diets
     {
         foreach ((GameObject fishOrFoodInstance, GameObject fishOrFoodPrefab) in foodFishDictionary)
         {

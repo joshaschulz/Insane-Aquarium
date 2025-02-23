@@ -65,11 +65,6 @@ public class Scr_FoodBehavior : MonoBehaviour
         }
     }
 
-    private void OnBecameInvisible()
-    {
-        Destroy(gameObject);
-    }
-
     void rotateFood()
     {
         transform.Rotate(0, 0, spinAmount);

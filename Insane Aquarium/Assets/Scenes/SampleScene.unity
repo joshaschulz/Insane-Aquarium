@@ -2019,10 +2019,9 @@ MonoBehaviour:
   fishFood_2_Prefab: {fileID: 5447806642486513699, guid: ef302d57c9a62814f8e8425e495c442f, type: 3}
   currentFishFoodSelected: {fileID: 0}
   groundTimeUntilDespawn: 1
-  foodSpawnYLevel: 5.3
+  fishSpawnHeightPercentage: 0.75
   goldCoinWorth: 25
   fishIdCounter: 0
-  spawnPosition: {x: 0, y: 1.5, z: 0}
   SFX_DropCoin: {fileID: 8300000, guid: 5ddd5e4b84097c64e8fe6b8b28fc1296, type: 3}
   SFX_DropFish: {fileID: 8300000, guid: 23c6049ea0e728142973a9c84341ac3a, type: 3}
   SFX_DropFood: {fileID: 8300000, guid: 96e7efc54c26eac40b24ba697bac8d47, type: 3}

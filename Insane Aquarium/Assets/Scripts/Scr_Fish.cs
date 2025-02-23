@@ -28,13 +28,13 @@ public class Scr_Fish : MonoBehaviour
     private GameObject frontContainer;
     private Animator frontAnimator;
 
-
-
     private int HungerCount = 0;
     private bool IsHungry = false;
     public float SecondsUntilHungry;
     public float SecondsUntilDead;
     public Color hungryColor;
+
+    public float spawnHeightPercentage;
 
     public float baseSpeed;
     private float currentSpeed;

@@ -33,7 +33,6 @@ public class Scr_GameManager : MonoBehaviour
 
 
     public float groundTimeUntilDespawn;
-    public float foodSpawnYLevel;
     public int goldCoinWorth;
     public int fishIdCounter = 0;
 
@@ -132,9 +131,11 @@ public class Scr_GameManager : MonoBehaviour
         Vector2 spawnPosition = new Vector2(_Camera.transform.position.x, _Camera.transform.position.y);
 
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
+        float screenHeightWorld = Camera.main.orthographicSize * 2;
+
+        spawnPosition.y = (spawnPosition.y - screenHeightWorld / 2) + screenHeightWorld * _fishToSpawn.GetComponent<Scr_Fish>().spawnHeightPercentage;
 
         Vector2 randomSpawnBounds = new Vector2(spawnPosition.x - screenWidthWorld / 2, spawnPosition.x + screenWidthWorld / 2);
-
 
 
         float randPosX = Random.Range(randomSpawnBounds.x, randomSpawnBounds.y);

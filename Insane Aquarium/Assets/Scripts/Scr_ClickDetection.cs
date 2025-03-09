@@ -26,14 +26,22 @@ public class Scr_ClickDetection : MonoBehaviour
             }
             else
             {
-                // Check if the mouse is over a coin
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
 
                 // Clicked on something
                 if (hit.collider != null)
                 {
-                    if (hit.collider.CompareTag("Coin"))
+                    if (hit.collider.CompareTag("Fish") && gameManager.canIBagFish)
+                    {
+                        GameObject fishToBag = hit.collider.gameObject;
+                        Debug.Log("BAG THIS " + fishToBag.name);
+                        gameManager.BagAFish(fishToBag);
+
+                        
+                    }
+                    /*
+                    else if (hit.collider.CompareTag("Coin"))
                     {
                         // Clicked on a coin
                         Debug.Log("Clicked a coin");
@@ -41,27 +49,34 @@ public class Scr_ClickDetection : MonoBehaviour
                         gameManager.PlaySoundEffect(gameManager.SFX_MoneyPickup, 1, 0.5f, 1.5f);
                         hit.collider.gameObject.GetComponent<Scr_CoinBehavior>().GetClicked();
                     }
+                    */
                 }
-                
-                // Clicked on nothing - attempt to feed
-                else
+
+                // Clicked on nothing
+                // If fish is able to be dropped, drop it
+                // Otherwise, attempt to feed
+
+                if (gameManager.currentBaggedFishButtonSelected != null)
                 {
-                    if (gameManager.currentFishFoodSelected != null)
+                    gameManager.DropFish();
+                }
+
+
+                if (gameManager.currentFishFoodSelected != null)
+                {
+                    if (gameManager.GetFishFoodAmount(gameManager.currentFishFoodSelected) > 0)
                     {
-                        if (gameManager.GetFishFoodAmount(gameManager.currentFishFoodSelected) > 0)
-                        {
-                            gameManager.DropFood(gameManager.currentFishFoodSelected);
+                        gameManager.DropFood(gameManager.currentFishFoodSelected);
 
-                        }
-                        else // Out of selected food
-                        {
-                            gameManager.PlaySoundEffect(gameManager.SFX_Error, 0.3f);
-                            Debug.Log("Out of Selected Fish Food");
+                    }
+                    else // Out of selected food
+                    {
+                        gameManager.PlaySoundEffect(gameManager.SFX_Error, 0.3f);
+                        Debug.Log("Out of Selected Fish Food");
 
-                            // Make cursor icon and selected food button flash red
-                            gameManager.FlashColor(gameManager.cursorFollower.gameObject, Color.red, 0.5f, 0.1f);
-                            gameManager.FlashColor(gameManager.currentFishFoodButtonSelected, Color.red, 0.5f, 0.1f);
-                        }
+                        // Make cursor icon and selected food button flash red
+                        gameManager.FlashColor(gameManager.cursorFollower.gameObject, Color.red, 0.5f, 0.1f);
+                        gameManager.FlashColor(gameManager.currentFishFoodButtonSelected, Color.red, 0.5f, 0.1f);
                     }
                 }
             }
@@ -71,6 +86,14 @@ public class Scr_ClickDetection : MonoBehaviour
             if (gameManager.currentFishFoodSelected != null)
             {
                 gameManager.ChangeFishFoodTypeToDrop(null);
+            }
+            if (gameManager.canIBagFish)
+            {
+                gameManager.DeselectFishBag();
+            }
+            if (gameManager.currentBaggedFishButtonSelected != null)
+            {
+                gameManager.DeselectBaggedFish();
             }
         }
     }

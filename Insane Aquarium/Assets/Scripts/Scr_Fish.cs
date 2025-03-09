@@ -21,7 +21,7 @@ public class Scr_Fish : MonoBehaviour
     // If the fish wants to move in the opposite direction, it must first look forward
 
     // After the fish eats, it looks forward
-
+    public GameObject thisPrefab;
 
     private Scr_GameManager gameManager;
     private GameObject sideContainer;
@@ -40,6 +40,7 @@ public class Scr_Fish : MonoBehaviour
     public float baseSpeed;
     private float currentSpeed;
     public int fishCost;
+    public Vector3 originalScale;
 
     private Vector2 target;
 
@@ -52,9 +53,11 @@ public class Scr_Fish : MonoBehaviour
     public List<GameObject> foodInScene;
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         gameManager = Scr_GameManager.GMinstance;
+
+        originalScale = gameObject.transform.localScale;
 
         // Each fish has a different max range they can travel, based on their size
         SetMinAndMax();
@@ -72,7 +75,7 @@ public class Scr_Fish : MonoBehaviour
         frontAnimator.Play("Fish Spawn");
 
         // Start not targeting anything
-        target = gameObject.transform.position;
+        SetTarget(gameObject.transform.position);
 
         // Start the hungry timer
         InvokeRepeating("HungerCounter", 0, 1);
@@ -105,8 +108,7 @@ public class Scr_Fish : MonoBehaviour
                 }
                 else
                 {
-                    frontContainer.SetActive(true);
-                    sideContainer.SetActive(false);
+                    FaceForward();
                     return;
                 }
             }
@@ -134,8 +136,7 @@ public class Scr_Fish : MonoBehaviour
         else
         {
             // Set to idle until next call of IdleOrMove
-            frontContainer.SetActive(true);
-            sideContainer.SetActive(false);
+            FaceForward();
         }
 
     }
@@ -152,11 +153,10 @@ public class Scr_Fish : MonoBehaviour
         if (IsHungry)
         {
             SetNotHungry();
-            frontContainer.SetActive(true);
-            sideContainer.SetActive(false);
+            FaceForward();
 
             // When fish eats, it idles until its next call of IdleOrMove
-            target = new Vector2(transform.position.x, transform.position.y);
+            SetTarget(transform.position);
 
             gameManager.PlaySoundEffect(gameManager.SFX_FishEat, 0.7f, 0.8f, 1.2f);
 
@@ -186,11 +186,10 @@ public class Scr_Fish : MonoBehaviour
         if (Random.Range(0, 2) == 0)
         {
             // Chose to idle
-            frontContainer.SetActive(true);
-            sideContainer.SetActive(false);
+            FaceForward();
 
             // Idle at the current position
-            target = transform.position;
+            SetTarget(transform.position);
         }
         else
         {
@@ -198,7 +197,7 @@ public class Scr_Fish : MonoBehaviour
             sideContainer.SetActive(true);
 
             // Chose to move to a new target
-            target = new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
+            SetTarget(Random.Range(minX, maxX), Random.Range(minY, maxY));
 
             // If target is left of the fish, then set the fish left, otherwise set the fish right
             int leftOrRight = (target.x < transform.position.x) ? -1 : 1;
@@ -281,7 +280,20 @@ public class Scr_Fish : MonoBehaviour
         }
         return null;
     }
-    
+
+    public void SetTarget(float _Xcoord, float _Ycoord)
+    {
+        target = new Vector2(_Xcoord, _Ycoord);
+    }
+    public void SetTarget(Vector2 _position)
+    {
+        target = _position;
+    }
+    public void FaceForward()
+    {
+        frontContainer.SetActive(true);
+        sideContainer.SetActive(false);
+    }
     private void SetMinAndMax() //set the min and max of where fish can travel
     {
         Vector2 spawnTank = new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.y);

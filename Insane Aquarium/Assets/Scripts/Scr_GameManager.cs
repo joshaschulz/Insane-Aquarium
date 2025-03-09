@@ -38,6 +38,30 @@ public class Scr_GameManager : MonoBehaviour
 
     public Dictionary<GameObject, GameObject> foodFishDictionary; //instance is the key, prefab is the value
 
+    public GameObject fishBag_Button;
+    //public List<(GameObject, int)> baggedFish; // Fish Prefab, HungerCount
+    public bool canIBagFish;
+    //public GameObject fishToDrop;
+    public GameObject currentBaggedFishButtonSelected;
+
+    public GameObject baggedFish_Button1;
+    public GameObject baggedFish_Button2;
+    public GameObject baggedFish_Button3;
+
+    // Click Bag button to turn cursor image to bag and allow for capturing of fish with left click.
+    // This should also deselect any currently selected fish food to drop.
+    // Bagged fish are removed from the tank and any other fishes' diets.
+    // Bagged fish do not restore hungry count, that value is stored until unbagged.
+    // They are represented as a bagged [fish type] button under the Bag button.
+    // Clicking this button will turn cursor image to bagged [fish type] image and allow for releasing of fish with left click.
+    // Releasing a fish will remove the bagged [fish type] button.
+
+    // Customers will occasionally request a fish that you have in one of your tanks in return for some money.
+    // You can then find and bag the fish.
+    // Then clicking on the "checkmark" dialogue option will remove the bagged fish from your inventory, give you the money promised, and cause the customer to leave happily.
+    // By clicking on the "x" dialog option, the customer will leave angrily.
+
+
 
 
     // Food List will also contain all fish, as fish can be foods for other fish
@@ -46,7 +70,7 @@ public class Scr_GameManager : MonoBehaviour
     //public Dictionary<string, List<string>> fishDiets;
 
     // List of Sounds
-    public AudioClip SFX_DropCoin, SFX_DropFish, SFX_DropFood, SFX_FishDeath, SFX_FishEat, SFX_MoneyPickup, SFX_Select, SFX_Error, SFX_Bubbles1, SFX_Bubbles2;
+    public AudioClip SFX_DropCoin, SFX_DropFish, SFX_DropFood, SFX_FishDeath, SFX_FishEat, SFX_MoneyPickup, SFX_Select, SFX_Error, SFX_Bubbles1, SFX_Bubbles2, SFX_BagFish;
 
 
     private void Awake()
@@ -63,18 +87,20 @@ public class Scr_GameManager : MonoBehaviour
         _Camera = Camera.main;
 
         foodFishDictionary = new Dictionary<GameObject, GameObject>(); //have to instantiate a dictionary for some reason
+        //baggedFish = new List<(GameObject, int)>(); //have to instantiate this thing for some reason
 
-
+        /*
         if (!tank.activeSelf)
         {
             tank.SetActive(true);
 
-            UpdateText(moneyText, moneyAmount);
-            UpdateText(fishFood_1_AmountText, fishFood_1_Amount);
-            UpdateText(fishFood_2_AmountText, fishFood_2_Amount);
+            //UpdateText(moneyText, moneyAmount);
+            //UpdateText(fishFood_1_AmountText, fishFood_1_Amount);
+            //UpdateText(fishFood_2_AmountText, fishFood_2_Amount);
 
             tank.SetActive(false);
         }
+        */
     }
 
 
@@ -98,12 +124,10 @@ public class Scr_GameManager : MonoBehaviour
             if (mouseWorldPosition.x > maxX)
             {
                 foodSpawnPos = new Vector2(maxX, Camera.main.transform.position.y + screenHeightWorld / 2);
-
             }
             else if (mouseWorldPosition.x < minX)
             {
                 foodSpawnPos = new Vector2(minX, Camera.main.transform.position.y + screenHeightWorld / 2);
-
             }
             else
             {
@@ -121,6 +145,72 @@ public class Scr_GameManager : MonoBehaviour
             PlaySoundEffect(SFX_DropFood, 1, 0.5f, 1.5f);
 
 
+        }
+    }
+    public void DropFish()
+    {
+        if (currentBaggedFishButtonSelected != null)
+        {
+            GameObject releasedFish = currentBaggedFishButtonSelected.transform.GetChild(0).gameObject;
+            Scr_Fish releasedFishScript = releasedFish.GetComponent<Scr_Fish>();
+
+
+
+            Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            Vector2 spawnTank = new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.y);
+
+            float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
+            float screenHeightWorld = Camera.main.orthographicSize * 2;
+
+            float maxX = spawnTank.x + screenWidthWorld / 2;
+            float minX = spawnTank.x - screenWidthWorld / 2;
+
+            Vector2 fishSpawnPos = new Vector2(_Camera.transform.position.x, _Camera.transform.position.y);
+            fishSpawnPos.y = (fishSpawnPos.y - screenHeightWorld / 2) + screenHeightWorld * releasedFishScript.spawnHeight;
+
+            //checks if the placed fish is outside the screen
+            if (mouseWorldPosition.x > maxX)
+            {
+                fishSpawnPos.x = maxX;
+            }
+            else if (mouseWorldPosition.x < minX)
+            {
+                fishSpawnPos.x = minX;
+            }
+            else
+            {
+                fishSpawnPos.x = mouseWorldPosition.x;
+            }
+
+
+
+            //GameObject newFish = Instantiate(fishToDrop, fishSpawnPos, Quaternion.identity);
+
+            //foodFishDictionary.Add(newFish, fishToDrop);
+
+            //AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(newFish, fishToDrop);
+
+            // Instead of spawning in a new fish, move this fish to the correct spot
+            releasedFish.transform.SetParent(null);
+
+            foodFishDictionary.Add(releasedFish, releasedFishScript.thisPrefab);
+
+            AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(releasedFish, releasedFishScript.thisPrefab);
+
+            PlaySoundEffect(SFX_DropFish, 1, 0.5f, 1.5f);
+
+            Debug.Log(releasedFish.name + " was released");
+
+
+            releasedFishScript.enabled = true;
+            releasedFish.GetComponent<CircleCollider2D>().enabled = true;
+            releasedFish.transform.localScale = releasedFishScript.originalScale;
+
+            releasedFishScript.Start();
+
+            currentBaggedFishButtonSelected.SetActive(false);
+            DeselectBaggedFish();
         }
     }
     public void SpawnFish(GameObject _fishToSpawn)
@@ -210,43 +300,65 @@ public class Scr_GameManager : MonoBehaviour
         }
     }
 
-    /*
-    public void AddThisFishOrFoodToOtherFishFoodLists(GameObject _foodToAdd, GameObject _foodInstance) //adds the spawning fish or food pellet to foodlists of all other fish in the scene
-    {
-        foreach ((GameObject fishInstance, GameObject fishPrefab) in fishDictionary)
-        {
-            Scr_Fish fishScript = fishInstance.GetComponent<Scr_Fish>();
-            
-            if (fishScript.fishDiet.Contains(_foodToAdd))
-            {
-                fishScript.foodInScene.Add(_foodInstance);
-            }
-        }
-    }
-    public void AddOtherFishToThisFishFoodLists(GameObject _fishToSpawn) //adds existing fish to the spawning fish's food list
-    {
-        foreach ((GameObject fishInstance, GameObject fishPrefab) in fishDictionary)
-        {
-            Scr_Fish fishScript = _fishToSpawn.GetComponent<Scr_Fish>();
 
-            if (fishScript.fishDiet.Contains(fishPrefab))
-            {
-                fishScript.foodInScene.Add(fishInstance);
-            }
-        }
-    }
-    public void RemoveThisFishOrFoodFromOtherFishFoodLists(GameObject _foodInstance) //removes the food pellet or fish from the foodlists of all other fish in the scene
+    public void BagAFish(GameObject _fishToBag)
     {
-        foreach ((GameObject fishInstance, GameObject fishPrefab) in fishDictionary)
+        GameObject baggedFishButtonToUse;
+        // Check to see if there is at least 1 of 3 bags available
+        if (baggedFish_Button1.transform.childCount == 0)
         {
-            Scr_Fish fishScript = fishInstance.GetComponent<Scr_Fish>();
-            if (fishScript.foodInScene.Contains(_foodInstance))
-            {
-                fishScript.foodInScene.Remove(_foodInstance);
-            }
+            baggedFishButtonToUse = baggedFish_Button1;
         }
+        else if (baggedFish_Button2.transform.childCount == 0)
+        {
+            baggedFishButtonToUse = baggedFish_Button2;
+        }
+        else if (baggedFish_Button3.transform.childCount == 0)
+        {
+            baggedFishButtonToUse = baggedFish_Button3;
+        }
+        else
+        {
+            Debug.Log("All fish bags were taken up!");
+            // Perhaps disable the button to bag more fish in this case
+            return;
+        }
+
+        Debug.Log(_fishToBag.name + " was bagged");
+        PlaySoundEffect(SFX_BagFish, 1);
+        Scr_Fish fishScript = _fishToBag.GetComponent<Scr_Fish>();
+        SpawnParticles(fishScript.bubblesEffectPrefab, transform.position, transform.rotation);
+
+
+        // Teleport the fish to the BaggedFishButton it is to be associated with, deactivate its fish script and other components, make it uneatable
+
+        foodFishDictionary.Remove(_fishToBag);
+        RemoveFoodFromExistingFishDiets(_fishToBag);
+
+        baggedFishButtonToUse.SetActive(true);
+        _fishToBag.transform.SetParent(baggedFishButtonToUse.transform);
+
+        fishScript.SetTarget(_fishToBag.transform.position);
+        fishScript.FaceForward();
+        fishScript.CancelInvoke();
+        fishScript.enabled = false;
+        _fishToBag.GetComponent<CircleCollider2D>().enabled = false;
+
+
+        float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
+
+        float baggedFishButtonWidth = (baggedFishButtonToUse.GetComponent<RectTransform>().rect.width / Camera.main.pixelWidth) * screenWidthWorld;
+        _fishToBag.transform.localScale /= baggedFishButtonWidth * 7f;
+
+        // Move the fish to the position where the fishbag button appears to be in the world
+        Vector3 baggedFishButtonPosition = Camera.main.ScreenToWorldPoint(baggedFishButtonToUse.transform.position);
+        _fishToBag.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y - 0.2f, _fishToBag.transform.position.z);
+
+
+        // Reverse all of this when we unbag the fish
+
     }
-    */
+
 
     public void UpdateText(TextMeshProUGUI _textObject, int _amount)
     {
@@ -299,30 +411,11 @@ public class Scr_GameManager : MonoBehaviour
 
     public void PlaySoundEffect(AudioClip _soundEffect, float _volumeScale)
     {
-        GameObject tempAudioObject = new GameObject("TempAudio");
-        AudioSource tempAudioSource = tempAudioObject.AddComponent<AudioSource>();
-
-        tempAudioSource.clip = _soundEffect;
-        tempAudioSource.volume = _volumeScale;
-        tempAudioSource.Play();
-
-        Destroy(tempAudioObject, _soundEffect.length);
-
-        AS.PlayOneShot(_soundEffect, _volumeScale);
+        PlaySoundEffect(_soundEffect, _volumeScale, 1, 1);
     }
     public void PlaySoundEffect(AudioClip _soundEffect, float _volumeScale, float _pitch)
     {
-        GameObject tempAudioObject = new GameObject("TempAudio");
-        AudioSource tempAudioSource = tempAudioObject.AddComponent<AudioSource>();
-
-        tempAudioSource.clip = _soundEffect;
-        tempAudioSource.volume = _volumeScale;
-        tempAudioSource.pitch = _pitch;
-        tempAudioSource.Play();
-
-        Destroy(tempAudioObject, _soundEffect.length);
-
-        AS.PlayOneShot(_soundEffect, _volumeScale);
+        PlaySoundEffect(_soundEffect, _volumeScale, _pitch, _pitch);
     }
     public void PlaySoundEffect(AudioClip _soundEffect, float _volumeScale, float _lowerPitch, float _upperPitch)
     {
@@ -362,34 +455,117 @@ public class Scr_GameManager : MonoBehaviour
         AS.pitch = 1.0f;
     }
 
-
     public void ChangeFishFoodTypeToDrop(GameObject _fishFoodType)
     {
+        // If the fish bag was selected and a food is clicked
+        if (_fishFoodType != null && canIBagFish)
+        {
+            DeselectFishBag();
+        }
+        // If a bagged fish was selected and a food is clicked
+        if (_fishFoodType != null && currentBaggedFishButtonSelected != null)
+        {
+            DeselectBaggedFish();
+        }
+
         if (_fishFoodType == null)
         {
             currentFishFoodSelected = null;
             PlaySoundEffect(SFX_Select, 0.7f, 0.8f);
-            cursorFollower.GetComponent<Image>().sprite = null;
-            cursorFollower.gameObject.SetActive(false);
+            ChangeCursorFollower(null);
             currentFishFoodButtonSelected = null;
         }
         else if (_fishFoodType == fishFood_1_Prefab)
         {
             currentFishFoodSelected = fishFood_1_Prefab;
             PlaySoundEffect(SFX_Select, 0.7f);
-
-            cursorFollower.gameObject.SetActive(true);
-            cursorFollower.GetComponent<Image>().sprite = fishFood_1_Button.GetComponent<Image>().sprite;
+            ChangeCursorFollower(fishFood_1_Button.GetComponent<Image>().sprite);
             currentFishFoodButtonSelected = fishFood_1_Button;
         }
         else if (_fishFoodType == fishFood_2_Prefab)
         {
             currentFishFoodSelected = fishFood_2_Prefab;
             PlaySoundEffect(SFX_Select, 0.7f);
-
-            cursorFollower.gameObject.SetActive(true);
-            cursorFollower.GetComponent<Image>().sprite = fishFood_2_Button.GetComponent<Image>().sprite;
+            ChangeCursorFollower(fishFood_2_Button.GetComponent<Image>().sprite);
             currentFishFoodButtonSelected = fishFood_2_Button;
+        }
+    }
+
+    public void SelectBaggedFish(GameObject _baggedFishButton)
+    {
+        // If the fish bag is currently selected, remove it
+        if (canIBagFish)
+        {
+            DeselectFishBag();
+        }
+
+        // If a fish food is currently selected, remove it
+        if (currentFishFoodSelected != null)
+        {
+            ChangeFishFoodTypeToDrop(null);
+        }
+
+        // Change the cursor image to a fish bag image and play a sound effect
+        ChangeCursorFollower(fishBag_Button.GetComponent<Image>().sprite);
+        PlaySoundEffect(SFX_Select, 0.7f);
+
+        // Set a state where clicking on the tank will drop the fish childed to this bagged fish button
+        //fishToDrop = _baggedFishButton.transform.GetChild(0).gameObject;
+        currentBaggedFishButtonSelected = _baggedFishButton;
+    }
+
+    public void DeselectBaggedFish()
+    {
+        // Change the cursor image to nothing and play a sound effect
+        ChangeCursorFollower(null);
+        PlaySoundEffect(SFX_Select, 0.7f, 0.8f);
+
+        currentBaggedFishButtonSelected = null;
+    }
+
+
+    public void SelectFishBag()
+    {
+        // If a fish food is currently selected, remove it
+        if (currentFishFoodSelected != null)
+        {
+            ChangeFishFoodTypeToDrop(null);
+        }
+        
+        // If a bagged fish is currently selected, remove it
+        if (currentBaggedFishButtonSelected != null)
+        {
+            DeselectBaggedFish();
+        }
+
+        // Change the cursor image to a fish bag image and play a sound effect
+        ChangeCursorFollower(fishBag_Button.GetComponent<Image>().sprite);
+        PlaySoundEffect(SFX_Select, 0.7f);
+
+        // Set a state where clicking on a fish will remove it from the scene and add it to baggedFish
+        canIBagFish = true;
+    }
+    public void DeselectFishBag()
+    {
+        // Change the cursor image to nothing and play a sound effect
+        ChangeCursorFollower(null);
+        PlaySoundEffect(SFX_Select, 0.7f, 0.8f);
+
+        // Set a state where clicking on a fish will NOT remove it from the scene and add it to baggedFish
+        canIBagFish = false;
+    }
+
+    public void ChangeCursorFollower(Sprite _cursorSprite)
+    {
+        if (_cursorSprite != null)
+        {
+            cursorFollower.gameObject.SetActive(true);
+            cursorFollower.GetComponent<Image>().sprite = _cursorSprite;
+        }
+        else
+        {
+            cursorFollower.GetComponent<Image>().sprite = null;
+            cursorFollower.gameObject.SetActive(false);
         }
     }
 
@@ -476,6 +652,16 @@ public class Scr_GameManager : MonoBehaviour
     public void MoveToScene(Transform transform)
     {
         _Camera.transform.position = new Vector3(transform.position.x, transform.position.y, _Camera.transform.position.z);
+
+        // Deselect any currently selected fish food or bagging state
+        if (currentFishFoodSelected != null)
+        {
+            ChangeFishFoodTypeToDrop(null);
+        }
+        if (canIBagFish)
+        {
+            DeselectFishBag();
+        }
     }
 
     public void EnableUI(GameObject UI)
@@ -486,5 +672,14 @@ public class Scr_GameManager : MonoBehaviour
     public void DisableUI(GameObject UI)
     {
         UI.SetActive(false);
+    }
+
+    public void UpdateSceneTexts()
+    {
+        UpdateText(moneyText, moneyAmount);
+        UpdateText(fishFood_1_AmountText, fishFood_1_Amount);
+        UpdateText(fishFood_2_AmountText, fishFood_2_Amount);
+
+        // Add more text boxes and values as we make them...
     }
 }

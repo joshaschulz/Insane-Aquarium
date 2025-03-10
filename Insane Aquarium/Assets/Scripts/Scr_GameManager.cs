@@ -155,7 +155,26 @@ public class Scr_GameManager : MonoBehaviour
             Scr_Fish releasedFishScript = releasedFish.GetComponent<Scr_Fish>();
 
 
+            Vector2 spawnPosition = new Vector2(_Camera.transform.position.x, _Camera.transform.position.y);
 
+            float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
+            float screenHeightWorld = Camera.main.orthographicSize * 2;
+
+            spawnPosition.y = (spawnPosition.y - screenHeightWorld / 2) + screenHeightWorld * releasedFish.GetComponent<Scr_Fish>().spawnHeight;
+
+            Vector2 spawnBounds = new Vector2(spawnPosition.x - screenWidthWorld / 2, spawnPosition.x + screenWidthWorld / 2);
+
+            Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            //float randPosX = Random.Range(randomSpawnBounds.x, randomSpawnBounds.y);
+
+            //spawnPosition.x = randPosX;
+
+            //place fish at mouse position if its not off the screen
+            spawnPosition.x = (mouseWorldPosition.x < spawnBounds.x) ? spawnBounds.x : (mouseWorldPosition.x > spawnBounds.y) ? spawnBounds.y : mouseWorldPosition.x;
+
+            releasedFish.transform.position = new Vector3(spawnPosition.x, spawnPosition.y, releasedFish.transform.position.z);
+            /*
             Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
             Vector2 spawnTank = new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.y);
@@ -181,7 +200,7 @@ public class Scr_GameManager : MonoBehaviour
             else
             {
                 fishSpawnPos.x = mouseWorldPosition.x;
-            }
+            }*/
 
 
 

@@ -88,6 +88,12 @@ public class Scr_Fish : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //don't do anything if fish is still in spawn animation
+        if (IsAnimationPlaying(frontAnimator, "Fish Spawn"))
+        {
+            return;
+        }
+
         // 3 possibilities: Fish is hungry. Fish is idle. Fish is moving.
         if (IsHungry)
         {
@@ -318,5 +324,11 @@ public class Scr_Fish : MonoBehaviour
         {
             return false;
         }
+    }
+
+    bool IsAnimationPlaying(Animator anim, string animName)
+    {
+        AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+        return stateInfo.IsName(animName) && stateInfo.normalizedTime < 1f;
     }
 }

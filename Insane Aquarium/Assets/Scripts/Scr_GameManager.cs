@@ -166,14 +166,16 @@ public class Scr_GameManager : MonoBehaviour
 
             Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            //float randPosX = Random.Range(randomSpawnBounds.x, randomSpawnBounds.y);
+            //random x position
 
+            //float randPosX = Random.Range(randomSpawnBounds.x, randomSpawnBounds.y);
             //spawnPosition.x = randPosX;
 
             //place fish at mouse position if its not off the screen
             spawnPosition.x = (mouseWorldPosition.x < spawnBounds.x) ? spawnBounds.x : (mouseWorldPosition.x > spawnBounds.y) ? spawnBounds.y : mouseWorldPosition.x;
 
             releasedFish.transform.position = new Vector3(spawnPosition.x, spawnPosition.y, releasedFish.transform.position.z);
+
             /*
             Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -319,6 +321,13 @@ public class Scr_GameManager : MonoBehaviour
         }
     }
 
+    public void ClearFoodFromFishFoodList(GameObject _fish)
+    {
+        Scr_Fish fishScript = _fish.GetComponent<Scr_Fish>();
+
+        fishScript.foodInScene.Clear();
+    }
+
 
     public void BagAFish(GameObject _fishToBag)
     {
@@ -353,6 +362,9 @@ public class Scr_GameManager : MonoBehaviour
 
         foodFishDictionary.Remove(_fishToBag);
         RemoveFoodFromExistingFishDiets(_fishToBag);
+
+        //reset fish's food in scene
+        ClearFoodFromFishFoodList(_fishToBag);
 
         baggedFishButtonToUse.SetActive(true);
         _fishToBag.transform.SetParent(baggedFishButtonToUse.transform);

@@ -21,6 +21,8 @@ public class Scr_Fish : MonoBehaviour
     // If the fish wants to move in the opposite direction, it must first look forward
 
     // After the fish eats, it looks forward
+
+    [HideInInspector]
     public GameObject thisPrefab;
 
     private Scr_GameManager gameManager;

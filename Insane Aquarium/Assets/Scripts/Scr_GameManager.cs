@@ -154,7 +154,6 @@ public class Scr_GameManager : MonoBehaviour
             GameObject releasedFish = currentBaggedFishButtonSelected.transform.GetChild(0).gameObject;
             Scr_Fish releasedFishScript = releasedFish.GetComponent<Scr_Fish>();
 
-
             Vector2 spawnPosition = new Vector2(_Camera.transform.position.x, _Camera.transform.position.y);
 
             float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
@@ -166,51 +165,13 @@ public class Scr_GameManager : MonoBehaviour
 
             Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            //random x position
-
-            //float randPosX = Random.Range(randomSpawnBounds.x, randomSpawnBounds.y);
-            //spawnPosition.x = randPosX;
-
             //place fish at mouse position if its not off the screen
             spawnPosition.x = (mouseWorldPosition.x < spawnBounds.x) ? spawnBounds.x : (mouseWorldPosition.x > spawnBounds.y) ? spawnBounds.y : mouseWorldPosition.x;
 
             releasedFish.transform.position = new Vector3(spawnPosition.x, spawnPosition.y, releasedFish.transform.position.z);
 
-            /*
-            Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-            Vector2 spawnTank = new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.y);
-
-            float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
-            float screenHeightWorld = Camera.main.orthographicSize * 2;
-
-            float maxX = spawnTank.x + screenWidthWorld / 2;
-            float minX = spawnTank.x - screenWidthWorld / 2;
-
-            Vector2 fishSpawnPos = new Vector2(_Camera.transform.position.x, _Camera.transform.position.y);
-            fishSpawnPos.y = (fishSpawnPos.y - screenHeightWorld / 2) + screenHeightWorld * releasedFishScript.spawnHeight;
-
-            //checks if the placed fish is outside the screen
-            if (mouseWorldPosition.x > maxX)
-            {
-                fishSpawnPos.x = maxX;
-            }
-            else if (mouseWorldPosition.x < minX)
-            {
-                fishSpawnPos.x = minX;
-            }
-            else
-            {
-                fishSpawnPos.x = mouseWorldPosition.x;
-            }*/
 
 
-
-            //GameObject newFish = Instantiate(fishToDrop, fishSpawnPos, Quaternion.identity);
-
-            //foodFishDictionary.Add(newFish, fishToDrop);
-
-            //AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(newFish, fishToDrop);
 
             // Instead of spawning in a new fish, move this fish to the correct spot
             releasedFish.transform.SetParent(null);
@@ -261,6 +222,9 @@ public class Scr_GameManager : MonoBehaviour
             GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
 
             foodFishDictionary.Add(newFish, _fishToSpawn);
+            Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
+            newFishScript.thisPrefab = _fishToSpawn;
+
 
             AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(newFish, _fishToSpawn);
 
@@ -283,8 +247,13 @@ public class Scr_GameManager : MonoBehaviour
             {
                 Scr_Fish existingFishScript = fishOrFoodInstance.GetComponent<Scr_Fish>();
 
+                Debug.Log(existingFishScript.fishDiet[0] + " compared to " + _spawnedFishOrFoodPrefab);
+
+
                 if (existingFishScript.fishDiet.Contains(_spawnedFishOrFoodPrefab))
                 {
+                    //Debug.Log(gameObject + "can eat " + _spawnedFishOrFood);
+
                     if (!existingFishScript.foodInScene.Contains(_spawnedFishOrFood))
                         existingFishScript.foodInScene.Add(_spawnedFishOrFood);
                 }

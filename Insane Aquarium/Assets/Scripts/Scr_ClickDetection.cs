@@ -56,11 +56,12 @@ public class Scr_ClickDetection : MonoBehaviour
                 // If fish is able to be dropped, drop it
                 // Otherwise, attempt to feed
 
+                /*
                 if (gameManager.currentBaggedFishButtonSelected != null)
                 {
                     gameManager.DropFish();
                 }
-
+                */
 
                 if (gameManager.currentFishFoodSelected != null)
                 {
@@ -91,10 +92,12 @@ public class Scr_ClickDetection : MonoBehaviour
             {
                 gameManager.DeselectFishBag();
             }
+            /*
             if (gameManager.currentBaggedFishButtonSelected != null)
             {
                 gameManager.DeselectBaggedFish();
             }
+            */
         }
     }
 }

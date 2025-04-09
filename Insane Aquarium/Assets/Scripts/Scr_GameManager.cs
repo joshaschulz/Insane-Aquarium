@@ -41,8 +41,6 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject fishBag_Button;
     //public List<(GameObject, int)> baggedFish; // Fish Prefab, HungerCount
     public bool canIBagFish;
-    //public GameObject fishToDrop;
-    public GameObject currentBaggedFishButtonSelected;
 
     public GameObject baggedFish_Button1;
     public GameObject baggedFish_Button2;
@@ -149,28 +147,31 @@ public class Scr_GameManager : MonoBehaviour
     }
     public void DropFish()
     {
-        if (currentBaggedFishButtonSelected != null)
+        GameObject baggedFishButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+
+        if (baggedFishButton != null)
         {
-            GameObject releasedFish = currentBaggedFishButtonSelected.transform.GetChild(0).gameObject;
+            GameObject releasedFish = baggedFishButton.transform.GetChild(0).gameObject;
             Scr_Fish releasedFishScript = releasedFish.GetComponent<Scr_Fish>();
+
+            //spawn fish at random x coordinate at same designated y coordinate
+            //set the x bounds of where the fish can spawn based on screen size
 
             Vector2 spawnPosition = new Vector2(_Camera.transform.position.x, _Camera.transform.position.y);
 
             float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
             float screenHeightWorld = Camera.main.orthographicSize * 2;
 
-            spawnPosition.y = (spawnPosition.y - screenHeightWorld / 2) + screenHeightWorld * releasedFish.GetComponent<Scr_Fish>().spawnHeight;
+            spawnPosition.y = (spawnPosition.y - screenHeightWorld / 2) + screenHeightWorld * releasedFishScript.spawnHeight;
 
-            Vector2 spawnBounds = new Vector2(spawnPosition.x - screenWidthWorld / 2, spawnPosition.x + screenWidthWorld / 2);
+            Vector2 randomSpawnBounds = new Vector2(spawnPosition.x - screenWidthWorld / 2, spawnPosition.x + screenWidthWorld / 2);
 
-            Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            //place fish at mouse position if its not off the screen
-            spawnPosition.x = (mouseWorldPosition.x < spawnBounds.x) ? spawnBounds.x : (mouseWorldPosition.x > spawnBounds.y) ? spawnBounds.y : mouseWorldPosition.x;
+            float randPosX = Random.Range(randomSpawnBounds.x, randomSpawnBounds.y);
+
+            spawnPosition.x = randPosX;
 
             releasedFish.transform.position = new Vector3(spawnPosition.x, spawnPosition.y, releasedFish.transform.position.z);
-
-
 
 
             // Instead of spawning in a new fish, move this fish to the correct spot
@@ -191,8 +192,9 @@ public class Scr_GameManager : MonoBehaviour
 
             releasedFishScript.Start();
 
-            currentBaggedFishButtonSelected.SetActive(false);
-            DeselectBaggedFish();
+            baggedFishButton.SetActive(false);
+            // DeselectBaggedFish();
+
         }
     }
     public void SpawnFish(GameObject _fishToSpawn)
@@ -354,9 +356,7 @@ public class Scr_GameManager : MonoBehaviour
         Vector3 baggedFishButtonPosition = Camera.main.ScreenToWorldPoint(baggedFishButtonToUse.transform.position);
         _fishToBag.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y - 0.2f, _fishToBag.transform.position.z);
 
-
-        // Reverse all of this when we unbag the fish
-
+        // Figure out how to make the bagged fish render in front of the other tank fish and go back to normal upon dropping into tank
     }
 
 
@@ -463,10 +463,12 @@ public class Scr_GameManager : MonoBehaviour
             DeselectFishBag();
         }
         // If a bagged fish was selected and a food is clicked
-        if (_fishFoodType != null && currentBaggedFishButtonSelected != null)
+        /*
+        if (_fishFoodType != null)
         {
             DeselectBaggedFish();
         }
+        */
 
         if (_fishFoodType == null)
         {
@@ -490,7 +492,7 @@ public class Scr_GameManager : MonoBehaviour
             currentFishFoodButtonSelected = fishFood_2_Button;
         }
     }
-
+    /*
     public void SelectBaggedFish(GameObject _baggedFishButton)
     {
         // If the fish bag is currently selected, remove it
@@ -505,8 +507,6 @@ public class Scr_GameManager : MonoBehaviour
             ChangeFishFoodTypeToDrop(null);
         }
 
-        // Change the cursor image to a fish bag image and play a sound effect
-        ChangeCursorFollower(fishBag_Button.GetComponent<Image>().sprite);
         PlaySoundEffect(SFX_Select, 0.7f);
 
         // Set a state where clicking on the tank will drop the fish childed to this bagged fish button
@@ -516,13 +516,11 @@ public class Scr_GameManager : MonoBehaviour
 
     public void DeselectBaggedFish()
     {
-        // Change the cursor image to nothing and play a sound effect
-        ChangeCursorFollower(null);
         PlaySoundEffect(SFX_Select, 0.7f, 0.8f);
 
         currentBaggedFishButtonSelected = null;
     }
-
+        */
 
     public void SelectFishBag()
     {
@@ -531,12 +529,14 @@ public class Scr_GameManager : MonoBehaviour
         {
             ChangeFishFoodTypeToDrop(null);
         }
-        
+
+        /*
         // If a bagged fish is currently selected, remove it
         if (currentBaggedFishButtonSelected != null)
         {
             DeselectBaggedFish();
         }
+        */
 
         // Change the cursor image to a fish bag image and play a sound effect
         ChangeCursorFollower(fishBag_Button.GetComponent<Image>().sprite);

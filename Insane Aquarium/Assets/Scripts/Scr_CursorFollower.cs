@@ -5,7 +5,7 @@ using UnityEngine;
 public class Scr_CursorFollower : MonoBehaviour
 {
 
-    private void FixedUpdate()
+    private void Update()
     {
         Vector2 cursorPos = Input.mousePosition;
         transform.position = new Vector2(cursorPos.x, cursorPos.y);

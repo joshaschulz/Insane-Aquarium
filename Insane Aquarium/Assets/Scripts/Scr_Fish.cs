@@ -30,10 +30,17 @@ public class Scr_Fish : MonoBehaviour
     private GameObject frontContainer;
     private Animator frontAnimator;
 
-    private int HungerCount = 0;
+    private float HungerCount = 0;
     private bool IsHungry = false;
-    public float SecondsUntilHungry;
-    public float SecondsUntilDead;
+    //public float SecondsUntilHungry;
+    //public float SecondsUntilDead;
+
+    //public int tickEventsUntilHungry;
+    //public int tickEventsUntilDead;
+
+    public int minutesUntilHungry;
+    public int minutesUntilDead;
+
     public Color hungryColor;
 
     [Range(0f, 1f)]
@@ -55,11 +62,15 @@ public class Scr_Fish : MonoBehaviour
     public List<GameObject> foodInScene;
 
     private Scr_TimeHandler Scr_TimeHandler;
+    private float tickIntervalInMinutes;
 
     private void OnEnable()
     {
         // Optionally, get a reference to the TickHandler (assuming there's only one or it’s a singleton)
         Scr_TimeHandler = FindObjectOfType<Scr_TimeHandler>();
+
+        tickIntervalInMinutes = Scr_TimeHandler.tickInterval / 60;
+
         if (Scr_TimeHandler != null)
         {
             Scr_TimeHandler.tickEvent.AddListener(OnTickEvent);
@@ -78,6 +89,8 @@ public class Scr_Fish : MonoBehaviour
     public void OnTickEvent()
     {
         Debug.Log($"{gameObject.name} received a tick event!");
+
+        HungerCounter();
         // Your fish behavior here, e.g., update hunger status.
     }
 
@@ -107,7 +120,7 @@ public class Scr_Fish : MonoBehaviour
         SetTarget(gameObject.transform.position);
 
         // Start the hungry timer
-        InvokeRepeating("HungerCounter", 0, 1);
+        //InvokeRepeating("HungerCounter", 0, 1);
 
         // Start selecting between Idle and Moving after the drop in animation has played
         Invoke("IdleOrMove", frontAnimator.GetCurrentAnimatorStateInfo(0).length);
@@ -249,16 +262,16 @@ public class Scr_Fish : MonoBehaviour
 
     public void HungerCounter()
     {
+        HungerCount += tickIntervalInMinutes;
 
-        if (HungerCount == SecondsUntilHungry)
+        if (HungerCount == minutesUntilHungry)
         {
             SetHungry();
         }
-        else if (HungerCount == SecondsUntilDead)
+        else if (HungerCount == minutesUntilDead)
         {
             Die();
         }
-        HungerCount++;
     }
 
     public void SetHungry()

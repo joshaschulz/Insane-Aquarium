@@ -2756,10 +2756,10 @@ MonoBehaviour:
         m_CallState: 2
   tickInterval: 600
   timeScale: 60
-  startHour: 6
+  startHour: 9
   startMinute: 0
-  endHour: 7
-  endMinute: 20
+  endHour: 17
+  endMinute: 0
   timeDisplayText: {fileID: 1511175562}
 --- !u!1 &1034296665
 GameObject:

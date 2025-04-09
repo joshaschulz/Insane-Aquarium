@@ -217,8 +217,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisPrefab: {fileID: 1863455049823253984}
-  SecondsUntilHungry: 10
-  SecondsUntilDead: 18
+  minutesUntilHungry: 60
+  minutesUntilDead: 120
   hungryColor: {r: 0.21960786, g: 1, b: 0.15686275, a: 1}
   spawnHeight: 0.5
   baseSpeed: 4

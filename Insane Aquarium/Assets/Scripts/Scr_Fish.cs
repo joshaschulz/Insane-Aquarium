@@ -54,6 +54,33 @@ public class Scr_Fish : MonoBehaviour
     public List<GameObject> fishDiet;
     public List<GameObject> foodInScene;
 
+    private Scr_TimeHandler Scr_TimeHandler;
+
+    private void OnEnable()
+    {
+        // Optionally, get a reference to the TickHandler (assuming there's only one or it’s a singleton)
+        Scr_TimeHandler = FindObjectOfType<Scr_TimeHandler>();
+        if (Scr_TimeHandler != null)
+        {
+            Scr_TimeHandler.tickEvent.AddListener(OnTickEvent);
+        }
+    }
+
+    private void OnDisable()
+    {
+        // Unsubscribe to avoid memory leaks.
+        if (Scr_TimeHandler != null)
+        {
+            Scr_TimeHandler.tickEvent.RemoveListener(OnTickEvent);
+        }
+    }
+
+    public void OnTickEvent()
+    {
+        Debug.Log($"{gameObject.name} received a tick event!");
+        // Your fish behavior here, e.g., update hunger status.
+    }
+
     // Start is called before the first frame update
     public void Start()
     {

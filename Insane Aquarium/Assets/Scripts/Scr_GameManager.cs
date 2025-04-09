@@ -708,14 +708,14 @@ public class Scr_GameManager : MonoBehaviour
         }
     }
 
-    public void EnableUI(GameObject UI)
+    public void EnableElement(GameObject _element)
     {
-        UI.SetActive(true);
+        _element.SetActive(true);
     }
 
-    public void DisableUI(GameObject UI)
+    public void DisableElement(GameObject _element)
     {
-        UI.SetActive(false);
+        _element.SetActive(false);
     }
 
     public void UpdateSceneTexts()

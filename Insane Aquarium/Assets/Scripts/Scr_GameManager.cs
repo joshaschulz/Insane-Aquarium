@@ -7,7 +7,6 @@ using TMPro;
 public class Scr_GameManager : MonoBehaviour
 {
     public static Scr_GameManager GMinstance;
-
     private Camera _Camera;
 
     public AudioSource AS;
@@ -507,6 +506,43 @@ public class Scr_GameManager : MonoBehaviour
             ChangeFishFoodTypeToDrop(null);
         }
 
+<<<<<<< HEAD
+=======
+        // Change the cursor image to a fish bag image and play a sound effect
+
+        GameObject baggedFishButtonCopy = Instantiate(_baggedFishButton, cursorFollower.transform);
+
+        GameObject baggedFishCopy = baggedFishButtonCopy.transform.GetChild(0).gameObject;
+
+        //Scr_Fish baggedFishCopyScript = baggedFishCopy.GetComponent<Scr_Fish>();
+
+        baggedFishCopy.transform.SetParent(baggedFishButtonCopy.transform);
+
+
+        float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
+
+        float baggedFishButtonWidth = (baggedFishButtonCopy.GetComponent<RectTransform>().rect.width / Camera.main.pixelWidth) * screenWidthWorld;
+
+        Debug.Log(baggedFishButtonWidth);
+
+        baggedFishCopy.transform.localScale = new Vector3(baggedFishButtonCopy.GetComponent<RectTransform>().rect.width, baggedFishButtonCopy.GetComponent<RectTransform>().rect.height, baggedFishCopy.transform.localScale.z);
+
+        // Move the fish to the position where the fishbag button appears to be in the world
+        Vector3 baggedFishButtonPosition = Camera.main.ScreenToWorldPoint(baggedFishButtonCopy.transform.position);
+        baggedFishCopy.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y - 0.2f, baggedFishCopy.transform.position.z);
+
+
+        baggedFishButtonCopy.GetComponent<Button>().enabled = false;
+        baggedFishButtonCopy.GetComponent<Image>().raycastTarget = false;
+        baggedFishButtonCopy.transform.localPosition = Vector3.zero;
+        baggedFishButtonCopy.transform.GetChild(0).gameObject.transform.localPosition = Vector3.zero;
+
+        cursorFollower.gameObject.SetActive(true);
+        cursorFollower.GetComponent<Image>().enabled = false;
+
+
+
+>>>>>>> e35f5737fab0f5df1b478f6eaed454b47707d761
         PlaySoundEffect(SFX_Select, 0.7f);
 
         // Set a state where clicking on the tank will drop the fish childed to this bagged fish button
@@ -516,6 +552,14 @@ public class Scr_GameManager : MonoBehaviour
 
     public void DeselectBaggedFish()
     {
+<<<<<<< HEAD
+=======
+        // Change the cursor image to nothing and play a sound effect
+        ChangeCursorFollower(null);
+        cursorFollower.GetComponent<Image>().enabled = true;
+        Destroy(cursorFollower.transform.GetChild(0).gameObject);
+
+>>>>>>> e35f5737fab0f5df1b478f6eaed454b47707d761
         PlaySoundEffect(SFX_Select, 0.7f, 0.8f);
 
         currentBaggedFishButtonSelected = null;

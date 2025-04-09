@@ -94,6 +94,18 @@ public class Scr_Fish : MonoBehaviour
         // Your fish behavior here, e.g., update hunger status.
     }
 
+    public void Awake()
+    {
+        // These are the gameobjects that hold the front and side images of the fish and their animators. The side one also has the mouth collision circle
+        sideContainer = transform.GetChild(0).gameObject;
+        frontContainer = transform.GetChild(1).gameObject;
+        if (!sideContainer.name.Contains("Side Container"))
+            Debug.Log(gameObject.name + "'s first child's name does not contain 'Side Container'.");
+        if (!frontContainer.name.Contains("Front Container"))
+            Debug.Log(gameObject.name + "'s second child's name does not contain 'Front Container'.");
+
+    }
+
     // Start is called before the first frame update
     public void Start()
     {
@@ -103,14 +115,6 @@ public class Scr_Fish : MonoBehaviour
 
         // Each fish has a different max range they can travel, based on their size
         SetMinAndMax();
-
-        // These are the gameobjects that hold the front and side images of the fish and their animators. The side one also has the mouth collision circle
-        sideContainer = transform.GetChild(0).gameObject;
-        frontContainer = transform.GetChild(1).gameObject;
-        if (!sideContainer.name.Contains("Side Container"))
-            Debug.Log(gameObject.name + "'s first child's name does not contain 'Side Container'.");
-        if (!frontContainer.name.Contains("Front Container"))
-            Debug.Log(gameObject.name + "'s second child's name does not contain 'Front Container'.");
 
         // Play the spawn animation
         frontAnimator = frontContainer.GetComponent<Animator>();
@@ -163,8 +167,7 @@ public class Scr_Fish : MonoBehaviour
 
             if (!sideContainer.activeSelf)
             {
-                frontContainer.SetActive(false);
-                sideContainer.SetActive(true);
+                FaceSideways();
             }
 
             // Move towards it
@@ -241,8 +244,7 @@ public class Scr_Fish : MonoBehaviour
         }
         else
         {
-            frontContainer.SetActive(false);
-            sideContainer.SetActive(true);
+            FaceSideways();
 
             // Chose to move to a new target
             SetTarget(Random.Range(minX, maxX), Random.Range(minY, maxY));
@@ -264,11 +266,11 @@ public class Scr_Fish : MonoBehaviour
     {
         HungerCount += tickIntervalInMinutes;
 
-        if (HungerCount == minutesUntilHungry)
+        if (HungerCount >= minutesUntilHungry && !IsHungry)
         {
             SetHungry();
         }
-        else if (HungerCount == minutesUntilDead)
+        else if (HungerCount >= minutesUntilDead)
         {
             Die();
         }
@@ -336,6 +338,11 @@ public class Scr_Fish : MonoBehaviour
     public void SetTarget(Vector2 _position)
     {
         target = _position;
+    }
+    public void FaceSideways()
+    {
+        frontContainer.SetActive(false);
+        sideContainer.SetActive(true);
     }
     public void FaceForward()
     {

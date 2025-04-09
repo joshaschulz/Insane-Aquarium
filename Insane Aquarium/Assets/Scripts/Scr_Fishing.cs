@@ -11,6 +11,12 @@ public class Scr_Fishing : MonoBehaviour
     private float screenMiddleX;
     private bool isLeft; // Track the current state to avoid unnecessary updates
 
+    public Transform fishSpawnPosition;
+
+    [SerializeField] private List<GameObject> fishesToCatch;
+    [SerializeField] private List<int> weightedChanceToCatch;
+
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -36,6 +42,16 @@ public class Scr_Fishing : MonoBehaviour
         ScrollWheelReel();
         RodFollowCursorX();
         CheckToFlipRod();
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GameObject toiletFish = Instantiate(GetRandomFish(), fishSpawnPosition);
+            Scr_Fish toiletFishScr = toiletFish.GetComponent<Scr_Fish>();
+
+            toiletFishScr.FaceSideways();
+            Debug.Log("test");
+            toiletFishScr.enabled = false;
+        }
     }
 
     private void ScrollWheelReel()
@@ -48,7 +64,6 @@ public class Scr_Fishing : MonoBehaviour
             transform.GetChild(0).Rotate(0, 0, scrollInput * rotationSpeed * 10000 * Time.deltaTime);
         }
     }
-
     private void RodFollowCursorX()
     {
         Vector3 mousePosition = Input.mousePosition; // Get cursor position in screen space
@@ -75,5 +90,34 @@ public class Scr_Fishing : MonoBehaviour
             isLeft = false;
             transform.GetChild(0).gameObject.SetActive(false);
         }
+    }
+
+    public GameObject GetRandomFish()
+    {
+        if (fishesToCatch == null || weightedChanceToCatch == null || fishesToCatch.Count != weightedChanceToCatch.Count || fishesToCatch.Count == 0)
+        {
+            Debug.LogWarning("Fishing table not set up correctly.");
+            return null;
+        }
+
+        int totalWeight = 0;
+        foreach (int weight in weightedChanceToCatch)
+        {
+            totalWeight += weight;
+        }
+
+        int randomValue = Random.Range(0, totalWeight);
+        int currentSum = 0;
+
+        for (int i = 0; i < weightedChanceToCatch.Count; i++)
+        {
+            currentSum += weightedChanceToCatch[i];
+            if (randomValue < currentSum)
+            {
+                return fishesToCatch[i];
+            }
+        }
+
+        return null; // shouldn't happen if weights > 0
     }
 }

@@ -12,15 +12,19 @@ public class Scr_Fishing : MonoBehaviour
     private bool isLeft; // Track the current state to avoid unnecessary updates
 
     public Transform fishSpawnPosition;
+    private Scr_LineConnector lineConnector;
 
     [SerializeField] private List<GameObject> fishesToCatch;
     [SerializeField] private List<int> weightedChanceToCatch;
 
+    [SerializeField] private Vector3 leftLineStartPosition, rightLineStartPosition;
 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         screenMiddleX = Screen.width / 2; // Get middle X point of the screen
+
+        lineConnector = transform.GetChild(1).GetComponent<Scr_LineConnector>();
 
         // Initialize sprite based on starting position
         isLeft = Input.mousePosition.x < screenMiddleX;
@@ -29,11 +33,13 @@ public class Scr_Fishing : MonoBehaviour
         {
             spriteRenderer.sprite = leftRodSprite;
             transform.GetChild(0).gameObject.SetActive(true);
+            lineConnector.transform.localPosition = leftLineStartPosition;
         }
         else
         {
             spriteRenderer.sprite = rightRodSprite;
             transform.GetChild(0).gameObject.SetActive(false);
+            lineConnector.transform.localPosition = rightLineStartPosition;
         }
     }
 
@@ -49,8 +55,14 @@ public class Scr_Fishing : MonoBehaviour
             Scr_Fish toiletFishScr = toiletFish.GetComponent<Scr_Fish>();
 
             toiletFishScr.FaceSideways();
-            Debug.Log("test");
             toiletFishScr.enabled = false;
+
+            lineConnector.fishCaught = true;
+            lineConnector.pointB = FindMouthInFishChildren(toiletFish.transform, "Mouth Position");
+            if (lineConnector.pointB == null)
+            {
+                Debug.LogWarning("Fish's 'Mouth Position' Not Found!");
+            }
         }
     }
 
@@ -83,12 +95,17 @@ public class Scr_Fishing : MonoBehaviour
             spriteRenderer.sprite = leftRodSprite; // Use left rod when mouse is on the left
             isLeft = true;
             transform.GetChild(0).gameObject.SetActive(true);
+            // Move line point to the left rod position
+            lineConnector.transform.localPosition = leftLineStartPosition;
+
         }
         else if (mouseX >= screenMiddleX && isLeft)
         {
             spriteRenderer.sprite = rightRodSprite; // Use right rod when mouse is on the right
             isLeft = false;
             transform.GetChild(0).gameObject.SetActive(false);
+            // Move line point to the right rod position
+            lineConnector.transform.localPosition = rightLineStartPosition;
         }
     }
 
@@ -119,5 +136,19 @@ public class Scr_Fishing : MonoBehaviour
         }
 
         return null; // shouldn't happen if weights > 0
+    }
+
+    public Transform FindMouthInFishChildren(Transform parent, string name)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name == name)
+                return child;
+
+            Transform result = FindMouthInFishChildren(child, name);
+            if (result != null)
+                return result;
+        }
+        return null;
     }
 }

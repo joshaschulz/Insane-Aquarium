@@ -67,7 +67,7 @@ public class Scr_GameManager : MonoBehaviour
     //public Dictionary<string, List<string>> fishDiets;
 
     // List of Sounds
-    public AudioClip SFX_DropCoin, SFX_DropFish, SFX_DropFood, SFX_FishDeath, SFX_FishEat, SFX_MoneyPickup, SFX_Select, SFX_Error, SFX_Bubbles1, SFX_Bubbles2, SFX_BagFish;
+    public AudioClip SFX_DropCoin, SFX_DropFish, SFX_DropFood, SFX_FishDeath, SFX_FishEat, SFX_MoneyPickup, SFX_Select, SFX_Error, SFX_Bubbles1, SFX_Bubbles2, SFX_BagFish, SFX_Reeling;
 
 
     private void Awake()
@@ -446,6 +446,35 @@ public class Scr_GameManager : MonoBehaviour
     {
         int clipIndex = Random.Range(0, _soundEffectsList.Count);
         PlaySoundEffect(_soundEffectsList[clipIndex], _volumeScalesList[clipIndex], _lowerPitchesList[clipIndex], _upperPitchesList[clipIndex]);
+    }
+
+
+    public GameObject PlaySoundEffectDontDestroy(AudioClip _soundEffect, float _volumeScale)
+    {
+        // This function plays a sound effect and does not destroy the audio source object afterwards, instead it returns it
+        return PlaySoundEffectDontDestroy(_soundEffect, _volumeScale, 1, 1);
+    }
+    public GameObject PlaySoundEffectDontDestroy(AudioClip _soundEffect, float _volumeScale, float _pitch)
+    {
+        // This function plays a sound effect and does not destroy the audio source object afterwards, instead it returns it
+        return PlaySoundEffectDontDestroy(_soundEffect, _volumeScale, _pitch, _pitch);
+    }
+    public GameObject PlaySoundEffectDontDestroy(AudioClip _soundEffect, float _volumeScale, float _lowerPitch, float _upperPitch)
+    {
+        // This function plays a sound effect and does not destroy the audio source object afterwards, instead it returns it
+
+        float newPitch = Random.Range(_lowerPitch, _upperPitch);
+        GameObject tempAudioObject = new GameObject("TempAudio");
+        tempAudioObject.transform.SetParent(null);
+        AudioSource tempAudioSource = tempAudioObject.AddComponent<AudioSource>();
+
+        tempAudioSource.clip = _soundEffect;
+        tempAudioSource.volume = _volumeScale;
+        tempAudioSource.pitch = newPitch;
+        tempAudioSource.Play();
+
+        AS.PlayOneShot(_soundEffect, _volumeScale);
+        return tempAudioObject;
     }
 
     IEnumerator ResetPitchAfterDelay(float _delay)

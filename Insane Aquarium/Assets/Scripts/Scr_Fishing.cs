@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class Scr_Fishing : MonoBehaviour
 {
+    private Scr_GameManager gameManager;
+    AudioSource ReelingAudioSource;
+    private bool isReeling = false; // Flag to track if the player is reeling
+    private float scrollInputThreshold = 0.005f; // Minimum threshold for scroll input
+    private float scrollTimeout = 0.4f; // Time to wait after stopping scroll input before stopping sound
+    private float scrollTimer = 0f; // Timer to track scroll inactivity
+
+
+
     public Sprite leftRodSprite, rightRodSprite;
     public float rotationSpeed;
 
@@ -21,8 +30,12 @@ public class Scr_Fishing : MonoBehaviour
 
     void Start()
     {
+        gameManager = Scr_GameManager.GMinstance;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        ReelingAudioSource = GetComponent<AudioSource>();
+        ReelingAudioSource.clip = gameManager.SFX_Reeling;
         screenMiddleX = Screen.width / 2; // Get middle X point of the screen
+
 
         lineConnector = transform.GetChild(1).GetComponent<Scr_LineConnector>();
 
@@ -49,6 +62,9 @@ public class Scr_Fishing : MonoBehaviour
         RodFollowCursorX();
         CheckToFlipRod();
 
+        ToiletFishMovement();
+
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             GameObject toiletFish = Instantiate(GetRandomFish(), fishSpawnPosition);
@@ -56,6 +72,9 @@ public class Scr_Fishing : MonoBehaviour
 
             toiletFishScr.FaceSideways();
             toiletFishScr.enabled = false;
+            toiletFish.GetComponent<Scr_ToiletFish>().enabled = true;
+
+            toiletFish.GetComponentInChildren<Animator>().speed = 5;
 
             lineConnector.fishCaught = true;
             lineConnector.pointB = FindMouthInFishChildren(toiletFish.transform, "Mouth Position");
@@ -66,16 +85,51 @@ public class Scr_Fishing : MonoBehaviour
         }
     }
 
+    private void ToiletFishMovement()
+    {
+
+    }
     private void ScrollWheelReel()
     {
         float scrollInput = Input.GetAxis("Mouse ScrollWheel");
 
-        if (scrollInput != 0)
+        if (Mathf.Abs(scrollInput) > scrollInputThreshold)
         {
             // Rotate around the Z-axis (adjust axis if needed)
             transform.GetChild(0).Rotate(0, 0, scrollInput * rotationSpeed * 10000 * Time.deltaTime);
+
+            // If scrolling, reset the timer and ensure the sound plays
+            scrollTimer = scrollTimeout; // Reset the timer
+
+            if (!isReeling)
+            {
+                isReeling = true;
+                ReelingAudioSource.loop = true;  // Ensure the sound loops
+                ReelingAudioSource.Play();
+            }
         }
+        else if (scrollTimer > 0f)
+        {
+            // If no input but there's still time left on the scrollTimer, continue the sound
+            scrollTimer -= Time.deltaTime;
+        }
+        else
+        {
+            // Stop the reeling sound when there's no scroll input
+            if (isReeling)
+            {
+                isReeling = false;
+                ReelingAudioSource.Stop();
+            }
+        }
+
+        if (scrollInput > 0)
+            ReelingAudioSource.pitch = 1f;
+        else if (scrollInput < 0)
+            ReelingAudioSource.pitch = 1.3f;
     }
+
+
     private void RodFollowCursorX()
     {
         Vector3 mousePosition = Input.mousePosition; // Get cursor position in screen space

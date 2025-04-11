@@ -1066,6 +1066,7 @@ GameObject:
   - component: {fileID: 1864728848697632817}
   - component: {fileID: 8517045197110992644}
   - component: {fileID: 1991056545837165877}
+  - component: {fileID: -7987699502141357884}
   m_Layer: 0
   m_Name: Goldfish
   m_TagString: Fish
@@ -1178,6 +1179,20 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.28
+--- !u!114 &-7987699502141357884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8672692834543181141}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e9be1f936d970845aa19dbc3accd8a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  difficultyMultiplier: 0.5
+  maxHorizontalRange: 0.5
 --- !u!1 &9031824185968622659
 GameObject:
   m_ObjectHideFlags: 0

@@ -211,6 +211,7 @@ GameObject:
   - component: {fileID: -4593912153553566176}
   - component: {fileID: 4021542319324231719}
   - component: {fileID: 3661682866332457550}
+  - component: {fileID: 6970244539946687739}
   m_Layer: 0
   m_Name: Piranha
   m_TagString: Fish
@@ -322,6 +323,20 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.33
+--- !u!114 &6970244539946687739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863455049823253984}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e9be1f936d970845aa19dbc3accd8a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  difficultyMultiplier: 2
+  maxHorizontalRange: 0.5
 --- !u!1 &2822489125385185820
 GameObject:
   m_ObjectHideFlags: 0

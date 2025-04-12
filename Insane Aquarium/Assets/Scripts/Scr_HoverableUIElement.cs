@@ -13,9 +13,23 @@ public class Scr_HoverableUIElement : MonoBehaviour, IPointerEnterHandler, IPoin
     public float scaleAmount = 1.05f;  // Maximum size multiplier
     public float pulseSpeed = 1.1f;   // Speed of pulsing
 
-    void Start()
+    void OnEnable()
     {
-        originalScale = transform.localScale;
+        // Only store originalScale the first time
+        if (originalScale == Vector3.zero)
+        {
+            originalScale = transform.localScale;
+        }
+
+        isHovering = false;
+
+        if (pulseRoutine != null)
+        {
+            StopCoroutine(pulseRoutine);
+            pulseRoutine = null;
+        }
+
+        transform.localScale = originalScale;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

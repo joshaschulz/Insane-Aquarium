@@ -14,8 +14,6 @@ public class Scr_GameManager : MonoBehaviour
 
     public GameObject tank;
 
-    public TextMeshProUGUI phoneNumber;
-
     public int moneyAmount;
     public TextMeshProUGUI moneyText;
 
@@ -69,61 +67,8 @@ public class Scr_GameManager : MonoBehaviour
     //public Dictionary<string, List<string>> fishDiets;
 
     // List of Sounds
-    public AudioClip SFX_DropCoin, SFX_DropFish, SFX_DropFood, SFX_FishDeath, SFX_FishEat, SFX_MoneyPickup, SFX_Select, SFX_Error, SFX_Bubbles1, SFX_Bubbles2, SFX_BagFish, SFX_Reeling, SFX_KeypadPress, SFX_KeypadPress2, SFX_KeypadPress3;
-    public AudioClip SFX_679, SFX_1209;
+    public AudioClip SFX_DropCoin, SFX_DropFish, SFX_DropFood, SFX_FishDeath, SFX_FishEat, SFX_MoneyPickup, SFX_Select, SFX_Error, SFX_Bubbles1, SFX_Bubbles2, SFX_BagFish, SFX_Reeling, SFX_FishHitToilet, SFX_ToiletFlush, SFX_ToiletSplash;
 
-    public void ClickKeypad(int key)
-    {
-
-        float pitch = 1f;
-
-        // Handle pitch for all keys
-        switch (key)
-        {
-            case 1: pitch = 0.8f; break;
-            case 2: pitch = 0.84f; break;
-            case 3: pitch = 0.88f; break;
-            case 4: pitch = 0.92f; break;
-            case 5: pitch = 0.96f; break;
-            case 6: pitch = 1f; break;
-            case 7: pitch = 1.04f; break;
-            case 8: pitch = 1.08f; break;
-            case 9: pitch = 1.12f; break;
-            case 0: pitch = 1.2f; break;
-            case -1: pitch = 1.16f; break;
-            case 10: pitch = 1.24f; break;
-        }
-
-        // Play the sound (only skip for 999 which has no sound)
-        if (key != 999)
-        {
-            PlaySoundEffect(SFX_679, 0.5f, 1);
-            PlaySoundEffect(SFX_1209, 0.5f, 1);
-        }
-
-
-        // Handle functionality
-        if (key >= 0 && key <= 9) //press number
-        {
-            if (phoneNumber.text.Length < 10)
-                phoneNumber.text += key.ToString();
-        }
-        else if (key == -1) //delete
-        {
-            if (phoneNumber.text.Length > 0)
-                phoneNumber.text = phoneNumber.text.Substring(0, phoneNumber.text.Length - 1);
-        }
-        else if (key == 10) //enter
-        {
-            Debug.Log($"Entered Number: {phoneNumber.text}");
-            phoneNumber.text = "";
-        }
-        else if (key == 999) //used for clearing on enabling/disabling phone
-        {
-            phoneNumber.text = "";
-        }
-
-    }
 
     private void Awake()
     {

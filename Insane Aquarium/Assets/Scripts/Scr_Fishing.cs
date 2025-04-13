@@ -10,7 +10,11 @@ public class Scr_Fishing : MonoBehaviour
     private float scrollInputThreshold = 0.005f; // Minimum threshold for scroll input
     private float scrollTimeout = 0.4f; // Time to wait after stopping scroll input before stopping sound
     private float scrollTimer = 0f; // Timer to track scroll inactivity
-
+    GameObject toiletFish;
+    public float reelInSpeed;
+    public float lateralPullStrength = 1.5f; // Tune this to make the fish swing more
+    public bool StopFishing = false;
+    public Transform toiletWinLine;
 
 
     public Sprite leftRodSprite, rightRodSprite;
@@ -61,36 +65,91 @@ public class Scr_Fishing : MonoBehaviour
         ScrollWheelReel();
         RodFollowCursorX();
         CheckToFlipRod();
-
-        ToiletFishMovement();
-
+        PullFishLaterally();
+        CheckForFishHeight();
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            GameObject toiletFish = Instantiate(GetRandomFish(), fishSpawnPosition);
-            Scr_Fish toiletFishScr = toiletFish.GetComponent<Scr_Fish>();
-
-            toiletFishScr.FaceSideways();
-            toiletFishScr.enabled = false;
-            toiletFish.GetComponent<Scr_ToiletFish>().enabled = true;
-
-            toiletFish.GetComponentInChildren<Animator>().speed = 5;
-
-            lineConnector.fishCaught = true;
-            lineConnector.pointB = FindMouthInFishChildren(toiletFish.transform, "Mouth Position");
-            if (lineConnector.pointB == null)
-            {
-                Debug.LogWarning("Fish's 'Mouth Position' Not Found!");
-            }
+            SpawnToiletFish();
         }
     }
 
-    private void ToiletFishMovement()
+    private void CheckForFishHeight()
     {
+        if (!toiletFish)
+            return;
 
+        EdgeCollider2D fishEdgeCollider = toiletFish.GetComponent<EdgeCollider2D>();
+        float mouthToFinLength = Vector2.Distance(fishEdgeCollider.points[0], fishEdgeCollider.points[1]);
+        if (!StopFishing && lineConnector.pointB.position.y >= toiletWinLine.position.y + mouthToFinLength * toiletFish.transform.localScale.x)
+        {
+            Debug.Log("FISH CAUGHT");
+            FishCaught();
+        }
+    }
+
+    private void FishCaught()
+    {
+        StopFishing = true;
+
+        toiletFish.GetComponent<Scr_ToiletFish>().enabled = false;
+        if (isReeling)
+        {
+            isReeling = false;
+            ReelingAudioSource.Stop();
+        }
+    }
+    public void FishEscape()
+    {
+        Debug.Log("Fish has escaped");
+        StopFishing = true;
+        toiletFish.GetComponent<Scr_ToiletFish>().escapeFactor = 10;
+
+        gameManager.PlaySoundEffect(gameManager.SFX_FishHitToilet, 1f);
+        gameManager.PlaySoundEffect(gameManager.SFX_ToiletSplash, 0.7f);
+
+        if (isReeling)
+        {
+            isReeling = false;
+            ReelingAudioSource.Stop();
+        }
+        lineConnector.line.enabled = false;
+    }
+
+    private void SpawnToiletFish()
+    {
+        toiletFish = Instantiate(GetRandomFish(), fishSpawnPosition);
+
+        Scr_Fish toiletFishScr = toiletFish.GetComponent<Scr_Fish>();
+
+        toiletFishScr.FaceSideways();
+        toiletFishScr.enabled = false;
+        toiletFish.GetComponent<Scr_ToiletFish>().enabled = true;
+
+        toiletFish.GetComponentInChildren<Animator>().speed = 5;
+
+        lineConnector.pointB = FindMouthInFishChildren(toiletFish.transform, "Mouth Position");
+        if (lineConnector.pointB == null)
+        {
+            Debug.LogWarning("Fish's 'Mouth Position' Not Found!");
+        }
+    }
+    private void PullFishLaterally()
+    {
+        if (!toiletFish || StopFishing)
+            return;
+
+        // Pull fish horizontally based on pole offset from center
+        float poleOffset = lineConnector.transform.position.x - toiletFish.transform.position.x;
+
+        float pullAmount = poleOffset * lateralPullStrength * Time.deltaTime;
+        toiletFish.transform.position += new Vector3(pullAmount, 0f, 0f);
     }
     private void ScrollWheelReel()
     {
+        if (!toiletFish || StopFishing)
+            return;
+
         float scrollInput = Input.GetAxis("Mouse ScrollWheel");
 
         if (Mathf.Abs(scrollInput) > scrollInputThreshold)
@@ -123,12 +182,18 @@ public class Scr_Fishing : MonoBehaviour
             }
         }
 
-        if (scrollInput > 0)
+        if (scrollInput > 0) // Reeling out
+        {
             ReelingAudioSource.pitch = 1f;
-        else if (scrollInput < 0)
+            toiletFish.transform.Translate(-reelInSpeed, 0, 0);
+        }
+        else if (scrollInput < 0) // Reeling in
+        {
             ReelingAudioSource.pitch = 1.3f;
-    }
+            toiletFish.transform.Translate(reelInSpeed, 0, 0);
 
+        }
+    }
 
     private void RodFollowCursorX()
     {
@@ -162,7 +227,6 @@ public class Scr_Fishing : MonoBehaviour
             lineConnector.transform.localPosition = rightLineStartPosition;
         }
     }
-
     public GameObject GetRandomFish()
     {
         if (fishesToCatch == null || weightedChanceToCatch == null || fishesToCatch.Count != weightedChanceToCatch.Count || fishesToCatch.Count == 0)
@@ -191,7 +255,6 @@ public class Scr_Fishing : MonoBehaviour
 
         return null; // shouldn't happen if weights > 0
     }
-
     public Transform FindMouthInFishChildren(Transform parent, string name)
     {
         foreach (Transform child in parent)

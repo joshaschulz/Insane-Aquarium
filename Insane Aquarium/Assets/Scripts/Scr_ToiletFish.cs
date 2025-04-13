@@ -13,6 +13,8 @@ public class Scr_ToiletFish : MonoBehaviour
     [Header("Difficulty Settings")]
     [Tooltip("Higher values make the fish move faster and more erratic.")]
     public float difficultyMultiplier = 1f;
+    [Tooltip("Higher values make the fish swim down faster")]
+    public float escapeFactor = 1f;
 
     [Header("Motion Settings")]
     public float maxHorizontalRange = 0.5f;
@@ -21,8 +23,7 @@ public class Scr_ToiletFish : MonoBehaviour
 
     void Start()
     {
-        startPos = transform.position;
-        lastX = startPos.x;
+        lastX = transform.position.x;
         SetNewTarget();
     }
 
@@ -51,11 +52,15 @@ public class Scr_ToiletFish : MonoBehaviour
             SetNewTarget();
             timer = 0f;
         }
+        transform.Translate(-escapeFactor / 1000, 0, 0);
     }
 
     void SetNewTarget()
     {
-        targetX = startPos.x + Random.Range(-maxHorizontalRange, maxHorizontalRange);
+        // Pick a new target relative to current position, not start position
+        float horizontalChange = Random.Range(-maxHorizontalRange, maxHorizontalRange);
+        targetX = transform.position.x + horizontalChange;
+
         moveSpeed = Random.Range(2f, 6f) * difficultyMultiplier;
         timeToNextChange = Random.Range(0.3f, 1.2f) / difficultyMultiplier;
     }

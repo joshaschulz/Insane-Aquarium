@@ -7,10 +7,8 @@ public class Scr_LineConnector : MonoBehaviour
     public Transform pointA;
     public Transform pointB;
 
-    private LineRenderer line;
-
-    public bool fishCaught = false;
-
+    public LineRenderer line;
+    public Scr_Fishing fishingRod;
 
     void Awake()
     {
@@ -23,7 +21,11 @@ public class Scr_LineConnector : MonoBehaviour
 
     void Update()
     {
-        if (fishCaught && pointA && pointB)
+        if (fishingRod.StopFishing)
+        {
+            line.enabled = false;
+        }
+        else if (pointA && pointB)
         {
             line.SetPosition(0, pointA.position);
             line.SetPosition(1, pointB.position);

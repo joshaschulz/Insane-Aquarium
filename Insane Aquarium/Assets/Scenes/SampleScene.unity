@@ -4024,9 +4024,10 @@ MonoBehaviour:
   cursorFollower: {fileID: 249612465}
   tank: {fileID: 681399493}
   phoneNumber: {fileID: 664390926}
-  phoneNumber1: 5104237244
-  phoneNumber2: 5106318421
-  phoneNumber3: 5737082243
+  phonebook:
+  - 5104237244
+  - 5106318421
+  - 5737082243
   moneyAmount: 10000
   moneyText: {fileID: 82281158}
   fishFood_1_Amount: 25
@@ -4074,9 +4075,9 @@ MonoBehaviour:
   SFX_Keypad0: {fileID: 8300000, guid: 6d6eb47b14e73634f80f8bc36d215143, type: 3}
   SFX_KeypadDel: {fileID: 8300000, guid: d7a2eddeb9c0b3f4fb4c611e54296b8d, type: 3}
   SFX_KeypadEnter: {fileID: 8300000, guid: b3bd9872ff07d5c4080f2ce23dec3367, type: 3}
-  SFX_CallFail: {fileID: 0}
-  SFX_CallRinging: {fileID: 0}
-  SFX_CallHangUp: {fileID: 0}
+  SFX_CallFail: {fileID: 8300000, guid: 108e7c5d5bbe32742ae39142d8c6056b, type: 3}
+  SFX_CallRinging: {fileID: 8300000, guid: 02898e02e0ecb3140b105f1e06bc68de, type: 3}
+  SFX_CallHangUp: {fileID: 8300000, guid: 20a44ff68c64b1d468512b67714186f2, type: 3}
 --- !u!114 &1031440124
 MonoBehaviour:
   m_ObjectHideFlags: 0

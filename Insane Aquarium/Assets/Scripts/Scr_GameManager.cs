@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 using TMPro;
 
 public class Scr_GameManager : MonoBehaviour
@@ -14,7 +15,13 @@ public class Scr_GameManager : MonoBehaviour
 
     public GameObject tank;
 
-    public TextMeshProUGUI phoneNumber;
+
+    public TextMeshProUGUI phoneNumber; //number entered on the phone
+
+    //numbers on the stall
+    public string[] phonebook;
+    private GameObject tempPhoneAudioSource;
+
 
     public int moneyAmount;
     public TextMeshProUGUI moneyText;
@@ -69,36 +76,35 @@ public class Scr_GameManager : MonoBehaviour
     //public Dictionary<string, List<string>> fishDiets;
 
     // List of Sounds
-    public AudioClip SFX_DropCoin, SFX_DropFish, SFX_DropFood, SFX_FishDeath, SFX_FishEat, SFX_MoneyPickup, SFX_Select, SFX_Error, SFX_Bubbles1, SFX_Bubbles2, SFX_BagFish, SFX_Reeling, SFX_FishHitToilet, SFX_ToiletFlush, SFX_ToiletSplash, SFX_KeypadPress, SFX_KeypadPress2, SFX_KeypadPress3;
-    public AudioClip SFX_679, SFX_1209;
+    public AudioClip SFX_DropCoin, SFX_DropFish, SFX_DropFood, SFX_FishDeath, SFX_FishEat, SFX_MoneyPickup, SFX_Select, SFX_Error, SFX_Bubbles1, SFX_Bubbles2, SFX_BagFish, SFX_Reeling, SFX_FishHitToilet, SFX_ToiletFlush, SFX_ToiletSplash;
+    public AudioClip SFX_Keypad1, SFX_Keypad2, SFX_Keypad3, SFX_Keypad4, SFX_Keypad5, SFX_Keypad6, SFX_Keypad7, SFX_Keypad8, SFX_Keypad9, SFX_Keypad0, SFX_KeypadDel, SFX_KeypadEnter, SFX_CallFail, SFX_CallRinging, SFX_CallHangUp;
 
     public void ClickKeypad(int key)
     {
 
-        float pitch = 1f;
+        AudioClip keypadPressed = SFX_Keypad1;
 
         // Handle pitch for all keys
         switch (key)
         {
-            case 1: pitch = 0.8f; break;
-            case 2: pitch = 0.84f; break;
-            case 3: pitch = 0.88f; break;
-            case 4: pitch = 0.92f; break;
-            case 5: pitch = 0.96f; break;
-            case 6: pitch = 1f; break;
-            case 7: pitch = 1.04f; break;
-            case 8: pitch = 1.08f; break;
-            case 9: pitch = 1.12f; break;
-            case 0: pitch = 1.2f; break;
-            case -1: pitch = 1.16f; break;
-            case 10: pitch = 1.24f; break;
+            case 1: keypadPressed = SFX_Keypad1; break;
+            case 2: keypadPressed = SFX_Keypad2; break;
+            case 3: keypadPressed = SFX_Keypad3; break;
+            case 4: keypadPressed = SFX_Keypad4; break;
+            case 5: keypadPressed = SFX_Keypad5; break;
+            case 6: keypadPressed = SFX_Keypad6; break;
+            case 7: keypadPressed = SFX_Keypad7; break;
+            case 8: keypadPressed = SFX_Keypad8; break;
+            case 9: keypadPressed = SFX_Keypad9; break;
+            case 0: keypadPressed = SFX_Keypad0; break;
+            case -1: keypadPressed = SFX_KeypadDel; break;
+            case 10: keypadPressed = SFX_KeypadEnter; break;
         }
 
         // Play the sound (only skip for 999 which has no sound)
         if (key != 999)
         {
-            PlaySoundEffect(SFX_679, 0.5f, 1);
-            PlaySoundEffect(SFX_1209, 0.5f, 1);
+            PlaySoundEffect(keypadPressed, 1f, 1);
         }
 
 
@@ -116,7 +122,35 @@ public class Scr_GameManager : MonoBehaviour
         else if (key == 10) //enter
         {
             Debug.Log($"Entered Number: {phoneNumber.text}");
+
+            if (tempPhoneAudioSource != null)
+            {
+                AudioSource tempAudio = tempPhoneAudioSource.GetComponent<AudioSource>();
+
+                if (tempAudio.isPlaying)
+                {
+                    Debug.Log("Cancelled");
+                    tempAudio.Stop();
+                    Destroy(tempPhoneAudioSource);
+                }
+
+            }
+
+            string numberToCall = phoneNumber.text;
             phoneNumber.text = "";
+
+            if (phonebook.Contains(numberToCall))
+            {
+                tempPhoneAudioSource = PlaySoundEffectDontDestroy(SFX_CallRinging, 0.5f, 1);
+                Destroy(tempPhoneAudioSource, tempPhoneAudioSource.GetComponent<AudioSource>().clip.length);
+            }
+            else
+            {
+                tempPhoneAudioSource = PlaySoundEffectDontDestroy(SFX_CallFail, 2f, 1);
+                Destroy(tempPhoneAudioSource, tempPhoneAudioSource.GetComponent<AudioSource>().clip.length);
+            }
+
+
         }
         else if (key == 999) //used for clearing on enabling/disabling phone
         {
@@ -528,7 +562,7 @@ public class Scr_GameManager : MonoBehaviour
         tempAudioSource.pitch = newPitch;
         tempAudioSource.Play();
 
-        AS.PlayOneShot(_soundEffect, _volumeScale);
+        //AS.PlayOneShot(_soundEffect, _volumeScale);
         return tempAudioObject;
     }
 

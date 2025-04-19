@@ -4024,6 +4024,9 @@ MonoBehaviour:
   cursorFollower: {fileID: 249612465}
   tank: {fileID: 681399493}
   phoneNumber: {fileID: 664390926}
+  phoneNumber1: 5104237244
+  phoneNumber2: 5106318421
+  phoneNumber3: 5737082243
   moneyAmount: 10000
   moneyText: {fileID: 82281158}
   fishFood_1_Amount: 25
@@ -4059,11 +4062,21 @@ MonoBehaviour:
   SFX_FishHitToilet: {fileID: 8300000, guid: 2d63f3c0441b941448a631db32835364, type: 3}
   SFX_ToiletFlush: {fileID: 8300000, guid: 8728cee98c9b04546b521eac42cb96b3, type: 3}
   SFX_ToiletSplash: {fileID: 8300000, guid: bf68f56ac5ef3584c8d8ca2204f64b2a, type: 3}
-  SFX_KeypadPress: {fileID: 8300000, guid: ddc36f1d4ebeff546acd8de685058488, type: 3}
-  SFX_KeypadPress2: {fileID: 8300000, guid: c04f0f2fe0de9ab4082f5a0ad55998e7, type: 3}
-  SFX_KeypadPress3: {fileID: 8300000, guid: 3d7755cbe7d168a46b7b49d571fceef6, type: 3}
-  SFX_679: {fileID: 8300000, guid: b71ed6845cd3445408553ad89ac8a388, type: 3}
-  SFX_1209: {fileID: 8300000, guid: 600fc7cb130b1c346a82e58e698368ea, type: 3}
+  SFX_Keypad1: {fileID: 8300000, guid: 38874c59c6951564c84e9b6f3351c622, type: 3}
+  SFX_Keypad2: {fileID: 8300000, guid: ee8ac7dc1c0b28e4d8748995a5662995, type: 3}
+  SFX_Keypad3: {fileID: 8300000, guid: 1e706eaaf793ae942a45f65ff4b23282, type: 3}
+  SFX_Keypad4: {fileID: 8300000, guid: 43b7ed6b1d8b5a845a8815749a78972e, type: 3}
+  SFX_Keypad5: {fileID: 8300000, guid: e02b7c2eb5489714e8003d5f87dca06c, type: 3}
+  SFX_Keypad6: {fileID: 8300000, guid: bf0aad328e65b7641b45447771e6167e, type: 3}
+  SFX_Keypad7: {fileID: 8300000, guid: 16e06e52aee91b34a933a7710fa86f47, type: 3}
+  SFX_Keypad8: {fileID: 8300000, guid: 5415e1a7084f60045803eab71f1ecd2f, type: 3}
+  SFX_Keypad9: {fileID: 8300000, guid: 3613325a0dc39864084cf1e83aab9848, type: 3}
+  SFX_Keypad0: {fileID: 8300000, guid: 6d6eb47b14e73634f80f8bc36d215143, type: 3}
+  SFX_KeypadDel: {fileID: 8300000, guid: d7a2eddeb9c0b3f4fb4c611e54296b8d, type: 3}
+  SFX_KeypadEnter: {fileID: 8300000, guid: b3bd9872ff07d5c4080f2ce23dec3367, type: 3}
+  SFX_CallFail: {fileID: 0}
+  SFX_CallRinging: {fileID: 0}
+  SFX_CallHangUp: {fileID: 0}
 --- !u!114 &1031440124
 MonoBehaviour:
   m_ObjectHideFlags: 0

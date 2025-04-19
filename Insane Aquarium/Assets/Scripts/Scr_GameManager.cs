@@ -123,6 +123,7 @@ public class Scr_GameManager : MonoBehaviour
         {
             Debug.Log($"Entered Number: {phoneNumber.text}");
 
+            //if phone calling sound already playing, destroy it before playing again
             if (tempPhoneAudioSource != null)
             {
                 AudioSource tempAudio = tempPhoneAudioSource.GetComponent<AudioSource>();
@@ -139,6 +140,7 @@ public class Scr_GameManager : MonoBehaviour
             string numberToCall = phoneNumber.text;
             phoneNumber.text = "";
 
+            //if number doesnt exist as callable, play call fail sound, otherwise play the ringing sound
             if (phonebook.Contains(numberToCall))
             {
                 tempPhoneAudioSource = PlaySoundEffectDontDestroy(SFX_CallRinging, 0.5f, 1);

@@ -252,7 +252,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -42.800003, y: -215}
+  m_AnchoredPosition: {x: -42.80005, y: -215}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &82281156
@@ -945,14 +945,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecb27582b7d0d1a4d97959c0402d2cc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  toiletFish: {fileID: 0}
   reelInSpeed: 0.05
   lateralPullStrength: 1
-  StopFishing: 0
+  fishEscapeHeight: -7.5
   toiletWinLine: {fileID: 1155270340}
+  goToBathroom: {fileID: 390013542}
   leftRodSprite: {fileID: 21300000, guid: 0c27938ef3bb0a54a8f4511e013d3ae3, type: 3}
   rightRodSprite: {fileID: 21300000, guid: fa5e737350182f149834e8e0b13b1937, type: 3}
   rotationSpeed: 50
   fishSpawnPosition: {fileID: 1715049822}
+  Scr_SpawnToiletFish: {fileID: 0}
   fishesToCatch:
   - {fileID: 8672692834543181141, guid: 1e8f852235a4ef746860883a25c3714f, type: 3}
   - {fileID: 1863455049823253984, guid: e5a1f7f46bf4022458352e81b301f5c8, type: 3}
@@ -1205,6 +1208,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 366276495}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1031440123}
+        m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
+        m_MethodName: RodToDisplay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1950,7 +1965,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 574291911}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 48e5428b90ea7b245b7b7c56e822907d, type: 3}
   m_Name: 
@@ -2002,7 +2017,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 574291911}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -3693,7 +3708,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 49.852, y: 238}
+  m_AnchoredPosition: {x: 49.85205, y: 238}
   m_SizeDelta: {x: 99.7007, y: 98.6578}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1004321026
@@ -4022,6 +4037,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AS: {fileID: 1031440125}
   cursorFollower: {fileID: 249612465}
+  rodIdle: {fileID: 574291911}
+  rodHooked: {fileID: 2067038401}
   tank: {fileID: 681399493}
   phoneNumber: {fileID: 664390926}
   phonebook:
@@ -4228,7 +4245,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   tickInterval: 600
-  timeScale: 60
+  timeScale: 200
   startHour: 9
   startMinute: 0
   endHour: 17
@@ -4270,7 +4287,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -36, y: 16.940002}
+  m_AnchoredPosition: {x: -36, y: 16.939941}
   m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1034296667
@@ -5253,6 +5270,37 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &1335218713
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1335218714}
+  m_Layer: 0
+  m_Name: 2ndTest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1335218714
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1335218713}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 25.672184, y: -5.550096, z: -2.739904}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1438919447
 GameObject:
   m_ObjectHideFlags: 0
@@ -5383,7 +5431,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.00012207031, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1511175560
@@ -5520,6 +5568,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1511175560}
   m_CullTransparentMesh: 1
+--- !u!1 &1618220529
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1618220530}
+  - component: {fileID: 1618220531}
+  m_Layer: 0
+  m_Name: Clock Spawn Fish
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1618220530
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618220529}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1662642239}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1618220531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618220529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10fc8db98321f2e4d9fcec64b0c5fa17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fishingPoleIdle: {fileID: 574291911}
+  fishingPoleHooked: {fileID: 2067038401}
+  shouldSpawn: 0
+  toiletFishExist: 0
+  ticksToSpawnChance: 2
 --- !u!1 &1646324634
 GameObject:
   m_ObjectHideFlags: 0
@@ -5649,7 +5746,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -42.799988, y: -155}
+  m_AnchoredPosition: {x: -42.80005, y: -155}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1662642238
@@ -5688,6 +5785,7 @@ Transform:
   - {fileID: 1155270340}
   - {fileID: 1692965233}
   - {fileID: 1715049822}
+  - {fileID: 1618220530}
   m_Father: {fileID: 2104815768}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1662642240
@@ -5859,14 +5957,15 @@ EdgeCollider2D:
   m_EdgeRadius: 0
   m_Points:
   - {x: -0.54366255, y: -0.17438532}
-  - {x: 1.1490507, y: -0.4161471}
-  - {x: 1.2000638, y: -3.1028395}
-  - {x: 1.2444057, y: -5.04378}
-  - {x: 1.230433, y: -7.249661}
-  - {x: -8.884994, y: -7.2668014}
-  - {x: -8.898682, y: -4.964967}
-  - {x: -8.986216, y: -3.2230093}
-  - {x: -8.923596, y: -0.53089345}
+  - {x: 0.7781522, y: -0.43469214}
+  - {x: 0.8477099, y: -3.1028388}
+  - {x: 0.78078264, y: -5.099415}
+  - {x: 0.8057036, y: -13.905326}
+  - {x: -8.694581, y: -13.908651}
+  - {x: -8.622558, y: -5.434721}
+  - {x: -8.611202, y: -4.9575343}
+  - {x: -8.596773, y: -3.2044644}
+  - {x: -8.515609, y: -0.53089345}
   - {x: -6.9991903, y: -0.17553401}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
@@ -6384,7 +6483,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 49.852, y: 238}
+  m_AnchoredPosition: {x: 49.85205, y: 238}
   m_SizeDelta: {x: 99.7007, y: 98.6578}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1832173156
@@ -6615,7 +6714,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -17.8, y: -70}
+  m_AnchoredPosition: {x: -17.800049, y: -70}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1855886170
@@ -6844,6 +6943,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1868623566}
   m_CullTransparentMesh: 1
+--- !u!1 &1868914576
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1868914577}
+  m_Layer: 0
+  m_Name: TestEmpty2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1868914577
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1868914576}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 25.672184, y: -5.550096, z: -2.739904}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1908565320
 GameObject:
   m_ObjectHideFlags: 0
@@ -7050,7 +7180,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.27058825}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.12156863}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -7405,7 +7535,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -42.800003, y: -275}
+  m_AnchoredPosition: {x: -42.80005, y: -275}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2040069391
@@ -7539,7 +7669,7 @@ GameObject:
   - component: {fileID: 2067038402}
   - component: {fileID: 2067038404}
   - component: {fileID: 2067038403}
-  - component: {fileID: 2067038405}
+  - component: {fileID: 2067038407}
   - component: {fileID: 2067038406}
   m_Layer: 5
   m_Name: FishingPole_Hooked
@@ -7605,20 +7735,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2067038401}
   m_CullTransparentMesh: 1
---- !u!114 &2067038405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2067038401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48e5428b90ea7b245b7b7c56e822907d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scaleAmount: 1.05
-  pulseSpeed: 1.1
 --- !u!114 &2067038406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7699,6 +7815,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2067038407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2067038401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f704f85e59d24044ba8df7e4652161fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleAmount: 1.05
+  pulseSpeed: 1.1
 --- !u!1 &2104815767
 GameObject:
   m_ObjectHideFlags: 0
@@ -7927,3 +8057,5 @@ SceneRoots:
   - {fileID: 672596399}
   - {fileID: 753793626}
   - {fileID: 2104815768}
+  - {fileID: 1868914577}
+  - {fileID: 1335218714}

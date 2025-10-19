@@ -21,7 +21,15 @@ public class Scr_LineConnector : MonoBehaviour
 
     void Update()
     {
-        if (fishingRod.StopFishing)
+        line.enabled = fishingRod.toiletFish;
+
+        if (pointA && pointB)
+        {
+            line.SetPosition(0, pointA.position);
+            line.SetPosition(1, pointB.position);
+        }
+
+        /*if (fishingRod.StopFishing)
         {
             line.enabled = false;
         }
@@ -29,6 +37,6 @@ public class Scr_LineConnector : MonoBehaviour
         {
             line.SetPosition(0, pointA.position);
             line.SetPosition(1, pointB.position);
-        }
+        }*/
     }
 }

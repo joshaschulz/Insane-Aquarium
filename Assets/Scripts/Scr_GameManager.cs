@@ -12,6 +12,9 @@ public class Scr_GameManager : MonoBehaviour
 
     public AudioSource AS;
     public Scr_CursorFollower cursorFollower;
+    private Scr_SpawnToiletFish Scr_SpawnToiletFish;
+
+    public GameObject rodIdle, rodHooked;
 
     public GameObject tank;
 
@@ -78,6 +81,7 @@ public class Scr_GameManager : MonoBehaviour
     // List of Sounds
     public AudioClip SFX_DropCoin, SFX_DropFish, SFX_DropFood, SFX_FishDeath, SFX_FishEat, SFX_MoneyPickup, SFX_Select, SFX_Error, SFX_Bubbles1, SFX_Bubbles2, SFX_BagFish, SFX_Reeling, SFX_FishHitToilet, SFX_ToiletFlush, SFX_ToiletSplash;
     public AudioClip SFX_Keypad1, SFX_Keypad2, SFX_Keypad3, SFX_Keypad4, SFX_Keypad5, SFX_Keypad6, SFX_Keypad7, SFX_Keypad8, SFX_Keypad9, SFX_Keypad0, SFX_KeypadDel, SFX_KeypadEnter, SFX_CallFail, SFX_CallRinging, SFX_CallHangUp;
+
 
     public void ClickKeypad(int key)
     {
@@ -171,6 +175,9 @@ public class Scr_GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        Scr_SpawnToiletFish = FindObjectOfType<Scr_SpawnToiletFish>();
+
 
         _Camera = Camera.main;
 
@@ -440,7 +447,7 @@ public class Scr_GameManager : MonoBehaviour
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
 
         float baggedFishButtonWidth = (baggedFishButtonToUse.GetComponent<RectTransform>().rect.width / Camera.main.pixelWidth) * screenWidthWorld;
-        _fishToBag.transform.localScale /= baggedFishButtonWidth * 7f;
+        _fishToBag.transform.localScale /= baggedFishButtonWidth * 12f;
 
         // Move the fish to the position where the fishbag button appears to be in the world
         Vector3 baggedFishButtonPosition = Camera.main.ScreenToWorldPoint(baggedFishButtonToUse.transform.position);
@@ -836,6 +843,12 @@ public class Scr_GameManager : MonoBehaviour
     public void DisableElement(GameObject _element)
     {
         _element.SetActive(false);
+    }
+
+    public void RodToDisplay()
+    {
+        rodIdle.SetActive(!Scr_SpawnToiletFish.shouldSpawn);
+        rodHooked.SetActive(Scr_SpawnToiletFish.shouldSpawn);
     }
 
     public void UpdateSceneTexts()

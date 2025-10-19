@@ -15,7 +15,7 @@ public class Scr_TimeHandler : MonoBehaviour
 
 
     [Header("Time Settings")]
-    public float timeScale = 60f; //in-game seconds per real second
+    public float timeScale = 120f; //in-game seconds per real second
 
     public int startHour = 6;
     public int startMinute = 0;

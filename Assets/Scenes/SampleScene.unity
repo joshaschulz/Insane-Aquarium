@@ -628,6 +628,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 291923827}
   m_CullTransparentMesh: 1
+--- !u!1 &335796133
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 335796135}
+  - component: {fileID: 335796134}
+  m_Layer: 0
+  m_Name: UIElementsTickEvents
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &335796134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335796133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcdf5361860826a40895ab85a4d5716d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foregroundTank: {fileID: 352481008}
+  backgroundTank: {fileID: 823700867}
+  foregroundTankEmpty: {fileID: 2120305126}
+  foregroundTankFull: {fileID: 1132991544}
+  backgroundTankEmpty: {fileID: 1832173154}
+  backgroundTankFull: {fileID: 1004321024}
+--- !u!4 &335796135
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335796133}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &352481007
 GameObject:
   m_ObjectHideFlags: 0
@@ -1216,6 +1266,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1031440123}
         m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
         m_MethodName: RodToDisplay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 335796134}
+        m_TargetAssemblyTypeName: Scr_UpdateUIOnTickEvent, Assembly-CSharp
+        m_MethodName: UpdateTankWater
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4504,7 +4566,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -251.15253, y: -144.1049}
+  m_AnchoredPosition: {x: -251.15253, y: -142}
   m_SizeDelta: {x: 297.6907, y: 166.59}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1132991546
@@ -8053,6 +8115,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1031440121}
+  - {fileID: 335796135}
   - {fileID: 519420032}
   - {fileID: 672596399}
   - {fileID: 753793626}

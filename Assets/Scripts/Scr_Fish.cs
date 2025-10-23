@@ -53,7 +53,8 @@ public class Scr_Fish : MonoBehaviour
 
     private Vector2 target;
 
-    private float minX, maxX, minY, maxY;
+    public Vector2 spawnTank; //keeps track of fish's spawned tank
+    public float minX, maxX, minY, maxY;
 
     public GameObject bloodEffectPrefab;
     public GameObject bubblesEffectPrefab;
@@ -351,7 +352,7 @@ public class Scr_Fish : MonoBehaviour
     }
     private void SetMinAndMax() //set the min and max of where fish can travel
     {
-        Vector2 spawnTank = new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.y);
+        spawnTank = new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.y);
 
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
         float screenHeightWorld = Camera.main.orthographicSize * 2;

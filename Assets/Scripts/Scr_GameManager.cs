@@ -13,6 +13,7 @@ public class Scr_GameManager : MonoBehaviour
     public AudioSource AS;
     public Scr_CursorFollower cursorFollower;
     private Scr_SpawnToiletFish Scr_SpawnToiletFish;
+    private Scr_TimeHandler Scr_TimeHandler;
 
     public GameObject rodIdle, rodHooked;
 
@@ -198,6 +199,24 @@ public class Scr_GameManager : MonoBehaviour
         */
     }
 
+    private void OnEnable()
+    {
+        // Optionally, get a reference to the TickHandler (assuming there's only one or it’s a singleton)
+        Scr_TimeHandler = FindObjectOfType<Scr_TimeHandler>();
+
+        float tickIntervalInMinutes = Scr_TimeHandler.tickInterval / 60;
+
+        if (Scr_TimeHandler != null)
+        {
+            Scr_TimeHandler.tickEvent.AddListener(OnTickEvent);
+        }
+    }
+
+    public void OnTickEvent()
+    {
+        //maybe want tick events on game manager?
+    }
+
 
     public void DropFood(GameObject _foodToDrop)
     {
@@ -300,6 +319,67 @@ public class Scr_GameManager : MonoBehaviour
         //set the x bounds of where the fish can spawn based on screen size
 
         Vector2 spawnPosition = new Vector2(_Camera.transform.position.x, _Camera.transform.position.y);
+
+        //keeps track of number of fish in each tank
+        /*if (_Camera.transform.position.x == tank1.position.x)
+        {
+            tank1Fish++;
+        }
+        else if (_Camera.transform.position.x == tank2.position.x)
+        {
+            tank2Fish++;
+        }*/
+
+        float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
+        float screenHeightWorld = Camera.main.orthographicSize * 2;
+
+        spawnPosition.y = (spawnPosition.y - screenHeightWorld / 2) + screenHeightWorld * _fishToSpawn.GetComponent<Scr_Fish>().spawnHeight;
+
+        Vector2 randomSpawnBounds = new Vector2(spawnPosition.x - screenWidthWorld / 2, spawnPosition.x + screenWidthWorld / 2);
+
+
+        float randPosX = Random.Range(randomSpawnBounds.x, randomSpawnBounds.y);
+
+        spawnPosition.x = randPosX;
+
+
+        int fishCost = _fishToSpawn.GetComponent<Scr_Fish>().fishCost;
+        if (GetMoneyAmount() >= fishCost)
+        {
+            SetMoneyAmount(GetMoneyAmount() - fishCost);
+            GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
+
+            foodFishDictionary.Add(newFish, _fishToSpawn);
+            Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
+            newFishScript.thisPrefab = _fishToSpawn;
+
+
+            AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(newFish, _fishToSpawn);
+
+            PlaySoundEffect(SFX_DropFish, 1, 0.5f, 1.5f);
+        }
+        else
+        {
+            Debug.Log("Insufficient Money for Fish : $" + fishCost);
+        }
+
+    }
+
+    public void SpawnFish(GameObject _fishToSpawn, Transform tank) //spawn fish in a tank (don't have to be in the tank to spawn the fish)
+    {
+        //spawn fish at random x coordinate at same designated y coordinate
+        //set the x bounds of where the fish can spawn based on screen size
+
+        Vector2 spawnPosition = new Vector2(tank.transform.position.x, tank.transform.position.y);
+
+        /*if (tank == tank1)
+        {
+            tank1Fish++;
+        }
+        else if (tank == tank2)
+        {
+            tank2Fish++;
+        }*/
 
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
         float screenHeightWorld = Camera.main.orthographicSize * 2;
@@ -859,4 +939,28 @@ public class Scr_GameManager : MonoBehaviour
 
         // Add more text boxes and values as we make them...
     }
+
+    public int CheckIfTankHasFish(Transform tank)
+    {
+        int tankFish = 0;
+
+        foreach (var fish in foodFishDictionary)
+        {
+            GameObject fishObject = fish.Key;
+            var fishScript = fishObject.GetComponent<Scr_Fish>();
+
+
+            if (fishScript != null)
+            {
+                if (fishScript.spawnTank == new Vector2(tank.position.x, tank.position.y))
+                {
+                    tankFish++;
+                }
+            }
+        }
+
+        return tankFish;
+    }
+
+
 }

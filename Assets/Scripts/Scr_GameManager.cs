@@ -14,6 +14,7 @@ public class Scr_GameManager : MonoBehaviour
     public Scr_CursorFollower cursorFollower;
     private Scr_SpawnToiletFish Scr_SpawnToiletFish;
     private Scr_TimeHandler Scr_TimeHandler;
+    private Scr_UIElementsHandler Scr_UIElementsHandler;
 
     public GameObject rodIdle, rodHooked;
 
@@ -178,6 +179,7 @@ public class Scr_GameManager : MonoBehaviour
         }
 
         Scr_SpawnToiletFish = FindObjectOfType<Scr_SpawnToiletFish>();
+        Scr_UIElementsHandler = FindObjectOfType<Scr_UIElementsHandler>();
 
 
         _Camera = Camera.main;
@@ -203,6 +205,7 @@ public class Scr_GameManager : MonoBehaviour
     {
         // Optionally, get a reference to the TickHandler (assuming there's only one or it’s a singleton)
         Scr_TimeHandler = FindObjectOfType<Scr_TimeHandler>();
+
 
         float tickIntervalInMinutes = Scr_TimeHandler.tickInterval / 60;
 
@@ -363,6 +366,8 @@ public class Scr_GameManager : MonoBehaviour
             Debug.Log("Insufficient Money for Fish : $" + fishCost);
         }
 
+        //Scr_UIElementsHandler.UpdateTankWater();
+
     }
 
     public void SpawnFish(GameObject _fishToSpawn, Transform tank) //spawn fish in a tank (don't have to be in the tank to spawn the fish)
@@ -413,6 +418,8 @@ public class Scr_GameManager : MonoBehaviour
         {
             Debug.Log("Insufficient Money for Fish : $" + fishCost);
         }
+
+        //Scr_UIElementsHandler.UpdateTankWater();
 
     }
 

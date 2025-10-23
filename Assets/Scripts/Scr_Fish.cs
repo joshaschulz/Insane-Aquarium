@@ -63,12 +63,16 @@ public class Scr_Fish : MonoBehaviour
     public List<GameObject> foodInScene;
 
     private Scr_TimeHandler Scr_TimeHandler;
+    private Scr_UIElementsHandler Scr_UIElementsHandler;
+
     private float tickIntervalInMinutes;
 
     private void OnEnable()
     {
         // Optionally, get a reference to the TickHandler (assuming there's only one or it’s a singleton)
         Scr_TimeHandler = FindObjectOfType<Scr_TimeHandler>();
+        Scr_UIElementsHandler = FindObjectOfType<Scr_UIElementsHandler>();
+
 
         tickIntervalInMinutes = Scr_TimeHandler.tickInterval / 60;
 
@@ -92,6 +96,10 @@ public class Scr_Fish : MonoBehaviour
         Debug.Log($"{gameObject.name} received a tick event!");
 
         HungerCounter();
+
+        //Scr_UIElementsHandler.UpdateTankWater();
+
+
         // Your fish behavior here, e.g., update hunger status.
     }
 

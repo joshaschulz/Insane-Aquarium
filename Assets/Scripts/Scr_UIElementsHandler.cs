@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Scr_UpdateUIOnTickEvent : MonoBehaviour
+public class Scr_UIElementsHandler : MonoBehaviour
 {
     private Scr_GameManager gameManager;
     private Scr_TimeHandler Scr_TimeHandler;
@@ -37,7 +37,7 @@ public class Scr_UpdateUIOnTickEvent : MonoBehaviour
 
     public void OnTickEvent()
     {
-        UpdateTankWater();
+
     }
 
     public void UpdateTankWater()

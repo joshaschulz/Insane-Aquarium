@@ -387,6 +387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisPrefab: {fileID: 1863455049823253984}
+  minutesUntilGrown: 90
   minutesUntilHungry: 30
   minutesUntilDead: 60
   hungryColor: {r: 0.21960786, g: 1, b: 0.15686275, a: 1}
@@ -394,6 +395,11 @@ MonoBehaviour:
   baseSpeed: 3
   fishCost: 100
   originalScale: {x: 0, y: 0, z: 0}
+  spawnTank: {x: 0, y: 0}
+  minX: 0
+  maxX: 0
+  minY: 0
+  maxY: 0
   bloodEffectPrefab: {fileID: 7699653466035250317, guid: 29a6421998a7dcd48a84d3e1c2dcec44, type: 3}
   bubblesEffectPrefab: {fileID: 7699653466035250317, guid: 4e2ec060f025af64ba8ccc7e09d540eb, type: 3}
   fishDiet:

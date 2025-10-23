@@ -30,13 +30,18 @@ public class Scr_Fish : MonoBehaviour
     private GameObject frontContainer;
     private Animator frontAnimator;
 
-    private float HungerCount = 0;
-    private bool IsHungry = false;
+    private float hungerCount = 0;
+    private bool isHungry = false;
+
+    private float growCount = 0;
+    private bool grown = false;
     //public float SecondsUntilHungry;
     //public float SecondsUntilDead;
 
     //public int tickEventsUntilHungry;
     //public int tickEventsUntilDead;
+
+    public int minutesUntilGrown;
 
     public int minutesUntilHungry;
     public int minutesUntilDead;
@@ -97,6 +102,8 @@ public class Scr_Fish : MonoBehaviour
 
         HungerCounter();
 
+        GrowCounter();
+
         //Scr_UIElementsHandler.UpdateTankWater();
 
 
@@ -150,7 +157,7 @@ public class Scr_Fish : MonoBehaviour
         }
 
         // 3 possibilities: Fish is hungry. Fish is idle. Fish is moving.
-        if (IsHungry)
+        if (isHungry)
         {
             // Find a food to eat
             GameObject food = FindClosestFood();
@@ -210,7 +217,7 @@ public class Scr_Fish : MonoBehaviour
             return;
         }
 
-        if (IsHungry)
+        if (isHungry)
         {
             SetNotHungry();
             FaceForward();
@@ -273,28 +280,41 @@ public class Scr_Fish : MonoBehaviour
 
     public void HungerCounter()
     {
-        HungerCount += tickIntervalInMinutes;
+        hungerCount += tickIntervalInMinutes;
 
-        if (HungerCount >= minutesUntilHungry && !IsHungry)
+        if (hungerCount >= minutesUntilHungry && !isHungry)
         {
             SetHungry();
         }
-        else if (HungerCount >= minutesUntilDead)
+        else if (hungerCount >= minutesUntilDead)
         {
             Die();
         }
     }
 
+    public void GrowCounter()
+    {
+        if (!grown)
+        {
+            growCount += tickIntervalInMinutes;
+            if (growCount >= minutesUntilGrown)
+            {
+                gameManager.MakeFishBigger(gameObject);
+                grown = true;
+            }
+        }
+    }
+
     public void SetHungry()
     {
-        IsHungry = true;
+        isHungry = true;
         //sideContainer.GetComponent<BoxCollider2D>().enabled = true;
         gameManager.ChangeColor(gameObject, hungryColor);
     }
     public void SetNotHungry()
     {
-        IsHungry = false;
-        HungerCount = 0;
+        isHungry = false;
+        hungerCount = 0;
         //sideContainer.GetComponent<BoxCollider2D>().enabled = false;
         gameManager.ChangeColor(gameObject, Color.white);
     }

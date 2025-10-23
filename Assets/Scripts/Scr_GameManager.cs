@@ -352,6 +352,8 @@ public class Scr_GameManager : MonoBehaviour
             SetMoneyAmount(GetMoneyAmount() - fishCost);
             GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
 
+            MakeFishSmaller(newFish); //want to spawn fish as child and then have it grow over time
+
             foodFishDictionary.Add(newFish, _fishToSpawn);
             Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
             newFishScript.thisPrefab = _fishToSpawn;
@@ -405,6 +407,8 @@ public class Scr_GameManager : MonoBehaviour
             SetMoneyAmount(GetMoneyAmount() - fishCost);
             GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
 
+            MakeFishSmaller(newFish); //want to spawn fish as child and then have it grow over time
+
             foodFishDictionary.Add(newFish, _fishToSpawn);
             Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
             newFishScript.thisPrefab = _fishToSpawn;
@@ -418,6 +422,8 @@ public class Scr_GameManager : MonoBehaviour
         {
             Debug.Log("Insufficient Money for Fish : $" + fishCost);
         }
+
+
 
         //Scr_UIElementsHandler.UpdateTankWater();
 
@@ -969,5 +975,13 @@ public class Scr_GameManager : MonoBehaviour
         return tankFish;
     }
 
+    public void MakeFishSmaller(GameObject fish)
+    {
+        fish.transform.localScale = new Vector3(fish.transform.localScale.x / 2, fish.transform.localScale.y / 2, fish.transform.localScale.z); //child is half size as adult
+    }
 
+    public void MakeFishBigger(GameObject fish)
+    {
+        fish.transform.localScale = new Vector3(fish.transform.localScale.x * 2, fish.transform.localScale.y * 2, fish.transform.localScale.z); //child is half size as adult
+    }
 }

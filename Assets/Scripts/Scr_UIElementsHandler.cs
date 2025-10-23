@@ -10,16 +10,26 @@ public class Scr_UIElementsHandler : MonoBehaviour
     public Transform foregroundTank;
     public Transform backgroundTank;
 
+    public Vector2 foregroundTankPosition;
+    public Vector2 backgroundTankPosition;
+
     public GameObject foregroundTankEmpty;
     public GameObject foregroundTankFull;
     public GameObject backgroundTankEmpty;
     public GameObject backgroundTankFull;
+
+    public List<Vector2> tankPositions;
 
     // Start is called before the first frame update
     void Start()
     {
         gameManager = Scr_GameManager.GMinstance;
 
+        foregroundTankPosition = new Vector2(foregroundTank.position.x, foregroundTank.position.y);
+        backgroundTankPosition = new Vector2(backgroundTank.position.x, backgroundTank.position.y);
+
+
+        tankPositions = new List<Vector2> {foregroundTankPosition, backgroundTankPosition };
     }
 
     private void OnEnable()

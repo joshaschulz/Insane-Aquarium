@@ -33,8 +33,8 @@ public class Scr_Fish : MonoBehaviour
     private float hungerCount = 0;
     private bool isHungry = false;
 
-    private float growCount = 0;
-    private bool grown = false;
+    public float growCount = 0;
+    public bool grown = false;
     //public float SecondsUntilHungry;
     //public float SecondsUntilDead;
 

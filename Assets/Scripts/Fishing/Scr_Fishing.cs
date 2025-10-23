@@ -44,9 +44,16 @@ public class Scr_Fishing : MonoBehaviour
             FishEscape();
     }
 
-    void Start()
+    private void OnEnable()
     {
         gameManager = Scr_GameManager.GMinstance;
+
+        StartCoroutine(gameManager.RecenterThenUnlock());
+    }
+
+    void Start()
+    {
+
         spriteRenderer = GetComponent<SpriteRenderer>();
         ReelingAudioSource = GetComponent<AudioSource>();
         ReelingAudioSource.clip = gameManager.SFX_Reeling;
@@ -54,7 +61,9 @@ public class Scr_Fishing : MonoBehaviour
 
         Scr_SpawnToiletFish = FindObjectOfType<Scr_SpawnToiletFish>();
 
+
         lineConnector = transform.GetChild(1).GetComponent<Scr_LineConnector>();
+
 
         // Initialize sprite based on starting position
         isLeft = Input.mousePosition.x < screenMiddleX;
@@ -81,7 +90,7 @@ public class Scr_Fishing : MonoBehaviour
         PullFishLaterally();
         CheckForFishHeight();
 
-        
+
 
         if (Scr_SpawnToiletFish.shouldSpawn)
         {
@@ -123,6 +132,8 @@ public class Scr_Fishing : MonoBehaviour
 
         //Scr_SpawnToiletFish.toiletFishExist = false;
         toiletFish = null;
+
+        gameManager.BagToiletFish(toiletFish);
 
         Invoke("GoToBathroom", 1f);
 

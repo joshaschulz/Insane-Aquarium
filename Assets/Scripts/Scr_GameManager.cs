@@ -329,6 +329,8 @@ public class Scr_GameManager : MonoBehaviour
 
                 // Instead of spawning in a new fish, move this fish to the correct spot
                 releasedFish.transform.SetParent(null);
+                releasedFishScript.enabled = true;
+
 
                 ShowHideFishBags();
 
@@ -341,7 +343,6 @@ public class Scr_GameManager : MonoBehaviour
                 Debug.Log(releasedFish.name + " was released");
 
 
-                releasedFishScript.enabled = true;
                 releasedFish.GetComponent<CircleCollider2D>().enabled = true;
                 releasedFish.transform.localScale = releasedFishScript.originalScale;
 

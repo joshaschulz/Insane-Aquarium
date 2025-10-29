@@ -59,6 +59,11 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject baggedFish_Button2;
     public GameObject baggedFish_Button3;
 
+    public GameObject baggedFish_Socket1;
+    public GameObject baggedFish_Socket2;
+    public GameObject baggedFish_Socket3;
+
+
     // Click Bag button to turn cursor image to bag and allow for capturing of fish with left click.
     // This should also deselect any currently selected fish food to drop.
     // Bagged fish are removed from the tank and any other fishes' diets.
@@ -268,11 +273,38 @@ public class Scr_GameManager : MonoBehaviour
     {
         GameObject baggedFishButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
 
-        if (baggedFishButton != null && baggedFishButton.transform.childCount != 0)
+        GameObject baggedFishButtonToUse = null;
+        GameObject baggedFishSocketToUse = null;
+
+        if (baggedFishButton != null)
+        {
+            if (baggedFishButton == baggedFish_Button1)
+            {
+                baggedFishButtonToUse = baggedFish_Button1;
+                baggedFishSocketToUse = baggedFish_Socket1;
+            }
+            else if (baggedFishButton == baggedFish_Button2)
+            {
+                baggedFishButtonToUse = baggedFish_Button2;
+                baggedFishSocketToUse = baggedFish_Socket2;
+            }
+            else if (baggedFishButton == baggedFish_Button3)
+            {
+                baggedFishButtonToUse = baggedFish_Button3;
+                baggedFishSocketToUse = baggedFish_Socket3;
+            }
+            else
+            {
+                Debug.Log("No Button selected");
+            }
+        }
+
+
+        if (baggedFishButton != null && baggedFishSocketToUse.transform.childCount != 0)
         {
             if (CheckIfInTank()) //only release fish if in a tank
             {
-                GameObject releasedFish = baggedFishButton.transform.GetChild(0).gameObject;
+                GameObject releasedFish = baggedFishSocketToUse.transform.GetChild(0).gameObject;
                 Scr_Fish releasedFishScript = releasedFish.GetComponent<Scr_Fish>();
 
                 //spawn fish at random x coordinate at same designated y coordinate
@@ -297,6 +329,8 @@ public class Scr_GameManager : MonoBehaviour
 
                 // Instead of spawning in a new fish, move this fish to the correct spot
                 releasedFish.transform.SetParent(null);
+
+                ShowHideFishBags();
 
                 foodFishDictionary.Add(releasedFish, releasedFishScript.thisPrefab);
 
@@ -501,18 +535,22 @@ public class Scr_GameManager : MonoBehaviour
     public void BagAFish(GameObject _fishToBag)
     {
         GameObject baggedFishButtonToUse;
+        GameObject baggedFishSocketToUse;
         // Check to see if there is at least 1 of 3 bags available
-        if (baggedFish_Button1.transform.childCount == 0)
+        if (baggedFish_Socket1.transform.childCount == 0)
         {
             baggedFishButtonToUse = baggedFish_Button1;
+            baggedFishSocketToUse = baggedFish_Socket1;
         }
-        else if (baggedFish_Button2.transform.childCount == 0)
+        else if (baggedFish_Socket2.transform.childCount == 0)
         {
             baggedFishButtonToUse = baggedFish_Button2;
+            baggedFishSocketToUse = baggedFish_Socket2;
         }
-        else if (baggedFish_Button3.transform.childCount == 0)
+        else if (baggedFish_Socket3.transform.childCount == 0)
         {
             baggedFishButtonToUse = baggedFish_Button3;
+            baggedFishSocketToUse = baggedFish_Socket3;
         }
         else
         {
@@ -520,6 +558,8 @@ public class Scr_GameManager : MonoBehaviour
             // Perhaps disable the button to bag more fish in this case
             return;
         }
+
+        ShowHideFishBags();
 
         Debug.Log(_fishToBag.name + " was bagged");
         PlaySoundEffect(SFX_BagFish, 1);
@@ -536,7 +576,8 @@ public class Scr_GameManager : MonoBehaviour
         ClearFoodFromFishFoodList(_fishToBag);
 
         baggedFishButtonToUse.SetActive(true);
-        _fishToBag.transform.SetParent(baggedFishButtonToUse.transform);
+        //_fishToBag.transform.SetParent(baggedFishButtonToUse.transform);
+        _fishToBag.transform.SetParent(baggedFishSocketToUse.transform);
 
         fishScript.originalScale = _fishToBag.transform.localScale;
 
@@ -550,7 +591,7 @@ public class Scr_GameManager : MonoBehaviour
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
 
         float baggedFishButtonWidth = (baggedFishButtonToUse.GetComponent<RectTransform>().rect.width / Camera.main.pixelWidth) * screenWidthWorld;
-        _fishToBag.transform.localScale /= baggedFishButtonWidth * 12f;
+        _fishToBag.transform.localScale /= baggedFishButtonWidth * 4f;
 
         // Move the fish to the position where the fishbag button appears to be in the world
         Vector3 baggedFishButtonPosition = Camera.main.ScreenToWorldPoint(baggedFishButtonToUse.transform.position);
@@ -562,18 +603,22 @@ public class Scr_GameManager : MonoBehaviour
     public void BagToiletFish(GameObject _fishToBag)
     {
         GameObject baggedFishButtonToUse;
+        GameObject baggedFishSocketToUse;
         // Check to see if there is at least 1 of 3 bags available
-        if (baggedFish_Button1.transform.childCount == 0)
+        if (baggedFish_Socket1.transform.childCount == 0)
         {
             baggedFishButtonToUse = baggedFish_Button1;
+            baggedFishSocketToUse = baggedFish_Socket1;
         }
-        else if (baggedFish_Button2.transform.childCount == 0)
+        else if (baggedFish_Socket2.transform.childCount == 0)
         {
             baggedFishButtonToUse = baggedFish_Button2;
+            baggedFishSocketToUse = baggedFish_Socket2;
         }
-        else if (baggedFish_Button3.transform.childCount == 0)
+        else if (baggedFish_Socket3.transform.childCount == 0)
         {
             baggedFishButtonToUse = baggedFish_Button3;
+            baggedFishSocketToUse = baggedFish_Socket3;
         }
         else
         {
@@ -582,6 +627,8 @@ public class Scr_GameManager : MonoBehaviour
             return;
         }
 
+        ShowHideFishBags();
+
         Debug.Log(_fishToBag.name + " was bagged");
         PlaySoundEffect(SFX_BagFish, 1);
         Scr_Fish fishScript = _fishToBag.GetComponent<Scr_Fish>();
@@ -589,12 +636,20 @@ public class Scr_GameManager : MonoBehaviour
 
 
         baggedFishButtonToUse.SetActive(true);
-        _fishToBag.transform.SetParent(baggedFishButtonToUse.transform);
+        _fishToBag.transform.SetParent(baggedFishSocketToUse.transform);
 
 
         fishScript.SetTarget(_fishToBag.transform.position);
         fishScript.FaceForward();
         fishScript.CancelInvoke();
+
+        _fishToBag.transform.localEulerAngles = Vector3.zero;
+        var s = _fishToBag.transform.localScale;
+        _fishToBag.transform.localScale = new Vector3(Mathf.Abs(s.x), Mathf.Abs(s.y), Mathf.Abs(s.z));
+
+        fishScript.originalScale = _fishToBag.transform.localScale;
+
+
         fishScript.enabled = false;
         _fishToBag.GetComponent<CircleCollider2D>().enabled = false;
 
@@ -602,7 +657,7 @@ public class Scr_GameManager : MonoBehaviour
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
 
         float baggedFishButtonWidth = (baggedFishButtonToUse.GetComponent<RectTransform>().rect.width / Camera.main.pixelWidth) * screenWidthWorld;
-        _fishToBag.transform.localScale /= baggedFishButtonWidth * 12f;
+        _fishToBag.transform.localScale /= baggedFishButtonWidth * 4f;
 
         // Move the fish to the position where the fishbag button appears to be in the world
         Vector3 baggedFishButtonPosition = Camera.main.ScreenToWorldPoint(baggedFishButtonToUse.transform.position);
@@ -1073,5 +1128,42 @@ public class Scr_GameManager : MonoBehaviour
         Cursor.visible = true;                     // optional
 
         Debug.Log("Done with recentering cursor!");
+    }
+
+    public void ShowHideFishBags()
+    {
+        GameObject baggedFishButtonToUse;
+        GameObject baggedFishSocketToUse;
+
+        // Check to see if there is at least 1 of 3 bags available
+        if (baggedFish_Socket1.transform.childCount == 0)
+        {
+            baggedFish_Button1.SetActive(false);
+        }
+        else
+        {
+            baggedFish_Button1.SetActive(true);
+        }
+
+        if (baggedFish_Socket2.transform.childCount == 0)
+        {
+            baggedFish_Button2.SetActive(false);
+        }
+        else
+        {
+            baggedFish_Button2.SetActive(true);
+        }
+
+        if (baggedFish_Socket3.transform.childCount == 0)
+        {
+            baggedFish_Button3.SetActive(false);
+        }
+        else
+        {
+            baggedFish_Button3.SetActive(true);
+        }
+
+
+
     }
 }

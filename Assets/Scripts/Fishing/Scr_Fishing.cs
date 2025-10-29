@@ -130,10 +130,10 @@ public class Scr_Fishing : MonoBehaviour
             ReelingAudioSource.Stop();
         }
 
+        gameManager.BagToiletFish(toiletFish);
+
         //Scr_SpawnToiletFish.toiletFishExist = false;
         toiletFish = null;
-
-        gameManager.BagToiletFish(toiletFish);
 
         Invoke("GoToBathroom", 1f);
 

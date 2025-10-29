@@ -83,17 +83,21 @@ public class Scr_SpawnToiletFish : MonoBehaviour
             return;
         }
 
-        if (num == 0 && !toiletFishExist) //1 in 6 chance to spawn fish (about every hour)
+        if (gameManager.baggedFish_Socket1.transform.childCount == 0 || gameManager.baggedFish_Socket2.transform.childCount == 0 || gameManager.baggedFish_Socket3.transform.childCount == 0)
         {
-            Debug.Log("Spawned fish");
+            if (num == 0 && !toiletFishExist) //1 in 6 chance to spawn fish (about every hour)
+            {
+                Debug.Log("Spawned fish");
 
-            if (fishingPoleIdle.activeSelf)
-                fishingPoleHooked.SetActive(true);
+                if (fishingPoleIdle.activeSelf)
+                    fishingPoleHooked.SetActive(true);
 
-            fishingPoleIdle.SetActive(false);
+                fishingPoleIdle.SetActive(false);
 
-            shouldSpawn = true;
+                shouldSpawn = true;
+            }
         }
+
 
 
 

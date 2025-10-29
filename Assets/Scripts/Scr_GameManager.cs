@@ -624,6 +624,7 @@ public class Scr_GameManager : MonoBehaviour
         {
             Debug.Log("All fish bags were taken up!");
             // Perhaps disable the button to bag more fish in this case
+            Destroy(_fishToBag);
             return;
         }
 
@@ -648,6 +649,8 @@ public class Scr_GameManager : MonoBehaviour
         _fishToBag.transform.localScale = new Vector3(Mathf.Abs(s.x), Mathf.Abs(s.y), Mathf.Abs(s.z));
 
         fishScript.originalScale = _fishToBag.transform.localScale;
+
+        fishScript.grown = true;
 
 
         fishScript.enabled = false;

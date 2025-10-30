@@ -9,9 +9,11 @@ public class Scr_UIElementsHandler : MonoBehaviour
 
     public Transform foregroundTank;
     public Transform backgroundTank;
+    public Transform bathroom;
 
     public Vector2 foregroundTankPosition;
     public Vector2 backgroundTankPosition;
+    public Vector2 bathroomPosition;
 
     public GameObject foregroundTankEmpty;
     public GameObject foregroundTankFull;
@@ -27,6 +29,7 @@ public class Scr_UIElementsHandler : MonoBehaviour
 
         foregroundTankPosition = new Vector2(foregroundTank.position.x, foregroundTank.position.y);
         backgroundTankPosition = new Vector2(backgroundTank.position.x, backgroundTank.position.y);
+        bathroomPosition = new Vector2(bathroom.position.x, bathroom.position.y);
 
 
         tankPositions = new List<Vector2> {foregroundTankPosition, backgroundTankPosition };

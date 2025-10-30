@@ -15,9 +15,13 @@ public class Scr_ToiletCollision : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Fish") && fishingRod.toiletFish)
+        foreach (var fishPrefab in gameManager.fishPrefabs)
         {
-            fishingRod.FishEscape();
+            if (collision.CompareTag(fishPrefab.tag) && fishingRod.toiletFish)
+            {
+                fishingRod.FishEscape();
+                return;
+            }
         }
     }
 }

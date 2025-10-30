@@ -204,6 +204,8 @@ public class Scr_Fishing : MonoBehaviour
         toiletFish = Instantiate(GetRandomFish(), fishSpawnPosition);
 
         Scr_Fish toiletFishScr = toiletFish.GetComponent<Scr_Fish>();
+        
+        toiletFishScr.thisPrefab = FindMatchingPrefabGivenTag(toiletFish.tag);
 
         toiletFishScr.FaceSideways();
         toiletFishScr.enabled = false;
@@ -221,6 +223,22 @@ public class Scr_Fishing : MonoBehaviour
         Scr_SpawnToiletFish.shouldSpawn = false;
 
     }
+
+    private GameObject FindMatchingPrefabGivenTag(string fishTag)
+    {
+        //GameObject[] prefabs = Resources.LoadAll<GameObject>("Prefabs/Fish");
+
+        foreach (var prefab in gameManager.fishPrefabs)
+        {
+            if (prefab.CompareTag(fishTag))
+            {
+                return prefab;
+            }
+        }
+
+        return null;
+    }
+
     private void PullFishLaterally()
     {
         if (!toiletFish)

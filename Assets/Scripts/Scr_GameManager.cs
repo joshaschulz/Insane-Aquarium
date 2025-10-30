@@ -63,6 +63,8 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject baggedFish_Socket2;
     public GameObject baggedFish_Socket3;
 
+    public GameObject[] fishPrefabs;
+
 
     // Click Bag button to turn cursor image to bag and allow for capturing of fish with left click.
     // This should also deselect any currently selected fish food to drop.
@@ -190,6 +192,9 @@ public class Scr_GameManager : MonoBehaviour
         _Camera = Camera.main;
 
         foodFishDictionary = new Dictionary<GameObject, GameObject>(); //have to instantiate a dictionary for some reason
+
+        fishPrefabs = Resources.LoadAll<GameObject>("Prefabs/Fish");
+
         //baggedFish = new List<(GameObject, int)>(); //have to instantiate this thing for some reason
 
         /*
@@ -335,6 +340,7 @@ public class Scr_GameManager : MonoBehaviour
                 ShowHideFishBags();
 
                 foodFishDictionary.Add(releasedFish, releasedFishScript.thisPrefab);
+
 
                 AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(releasedFish, releasedFishScript.thisPrefab);
 

@@ -7,6 +7,9 @@ TagManager:
   - Coin
   - Fish
   - FishFood
+  - Goldfish
+  - Betta Fish
+  - Piranha
   layers:
   - Default
   - TransparentFX

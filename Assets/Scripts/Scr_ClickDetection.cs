@@ -32,14 +32,16 @@ public class Scr_ClickDetection : MonoBehaviour
                 // Clicked on something
                 if (hit.collider != null)
                 {
-                    if (hit.collider.CompareTag("Fish") && gameManager.canIBagFish)
+                    foreach (var fishPrefab in gameManager.fishPrefabs)
                     {
-                        GameObject fishToBag = hit.collider.gameObject;
-                        Debug.Log("BAG THIS " + fishToBag.name);
-                        gameManager.BagAFish(fishToBag);
-
-                        
+                        if (hit.collider.CompareTag(fishPrefab.tag) && gameManager.canIBagFish)
+                        {
+                            GameObject fishToBag = hit.collider.gameObject;
+                            Debug.Log("BAG THIS " + fishToBag.name);
+                            gameManager.BagAFish(fishToBag);
+                        }
                     }
+
                     /*
                     else if (hit.collider.CompareTag("Coin"))
                     {

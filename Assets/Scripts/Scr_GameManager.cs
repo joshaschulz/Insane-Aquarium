@@ -88,7 +88,8 @@ public class Scr_GameManager : MonoBehaviour
     //public Dictionary<string, List<string>> fishDiets;
 
     // List of Sounds
-    public AudioClip SFX_DropCoin, SFX_DropFish, SFX_DropFood, SFX_FishDeath, SFX_FishEat, SFX_MoneyPickup, SFX_Select, SFX_Error, SFX_Bubbles1, SFX_Bubbles2, SFX_BagFish, SFX_Reeling, SFX_FishHitToilet, SFX_ToiletFlush, SFX_ToiletSplash;
+    public AudioClip SFX_DropCoin, SFX_DropFish, SFX_DropFood, SFX_FishDeath, SFX_FishEat, SFX_MoneyPickup, SFX_Select, SFX_Error, SFX_Bubbles1, SFX_Bubbles2, SFX_BagFish, SFX_Reeling, SFX_FishHitToilet, SFX_ToiletSplash;
+    public AudioClip SFX_Bag, SFX_CashRegister, SFX_FishHooked, SFX_FlipPhoneHigh, SFX_FlipPhoneLow, SFX_Flush, SFX_GenUI1, SFX_GenUI2, SFX_LineSnap, SFX_MoneyCounter, SFX_Pop, SFX_Snap, SFX_TextScroll;
     public AudioClip SFX_Keypad1, SFX_Keypad2, SFX_Keypad3, SFX_Keypad4, SFX_Keypad5, SFX_Keypad6, SFX_Keypad7, SFX_Keypad8, SFX_Keypad9, SFX_Keypad0, SFX_KeypadDel, SFX_KeypadEnter, SFX_CallFail, SFX_CallRinging, SFX_CallHangUp;
 
 
@@ -270,6 +271,7 @@ public class Scr_GameManager : MonoBehaviour
             SetFishFoodAmount(_foodToDrop, GetFishFoodAmount(_foodToDrop) - 1);
 
             PlaySoundEffect(SFX_DropFood, 1, 0.5f, 1.5f);
+            PlaySoundEffect(SFX_Pop, 0.05f, 0.8f, 1.2f);
 
 
         }
@@ -570,6 +572,7 @@ public class Scr_GameManager : MonoBehaviour
 
         Debug.Log(_fishToBag.name + " was bagged");
         PlaySoundEffect(SFX_BagFish, 1);
+        PlaySoundEffect(SFX_Bag, 1);
         Scr_Fish fishScript = _fishToBag.GetComponent<Scr_Fish>();
         SpawnParticles(fishScript.bubblesEffectPrefab, transform.position, transform.rotation);
 
@@ -639,6 +642,7 @@ public class Scr_GameManager : MonoBehaviour
 
         Debug.Log(_fishToBag.name + " was bagged");
         PlaySoundEffect(SFX_BagFish, 1);
+        PlaySoundEffect(SFX_Bag, 1);
         Scr_Fish fishScript = _fishToBag.GetComponent<Scr_Fish>();
         fishScript.enabled = true;
 

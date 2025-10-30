@@ -1541,6 +1541,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1031440125}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: e663d27bcb67d734bbf92cf2df2c475a, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &390013543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2171,6 +2183,18 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 999
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1031440125}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 48e254f1c5a68d6499dc63e42b3c2047, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3190,6 +3214,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 1492024530}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1031440125}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: a879d509cc21a2c4eb9811a11c7437f8, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4707,8 +4743,20 @@ MonoBehaviour:
   SFX_BagFish: {fileID: 8300000, guid: 6665cf775bc5f6645a3741967bd0af1b, type: 3}
   SFX_Reeling: {fileID: 8300000, guid: 30af802265963d84bb8759ace34401d1, type: 3}
   SFX_FishHitToilet: {fileID: 8300000, guid: 2d63f3c0441b941448a631db32835364, type: 3}
-  SFX_ToiletFlush: {fileID: 8300000, guid: 8728cee98c9b04546b521eac42cb96b3, type: 3}
   SFX_ToiletSplash: {fileID: 8300000, guid: bf68f56ac5ef3584c8d8ca2204f64b2a, type: 3}
+  SFX_Bag: {fileID: 8300000, guid: df9a67bddb316e147a22e27349c26d0a, type: 3}
+  SFX_CashRegister: {fileID: 8300000, guid: ef0c8042a3463be46912fe3eddc796ad, type: 3}
+  SFX_FishHooked: {fileID: 8300000, guid: c72e91bf4e395a146a3ec13bb41a999e, type: 3}
+  SFX_FlipPhoneHigh: {fileID: 8300000, guid: 48e254f1c5a68d6499dc63e42b3c2047, type: 3}
+  SFX_FlipPhoneLow: {fileID: 8300000, guid: a879d509cc21a2c4eb9811a11c7437f8, type: 3}
+  SFX_Flush: {fileID: 8300000, guid: 189724454ff6d2d4cb358960810061f0, type: 3}
+  SFX_GenUI1: {fileID: 8300000, guid: 8a74fcbb9bd1dfe47b7135ac44116b6b, type: 3}
+  SFX_GenUI2: {fileID: 8300000, guid: 3e68639e5c5123c48b61318dc14d129d, type: 3}
+  SFX_LineSnap: {fileID: 8300000, guid: 761ea90656d1b0341b08e88bc7ef1e96, type: 3}
+  SFX_MoneyCounter: {fileID: 8300000, guid: 17a7ca4235d9ee74cb81ab4e6736660d, type: 3}
+  SFX_Pop: {fileID: 8300000, guid: 22de5438446505043bc61f0c084389b3, type: 3}
+  SFX_Snap: {fileID: 8300000, guid: e663d27bcb67d734bbf92cf2df2c475a, type: 3}
+  SFX_TextScroll: {fileID: 8300000, guid: 7e44a5f44a4199a4280eede0c77b2105, type: 3}
   SFX_Keypad1: {fileID: 8300000, guid: 38874c59c6951564c84e9b6f3351c622, type: 3}
   SFX_Keypad2: {fileID: 8300000, guid: ee8ac7dc1c0b28e4d8748995a5662995, type: 3}
   SFX_Keypad3: {fileID: 8300000, guid: 1e706eaaf793ae942a45f65ff4b23282, type: 3}

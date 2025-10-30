@@ -80,6 +80,8 @@ public class Scr_SpawnToiletFish : MonoBehaviour
 
             shouldSpawn = false;
 
+            gameManager.PlaySoundEffect(gameManager.SFX_LineSnap, 0.3f);
+
             return;
         }
 
@@ -93,6 +95,7 @@ public class Scr_SpawnToiletFish : MonoBehaviour
                     fishingPoleHooked.SetActive(true);
 
                 fishingPoleIdle.SetActive(false);
+                gameManager.PlaySoundEffect(gameManager.SFX_FishHooked, 0.6f);
 
                 shouldSpawn = true;
             }

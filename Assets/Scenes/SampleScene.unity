@@ -724,8 +724,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   foregroundTank: {fileID: 352481008}
   backgroundTank: {fileID: 823700867}
+  bathroom: {fileID: 989523230}
   foregroundTankPosition: {x: 0, y: 0}
   backgroundTankPosition: {x: 0, y: 0}
+  bathroomPosition: {x: 0, y: 0}
   foregroundTankEmpty: {fileID: 2120305126}
   foregroundTankFull: {fileID: 1132991544}
   backgroundTankEmpty: {fileID: 1832173154}

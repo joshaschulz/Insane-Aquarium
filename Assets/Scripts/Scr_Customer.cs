@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Scr_Customer : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class Scr_Customer : MonoBehaviour
     private int ticksSinceSpawned;
 
     private bool isCameraInBathroom;
+
+    public GameObject customerFishPrefab;
+    public Image customerFishImage;
 
     // Start is called before the first frame update
     void Start()
@@ -79,6 +83,7 @@ public class Scr_Customer : MonoBehaviour
         {
             customerExists = false;
             ticksSinceSpawned = 0;
+            DestroyCustomerFish();
             return;
         }
 
@@ -90,8 +95,42 @@ public class Scr_Customer : MonoBehaviour
             if (!customerExists)
             {
                 customerExists = true;
+                PickCustomerFish();
             }
         }
+
+    }
+
+    public void PickCustomerFish()
+    {
+        //picks a random fish prefab
+        customerFishPrefab = gameManager.fishPrefabs[Random.Range(0, gameManager.fishPrefabs.Length - 1)];
+
+        SpriteRenderer[] spriteRenderers = customerFishPrefab.GetComponentsInChildren<SpriteRenderer>(true);
+
+
+        if (spriteRenderers.Length > 0 && spriteRenderers[0].sprite != null)
+        {
+            Sprite firstSprite = spriteRenderers[0].sprite;
+            Debug.Log("Got first sprite: " + firstSprite.name);
+
+
+            customerFishImage.sprite = firstSprite;
+        }
+        else
+        {
+            Debug.LogWarning("No SpriteRenderers found in prefab!");
+        }
+
+    }
+
+    public void DestroyCustomerFish()
+    {
+        customerFishImage.sprite = null;
+    }
+
+    public void SellFish()
+    {
 
     }
 }

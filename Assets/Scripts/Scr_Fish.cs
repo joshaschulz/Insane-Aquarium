@@ -30,6 +30,8 @@ public class Scr_Fish : MonoBehaviour
     private GameObject frontContainer;
     private Animator frontAnimator;
 
+    public int sellAmount;
+
     private float hungerCount = 0;
     private bool isHungry = false;
 

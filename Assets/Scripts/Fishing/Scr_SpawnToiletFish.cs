@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Scr_SpawnToiletFish : MonoBehaviour
 {
@@ -13,6 +15,10 @@ public class Scr_SpawnToiletFish : MonoBehaviour
     public bool toiletFishExist;
 
     public int ticksToSpawnChance;
+
+    public Transform StallTransform;
+    public GameObject bathroom;
+    public GameObject rod;
 
     // Start is called before the first frame update
     void Start()
@@ -61,7 +67,7 @@ public class Scr_SpawnToiletFish : MonoBehaviour
 
         Debug.Log(num + ", Toilet fish exists: " + toiletFishExist);
 
-        if (shouldSpawn)
+        if (fishingPoleHooked.activeSelf)
         {
             //fish escaped
 
@@ -80,30 +86,51 @@ public class Scr_SpawnToiletFish : MonoBehaviour
 
             shouldSpawn = false;
 
-            gameManager.PlaySoundEffect(gameManager.SFX_LineSnap, 0.3f);
+            if (!toiletFishExist)
+                gameManager.PlaySoundEffect(gameManager.SFX_LineSnap, 0.3f);
 
             return;
         }
 
-        if (gameManager.baggedFish_Socket1.transform.childCount == 0 || gameManager.baggedFish_Socket2.transform.childCount == 0 || gameManager.baggedFish_Socket3.transform.childCount == 0)
+
+        if (num == 0 && !toiletFishExist) //1 in 6 chance to spawn fish (about every hour)
         {
-            if (num == 0 && !toiletFishExist) //1 in 6 chance to spawn fish (about every hour)
+            Debug.Log("Spawned fish");
+
+            if (fishingPoleIdle.activeSelf)
+                fishingPoleHooked.SetActive(true);
+
+            fishingPoleIdle.SetActive(false);
+            //gameManager.PlaySoundEffect(gameManager.SFX_FishHooked, 0.2f);
+
+            if (gameManager.baggedFish_Socket1.transform.childCount == 0 || gameManager.baggedFish_Socket2.transform.childCount == 0 || gameManager.baggedFish_Socket3.transform.childCount == 0)
             {
-                Debug.Log("Spawned fish");
-
-                if (fishingPoleIdle.activeSelf)
-                    fishingPoleHooked.SetActive(true);
-
-                fishingPoleIdle.SetActive(false);
-                gameManager.PlaySoundEffect(gameManager.SFX_FishHooked, 0.6f);
-
                 shouldSpawn = true;
             }
         }
 
-
-
-
         // Your fish behavior here, e.g., update hunger status.
+    }
+
+    public void FishingPoleHookedButton(Button clickedButton)
+    {
+        //GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
+
+        if (gameManager.baggedFish_Socket1.transform.childCount == 0 || gameManager.baggedFish_Socket2.transform.childCount == 0 || gameManager.baggedFish_Socket3.transform.childCount == 0)
+        {
+            gameManager.MoveToScene(StallTransform);
+            gameManager.DisableElement(bathroom);
+            gameManager.EnableElement(rod);
+        }
+        else
+        {
+
+            Debug.Log(clickedButton.name);
+
+            gameManager.PlaySoundEffect(gameManager.SFX_Error, 0.3f);
+
+            // Make cursor icon and selected food button flash red
+            gameManager.FlashColor(clickedButton.gameObject, Color.red, 0.5f, 0.1f);
+        }
     }
 }

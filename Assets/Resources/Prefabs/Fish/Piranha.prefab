@@ -250,6 +250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisPrefab: {fileID: 1863455049823253984}
+  sellAmount: 60
   growCount: 0
   grown: 0
   minutesUntilGrown: 120

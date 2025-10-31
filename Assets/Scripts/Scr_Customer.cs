@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class Scr_Customer : MonoBehaviour
@@ -81,9 +82,7 @@ public class Scr_Customer : MonoBehaviour
         //if they've existed too long, destroy them
         if (ticksSinceSpawned >= ticksToExist)
         {
-            customerExists = false;
-            ticksSinceSpawned = 0;
-            DestroyCustomerFish();
+            CustomerGoAway();
             return;
         }
 
@@ -131,6 +130,56 @@ public class Scr_Customer : MonoBehaviour
 
     public void SellFish()
     {
+        foreach (GameObject baggedFishSocket in gameManager.baggedFishSockets)
+        {
+            if (baggedFishSocket.transform.childCount != 0)
+            {
+                GameObject baggedFish = baggedFishSocket.transform.GetChild(0).gameObject;
+                Scr_Fish baggedFishScr = baggedFish.GetComponent<Scr_Fish>();
 
+                //player has the fish that the customer wants to buy
+                if (baggedFish.CompareTag(customerFishPrefab.tag))
+                {
+                    gameManager.AddMoneyAmount(baggedFishScr.sellAmount);
+
+                    baggedFish.transform.SetParent(null);
+                    Destroy(baggedFish);
+                    gameManager.ShowHideFishBags();
+
+                    gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.4f, 1f, 1f);
+                    gameManager.PlaySoundEffect(gameManager.SFX_MoneyCounter, 0.4f, 1f, 1f);
+
+                    //maybe play a happy customer noise
+                    CustomerGoAway();
+                    return;
+                }
+            }
+        }
+
+        //if reach here, it means that the player did not have the fish to sell
+        UnableToCompleteTransaction();
+    }
+
+    public void DenyCustomer()
+    {
+        //maybe play sad customer noise
+        CustomerGoAway();
+    }
+
+    public void CustomerGoAway()
+    {
+        customerExists = false;
+        ticksSinceSpawned = 0;
+        DestroyCustomerFish();
+    }
+
+    private void UnableToCompleteTransaction()
+    {
+        GameObject clickedButton = EventSystem.current.currentSelectedGameObject;
+
+        gameManager.PlaySoundEffect(gameManager.SFX_Error, 0.3f);
+
+        // Make cursor icon and selected food button flash red
+        gameManager.FlashColor(clickedButton, Color.red, 0.5f, 0.1f);
     }
 }

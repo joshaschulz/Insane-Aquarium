@@ -28,7 +28,7 @@ public class Scr_GameManager : MonoBehaviour
     private GameObject tempPhoneAudioSource;
 
 
-    public int moneyAmount;
+    public int moneyAmount = 0;
     public TextMeshProUGUI moneyText;
 
     public int fishFood_1_Amount;
@@ -62,6 +62,8 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject baggedFish_Socket1;
     public GameObject baggedFish_Socket2;
     public GameObject baggedFish_Socket3;
+
+    public GameObject[] baggedFishSockets;
 
     public GameObject[] fishPrefabs;
 
@@ -195,6 +197,10 @@ public class Scr_GameManager : MonoBehaviour
         foodFishDictionary = new Dictionary<GameObject, GameObject>(); //have to instantiate a dictionary for some reason
 
         fishPrefabs = Resources.LoadAll<GameObject>("Prefabs/Fish");
+
+        SetMoneyAmount(30);
+
+        baggedFishSockets = new GameObject[] {baggedFish_Socket1, baggedFish_Socket2, baggedFish_Socket3 };
 
         //baggedFish = new List<(GameObject, int)>(); //have to instantiate this thing for some reason
 
@@ -546,6 +552,8 @@ public class Scr_GameManager : MonoBehaviour
         GameObject baggedFishButtonToUse;
         GameObject baggedFishSocketToUse;
         // Check to see if there is at least 1 of 3 bags available
+
+
         if (baggedFish_Socket1.transform.childCount == 0)
         {
             baggedFishButtonToUse = baggedFish_Button1;
@@ -695,6 +703,16 @@ public class Scr_GameManager : MonoBehaviour
         moneyAmount = _newMoneyAmount;
         UpdateText(moneyText, moneyAmount);
     }
+    public void AddMoneyAmount(int _moneyToAdd)
+    {
+        moneyAmount += _moneyToAdd;
+        UpdateText(moneyText, moneyAmount);
+    }
+    public void SubtractMoneyAmount(int _moneyToSubtract)
+    {
+        moneyAmount += _moneyToSubtract;
+        UpdateText(moneyText, moneyAmount);
+    }
     public int GetFishFoodAmount(GameObject _fishFoodType)
     {
         if (_fishFoodType == fishFood_1_Prefab)
@@ -841,80 +859,7 @@ public class Scr_GameManager : MonoBehaviour
             currentFishFoodButtonSelected = fishFood_2_Button;
         }
     }
-    /*
-    public void SelectBaggedFish(GameObject _baggedFishButton)
-    {
-        // If the fish bag is currently selected, remove it
-        if (canIBagFish)
-        {
-            DeselectFishBag();
-        }
-
-        // If a fish food is currently selected, remove it
-        if (currentFishFoodSelected != null)
-        {
-            ChangeFishFoodTypeToDrop(null);
-        }
-
-<<<<<<< HEAD
-=======
-        // Change the cursor image to a fish bag image and play a sound effect
-
-        GameObject baggedFishButtonCopy = Instantiate(_baggedFishButton, cursorFollower.transform);
-
-        GameObject baggedFishCopy = baggedFishButtonCopy.transform.GetChild(0).gameObject;
-
-        //Scr_Fish baggedFishCopyScript = baggedFishCopy.GetComponent<Scr_Fish>();
-
-        baggedFishCopy.transform.SetParent(baggedFishButtonCopy.transform);
-
-
-        float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
-
-        float baggedFishButtonWidth = (baggedFishButtonCopy.GetComponent<RectTransform>().rect.width / Camera.main.pixelWidth) * screenWidthWorld;
-
-        Debug.Log(baggedFishButtonWidth);
-
-        baggedFishCopy.transform.localScale = new Vector3(baggedFishButtonCopy.GetComponent<RectTransform>().rect.width, baggedFishButtonCopy.GetComponent<RectTransform>().rect.height, baggedFishCopy.transform.localScale.z);
-
-        // Move the fish to the position where the fishbag button appears to be in the world
-        Vector3 baggedFishButtonPosition = Camera.main.ScreenToWorldPoint(baggedFishButtonCopy.transform.position);
-        baggedFishCopy.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y - 0.2f, baggedFishCopy.transform.position.z);
-
-
-        baggedFishButtonCopy.GetComponent<Button>().enabled = false;
-        baggedFishButtonCopy.GetComponent<Image>().raycastTarget = false;
-        baggedFishButtonCopy.transform.localPosition = Vector3.zero;
-        baggedFishButtonCopy.transform.GetChild(0).gameObject.transform.localPosition = Vector3.zero;
-
-        cursorFollower.gameObject.SetActive(true);
-        cursorFollower.GetComponent<Image>().enabled = false;
-
-
-
->>>>>>> e35f5737fab0f5df1b478f6eaed454b47707d761
-        PlaySoundEffect(SFX_Select, 0.7f);
-
-        // Set a state where clicking on the tank will drop the fish childed to this bagged fish button
-        //fishToDrop = _baggedFishButton.transform.GetChild(0).gameObject;
-        currentBaggedFishButtonSelected = _baggedFishButton;
-    }
-
-    public void DeselectBaggedFish()
-    {
-<<<<<<< HEAD
-=======
-        // Change the cursor image to nothing and play a sound effect
-        ChangeCursorFollower(null);
-        cursorFollower.GetComponent<Image>().enabled = true;
-        Destroy(cursorFollower.transform.GetChild(0).gameObject);
-
->>>>>>> e35f5737fab0f5df1b478f6eaed454b47707d761
-        PlaySoundEffect(SFX_Select, 0.7f, 0.8f);
-
-        currentBaggedFishButtonSelected = null;
-    }
-        */
+    
 
     public void SelectFishBag()
     {
@@ -1019,13 +964,13 @@ public class Scr_GameManager : MonoBehaviour
             }
         }
 
-
-
     }
+
     public void FlashColor(GameObject _Object, Color _colorToChange, float _flashTime, float _flashInterval)
     {
         StartCoroutine(FlashColorCoroutine(_Object, _colorToChange, _flashTime, _flashInterval));
     }
+
     private IEnumerator FlashColorCoroutine(GameObject _Object, Color _colorToChange, float _flashTime, float _flashInterval)
     {
         float elapsedTime = 0f;
@@ -1042,6 +987,7 @@ public class Scr_GameManager : MonoBehaviour
             elapsedTime += _flashInterval;
         }
     }
+
 
     public void MoveToScene(Transform transform)
     {
@@ -1146,8 +1092,8 @@ public class Scr_GameManager : MonoBehaviour
 
     public void ShowHideFishBags()
     {
-        GameObject baggedFishButtonToUse;
-        GameObject baggedFishSocketToUse;
+        //GameObject baggedFishButtonToUse;
+        //GameObject baggedFishSocketToUse;
 
         // Check to see if there is at least 1 of 3 bags available
         if (baggedFish_Socket1.transform.childCount == 0)

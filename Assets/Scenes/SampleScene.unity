@@ -205,7 +205,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 20291999}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1016291779}
+        m_TargetAssemblyTypeName: Scr_Customer, Assembly-CSharp
+        m_MethodName: SellFish
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &20291999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,11 +453,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 681399494}
+  m_Father: {fileID: 672596399}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 7, y: 0}
+  m_AnchoredPosition: {x: 703, y: 346}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &82281158
@@ -477,8 +489,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4283087955
+  m_fontColor: {r: 0.3254902, g: 0.7372549, b: 0.2901961, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -531,7 +543,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: -1.5015274}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1536,18 +1548,6 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1031440125}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: PlayOneShot
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: e663d27bcb67d734bbf92cf2df2c475a, type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2769,6 +2769,7 @@ RectTransform:
   - {fileID: 1646324638}
   - {fileID: 74389729}
   - {fileID: 1987215204}
+  - {fileID: 82281157}
   - {fileID: 681399494}
   - {fileID: 1274303999}
   - {fileID: 896720488}
@@ -2818,7 +2819,6 @@ RectTransform:
   - {fileID: 1855886169}
   - {fileID: 1765217030}
   - {fileID: 1034296666}
-  - {fileID: 82281157}
   m_Father: {fileID: 672596399}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4706,7 +4706,7 @@ MonoBehaviour:
   - 5104237244
   - 5106318421
   - 5737082243
-  moneyAmount: 10000
+  moneyAmount: 0
   moneyText: {fileID: 82281158}
   fishFood_1_Amount: 25
   fishFood_1_AmountText: {fileID: 1791112974}
@@ -4729,6 +4729,7 @@ MonoBehaviour:
   baggedFish_Socket1: {fileID: 2024399581}
   baggedFish_Socket2: {fileID: 621487660}
   baggedFish_Socket3: {fileID: 213474541}
+  baggedFishSockets: []
   fishPrefabs: []
   SFX_DropCoin: {fileID: 8300000, guid: 5ddd5e4b84097c64e8fe6b8b28fc1296, type: 3}
   SFX_DropFish: {fileID: 8300000, guid: 23c6049ea0e728142973a9c84341ac3a, type: 3}
@@ -6338,6 +6339,9 @@ MonoBehaviour:
   shouldSpawn: 0
   toiletFishExist: 0
   ticksToSpawnChance: 2
+  StallTransform: {fileID: 1662642239}
+  bathroom: {fileID: 1780107370}
+  rod: {fileID: 366276495}
 --- !u!1 &1646324634
 GameObject:
   m_ObjectHideFlags: 0
@@ -7088,7 +7092,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1790534064}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1016291779}
+        m_TargetAssemblyTypeName: Scr_Customer, Assembly-CSharp
+        m_MethodName: DenyCustomer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1790534064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8775,37 +8791,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1031440123}
-        m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
-        m_MethodName: MoveToScene
+      - m_Target: {fileID: 1618220531}
+        m_TargetAssemblyTypeName: Scr_SpawnToiletFish, Assembly-CSharp
+        m_MethodName: FishingPoleHookedButton
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 1662642239}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1031440123}
-        m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
-        m_MethodName: DisableElement
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1780107370}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1031440123}
-        m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
-        m_MethodName: EnableElement
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 366276495}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_ObjectArgument: {fileID: 2067038406}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

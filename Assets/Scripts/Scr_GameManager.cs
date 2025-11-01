@@ -398,8 +398,8 @@ public class Scr_GameManager : MonoBehaviour
 
         spawnPosition.x = randPosX;
 
-
-        int fishCost = _fishToSpawn.GetComponent<Scr_Fish>().fishCost;
+        //commented because fish dont cost money from button (button used for testing)
+        /*int fishCost = _fishToSpawn.GetComponent<Scr_Fish>().fishCost;
         if (GetMoneyAmount() >= fishCost)
         {
             SetMoneyAmount(GetMoneyAmount() - fishCost);
@@ -423,7 +423,24 @@ public class Scr_GameManager : MonoBehaviour
         else
         {
             Debug.Log("Insufficient Money for Fish : $" + fishCost);
+        }*/
+
+        GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
+
+
+
+        foodFishDictionary.Add(newFish, _fishToSpawn);
+        Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
+        newFishScript.thisPrefab = _fishToSpawn;
+
+        if (!newFishScript.grown)
+        {
+            MakeFishSmaller(newFish); //want to spawn fish as child and then have it grow over time
         }
+
+        AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(newFish, _fishToSpawn);
+
+        PlaySoundEffect(SFX_DropFish, 1, 0.5f, 1.5f);
 
         //Scr_UIElementsHandler.UpdateTankWater();
 

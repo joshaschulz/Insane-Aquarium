@@ -1107,9 +1107,11 @@ MonoBehaviour:
   thisPrefab: {fileID: 8672692834543181141}
   sellAmount: 20
   growCount: 0
-  grown: 0
+  grown: 1
+  freakCount: 0
+  canFreak: 0
   minutesUntilGrown: 60
-  minutesUntilHungry: 30
+  minutesUntilHungry: 60
   minutesUntilDead: 60
   hungryColor: {r: 0.21960786, g: 1, b: 0.15686275, a: 1}
   spawnHeight: 0.75

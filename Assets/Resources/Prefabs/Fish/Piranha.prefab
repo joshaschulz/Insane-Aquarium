@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -119188961
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 74d3cb6690ae90546bf9b5595cccdfe8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -155,7 +155,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -119188961
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 6f71d61eab683264fba45b4f98a82aa7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -253,6 +253,7 @@ MonoBehaviour:
   sellAmount: 60
   growCount: 0
   grown: 0
+  radiated: 0
   freakCount: 0
   canFreak: 0
   minutesUntilGrown: 120
@@ -271,6 +272,8 @@ MonoBehaviour:
   bloodEffectPrefab: {fileID: 7699653466035250317, guid: 29a6421998a7dcd48a84d3e1c2dcec44, type: 3}
   bloodOutlineEffectPrefab: {fileID: 7699653466035250317, guid: ff820ec8f90290e45ad4f2c2e24d6b8e, type: 3}
   bubblesEffectPrefab: {fileID: 7699653466035250317, guid: 4e2ec060f025af64ba8ccc7e09d540eb, type: 3}
+  radiationEffectPrefab: {fileID: 7699653466035250317, guid: 88b396a9442737145b370cfdc7c5963d, type: 3}
+  radiationOutlineEffectPrefab: {fileID: 7699653466035250317, guid: b272fab0de09ec14d926afe41dd52d15, type: 3}
   fishDiet:
   - {fileID: 8672692834543181141, guid: 1e8f852235a4ef746860883a25c3714f, type: 3}
   foodInScene: []
@@ -456,7 +459,7 @@ SortingGroup:
   m_GameObject: {fileID: 2822489125385185820}
   m_Enabled: 1
   m_SortingLayerID: -119188961
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_SortAtRoot: 0
 --- !u!1 &3211988995876329177
@@ -598,7 +601,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -119188961
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 707b22ce43cbd9444b88e2979ce3b650, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -714,7 +717,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -119188961
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 9d5cc0c2b02bb594fb28b32fc3fef2d1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -832,7 +835,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -119188961
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 1ac8a4ba4f7216247b34746d34dd9804, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -948,7 +951,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -119188961
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 2fea8541349ecc940aa46b36b9992ef4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1065,7 +1068,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -119188961
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: aa0f96a40bc7b214aa9baa630efbe710, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1149,7 +1152,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -119188961
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: c4c61ba54aca0df4fa5c316500314ebd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1226,7 +1229,7 @@ SortingGroup:
   m_GameObject: {fileID: 7964857540707324171}
   m_Enabled: 1
   m_SortingLayerID: -119188961
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_SortAtRoot: 0
 --- !u!1 &8660995529365901962
@@ -1333,7 +1336,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -119188961
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 528bd54d79d640a4a836f3212bfa5303, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

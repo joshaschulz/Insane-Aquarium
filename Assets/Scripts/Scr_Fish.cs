@@ -38,6 +38,8 @@ public class Scr_Fish : MonoBehaviour
     public float growCount = 0;
     public bool grown = false;
 
+    public bool radiated = false;
+
     public float freakCount = 0;
     public bool canFreak;
     private GameObject fishToFreakOn;
@@ -70,6 +72,8 @@ public class Scr_Fish : MonoBehaviour
     public GameObject bloodEffectPrefab;
     public GameObject bloodOutlineEffectPrefab;
     public GameObject bubblesEffectPrefab;
+    public GameObject radiationEffectPrefab;
+    public GameObject radiationOutlineEffectPrefab;
 
     public List<GameObject> fishDiet;
     public List<GameObject> foodInScene;
@@ -153,6 +157,12 @@ public class Scr_Fish : MonoBehaviour
 
         // Start selecting between Idle and Moving after the drop in animation has played
         Invoke("IdleOrMove", frontAnimator.GetCurrentAnimatorStateInfo(0).length);
+
+        if (radiated)
+        {
+            gameManager.SpawnParticles(radiationOutlineEffectPrefab, transform.position, transform.rotation, transform);
+            gameManager.SpawnParticles(radiationEffectPrefab, transform.position, transform.rotation, transform);
+        }
 
     }
 
@@ -272,9 +282,26 @@ public class Scr_Fish : MonoBehaviour
 
             gameManager.PlaySoundEffect(gameManager.SFX_FishEat, 0.7f, 0.8f, 1.2f);
 
+            if (collisionObj.GetComponent<Scr_FoodBehavior>() != null)
+            {
+                if (collisionObj.GetComponent<Scr_FoodBehavior>().radiated && !radiated)
+                {
+                    radiated = true;
+                    gameManager.SpawnParticles(radiationOutlineEffectPrefab, transform.position, transform.rotation, transform);
+                    gameManager.SpawnParticles(radiationEffectPrefab, transform.position, transform.rotation, transform);
+                }
+            }
+
             // If the food is a fish, make it run Die(), so sound/blood effects happen
             if (collisionObj.GetComponent<Scr_Fish>() != null)
             {
+                if (collisionObj.GetComponent<Scr_Fish>().radiated && !radiated)
+                {
+                    radiated = true;
+                    gameManager.SpawnParticles(radiationOutlineEffectPrefab, transform.position, transform.rotation, transform);
+                    gameManager.SpawnParticles(radiationEffectPrefab, transform.position, transform.rotation, transform);
+                }
+
                 collisionObj.GetComponent<Scr_Fish>().Die();
             }
             else

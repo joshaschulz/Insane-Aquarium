@@ -11,6 +11,7 @@ public class Scr_FoodBehavior : MonoBehaviour
 
     public float groundBarrierPercentage;
     private Vector2 groundBarrier;
+    public bool radiated;
     public float fallSpeed;
     public float spinSpeed;
     public float spinAmount;

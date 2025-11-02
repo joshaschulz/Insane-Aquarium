@@ -15,6 +15,7 @@ public class Scr_FoodBehavior : MonoBehaviour
     public float spinSpeed;
     public float spinAmount;
     private int spinDirection;
+    public List<GameObject> particleEffectPrefabs;
 
     private bool fadeOut = false;
     private float currentTimeforFade = 0f;
@@ -37,6 +38,14 @@ public class Scr_FoodBehavior : MonoBehaviour
         InvokeRepeating("rotateFood", 0f, 1 / spinSpeed);
 
         groundBarrier = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height * groundBarrierPercentage));
+
+        if (particleEffectPrefabs.Count > 0)
+        {
+            foreach (GameObject _particleEffectPrefab in particleEffectPrefabs)
+            {
+                gameManager.SpawnParticles(_particleEffectPrefab, transform.position, transform.rotation, transform);
+            }
+        }
     }
 
     // Update is called once per frame

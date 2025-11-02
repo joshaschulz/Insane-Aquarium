@@ -50,6 +50,9 @@ TagManager:
   - name: Background
     uniqueID: 563528079
     locked: 0
+  - name: Effects Behind Game Objects
+    uniqueID: 725414703
+    locked: 0
   - name: Game Objects
     uniqueID: 4175778335
     locked: 0

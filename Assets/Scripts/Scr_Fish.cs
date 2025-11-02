@@ -288,7 +288,7 @@ public class Scr_Fish : MonoBehaviour
             List<float> bubblesUpperPitches = new List<float> { 1.1f, 0.8f };
             gameManager.PlayRandomSoundEffect(bubblesSFX, bubblesVolumes, bubblesLowerPitches, bubblesUpperPitches);
 
-            gameManager.SpawnParticles(bubblesEffectPrefab, transform.position, transform.rotation);
+            gameManager.SpawnParticles(bubblesEffectPrefab, transform.position, transform.rotation, null);
         }
 
     }
@@ -400,8 +400,8 @@ public class Scr_Fish : MonoBehaviour
         Debug.Log(gameObject.name + " died!");
 
         gameManager.PlaySoundEffect(gameManager.SFX_FishDeath, 1, 0.5f, 1.5f);
-        gameManager.SpawnParticles(bloodOutlineEffectPrefab, transform.position, transform.rotation);
-        gameManager.SpawnParticles(bloodEffectPrefab, transform.position, transform.rotation);
+        gameManager.SpawnParticles(bloodOutlineEffectPrefab, transform.position, transform.rotation, null);
+        gameManager.SpawnParticles(bloodEffectPrefab, transform.position, transform.rotation, null);
 
         gameManager.foodFishDictionary.Remove(gameObject);
         gameManager.RemoveFoodFromExistingFishDiets(gameObject);

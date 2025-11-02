@@ -604,7 +604,7 @@ public class Scr_GameManager : MonoBehaviour
         PlaySoundEffect(SFX_BagFish, 1);
         PlaySoundEffect(SFX_Bag, 1);
         Scr_Fish fishScript = _fishToBag.GetComponent<Scr_Fish>();
-        SpawnParticles(fishScript.bubblesEffectPrefab, transform.position, transform.rotation);
+        SpawnParticles(fishScript.bubblesEffectPrefab, transform.position, transform.rotation, null);
 
 
         // Teleport the fish to the BaggedFishButton it is to be associated with, deactivate its fish script and other components, make it uneatable
@@ -946,13 +946,22 @@ public class Scr_GameManager : MonoBehaviour
         }
     }
 
-    public void SpawnParticles(GameObject _particles, Vector3 _position, Quaternion _rotation)
+    public void SpawnParticles(GameObject _particles, Vector3 _position, Quaternion _rotation, Transform _parent)
     {
         GameObject newParticlesObject = Instantiate(_particles, _position, _rotation);
         ParticleSystem newParticleSystem = newParticlesObject.GetComponent<ParticleSystem>();
         newParticleSystem.Play();
-        float totalLifetime = newParticleSystem.main.duration + newParticleSystem.main.startLifetime.constantMax;
-        Destroy(newParticlesObject, totalLifetime);
+
+        if (_parent)
+        {
+            newParticlesObject.transform.parent = _parent;
+        }
+
+        if (!newParticleSystem.main.loop)
+        {
+            float totalLifetime = newParticleSystem.main.duration + newParticleSystem.main.startLifetime.constantMax;
+            Destroy(newParticlesObject, totalLifetime);
+        }
     }
 
     public void ChangeColor(GameObject _Object, Color _colorToChange) // Checks ALL children

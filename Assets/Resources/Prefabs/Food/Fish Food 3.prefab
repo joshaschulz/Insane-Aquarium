@@ -73,7 +73,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -119188961
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 267bab35dd674cc4a84c88ac36f9efdd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -103,6 +103,9 @@ MonoBehaviour:
   fallSpeed: 1.5
   spinSpeed: 0
   spinAmount: 0
+  particleEffectPrefabs:
+  - {fileID: 7699653466035250317, guid: 154ca43425a4b9c45bce4fc9cf8ec014, type: 3}
+  - {fileID: 7699653466035250317, guid: 2abe7bfbfc9557a43911d1d6f6428fa7, type: 3}
 --- !u!58 &-8377279493207297222
 CircleCollider2D:
   m_ObjectHideFlags: 0

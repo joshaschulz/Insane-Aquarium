@@ -35,13 +35,17 @@ public class Scr_GameManager : MonoBehaviour
     public TextMeshProUGUI fishFood_1_AmountText;
     public int fishFood_2_Amount;
     public TextMeshProUGUI fishFood_2_AmountText;
+    public int fishFood_3_Amount;
+    public TextMeshProUGUI fishFood_3_AmountText;
 
     public GameObject fishFood_1_Button;
     public GameObject fishFood_2_Button;
+    public GameObject fishFood_3_Button;
     public GameObject currentFishFoodButtonSelected;
 
     public GameObject fishFood_1_Prefab;
     public GameObject fishFood_2_Prefab;
+    public GameObject fishFood_3_Prefab;
     public GameObject currentFishFoodSelected;
 
 
@@ -212,6 +216,7 @@ public class Scr_GameManager : MonoBehaviour
             //UpdateText(moneyText, moneyAmount);
             //UpdateText(fishFood_1_AmountText, fishFood_1_Amount);
             //UpdateText(fishFood_2_AmountText, fishFood_2_Amount);
+            // Add more fish food types here...
 
             tank.SetActive(false);
         }
@@ -740,6 +745,10 @@ public class Scr_GameManager : MonoBehaviour
         {
             return fishFood_2_Amount;
         }
+        else if (_fishFoodType == fishFood_3_Prefab)
+        {
+            return fishFood_3_Amount;
+        }
         else
         {
             Debug.Log("INVALID FISH FOOD TYPE");
@@ -757,6 +766,11 @@ public class Scr_GameManager : MonoBehaviour
         {
             fishFood_2_Amount = _newFishFoodAmount;
             UpdateText(fishFood_2_AmountText, fishFood_2_Amount);
+        }
+        else if (_fishFoodType == fishFood_3_Prefab)
+        {
+            fishFood_3_Amount = _newFishFoodAmount;
+            UpdateText(fishFood_3_AmountText, fishFood_3_Amount);
         }
         else
         {
@@ -874,6 +888,13 @@ public class Scr_GameManager : MonoBehaviour
             PlaySoundEffect(SFX_Select, 0.7f);
             ChangeCursorFollower(fishFood_2_Button.GetComponent<Image>().sprite);
             currentFishFoodButtonSelected = fishFood_2_Button;
+        }
+        else if (_fishFoodType == fishFood_3_Prefab)
+        {
+            currentFishFoodSelected = fishFood_3_Prefab;
+            PlaySoundEffect(SFX_Select, 0.7f);
+            ChangeCursorFollower(fishFood_3_Button.GetComponent<Image>().sprite);
+            currentFishFoodButtonSelected = fishFood_3_Button;
         }
     }
     
@@ -1042,6 +1063,7 @@ public class Scr_GameManager : MonoBehaviour
         UpdateText(moneyText, moneyAmount);
         UpdateText(fishFood_1_AmountText, fishFood_1_Amount);
         UpdateText(fishFood_2_AmountText, fishFood_2_Amount);
+        UpdateText(fishFood_3_AmountText, fishFood_3_Amount);
 
         // Add more text boxes and values as we make them...
     }

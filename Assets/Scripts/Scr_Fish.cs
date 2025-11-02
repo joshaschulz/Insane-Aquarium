@@ -68,6 +68,7 @@ public class Scr_Fish : MonoBehaviour
     public float minX, maxX, minY, maxY;
 
     public GameObject bloodEffectPrefab;
+    public GameObject bloodOutlineEffectPrefab;
     public GameObject bubblesEffectPrefab;
 
     public List<GameObject> fishDiet;
@@ -399,6 +400,7 @@ public class Scr_Fish : MonoBehaviour
         Debug.Log(gameObject.name + " died!");
 
         gameManager.PlaySoundEffect(gameManager.SFX_FishDeath, 1, 0.5f, 1.5f);
+        gameManager.SpawnParticles(bloodOutlineEffectPrefab, transform.position, transform.rotation);
         gameManager.SpawnParticles(bloodEffectPrefab, transform.position, transform.rotation);
 
         gameManager.foodFishDictionary.Remove(gameObject);

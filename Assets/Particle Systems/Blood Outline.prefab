@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1968223233856078321}
   - component: {fileID: 3429387810008623441}
   m_Layer: 0
-  m_Name: Blood Effect
+  m_Name: Blood Outline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -221,9 +221,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startColor:
       serializedVersion: 2
-      minMaxState: 2
+      minMaxState: 0
       minColor: {r: 0.509434, g: 0.012014951, b: 0.012014951, a: 1}
-      maxColor: {r: 0.8207547, g: 0, b: 0, a: 1}
+      maxColor: {r: 0, g: 0, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -287,8 +287,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.2
-      minScalar: 0.1
+      scalar: 0.23
+      minScalar: 0.13
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4815,7 +4815,7 @@ ParticleSystemRenderer:
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
   m_LengthScale: 2
-  m_SortingFudge: -1
+  m_SortingFudge: 1
   m_NormalDirection: 1
   m_ShadowBias: 0
   m_RenderAlignment: 0

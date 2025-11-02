@@ -253,6 +253,8 @@ MonoBehaviour:
   sellAmount: 60
   growCount: 0
   grown: 0
+  freakCount: 0
+  canFreak: 0
   minutesUntilGrown: 120
   minutesUntilHungry: 60
   minutesUntilDead: 120
@@ -267,6 +269,7 @@ MonoBehaviour:
   minY: 0
   maxY: 0
   bloodEffectPrefab: {fileID: 7699653466035250317, guid: 29a6421998a7dcd48a84d3e1c2dcec44, type: 3}
+  bloodOutlineEffectPrefab: {fileID: 7699653466035250317, guid: ff820ec8f90290e45ad4f2c2e24d6b8e, type: 3}
   bubblesEffectPrefab: {fileID: 7699653466035250317, guid: 4e2ec060f025af64ba8ccc7e09d540eb, type: 3}
   fishDiet:
   - {fileID: 8672692834543181141, guid: 1e8f852235a4ef746860883a25c3714f, type: 3}

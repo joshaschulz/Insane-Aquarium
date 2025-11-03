@@ -48,6 +48,7 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject fishFood_3_Prefab;
     public GameObject currentFishFoodSelected;
 
+    public Scr_Dialogue dialogueBox;
 
     public float groundTimeUntilDespawn;
     public int goldCoinWorth;
@@ -165,6 +166,43 @@ public class Scr_GameManager : MonoBehaviour
             {
                 tempPhoneAudioSource = PlaySoundEffectDontDestroy(SFX_CallRinging, 0.5f, 1);
                 Destroy(tempPhoneAudioSource, tempPhoneAudioSource.GetComponent<AudioSource>().clip.length);
+
+
+                // Depending on which number called, change the dialogue box text
+
+                if (numberToCall == phonebook[0])
+                {
+                    dialogueBox.lines = new string[] {
+                    "You need some fish food?",
+                    "No problem.",
+                    "Goodbye!"
+                };
+                }
+                else if(numberToCall == phonebook[1])
+                {
+                    dialogueBox.lines = new string[] {
+                    "Fish tanks too bland?",
+                    "We've got fish feeders, decorations, etc!",
+                    "Goodbye!"
+                };
+                }
+                else if (numberToCall == phonebook[2])
+                {
+                    dialogueBox.lines = new string[] {
+                    "Looking for a new shop?",
+                    "I know exactly what you're looking for.",
+                    "Goodbye!"
+                };
+                }
+
+
+
+
+
+
+                // Wait for the sound to finish, then open dialogue
+                StartCoroutine(WaitForCallToFinishThenStartDialogue(tempPhoneAudioSource));
+
             }
             else
             {
@@ -179,6 +217,12 @@ public class Scr_GameManager : MonoBehaviour
             phoneNumber.text = "";
         }
 
+    }
+    IEnumerator WaitForCallToFinishThenStartDialogue(GameObject sourceGameObject)
+    {
+        yield return new WaitForSeconds(sourceGameObject.GetComponent<AudioSource>().clip.length);
+        dialogueBox.gameObject.SetActive(true);
+        dialogueBox.StartDialogue();
     }
 
     private void Awake()

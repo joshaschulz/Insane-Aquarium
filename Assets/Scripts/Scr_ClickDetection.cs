@@ -8,7 +8,6 @@ public class Scr_ClickDetection : MonoBehaviour
 
     Scr_GameManager gameManager;
 
-
     private void Awake()
     {
         gameManager = GetComponent<Scr_GameManager>();
@@ -19,10 +18,22 @@ public class Scr_ClickDetection : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            // Check if the mouse is over a UI element
-            if (EventSystem.current.IsPointerOverGameObject())
+            PointerEventData pointerData = new PointerEventData(EventSystem.current);
+            pointerData.position = Input.mousePosition;
+            
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(pointerData, results);
+
+            // Check if we hit any UI objects
+            if (results.Count > 0)
             {
-                Debug.Log("Clicked a UI element");
+                Debug.Log("Clicked UI element: " + results[0].gameObject.name);
+
+                // If we clicked on the Dialogue Text...
+                if (results[0].gameObject.transform.parent.GetComponent<Scr_Dialogue>())
+                {
+                    results[0].gameObject.transform.parent.GetComponent<Scr_Dialogue>().AdvanceText();
+                }
             }
             else
             {
@@ -54,16 +65,6 @@ public class Scr_ClickDetection : MonoBehaviour
                     */
                 }
 
-                // Clicked on nothing
-                // If fish is able to be dropped, drop it
-                // Otherwise, attempt to feed
-
-                /*
-                if (gameManager.currentBaggedFishButtonSelected != null)
-                {
-                    gameManager.DropFish();
-                }
-                */
 
                 if (gameManager.currentFishFoodSelected != null)
                 {
@@ -101,5 +102,7 @@ public class Scr_ClickDetection : MonoBehaviour
             }
             */
         }
+
     }
+
 }

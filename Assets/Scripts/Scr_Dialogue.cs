@@ -1,0 +1,114 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+public class Scr_Dialogue : MonoBehaviour
+{
+    public TextMeshProUGUI textComponent;
+    public string[] lines;
+    public float textSpeed;
+
+    private int index;
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        textComponent.text = string.Empty;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void StartDialogue()
+    {
+        textComponent.text = string.Empty;
+        index = 0;
+        StartCoroutine(StartDialogueSequence());
+    }
+    IEnumerator StartDialogueSequence()
+    {
+        // Play the opening animation first
+        yield return StartCoroutine(OpenBox());
+
+        // Then start typing
+        yield return StartCoroutine(TypeLine());
+    }
+
+    IEnumerator TypeLine()
+    {
+        foreach (char c in lines[index].ToCharArray())
+        {
+            textComponent.text += c;
+            yield return new WaitForSeconds(textSpeed);
+        }
+    }
+
+    void NextLine()
+    {
+        if (index < lines.Length - 1)
+        {
+            index++;
+            textComponent.text = string.Empty;
+            StartCoroutine(TypeLine());
+        }
+        else
+        {
+            StartCoroutine(CloseBox());
+        }
+    }
+
+    public void AdvanceText()
+    {
+        if (textComponent.text == lines[index])
+        {
+            NextLine();
+        }
+        else
+        {
+            StopAllCoroutines();
+            textComponent.text = lines[index];
+        }
+    }
+    IEnumerator OpenBox()
+    {
+        RectTransform rect = GetComponent<RectTransform>();
+        rect.localScale = Vector3.zero;
+        Vector3 targetScale = Vector3.one;
+        float duration = 0.15f;
+        float time = 0f;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float t = time / duration;
+            rect.localScale = Vector3.Lerp(Vector3.zero, targetScale, t);
+            yield return null;
+        }
+
+        rect.localScale = targetScale;
+    }
+    IEnumerator CloseBox()
+    {
+        RectTransform rect = GetComponent<RectTransform>();
+        Vector3 originalScale = rect.localScale;
+        Vector3 targetScale = Vector3.zero;
+        float duration = 0.15f; // how fast it closes
+        float time = 0f;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float t = time / duration;
+            rect.localScale = Vector3.Lerp(originalScale, targetScale, t);
+            yield return null;
+        }
+
+        rect.localScale = targetScale;
+        gameObject.SetActive(false);
+        rect.localScale = originalScale; // reset for next time
+    }
+}

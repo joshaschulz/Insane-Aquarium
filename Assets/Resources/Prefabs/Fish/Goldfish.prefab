@@ -1109,11 +1109,11 @@ MonoBehaviour:
   growCount: 0
   grown: 1
   radiated: 0
-  freakCount: 0
+  freakCount: 70
   canFreak: 0
   minutesUntilGrown: 60
-  minutesUntilHungry: 60
-  minutesUntilDead: 60
+  minutesUntilHungry: 90
+  minutesUntilDead: 120
   hungryColor: {r: 0.21960786, g: 1, b: 0.15686275, a: 1}
   spawnHeight: 0.75
   baseSpeed: 2.5

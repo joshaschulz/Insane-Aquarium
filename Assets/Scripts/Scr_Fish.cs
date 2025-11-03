@@ -215,6 +215,12 @@ public class Scr_Fish : MonoBehaviour
         }
         else if (canFreak)//go freakmode
         {
+
+            if (!sideContainer.activeSelf)
+            {
+                FaceSideways();
+            }
+
             transform.position = Vector2.MoveTowards(transform.position, fishToFreakOn.transform.position, currentSpeed * Time.deltaTime);
 
             int leftOrRight = (fishToFreakOn.transform.position.x < transform.position.x) ? -1 : 1;
@@ -241,13 +247,32 @@ public class Scr_Fish : MonoBehaviour
         //freaky code
         foreach (GameObject fish in gameManager.foodFishDictionary.Keys) //foreach fish that is alive in the tank
         {
-            Scr_Fish fishScr = fish.GetComponent<Scr_Fish>();
-            if (fishScr.freakCount == 100 && fish.CompareTag(gameObject.tag))
+            if (fish.GetComponent<Scr_Fish>()) //if key in dictionary is fish
             {
-                fishToFreakOn = fish;
-                return;
+                Scr_Fish fishScr = fish.GetComponent<Scr_Fish>();
+                if (fishScr.freakCount == 100 && fish.CompareTag(gameObject.tag) && fish != gameObject)
+                {
+                    //Debug.Log(gameObject.name + " found a fish to freak on: " + fish.name);
+
+                    fishToFreakOn = fish;
+                    return;
+                }
+                else
+                {
+                    fishToFreakOn = null;
+                }
             }
+
         }
+    }
+
+    IEnumerator DelayedFreakCheck()
+    {
+        yield return new WaitForEndOfFrame(); // wait for all fish to tick
+
+        FindFishToFreakOn();
+
+        canFreak = (fishToFreakOn != null);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -255,16 +280,31 @@ public class Scr_Fish : MonoBehaviour
 
         GameObject collisionObj = collision.gameObject;
 
-        if (collisionObj.CompareTag(gameObject.tag) && canFreak)
+        if (collisionObj.CompareTag(gameObject.tag))
         {
-            freakCount = 0;
-            canFreak = false;
+            Scr_Fish collisionObjScr = collisionObj.GetComponent<Scr_Fish>();
 
-            if (gameObject.GetInstanceID() < collisionObj.GetInstanceID()) //only the smaller ordered fish in the scene runs this
-                gameManager.SpawnFish(thisPrefab);
+            if (canFreak && collisionObjScr.canFreak)
+            {
+                freakCount = 0;
+                canFreak = false;
+                collisionObjScr.canFreak = false;
+                collisionObjScr.freakCount = 0;
 
-            
-            return;
+                FaceForward();
+                collisionObjScr.FaceForward();
+
+                SetTarget(transform.position);
+                collisionObjScr.SetTarget(collisionObj.transform.position);
+
+                if (gameObject.GetInstanceID() < collisionObj.GetInstanceID()) //only the smaller ordered fish in the scene runs this
+                {
+                    gameManager.SpawnBabyFish(thisPrefab, gameObject.transform);
+                }
+
+                return;
+
+            }
         }
 
         if (!foodInScene.Contains(collisionObj))
@@ -379,34 +419,33 @@ public class Scr_Fish : MonoBehaviour
 
     public void FreakCounter()
     {
-        if (freakCount != 100)
+        if (grown)
         {
-            if (!isHungry)
+            if (freakCount != 100)
             {
-                freakCount = Mathf.Min(100, freakCount + tickIntervalInMinutes);
-            }
-            else if (isHungry)
-            {
-                freakCount = Mathf.Max(0, freakCount - tickIntervalInMinutes);
+                if (!isHungry)
+                {
+                    freakCount = Mathf.Min(100, freakCount + tickIntervalInMinutes);
+                }
+                else if (isHungry)
+                {
+                    freakCount = Mathf.Max(0, freakCount - tickIntervalInMinutes);
+                }
+
             }
 
+            if (freakCount == 100)
+            {
+                StartCoroutine(DelayedFreakCheck());
+            }
+            else
+            {
+                canFreak = false;
+            }
+
+            Debug.Log(gameObject.name + freakCount);
         }
 
-        if (freakCount == 100)
-        {
-            FindFishToFreakOn();
-
-            if (fishToFreakOn != null)
-            {
-                canFreak = true;
-            }
-        }
-        else
-        {
-            canFreak = false;
-        }
-
-        Debug.Log(gameObject.name + freakCount);
     }
 
     public void SetHungry()

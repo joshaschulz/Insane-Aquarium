@@ -451,21 +451,13 @@ public class Scr_GameManager : MonoBehaviour
 
     }
 
-    public void SpawnFish(GameObject _fishToSpawn, Transform tank) //spawn fish in a tank (don't have to be in the tank to spawn the fish)
+    public void SpawnFish(GameObject _fishToSpawn, Transform _pos)
     {
         //spawn fish at random x coordinate at same designated y coordinate
         //set the x bounds of where the fish can spawn based on screen size
 
-        Vector2 spawnPosition = new Vector2(tank.transform.position.x, tank.transform.position.y);
+        Vector2 spawnPosition = new Vector2(_pos.position.x, _pos.position.y);
 
-        /*if (tank == tank1)
-        {
-            tank1Fish++;
-        }
-        else if (tank == tank2)
-        {
-            tank2Fish++;
-        }*/
 
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
         float screenHeightWorld = Camera.main.orthographicSize * 2;
@@ -479,30 +471,50 @@ public class Scr_GameManager : MonoBehaviour
 
         spawnPosition.x = randPosX;
 
+        GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
 
-        int fishCost = _fishToSpawn.GetComponent<Scr_Fish>().fishCost;
-        if (GetMoneyAmount() >= fishCost)
+
+
+        foodFishDictionary.Add(newFish, _fishToSpawn);
+        Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
+        newFishScript.thisPrefab = _fishToSpawn;
+
+        if (!newFishScript.grown)
         {
-            SetMoneyAmount(GetMoneyAmount() - fishCost);
-            GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
-
             MakeFishSmaller(newFish); //want to spawn fish as child and then have it grow over time
-
-            foodFishDictionary.Add(newFish, _fishToSpawn);
-            Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
-            newFishScript.thisPrefab = _fishToSpawn;
-
-
-            AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(newFish, _fishToSpawn);
-
-            PlaySoundEffect(SFX_DropFish, 1, 0.5f, 1.5f);
-        }
-        else
-        {
-            Debug.Log("Insufficient Money for Fish : $" + fishCost);
         }
 
+        AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(newFish, _fishToSpawn);
 
+        PlaySoundEffect(SFX_DropFish, 1, 0.5f, 1.5f);
+
+        //Scr_UIElementsHandler.UpdateTankWater();
+
+    }
+
+    public void SpawnBabyFish(GameObject _fishToSpawn, Transform _pos)
+    {
+        //spawn fish at random x coordinate at same designated y coordinate
+        //set the x bounds of where the fish can spawn based on screen size
+
+        Vector2 spawnPosition = new Vector2(_pos.position.x, _pos.position.y - 2);
+
+        GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
+
+        MakeFishSmaller(newFish);
+
+
+
+
+        foodFishDictionary.Add(newFish, _fishToSpawn);
+        Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
+        newFishScript.thisPrefab = _fishToSpawn;
+
+        newFishScript.grown = false;
+
+        AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(newFish, _fishToSpawn);
+
+        PlaySoundEffect(SFX_DropFish, 1, 0.5f, 1.5f);
 
         //Scr_UIElementsHandler.UpdateTankWater();
 

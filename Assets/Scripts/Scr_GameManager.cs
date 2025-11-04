@@ -136,10 +136,10 @@ public class Scr_GameManager : MonoBehaviour
         {
             if (key == 1)
             {
-                if (GetMoneyAmount() >= 100)
+                if (GetMoneyAmount() >= fishFood_1_Prefab.GetComponent<Scr_FoodBehavior>().price)
                 {
-                    SetFishFoodAmount(fishFood_1_Prefab, fishFood_1_Amount + 20);
-                    SubtractMoneyAmount(100);
+                    SetFishFoodAmount(fishFood_1_Prefab, fishFood_1_Amount + 1);
+                    SubtractMoneyAmount(fishFood_1_Prefab.GetComponent<Scr_FoodBehavior>().price);
                 }
                 else // Not enough money for purchase
                 {
@@ -152,10 +152,10 @@ public class Scr_GameManager : MonoBehaviour
             }
             else if (key == 2)
             {
-                if (GetMoneyAmount() >= 100)
+                if (GetMoneyAmount() >= fishFood_2_Prefab.GetComponent<Scr_FoodBehavior>().price)
                 {
-                    SetFishFoodAmount(fishFood_2_Prefab, fishFood_2_Amount + 20);
-                    SubtractMoneyAmount(100);
+                    SetFishFoodAmount(fishFood_2_Prefab, fishFood_2_Amount + 1);
+                    SubtractMoneyAmount(fishFood_2_Prefab.GetComponent<Scr_FoodBehavior>().price);
                 }
                 else // Not enough money for purchase
                 {
@@ -168,10 +168,10 @@ public class Scr_GameManager : MonoBehaviour
             }
             else if (key == 3)
             {
-                if (GetMoneyAmount() >= 100)
+                if (GetMoneyAmount() >= fishFood_3_Prefab.GetComponent<Scr_FoodBehavior>().price)
                 {
-                    SetFishFoodAmount(fishFood_3_Prefab, fishFood_3_Amount + 20);
-                    SubtractMoneyAmount(100);
+                    SetFishFoodAmount(fishFood_3_Prefab, fishFood_3_Amount + 1);
+                    SubtractMoneyAmount(fishFood_3_Prefab.GetComponent<Scr_FoodBehavior>().price);
                 }
                 else // Not enough money for purchase
                 {
@@ -237,7 +237,7 @@ public class Scr_GameManager : MonoBehaviour
             if (contact != null)
             {
                 // Play global ringing sound
-                tempPhoneAudioSource = PlaySoundEffectDontDestroy(SFX_CallRinging, 0.5f, 1);
+                tempPhoneAudioSource = PlaySoundEffectDontDestroy(SFX_CallRinging, 0.2f, 1);
                 Destroy(tempPhoneAudioSource.gameObject, tempPhoneAudioSource.GetComponent<AudioSource>().clip.length);
 
                 // Wait for the sound to finish, then open dialogue
@@ -246,7 +246,7 @@ public class Scr_GameManager : MonoBehaviour
             else
             {
                 // Play call fail sound
-                tempPhoneAudioSource = PlaySoundEffectDontDestroy(SFX_CallFail, 1f, 1);
+                tempPhoneAudioSource = PlaySoundEffectDontDestroy(SFX_CallFail, 0.7f, 1);
                 Destroy(tempPhoneAudioSource.gameObject, tempPhoneAudioSource.GetComponent<AudioSource>().clip.length);
             }
 
@@ -1154,7 +1154,8 @@ public class Scr_GameManager : MonoBehaviour
     private IEnumerator FlashTextColorCoroutine(TextMeshProUGUI _textObject, Color _colorToChange, float _flashTime, float _flashInterval)
     {
         float elapsedTime = 0f;
-        Color originalColor = _textObject.color;
+        Color originalColor = Color.white;
+
         while (elapsedTime < _flashTime)
         {
             _textObject.color = _colorToChange;
@@ -1191,6 +1192,16 @@ public class Scr_GameManager : MonoBehaviour
     {
         _element.SetActive(false);
     }
+
+    public void EnableButton(Button _button)
+    {
+        _button.interactable = true;
+    }
+    public void DisableButton(Button _button)
+    {
+        _button.interactable = false;
+    }
+
 
     public void RodToDisplay()
     {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class Scr_ClickDetection : MonoBehaviour
 {
@@ -78,9 +79,10 @@ public class Scr_ClickDetection : MonoBehaviour
                         gameManager.PlaySoundEffect(gameManager.SFX_Error, 0.3f);
                         Debug.Log("Out of Selected Fish Food");
 
-                        // Make cursor icon and selected food button flash red
+                        // Make cursor icon, selected food button, and food amount text flash red
                         gameManager.FlashColor(gameManager.cursorFollower.gameObject, Color.red, 0.5f, 0.1f);
                         gameManager.FlashColor(gameManager.currentFishFoodButtonSelected, Color.red, 0.5f, 0.1f);
+                        gameManager.FlashTextColor(gameManager.currentFishFoodButtonSelected.transform.GetChild(0).GetComponent<TextMeshProUGUI>(), Color.red, 0.5f, 0.1f);
                     }
                 }
             }

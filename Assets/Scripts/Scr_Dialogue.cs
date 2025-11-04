@@ -57,7 +57,7 @@ public class Scr_Dialogue : MonoBehaviour
         }
         else
         {
-            StartCoroutine(CloseBox());
+            StartCloseBoxEnum();
         }
     }
 
@@ -90,6 +90,12 @@ public class Scr_Dialogue : MonoBehaviour
         }
 
         rect.localScale = targetScale;
+    }
+    public void StartCloseBoxEnum()
+    {
+        if (!gameObject.activeInHierarchy)
+            return;
+        StartCoroutine(CloseBox());
     }
     IEnumerator CloseBox()
     {

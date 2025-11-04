@@ -2725,7 +2725,7 @@ MonoBehaviour:
   textComponent: {fileID: 1937762872}
   lines:
   - Test
-  textSpeed: 0.05
+  textSpeed: 0.02
 --- !u!114 &666694430
 MonoBehaviour:
   m_ObjectHideFlags: 0

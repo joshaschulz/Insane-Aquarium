@@ -24,8 +24,11 @@ public class Scr_GameManager : MonoBehaviour
     public TextMeshProUGUI phoneNumber; //number entered on the phone
 
     //numbers on the stall
-    public string[] phonebook;
     private GameObject tempPhoneAudioSource;
+    public Scr_PhoneContact[] contacts;
+    public string currentlyCalling = "";
+
+    public Scr_Dialogue dialogueBox;
 
 
     public int moneyAmount = 0;
@@ -48,7 +51,6 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject fishFood_3_Prefab;
     public GameObject currentFishFoodSelected;
 
-    public Scr_Dialogue dialogueBox;
 
     public float groundTimeUntilDespawn;
     public int goldCoinWorth;
@@ -129,6 +131,63 @@ public class Scr_GameManager : MonoBehaviour
         }
 
 
+        // NEW PURCHASING CODE
+        if (currentlyCalling == "The Hungry Guppy")
+        {
+            if (key == 1)
+            {
+                if (GetMoneyAmount() >= 100)
+                {
+                    SetFishFoodAmount(fishFood_1_Prefab, fishFood_1_Amount + 20);
+                    SubtractMoneyAmount(100);
+                }
+                else // Not enough money for purchase
+                {
+                    PlaySoundEffect(SFX_Error, 0.3f);
+                    Debug.Log("Not enough money!");
+
+                    // Make money text flash red
+                    FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
+                }
+            }
+            else if (key == 2)
+            {
+                if (GetMoneyAmount() >= 100)
+                {
+                    SetFishFoodAmount(fishFood_2_Prefab, fishFood_2_Amount + 20);
+                    SubtractMoneyAmount(100);
+                }
+                else // Not enough money for purchase
+                {
+                    PlaySoundEffect(SFX_Error, 0.3f);
+                    Debug.Log("Not enough money!");
+
+                    // Make money text flash red
+                    FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
+                }
+            }
+            else if (key == 3)
+            {
+                if (GetMoneyAmount() >= 100)
+                {
+                    SetFishFoodAmount(fishFood_3_Prefab, fishFood_3_Amount + 20);
+                    SubtractMoneyAmount(100);
+                }
+                else // Not enough money for purchase
+                {
+                    PlaySoundEffect(SFX_Error, 0.3f);
+                    Debug.Log("Not enough money!");
+
+                    // Make money text flash red
+                    FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
+                }
+            }
+        }
+
+
+
+
+
         // Handle functionality
         if (key >= 0 && key <= 9) //press number
         {
@@ -161,68 +220,65 @@ public class Scr_GameManager : MonoBehaviour
             string numberToCall = phoneNumber.text;
             phoneNumber.text = "";
 
-            //if number doesnt exist as callable, play call fail sound, otherwise play the ringing sound
-            if (phonebook.Contains(numberToCall))
+
+
+            Scr_PhoneContact contact = null;
+
+            // Find the contact with the matching number
+            for (int i = 0; i < contacts.Length; i++)
             {
+                if (contacts[i].phoneNumber == numberToCall)
+                {
+                    contact = contacts[i];
+                    break;
+                }
+            }
+
+            if (contact != null)
+            {
+                // Play global ringing sound
                 tempPhoneAudioSource = PlaySoundEffectDontDestroy(SFX_CallRinging, 0.5f, 1);
-                Destroy(tempPhoneAudioSource, tempPhoneAudioSource.GetComponent<AudioSource>().clip.length);
-
-
-                // Depending on which number called, change the dialogue box text
-
-                if (numberToCall == phonebook[0])
-                {
-                    dialogueBox.lines = new string[] {
-                    "You need some fish food?",
-                    "No problem.",
-                    "Goodbye!"
-                };
-                }
-                else if(numberToCall == phonebook[1])
-                {
-                    dialogueBox.lines = new string[] {
-                    "Fish tanks too bland?",
-                    "We've got fish feeders, decorations, etc!",
-                    "Goodbye!"
-                };
-                }
-                else if (numberToCall == phonebook[2])
-                {
-                    dialogueBox.lines = new string[] {
-                    "Looking for a new shop?",
-                    "I know exactly what you're looking for.",
-                    "Goodbye!"
-                };
-                }
-
-
-
-
-
+                Destroy(tempPhoneAudioSource.gameObject, tempPhoneAudioSource.GetComponent<AudioSource>().clip.length);
 
                 // Wait for the sound to finish, then open dialogue
-                StartCoroutine(WaitForCallToFinishThenStartDialogue(tempPhoneAudioSource));
-
+                StartCoroutine(WaitForCallToFinishThenStartDialogue(contact, tempPhoneAudioSource.GetComponent<AudioSource>()));
             }
             else
             {
-                tempPhoneAudioSource = PlaySoundEffectDontDestroy(SFX_CallFail, 2f, 1);
-                Destroy(tempPhoneAudioSource, tempPhoneAudioSource.GetComponent<AudioSource>().clip.length);
+                // Play call fail sound
+                tempPhoneAudioSource = PlaySoundEffectDontDestroy(SFX_CallFail, 1f, 1);
+                Destroy(tempPhoneAudioSource.gameObject, tempPhoneAudioSource.GetComponent<AudioSource>().clip.length);
             }
+
+
+
+
 
 
         }
         else if (key == 999) //used for clearing on enabling/disabling phone
         {
             phoneNumber.text = "";
+
+            currentlyCalling = string.Empty;
         }
 
     }
-    IEnumerator WaitForCallToFinishThenStartDialogue(GameObject sourceGameObject)
+
+    // Coroutine: wait for ringing to finish, then start dialogue
+    private IEnumerator WaitForCallToFinishThenStartDialogue(Scr_PhoneContact contact, AudioSource source)
     {
-        yield return new WaitForSeconds(sourceGameObject.GetComponent<AudioSource>().clip.length);
+        yield return new WaitForSeconds(source.clip.length);
+
+        // Set dialogue lines
+        dialogueBox.lines = contact.dialogueLines;
+
+        // Open dialogue box (with your animation)
         dialogueBox.gameObject.SetActive(true);
         dialogueBox.StartDialogue();
+
+        // Trigger contact-specific behavior
+        contact.OnCallAnswered(this);
     }
 
     private void Awake()
@@ -246,7 +302,7 @@ public class Scr_GameManager : MonoBehaviour
 
         fishPrefabs = Resources.LoadAll<GameObject>("Prefabs/Fish");
 
-        SetMoneyAmount(30);
+        UpdateSceneTexts();
 
         baggedFishSockets = new GameObject[] {baggedFish_Socket1, baggedFish_Socket2, baggedFish_Socket3 };
 
@@ -788,7 +844,7 @@ public class Scr_GameManager : MonoBehaviour
     }
     public void SubtractMoneyAmount(int _moneyToSubtract)
     {
-        moneyAmount += _moneyToSubtract;
+        moneyAmount -= _moneyToSubtract;
         UpdateText(moneyText, moneyAmount);
     }
     public int GetFishFoodAmount(GameObject _fishFoodType)
@@ -1069,28 +1125,47 @@ public class Scr_GameManager : MonoBehaviour
 
     }
 
-    public void FlashColor(GameObject _Object, Color _colorToChange, float _flashTime, float _flashInterval)
+    public void FlashColor(GameObject _object, Color _colorToChange, float _flashTime, float _flashInterval)
     {
-        StartCoroutine(FlashColorCoroutine(_Object, _colorToChange, _flashTime, _flashInterval));
+        StartCoroutine(FlashColorCoroutine(_object, _colorToChange, _flashTime, _flashInterval));
     }
 
-    private IEnumerator FlashColorCoroutine(GameObject _Object, Color _colorToChange, float _flashTime, float _flashInterval)
+    private IEnumerator FlashColorCoroutine(GameObject _object, Color _colorToChange, float _flashTime, float _flashInterval)
     {
         float elapsedTime = 0f;
         Color originalColor = Color.white; // Assuming the default color is white.
 
         while (elapsedTime < _flashTime)
         {
-            ChangeColor(_Object, _colorToChange);
+            ChangeColor(_object, _colorToChange);
             yield return new WaitForSeconds(_flashInterval);
             elapsedTime += _flashInterval;
 
-            ChangeColor(_Object, originalColor);
+            ChangeColor(_object, originalColor);
             yield return new WaitForSeconds(_flashInterval);
             elapsedTime += _flashInterval;
         }
     }
 
+    public void FlashTextColor(TextMeshProUGUI _textObject, Color _colorToChange, float _flashTime, float _flashInterval)
+    {
+        StartCoroutine(FlashTextColorCoroutine(_textObject, _colorToChange, _flashTime, _flashInterval));
+    }
+    private IEnumerator FlashTextColorCoroutine(TextMeshProUGUI _textObject, Color _colorToChange, float _flashTime, float _flashInterval)
+    {
+        float elapsedTime = 0f;
+        Color originalColor = _textObject.color;
+        while (elapsedTime < _flashTime)
+        {
+            _textObject.color = _colorToChange;
+            yield return new WaitForSeconds(_flashInterval);
+            elapsedTime += _flashInterval;
+
+            _textObject.color = originalColor;
+            yield return new WaitForSeconds(_flashInterval);
+            elapsedTime += _flashInterval;
+        }
+    }
 
     public void MoveToScene(Transform transform)
     {

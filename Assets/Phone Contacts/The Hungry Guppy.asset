@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed06819329252df4eabcad43b6959053, type: 3}
+  m_Name: The Hungry Guppy
+  m_EditorClassIdentifier: 
+  contactName: The Hungry Guppy
+  phoneNumber: 5104237244
+  dialogueLines:
+  - Thank you for calling The Hungry Guppy!
+  - We have a premium selection of the finest fish foods.
+  - Stay on the line to choose from our catalog.
+  - Press 1 for Pellets.
+  - Press 2 for Flakes.
+  - Press 3 for Radiation.

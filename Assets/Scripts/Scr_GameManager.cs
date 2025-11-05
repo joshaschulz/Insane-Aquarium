@@ -237,7 +237,7 @@ public class Scr_GameManager : MonoBehaviour
             if (contact != null)
             {
                 // Play global ringing sound
-                tempPhoneAudioSource = PlaySoundEffectDontDestroy(SFX_CallRinging, 0.2f, 1);
+                tempPhoneAudioSource = PlaySoundEffectDontDestroy(SFX_CallRinging, 0.1f, 1);
                 Destroy(tempPhoneAudioSource.gameObject, tempPhoneAudioSource.GetComponent<AudioSource>().clip.length);
 
                 // Wait for the sound to finish, then open dialogue
@@ -246,7 +246,7 @@ public class Scr_GameManager : MonoBehaviour
             else
             {
                 // Play call fail sound
-                tempPhoneAudioSource = PlaySoundEffectDontDestroy(SFX_CallFail, 0.7f, 1);
+                tempPhoneAudioSource = PlaySoundEffectDontDestroy(SFX_CallFail, 0.5f, 1);
                 Destroy(tempPhoneAudioSource.gameObject, tempPhoneAudioSource.GetComponent<AudioSource>().clip.length);
             }
 

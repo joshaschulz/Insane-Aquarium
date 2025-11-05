@@ -55,6 +55,7 @@ public class Scr_Fish : MonoBehaviour
     public int minutesUntilDead;
 
     public Color hungryColor;
+    private GameObject heartIcon;
 
     [Range(0f, 1f)]
     public float spawnHeight;
@@ -128,10 +129,13 @@ public class Scr_Fish : MonoBehaviour
         // These are the gameobjects that hold the front and side images of the fish and their animators. The side one also has the mouth collision circle
         sideContainer = transform.GetChild(0).gameObject;
         frontContainer = transform.GetChild(1).gameObject;
+        heartIcon = transform.GetChild(2).gameObject;
         if (!sideContainer.name.Contains("Side Container"))
             Debug.Log(gameObject.name + "'s first child's name does not contain 'Side Container'.");
         if (!frontContainer.name.Contains("Front Container"))
             Debug.Log(gameObject.name + "'s second child's name does not contain 'Front Container'.");
+        if (!heartIcon.name.Contains("Fish Heart"))
+            Debug.Log(gameObject.name + "'s third child's name does not contain 'Fish Heart'.");
 
     }
 
@@ -290,6 +294,7 @@ public class Scr_Fish : MonoBehaviour
                 canFreak = false;
                 collisionObjScr.canFreak = false;
                 collisionObjScr.freakCount = 0;
+
 
                 FaceForward();
                 collisionObjScr.FaceForward();

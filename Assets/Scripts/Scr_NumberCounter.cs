@@ -38,6 +38,13 @@ public class Scr_NumberCounter : MonoBehaviour
 
     private void UpdateText(int newValue)
     {
+        // Only update if the value changed
+        if (newValue == _value)
+        {
+            return;
+        }
+
+
         if (CountingCoroutine != null)
         {
             StopCoroutine(CountingCoroutine);

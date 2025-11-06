@@ -1199,7 +1199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toiletFish: {fileID: 0}
-  reelInSpeed: 0.12
+  reelInSpeed: 0.1
   lateralPullStrength: 1
   fishEscapeHeight: -7.5
   toiletWinLine: {fileID: 1155270340}

@@ -352,9 +352,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e9be1f936d970845aa19dbc3accd8a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  difficultyMultiplier: 3.2
+  difficultyMultiplier: 6
   escapeFactor: 1.6
-  maxHorizontalRange: 0.5
+  maxHorizontalRange: 0.7
 --- !u!68 &6998234625172859772
 EdgeCollider2D:
   m_ObjectHideFlags: 0

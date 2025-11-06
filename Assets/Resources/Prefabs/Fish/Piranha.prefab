@@ -251,7 +251,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisPrefab: {fileID: 1863455049823253984}
-  sellAmount: 60
   growCount: 0
   grown: 0
   radiated: 0
@@ -263,7 +262,7 @@ MonoBehaviour:
   hungryColor: {r: 0.21960786, g: 1, b: 0.15686275, a: 1}
   spawnHeight: 0.5
   baseSpeed: 4
-  fishCost: 150
+  fishCost: 500
   originalScale: {x: 0, y: 0, z: 0}
   spawnTank: {x: 0, y: 0}
   minX: 0

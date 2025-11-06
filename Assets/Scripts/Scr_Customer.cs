@@ -140,7 +140,7 @@ public class Scr_Customer : MonoBehaviour
                 //player has the fish that the customer wants to buy
                 if (baggedFish.CompareTag(customerFishPrefab.tag))
                 {
-                    gameManager.AddMoneyAmount(baggedFishScr.sellAmount);
+                    gameManager.AddMoneyAmount(baggedFishScr.fishCost);
 
                     baggedFish.transform.SetParent(null);
                     Destroy(baggedFish);

@@ -4,6 +4,8 @@ using UnityEngine;
 using TMPro;
 public class Scr_Dialogue : MonoBehaviour
 {
+    private Scr_GameManager gameManager;
+
     public TextMeshProUGUI textComponent;
     public string[] lines;
     public float textSpeed;
@@ -14,6 +16,8 @@ public class Scr_Dialogue : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = Scr_GameManager.GMinstance;
+
         textComponent.text = string.Empty;
     }
 
@@ -43,6 +47,14 @@ public class Scr_Dialogue : MonoBehaviour
         foreach (char c in lines[index].ToCharArray())
         {
             textComponent.text += c;
+
+            // Play the blip sound — skip silent characters so it doesn't sound messy
+            if (char.IsLetterOrDigit(c))
+            {
+                float randomPitch = Random.Range(0.35f, 0.4f);
+                gameManager.PlaySoundEffect(gameManager.SFX_TextScroll, 0.15f, randomPitch);
+            }
+
             yield return new WaitForSeconds(textSpeed);
         }
     }

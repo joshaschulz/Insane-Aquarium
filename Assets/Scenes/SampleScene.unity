@@ -2809,7 +2809,7 @@ MonoBehaviour:
   textComponent: {fileID: 1937762872}
   lines:
   - Test
-  textSpeed: 0.02
+  textSpeed: 0.05
 --- !u!114 &666694430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5038,7 +5038,7 @@ MonoBehaviour:
   SFX_MoneyCounter: {fileID: 8300000, guid: 17a7ca4235d9ee74cb81ab4e6736660d, type: 3}
   SFX_Pop: {fileID: 8300000, guid: 22de5438446505043bc61f0c084389b3, type: 3}
   SFX_Snap: {fileID: 8300000, guid: e663d27bcb67d734bbf92cf2df2c475a, type: 3}
-  SFX_TextScroll: {fileID: 8300000, guid: 7e44a5f44a4199a4280eede0c77b2105, type: 3}
+  SFX_TextScroll: {fileID: 8300000, guid: 984d6b6a6ae37cd4b953a5e8d082836f, type: 3}
   SFX_Keypad1: {fileID: 8300000, guid: 38874c59c6951564c84e9b6f3351c622, type: 3}
   SFX_Keypad2: {fileID: 8300000, guid: ee8ac7dc1c0b28e4d8748995a5662995, type: 3}
   SFX_Keypad3: {fileID: 8300000, guid: 1e706eaaf793ae942a45f65ff4b23282, type: 3}

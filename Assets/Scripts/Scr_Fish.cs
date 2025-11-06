@@ -256,11 +256,13 @@ public class Scr_Fish : MonoBehaviour
                 {
                     //Debug.Log(gameObject.name + " found a fish to freak on: " + fish.name);
 
+                    heartIcon.SetActive(true);
                     fishToFreakOn = fish;
                     return;
                 }
                 else
                 {
+                    heartIcon.SetActive(false);
                     fishToFreakOn = null;
                 }
             }
@@ -292,6 +294,9 @@ public class Scr_Fish : MonoBehaviour
                 canFreak = false;
                 collisionObjScr.canFreak = false;
                 collisionObjScr.freakCount = 0;
+
+                heartIcon.SetActive(false);
+                collisionObjScr.heartIcon.SetActive(false);
 
 
                 FaceForward();

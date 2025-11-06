@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using TMPro;
+using UnityEngine.Audio;
 
 public class Scr_GameManager : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class Scr_GameManager : MonoBehaviour
     private Camera _Camera;
 
     public AudioSource AS;
+    public AudioMixerSnapshot normalSnapshot;
+    public AudioMixerSnapshot underwaterSnapshot;
     public Scr_CursorFollower cursorFollower;
     private Scr_SpawnToiletFish Scr_SpawnToiletFish;
     private Scr_TimeHandler Scr_TimeHandler;
@@ -966,6 +969,19 @@ public class Scr_GameManager : MonoBehaviour
         yield return new WaitForSeconds(_delay);
         AS.pitch = 1.0f;
     }
+
+
+    public void EnableUnderwaterAudio()
+    {
+        underwaterSnapshot.TransitionTo(0.3f);
+        Debug.Log("underwater sounds");
+    }
+    public void DisableUnderwaterAudio()
+    {
+        normalSnapshot.TransitionTo(0.3f);
+        Debug.Log("normal sounds");
+    }
+
 
     public void ChangeFishFoodTypeToDrop(GameObject _fishFoodType)
     {

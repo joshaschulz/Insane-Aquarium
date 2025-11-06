@@ -576,7 +576,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   difficultyMultiplier: 5
   escapeFactor: 0.8
-  maxHorizontalRange: 0.6
+  maxHorizontalRange: 0.7
 --- !u!68 &4591617791957535574
 EdgeCollider2D:
   m_ObjectHideFlags: 0

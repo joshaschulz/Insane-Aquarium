@@ -1292,9 +1292,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e9be1f936d970845aa19dbc3accd8a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  difficultyMultiplier: 4
+  difficultyMultiplier: 3
   escapeFactor: 0.4
-  maxHorizontalRange: 0.5
+  maxHorizontalRange: 0.6
 --- !u!68 &69115643324086938
 EdgeCollider2D:
   m_ObjectHideFlags: 0

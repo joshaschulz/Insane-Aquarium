@@ -123,6 +123,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &6075516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6075517}
+  m_Layer: 0
+  m_Name: Toilet Collider Point Left
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6075517
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6075516}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.94, y: -0.23, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1692965233}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &20291996
 GameObject:
   m_ObjectHideFlags: 0
@@ -5012,6 +5043,9 @@ MonoBehaviour:
   baggedFish_Socket3: {fileID: 213474541}
   baggedFishSockets: []
   fishPrefabs: []
+  tankSpriteRenderers:
+  - {fileID: 823700866}
+  - {fileID: 352481009}
   SFX_DropCoin: {fileID: 8300000, guid: 5ddd5e4b84097c64e8fe6b8b28fc1296, type: 3}
   SFX_DropFish: {fileID: 8300000, guid: 23c6049ea0e728142973a9c84341ac3a, type: 3}
   SFX_DropFood: {fileID: 8300000, guid: 96e7efc54c26eac40b24ba697bac8d47, type: 3}
@@ -5979,6 +6013,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointA: {fileID: 0}
   pointB: {fileID: 0}
+  ColliderLeft: {fileID: 6075517}
+  ColliderRight: {fileID: 1850285811}
   line: {fileID: 0}
   fishingRod: {fileID: 366276498}
 --- !u!120 &1216183066
@@ -6085,6 +6121,98 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!1 &1245670946
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1245670947}
+  - component: {fileID: 1245670949}
+  - component: {fileID: 1245670948}
+  m_Layer: 0
+  m_Name: Toilet Collider Right
+  m_TagString: Toilet Colliders
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1245670947
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245670946}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 28.571875, y: -2.146875, z: 0}
+  m_LocalScale: {x: 0.9375, y: 0.9375, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1850285811}
+  m_Father: {fileID: 1378629951}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1245670948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245670946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f9085de792b3f44396aef0437be92b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fishingRod: {fileID: 366276498}
+--- !u!68 &1245670949
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245670946}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: 0.44300818, y: -13.943359}
+  - {x: 0.4544121, y: -10.515975}
+  - {x: 0.45980793, y: -6.1556697}
+  - {x: 0.43173778, y: -3.6957939}
+  - {x: 0.38540652, y: -1.2496182}
+  - {x: -0.7002264, y: -0.16180083}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1 &1274303998
 GameObject:
   m_ObjectHideFlags: 0
@@ -6388,6 +6516,39 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &1378629950
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1378629951}
+  m_Layer: 0
+  m_Name: Toilet Colliders
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1378629951
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378629950}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -26.666668, y: 0, z: 0}
+  m_LocalScale: {x: 1.0666667, y: 1.0666667, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1692965233}
+  - {fileID: 1245670947}
+  m_Father: {fileID: 1662642239}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1438919447
 GameObject:
   m_ObjectHideFlags: 0
@@ -7026,7 +7187,7 @@ Transform:
   - {fileID: 555789997}
   - {fileID: 1953580315}
   - {fileID: 1155270340}
-  - {fileID: 1692965233}
+  - {fileID: 1378629951}
   - {fileID: 1715049822}
   - {fileID: 1618220530}
   m_Father: {fileID: 2104815768}
@@ -7130,8 +7291,8 @@ GameObject:
   - component: {fileID: 1692965235}
   - component: {fileID: 1692965234}
   m_Layer: 0
-  m_Name: Toilet Colliders
-  m_TagString: Untagged
+  m_Name: Toilet Collider Left
+  m_TagString: Toilet Colliders
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7144,12 +7305,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1692965232}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.81, y: -2.29, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 28.571875, y: -2.146875, z: 0}
+  m_LocalScale: {x: 0.9375, y: 0.9375, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1662642239}
+  m_Children:
+  - {fileID: 6075517}
+  m_Father: {fileID: 1378629951}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1692965234
 MonoBehaviour:
@@ -7199,17 +7361,14 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -0.54366255, y: -0.17438532}
-  - {x: 0.7781522, y: -0.43469214}
-  - {x: 0.8477099, y: -3.1028388}
-  - {x: 0.78078264, y: -5.099415}
-  - {x: 0.8057036, y: -13.905326}
-  - {x: -8.694581, y: -13.908651}
-  - {x: -8.622558, y: -5.434721}
-  - {x: -8.611202, y: -4.9575343}
-  - {x: -8.596773, y: -3.2044644}
-  - {x: -8.515609, y: -0.53089345}
-  - {x: -6.9991903, y: -0.17553401}
+  - {x: -8.718958, y: -14.319894}
+  - {x: -8.440642, y: -6.43526}
+  - {x: -8.29285, y: -4.912055}
+  - {x: -8.005546, y: -3.2499433}
+  - {x: -7.7879453, y: -1.0311623}
+  - {x: -6.9438605, y: -0.2210129}
+  - {x: -6.943861, y: -0.19484027}
+  - {x: -6.970034, y: -0.19484018}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
@@ -8264,6 +8423,37 @@ RectTransform:
   m_AnchoredPosition: {x: -0.000091552734, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1850285810
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1850285811}
+  m_Layer: 0
+  m_Name: Toilet Collider Point Right
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1850285811
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1850285810}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.71, y: -0.23, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1245670947}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1855886168
 GameObject:
   m_ObjectHideFlags: 0

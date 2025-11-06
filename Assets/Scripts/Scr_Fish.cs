@@ -244,37 +244,11 @@ public class Scr_Fish : MonoBehaviour
 
     }
 
-    private void FindFishToFreakOn()
-    {
-        //freaky code
-        foreach (GameObject fish in gameManager.foodFishDictionary.Keys) //foreach fish that is alive in the tank
-        {
-            if (fish.GetComponent<Scr_Fish>()) //if key in dictionary is fish
-            {
-                Scr_Fish fishScr = fish.GetComponent<Scr_Fish>();
-                if (fishScr.freakCount == 100 && fish.CompareTag(gameObject.tag) && fish != gameObject)
-                {
-                    //Debug.Log(gameObject.name + " found a fish to freak on: " + fish.name);
-
-                    heartIcon.SetActive(true);
-                    fishToFreakOn = fish;
-                    return;
-                }
-                else
-                {
-                    heartIcon.SetActive(false);
-                    fishToFreakOn = null;
-                }
-            }
-
-        }
-    }
-
     IEnumerator DelayedFreakCheck()
     {
         yield return new WaitForEndOfFrame(); // wait for all fish to tick
 
-        FindFishToFreakOn();
+        FindClosestMate();
 
         canFreak = (fishToFreakOn != null);
     }
@@ -512,6 +486,47 @@ public class Scr_Fish : MonoBehaviour
         return null;
     }
 
+    public void FindClosestMate()
+    {
+        if (gameManager.foodFishDictionary.Count > 0)
+        {
+            GameObject closestMate = null;
+            float minDistance = float.MaxValue;
+
+            foreach (GameObject foodFishKey in gameManager.foodFishDictionary.Keys)
+            {
+                if (foodFishKey.GetComponent<Scr_Fish>())
+                {
+                    Scr_Fish foodFishKeyScr = foodFishKey.GetComponent<Scr_Fish>();
+
+                    if (foodFishKey != gameObject && foodFishKeyScr.CompareTag(gameObject.tag) && foodFishKeyScr.freakCount == 100)
+                    {
+                        float distance = Vector2.Distance(transform.position, foodFishKey.transform.position);
+
+                        if (distance < minDistance)
+                        {
+                            minDistance = distance;
+                            closestMate = foodFishKey;
+                        }
+                    }
+                }
+
+            }
+
+            if (closestMate && IsWithinBoundsOfTank(closestMate))
+            {
+                heartIcon.SetActive(true);
+                fishToFreakOn = closestMate;
+            }
+            else
+            {
+                heartIcon.SetActive(false);
+                fishToFreakOn = null;
+            }
+
+        }
+    }
+
     public void SetTarget(float _Xcoord, float _Ycoord)
     {
         target = new Vector2(_Xcoord, _Ycoord);
@@ -532,7 +547,7 @@ public class Scr_Fish : MonoBehaviour
     }
     private void SetMinAndMax() //set the min and max of where fish can travel
     {
-        spawnTank = new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.y);
+        spawnTank = gameManager.GetTankPos(gameObject.transform);
 
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
         float screenHeightWorld = Camera.main.orthographicSize * 2;

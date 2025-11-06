@@ -74,6 +74,8 @@ public class Scr_GameManager : MonoBehaviour
 
     public GameObject[] fishPrefabs;
 
+    public SpriteRenderer[] tankSpriteRenderers;
+
 
     // Click Bag button to turn cursor image to bag and allow for capturing of fish with left click.
     // This should also deselect any currently selected fish food to drop.
@@ -603,11 +605,11 @@ public class Scr_GameManager : MonoBehaviour
 
         MakeFishSmaller(newFish);
 
+        Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
 
 
 
         foodFishDictionary.Add(newFish, _fishToSpawn);
-        Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
         newFishScript.thisPrefab = _fishToSpawn;
 
         newFishScript.grown = false;
@@ -1312,8 +1314,18 @@ public class Scr_GameManager : MonoBehaviour
         {
             baggedFish_Button3.SetActive(true);
         }
+    }
 
+    public Vector2 GetTankPos(Transform pos)
+    {
+        foreach (SpriteRenderer tank in tankSpriteRenderers)
+        {
+            if (tank.bounds.Contains(pos.position))
+            {
+                return new Vector2(tank.transform.position.x, tank.transform.position.y);
+            }
+        }
 
-
+        return new Vector2();
     }
 }

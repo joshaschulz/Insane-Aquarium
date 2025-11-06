@@ -12,6 +12,7 @@ public class Scr_Fishing : MonoBehaviour
     private float scrollTimeout = 0.4f; // Time to wait after stopping scroll input before stopping sound
     private float scrollTimer = 0f; // Timer to track scroll inactivity
     public GameObject toiletFish;
+    private GameObject toiletFishToDestroy;
     GameObject caughtToiletFish;
     public float reelInSpeed;
     public float lateralPullStrength = 1.5f; // Tune this to make the fish swing more
@@ -157,11 +158,15 @@ public class Scr_Fishing : MonoBehaviour
         //lineConnector.line.enabled = false;
 
         //Scr_SpawnToiletFish.toiletFishExist = false;
+
+        toiletFishToDestroy = toiletFish; //so that fish can still exist and drop into the toilet before being set to null and destroying in FishDestroy
         toiletFish = null;
 
         Invoke("GoToBathroom", 1f);
 
         Invoke("FishDestroy", 1f);
+
+
 
     }
 
@@ -198,7 +203,11 @@ public class Scr_Fishing : MonoBehaviour
     public void FishDestroy()
     {
         //Scr_SpawnToiletFish.toiletFishExist = false;
-        Destroy(toiletFish);
+
+        Destroy(toiletFishToDestroy);
+
+        toiletFishToDestroy = null;
+
 
     }
 

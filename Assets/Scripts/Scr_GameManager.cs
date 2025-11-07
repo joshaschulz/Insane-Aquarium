@@ -1080,14 +1080,19 @@ public class Scr_GameManager : MonoBehaviour
 
     public void SpawnParticles(GameObject _particles, Vector3 _position, Quaternion _rotation, Transform _parent)
     {
-        GameObject newParticlesObject = Instantiate(_particles, _position, _rotation);
+        GameObject newParticlesObject;
+        if (_parent)
+        {
+            newParticlesObject = Instantiate(_particles, _position, _rotation, _parent);
+        }
+        else
+        {
+            newParticlesObject = Instantiate(_particles, _position, _rotation);
+        }
+
         ParticleSystem newParticleSystem = newParticlesObject.GetComponent<ParticleSystem>();
         newParticleSystem.Play();
 
-        if (_parent)
-        {
-            newParticlesObject.transform.parent = _parent;
-        }
 
         if (!newParticleSystem.main.loop)
         {

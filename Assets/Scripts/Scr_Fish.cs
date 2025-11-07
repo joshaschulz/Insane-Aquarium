@@ -54,6 +54,7 @@ public class Scr_Fish : MonoBehaviour
 
     public Color hungryColor;
     private GameObject heartIcon;
+    private GameObject hungerIcon;
 
     [Range(0f, 1f)]
     public float spawnHeight;
@@ -128,12 +129,15 @@ public class Scr_Fish : MonoBehaviour
         sideContainer = transform.GetChild(0).gameObject;
         frontContainer = transform.GetChild(1).gameObject;
         heartIcon = transform.GetChild(2).gameObject;
+        hungerIcon = transform.GetChild(3).gameObject;
         if (!sideContainer.name.Contains("Side Container"))
             Debug.Log(gameObject.name + "'s first child's name does not contain 'Side Container'.");
         if (!frontContainer.name.Contains("Front Container"))
             Debug.Log(gameObject.name + "'s second child's name does not contain 'Front Container'.");
         if (!heartIcon.name.Contains("Fish Heart"))
             Debug.Log(gameObject.name + "'s third child's name does not contain 'Fish Heart'.");
+        if (!hungerIcon.name.Contains("Fish Hunger"))
+            Debug.Log(gameObject.name + "'s fourth child's name does not contain 'Fish Hunger'.");
 
     }
 
@@ -442,14 +446,16 @@ public class Scr_Fish : MonoBehaviour
     {
         isHungry = true;
         //sideContainer.GetComponent<BoxCollider2D>().enabled = true;
-        gameManager.ChangeColor(gameObject, hungryColor);
+        //gameManager.ChangeColor(gameObject, hungryColor);
+        hungerIcon.SetActive(true);
     }
     public void SetNotHungry()
     {
         isHungry = false;
         hungerCount = 0;
         //sideContainer.GetComponent<BoxCollider2D>().enabled = false;
-        gameManager.ChangeColor(gameObject, Color.white);
+        //gameManager.ChangeColor(gameObject, Color.white);
+        hungerIcon.SetActive(false);
     }
     public void Die()
     {

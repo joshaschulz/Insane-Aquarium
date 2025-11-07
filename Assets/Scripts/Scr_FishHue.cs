@@ -12,7 +12,7 @@ public class Scr_FishHue : MonoBehaviour
     void Awake()
     {
         // Get all SpriteRenderers in children
-        spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        spriteRenderers = GetComponentsInChildren<SpriteRenderer>(true);
 
         mpb = new MaterialPropertyBlock();
     }

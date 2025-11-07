@@ -488,8 +488,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 580, y: 355}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 685.66895, y: 355}
+  m_SizeDelta: {x: 94.331, y: 50}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &82281158
 MonoBehaviour:
@@ -5040,13 +5040,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 91818659177ae0d42b448888fa6545bd, type: 2}
   currentlyCalling: 
   dialogueBox: {fileID: 666694429}
+  radiationHueShift: 0.3
   moneyAmount: 100
   moneyText: {fileID: 82281158}
-  fishFood_1_Amount: 25
+  fishFood_1_Amount: 100
   fishFood_1_AmountText: {fileID: 1791112974}
-  fishFood_2_Amount: 25
+  fishFood_2_Amount: 100
   fishFood_2_AmountText: {fileID: 896830964}
-  fishFood_3_Amount: 25
+  fishFood_3_Amount: 100
   fishFood_3_AmountText: {fileID: 1659997121}
   fishFood_1_Button: {fileID: 1034296665}
   fishFood_2_Button: {fileID: 1765217029}
@@ -6754,8 +6755,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 280, y: 184}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 332.83, y: 184}
+  m_SizeDelta: {x: 94.331, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1511175562
 MonoBehaviour:

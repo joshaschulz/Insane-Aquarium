@@ -281,7 +281,15 @@ public class Scr_Fish : MonoBehaviour
 
                 if (gameObject.GetInstanceID() < collisionObj.GetInstanceID()) //only the smaller ordered fish in the scene runs this
                 {
-                    gameManager.SpawnBabyFish(thisPrefab, gameObject.transform);
+                    GameObject babyFish = gameManager.SpawnBabyFish(thisPrefab, gameObject.transform);
+                    
+                    float hueForBabyFish = GetComponent<Scr_FishHue>().GetHue();
+                    if (radiated)
+                    {
+                        int sign = (Random.Range(0,2) == 0) ? -1 : 1;
+                        hueForBabyFish += sign * gameManager.radiationHueShift;
+                    }
+                    babyFish.GetComponent<Scr_FishHue>().SetHue(hueForBabyFish);
                 }
 
                 return;

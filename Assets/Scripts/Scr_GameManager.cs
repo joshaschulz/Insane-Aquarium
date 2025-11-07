@@ -33,6 +33,7 @@ public class Scr_GameManager : MonoBehaviour
 
     public Scr_Dialogue dialogueBox;
 
+    public float radiationHueShift;
 
     public int moneyAmount = 0;
     public TextMeshProUGUI moneyText;
@@ -597,7 +598,7 @@ public class Scr_GameManager : MonoBehaviour
 
     }
 
-    public void SpawnBabyFish(GameObject _fishToSpawn, Transform _pos)
+    public GameObject SpawnBabyFish(GameObject _fishToSpawn, Transform _pos)
     {
         //spawn fish at random x coordinate at same designated y coordinate
         //set the x bounds of where the fish can spawn based on screen size
@@ -623,6 +624,7 @@ public class Scr_GameManager : MonoBehaviour
 
         //Scr_UIElementsHandler.UpdateTankWater();
 
+        return newFish;
     }
 
     public void AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(GameObject _spawnedFishOrFood, GameObject _spawnedFishOrFoodPrefab)

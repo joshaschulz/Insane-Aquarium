@@ -1,0 +1,15 @@
+Duplicate an existing fish prefab
+Replace name and all child object names with new fish name
+Change Scr_Fish and Scr_ToiletFish settings
+Add new fish tag and apply it
+Replace body part sprites with new fish body part sprites
+Change the front/side collider sizes & mouth collider size
+Duplicate existing fish's Animation folder and rename animators/animations.
+Apply Animation Controllers to the Front/Side Containers
+Add Idle/Swim Animations to the Front/Side Animation Controllers
+Create animations
+Add debug fish spawning button
+Add species-specific mechanics
+
+In Future ~
+Add to the Fish-pedia

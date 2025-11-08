@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System.Linq;
 using TMPro;
 using UnityEngine.Audio;
+using UnityEngine.Rendering;
 
 public class Scr_GameManager : MonoBehaviour
 {
@@ -471,6 +472,8 @@ public class Scr_GameManager : MonoBehaviour
                 releasedFish.GetComponent<CircleCollider2D>().enabled = true;
                 releasedFish.transform.localScale = releasedFishScript.originalScale;
 
+                SetSortingGroupToLayer(releasedFish, "Game Objects");
+
                 releasedFishScript.Start();
 
                 //baggedFishButton.SetActive(false);
@@ -739,6 +742,9 @@ public class Scr_GameManager : MonoBehaviour
         _fishToBag.transform.SetParent(baggedFishSocketToUse.transform);
 
         fishScript.originalScale = _fishToBag.transform.localScale;
+
+        SetSortingGroupToLayer(_fishToBag, "UI");
+
 
         fishScript.SetTarget(_fishToBag.transform.position);
         fishScript.FaceForward();
@@ -1283,6 +1289,35 @@ public class Scr_GameManager : MonoBehaviour
     {
         fish.transform.localScale = new Vector3(fish.transform.localScale.x * 2, fish.transform.localScale.y * 2, fish.transform.localScale.z); //child is half size as adult
     }
+
+    public void SetSortingGroupToLayer(GameObject _Object, string _SortingLayerName)
+    {
+        if (SortingLayer.NameToID(_SortingLayerName) != 0)
+        {
+            if (_Object.GetComponent<SortingGroup>())
+            {
+                _Object.GetComponent<SortingGroup>().sortingLayerName = _SortingLayerName;
+            }
+
+            foreach (Transform child in _Object.transform)
+            {
+                if (child.gameObject.GetComponent<SortingGroup>())
+                {
+                    child.gameObject.GetComponent<SortingGroup>().sortingLayerName = _SortingLayerName;
+                }
+
+                if (child.childCount > 0)
+                {
+                    SetSortingGroupToLayer(child.gameObject, _SortingLayerName);
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError("Sorting Layer Invalid!");
+        }
+    }
+
 
     public IEnumerator RecenterThenUnlock()
     {

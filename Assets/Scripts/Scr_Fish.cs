@@ -407,6 +407,7 @@ public class Scr_Fish : MonoBehaviour
             {
                 gameManager.MakeFishBigger(gameObject);
                 grown = true;
+                gameManager.PlaySoundEffect(gameManager.SFX_FishGrow, 1f);
             }
         }
     }

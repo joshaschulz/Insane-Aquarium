@@ -44,18 +44,31 @@ public class Scr_Dialogue : MonoBehaviour
 
     IEnumerator TypeLine()
     {
+        int lineIndex = 0;
+        int lineLength = lines[index].ToCharArray().Length - 1;
+
         foreach (char c in lines[index].ToCharArray())
         {
             textComponent.text += c;
 
-            // Play the blip sound — skip silent characters so it doesn't sound messy
-            if (char.IsLetterOrDigit(c))
+            bool isLast = (lineIndex == lineLength);
+            if (!isLast)
             {
-                float randomPitch = Random.Range(0.35f, 0.4f);
-                gameManager.PlaySoundEffect(gameManager.SFX_TextScroll, 0.15f, randomPitch);
+                // Play the blip sound — skip silent characters so it doesn't sound messy
+                if (char.IsLetterOrDigit(c))
+                {
+                    float randomPitch = Random.Range(0.35f, 0.4f);
+                    gameManager.PlaySoundEffect(gameManager.SFX_TextScroll, 0.15f, randomPitch);
+                }
+                lineIndex++;
+                yield return new WaitForSeconds(textSpeed);
             }
-
-            yield return new WaitForSeconds(textSpeed);
+            else
+            {
+                // End the Blip sounds with a higher pitched one
+                yield return new WaitForSeconds(textSpeed);
+                gameManager.PlaySoundEffect(gameManager.SFX_TextScrollEnd, 0.15f, 1.4f);
+            }
         }
     }
 

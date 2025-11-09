@@ -107,22 +107,6 @@ public class Scr_Fish : MonoBehaviour
         }
     }
 
-    public void OnTickEvent()
-    {
-        Debug.Log($"{gameObject.name} received a tick event!");
-
-        HungerCounter();
-
-        GrowCounter();
-
-        FreakCounter();
-
-        //Scr_UIElementsHandler.UpdateTankWater();
-
-
-        // Your fish behavior here, e.g., update hunger status.
-    }
-
     public void Awake()
     {
         // These are the gameobjects that hold the front and side images of the fish and their animators. The side one also has the mouth collision circle
@@ -170,6 +154,22 @@ public class Scr_Fish : MonoBehaviour
             gameManager.SpawnParticles(radiationEffectPrefab, transform.position, transform.rotation, transform);
         }
 
+    }
+
+    public void OnTickEvent()
+    {
+        Debug.Log($"{gameObject.name} received a tick event!");
+
+        HungerCounter();
+
+        GrowCounter();
+
+        FreakCounter();
+
+        //Scr_UIElementsHandler.UpdateTankWater();
+
+
+        // Your fish behavior here, e.g., update hunger status.
     }
 
     // Update is called once per frame

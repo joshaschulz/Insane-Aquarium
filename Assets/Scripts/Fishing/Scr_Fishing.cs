@@ -136,7 +136,7 @@ public class Scr_Fishing : MonoBehaviour
                     if (caughtToiletFish.name.Contains(button.name))
                     {
                         fishpedia.EnableEntryButton(buttonIndex);
-                        fishpedia.SetImage(buttonIndex, prefab.GetComponent<Scr_Fish>().fishSideImage);
+                        fishpedia.SetImages(buttonIndex, prefab.GetComponent<Scr_Fish>().fishSideImage, prefab.GetComponent<Scr_Fish>().fishFrontImage);
                         fishpedia.SetName(buttonIndex, prefab.name);
                         fishpedia.SetDescription(buttonIndex, prefab.GetComponent<Scr_Fish>().fishDescription);
                         fishpedia.SetStat(buttonIndex, 0, prefab.GetComponent<Scr_Fish>().fishCost);

@@ -16,7 +16,6 @@ public class Scr_Fishpedia : MonoBehaviour
     {
         buttons[_id].gameObject.SetActive(true);
     }
-
     public void ToggleEntry(int _id)
     {
 
@@ -31,30 +30,29 @@ public class Scr_Fishpedia : MonoBehaviour
         }
 
     }
-
     public void DisableEntries()
     {
         for (int i = 0; i < entries.Length; i++)
         {
             entries[i].SetActive(false);
+
+            // Set the entry image to the side fish
+            entries[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+            entries[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+
         }
     }
-    private void OnEnable()
-    {
-        gameManager.PlaySoundEffect(gameManager.SFX_GenUI3, 0.1f, 1.2f);
-    }
-    private void OnDisable()
-    {
-        gameManager.PlaySoundEffect(gameManager.SFX_GenUI3, 0.08f, 0.8f);
-        DisableEntries();
-    }
+
+
+
     public void SetName(int _id, string _newName)
     {
         entries[_id].transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = _newName;
     }
-    public void SetImage(int _id, Sprite _newImage)
+    public void SetImages(int _id, Sprite _newSideImage, Sprite _newFrontImage)
     {
-        entries[_id].transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = _newImage;
+        entries[_id].transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = _newSideImage;
+        entries[_id].transform.GetChild(0).GetChild(1).GetComponent<Image>().sprite = _newFrontImage;
     }
     public void SetDescription(int _id, string _newDescription)
     {
@@ -69,7 +67,6 @@ public class Scr_Fishpedia : MonoBehaviour
 
         entries[_id].transform.GetChild(2).Find("Statistics Numbers").GetComponent<TextMeshProUGUI>().text = string.Join("\n", EntryStatNumbers);
     }
-
     public int GetStat(int _id, int _statID)
     {
         string entryStatNumbersText = entries[_id].transform.GetChild(2).Find("Statistics Numbers").GetComponent<TextMeshProUGUI>().text;
@@ -78,6 +75,36 @@ public class Scr_Fishpedia : MonoBehaviour
         return int.Parse(EntryStatNumbers[_statID]);
     }
 
+    public void ToggleEntryImage()
+    {
+        Transform activeEntry = null;
+        for (int i = 0; i < entries.Length; i++)
+        {
+            if (entries[i].activeSelf)
+                activeEntry = entries[i].transform;
+        }
+
+        if (activeEntry.GetChild(0).GetChild(0).gameObject.activeSelf)
+        {
+            activeEntry.GetChild(0).GetChild(0).gameObject.SetActive(false);
+            activeEntry.GetChild(0).GetChild(1).gameObject.SetActive(true);
+        }
+        else
+        {
+            activeEntry.GetChild(0).GetChild(0).gameObject.SetActive(true);
+            activeEntry.GetChild(0).GetChild(1).gameObject.SetActive(false);
+        }
+    }
+
+    private void OnEnable()
+    {
+        gameManager.PlaySoundEffect(gameManager.SFX_GenUI3, 0.1f, 1.2f);
+    }
+    private void OnDisable()
+    {
+        gameManager.PlaySoundEffect(gameManager.SFX_GenUI3, 0.08f, 0.8f);
+        DisableEntries();
+    }
     public void Awake()
     {
         gameManager = Scr_GameManager.GMinstance;

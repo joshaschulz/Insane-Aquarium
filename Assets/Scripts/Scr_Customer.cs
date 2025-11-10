@@ -9,6 +9,7 @@ public class Scr_Customer : MonoBehaviour
     private Scr_GameManager gameManager;
     private Scr_TimeHandler Scr_TimeHandler;
     private Scr_UIElementsHandler Scr_UIElementsHandler;
+    private Scr_FishyGuy Scr_FishyGuy;
 
     private Camera _Camera;
 
@@ -17,7 +18,7 @@ public class Scr_Customer : MonoBehaviour
     public int ticksToSpawnChance;
     public int ticksToExist;
 
-    private bool customerExists = false;
+    public bool customerExists = false;
     private int ticksSinceSpawned;
 
     private bool isCameraInBathroom;
@@ -61,6 +62,8 @@ public class Scr_Customer : MonoBehaviour
     {
         Scr_TimeHandler = FindObjectOfType<Scr_TimeHandler>();
         Scr_UIElementsHandler = FindObjectOfType<Scr_UIElementsHandler>();
+        Scr_FishyGuy = FindObjectOfType<Scr_FishyGuy>();
+
 
 
         float tickIntervalInMinutes = Scr_TimeHandler.tickInterval / 60;
@@ -91,7 +94,7 @@ public class Scr_Customer : MonoBehaviour
 
         if (num == 0)
         {
-            if (!customerExists)
+            if (!customerExists && !Scr_FishyGuy.fishyGuyExists)
             {
                 customerExists = true;
                 PickCustomerFish();
@@ -103,22 +106,23 @@ public class Scr_Customer : MonoBehaviour
     public void PickCustomerFish()
     {
         //picks a random fish prefab
-        customerFishPrefab = gameManager.fishPrefabs[Random.Range(0, gameManager.fishPrefabs.Length - 1)];
+        int num = Random.Range(0, gameManager.fishSprites.Length - 1);
+        Sprite fishSprite = gameManager.fishSprites[num];
+        GameObject fishPrefab = gameManager.fishPrefabs[num]; //assumes that fish images in the fish images folder and the fish prefabs in the fish prefabs folder are ordered the same
 
-        SpriteRenderer[] spriteRenderers = customerFishPrefab.GetComponentsInChildren<SpriteRenderer>(true);
-
-
-        if (spriteRenderers.Length > 0 && spriteRenderers[0].sprite != null)
+        if (fishSprite)
         {
-            Sprite firstSprite = spriteRenderers[0].sprite;
-            Debug.Log("Got first sprite: " + firstSprite.name);
+            customerFishImage.sprite = fishSprite;
+            customerFishImage.SetNativeSize();
 
+            customerFishImage.rectTransform.localScale = Vector3.one / 11f; //from native size to about the size of a fish in the tank
 
-            customerFishImage.sprite = firstSprite;
+            customerFishPrefab = fishPrefab;
+
         }
         else
         {
-            Debug.LogWarning("No SpriteRenderers found in prefab!");
+            Debug.LogWarning("No Images found in Resources/Assets/Fish!");
         }
 
     }

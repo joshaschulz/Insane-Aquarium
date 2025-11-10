@@ -1276,6 +1276,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisPrefab: {fileID: 8672692834543181141}
+  fishFrontImage: {fileID: 21300000, guid: d628e4663e029d24d9726919b0834426, type: 3}
+  fishSideImage: {fileID: 21300000, guid: d88e5fd9c9c85d140a1ec79dc175278e, type: 3}
+  fishDescription: Everybody's first pet fish.
   growCount: 0
   grown: 1
   radiated: 0
@@ -1304,6 +1307,7 @@ MonoBehaviour:
   - {fileID: 5447806642486513699, guid: ef302d57c9a62814f8e8425e495c442f, type: 3}
   - {fileID: 5447806642486513699, guid: 1ab43b254f256dd4a802af59dd57dfdd, type: 3}
   foodInScene: []
+  numberCaught: 0
 --- !u!50 &8517045197110992644
 Rigidbody2D:
   serializedVersion: 4

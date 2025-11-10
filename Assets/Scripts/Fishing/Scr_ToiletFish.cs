@@ -12,7 +12,7 @@ public class Scr_ToiletFish : MonoBehaviour
 
     [Header("Difficulty Settings")]
     [Tooltip("Higher values make the fish move faster and more erratic.")]
-    public float difficultyMultiplier = 1f;
+    public int difficultyMultiplier = 1;
     [Tooltip("Higher values make the fish swim down faster")]
     public float escapeFactor = 1f;
 

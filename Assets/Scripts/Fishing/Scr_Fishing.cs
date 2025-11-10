@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class Scr_Fishing : MonoBehaviour
 {
     private Scr_GameManager gameManager;
+    public Scr_Fishpedia fishpedia;
+
     AudioSource ReelingAudioSource;
     private bool isReeling = false; // Flag to track if the player is reeling
     private float scrollInputThreshold = 0.005f; // Minimum threshold for scroll input
@@ -120,9 +122,33 @@ public class Scr_Fishing : MonoBehaviour
 
     private void FishCaught()
     {
-
-
         caughtToiletFish = toiletFish;
+
+        // Enabling fishpedia buttons upon catching a fish
+        foreach (var prefab in gameManager.fishPrefabs)
+        {
+            if (prefab.CompareTag(caughtToiletFish.tag))
+            {
+                prefab.GetComponent<Scr_Fish>().numberCaught++;
+                int buttonIndex = 0;
+                foreach (Button button in fishpedia.buttons)
+                {
+                    if (caughtToiletFish.name.Contains(button.name))
+                    {
+                        fishpedia.EnableEntryButton(buttonIndex);
+                        fishpedia.SetImage(buttonIndex, prefab.GetComponent<Scr_Fish>().fishSideImage);
+                        fishpedia.SetName(buttonIndex, prefab.name);
+                        fishpedia.SetDescription(buttonIndex, prefab.GetComponent<Scr_Fish>().fishDescription);
+                        fishpedia.SetStat(buttonIndex, 0, prefab.GetComponent<Scr_Fish>().fishCost);
+                        fishpedia.SetStat(buttonIndex, 2, prefab.GetComponent<Scr_Fish>().minutesUntilHungry);
+                        fishpedia.SetStat(buttonIndex, 4, prefab.GetComponent<Scr_ToiletFish>().difficultyMultiplier);
+                        fishpedia.SetStat(buttonIndex, 5, prefab.GetComponent<Scr_Fish>().numberCaught);
+                    }
+                    buttonIndex++;
+                }
+            }
+        }
+
 
         toiletFish.GetComponent<Scr_ToiletFish>().enabled = false;
         if (isReeling)

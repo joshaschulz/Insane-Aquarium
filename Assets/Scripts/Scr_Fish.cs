@@ -24,6 +24,9 @@ public class Scr_Fish : MonoBehaviour
 
     [HideInInspector]
     public GameObject thisPrefab;
+    public Sprite fishFrontImage;
+    public Sprite fishSideImage;
+    public string fishDescription;
 
     private Scr_GameManager gameManager;
     private GameObject sideContainer;
@@ -82,6 +85,8 @@ public class Scr_Fish : MonoBehaviour
     private Scr_UIElementsHandler Scr_UIElementsHandler;
 
     private float tickIntervalInMinutes;
+
+    public int numberCaught;
 
     private void OnEnable()
     {

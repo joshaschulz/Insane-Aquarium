@@ -9408,7 +9408,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16ba8904a937459478d9b73e6e9c0879, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fishpedia: {fileID: 269142418}
 --- !u!82 &1031440125
 AudioSource:
   m_ObjectHideFlags: 0

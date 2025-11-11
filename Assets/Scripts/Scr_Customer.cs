@@ -13,7 +13,10 @@ public class Scr_Customer : MonoBehaviour
 
     private Camera _Camera;
 
-    public GameObject customerImage;
+    public GameObject customerImagesParent;
+    private GameObject[] customerImages;
+
+    public GameObject customer;
 
     public int ticksToSpawnChance;
     public int ticksToExist;
@@ -33,6 +36,9 @@ public class Scr_Customer : MonoBehaviour
 
         _Camera = Camera.main;
 
+        GetPotentialCustomers();
+        PickCustomer();
+
     }
 
     // Update is called once per frame
@@ -49,11 +55,11 @@ public class Scr_Customer : MonoBehaviour
 
         if (isCameraInBathroom && customerExists)
         {
-            customerImage.SetActive(true);
+            customer.SetActive(true);
         }
         else
         {
-            customerImage.SetActive(false);
+            customer.SetActive(false);
         }
 
     }
@@ -97,10 +103,37 @@ public class Scr_Customer : MonoBehaviour
             if (!customerExists && !Scr_FishyGuy.fishyGuyExists)
             {
                 customerExists = true;
+                PickCustomer();
                 PickCustomerFish();
             }
         }
 
+    }
+    public void PickCustomer()
+    {
+        GameObject activeCustomer = customerImages[Random.Range(0, customerImages.Length)];
+
+        activeCustomer.SetActive(true);
+
+        foreach (GameObject customer in customerImages)
+        {
+            if (customer != activeCustomer)
+            {
+                customer.SetActive(false);
+            }
+        }
+    }
+
+
+    public void GetPotentialCustomers()
+    {
+        int count = customerImagesParent.transform.childCount;
+        customerImages = new GameObject[count];
+
+        for (int i = 0; i < count; i++)
+        {
+            customerImages[i] = customerImagesParent.transform.GetChild(i).gameObject;
+        }
     }
 
     public void PickCustomerFish()

@@ -8,7 +8,6 @@ public class Scr_ClickDetection : MonoBehaviour
 {
 
     Scr_GameManager gameManager;
-    public GameObject fishpedia;
 
     private void Awake()
     {
@@ -106,14 +105,6 @@ public class Scr_ClickDetection : MonoBehaviour
             */
         }
 
-
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            if (!fishpedia.activeSelf)
-                fishpedia.SetActive(true);
-            else
-                fishpedia.SetActive(false);
-        }
 
 
     }

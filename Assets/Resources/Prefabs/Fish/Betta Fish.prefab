@@ -429,7 +429,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6943579493492925485}
-  - component: {fileID: 6869072868000632972}
+  - component: {fileID: -8789104632157491657}
+  - component: {fileID: 290879803996485776}
   - component: {fileID: 4021542319324231719}
   - component: {fileID: 4144122425985410843}
   - component: {fileID: 3448536562072476031}
@@ -461,7 +462,7 @@ Transform:
   - {fileID: 4887336147337142023}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6869072868000632972
+--- !u!114 &-8789104632157491657
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -470,24 +471,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1863455049823253984}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a4d6703c9c8c2649a88ffa4bbf813d5, type: 3}
+  m_Script: {fileID: 11500000, guid: 96e205a59573db84b9fe3222fe4367cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisPrefab: {fileID: 1863455049823253984}
-  fishFrontImage: {fileID: 21300000, guid: fcabb139f6a742a449179698756a330b, type: 3}
-  fishSideImage: {fileID: 21300000, guid: cf5dd1b3333a9284e99560c09c0f04e0, type: 3}
+  fishAnimation: {fileID: 290879803996485776}
+  thisPrefab: {fileID: 0}
   fishDescription: Pretty colors.
   growCount: 0
   grown: 1
   radiated: 0
   freakCount: 70
-  canFreak: 0
+  isFreaky: 0
   minutesUntilGrown: 60
   minutesUntilHungry: 90
   minutesUntilDead: 120
-  hungryColor: {r: 0.21960786, g: 1, b: 0.15686275, a: 1}
+  heartIcon: {fileID: 342394445551414795}
+  hungerIcon: {fileID: 7398377294821584568}
   spawnHeight: 0.7
-  baseSpeed: 3
+  baseSpeed: 1.5
   fishCost: 200
   originalScale: {x: 0, y: 0, z: 0}
   spawnTank: {x: 0, y: 0}
@@ -506,6 +507,21 @@ MonoBehaviour:
   - {fileID: 5447806642486513699, guid: 1ab43b254f256dd4a802af59dd57dfdd, type: 3}
   foodInScene: []
   numberCaught: 0
+--- !u!114 &290879803996485776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863455049823253984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b80d26b75dd0264393a72ea14bf0265, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frontSprite: {fileID: 21300000, guid: fcabb139f6a742a449179698756a330b, type: 3}
+  sideSprite: {fileID: 21300000, guid: cf5dd1b3333a9284e99560c09c0f04e0, type: 3}
+  frontAnimator: {fileID: 0}
 --- !u!50 &4021542319324231719
 Rigidbody2D:
   serializedVersion: 4

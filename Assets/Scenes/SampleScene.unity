@@ -11695,7 +11695,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fishyGuyImage: {fileID: 1890121989}
-  ticksToSpawnChance: 8
+  ticksToSpawnChance: 2
   ticksToExist: 6
   fishyGuyExists: 0
   fishyGuyFishImage1: {fileID: 1692517597}

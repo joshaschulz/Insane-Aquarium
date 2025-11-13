@@ -1,18 +1,38 @@
+/*
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.Linq;
 
-public class Scr_Fish : MonoBehaviour
+public class Scr_FishOld : MonoBehaviour
 {
-    public Scr_FishAnimation fishAnimation;
+
+    // Fish drops in
+
+    // Fish starts a hungry timer
+    // When timer gets below hungry threshhold, fish turns green and searches for food
+    // When timer gets below death threshhold, fish dies
+
+    // When the fish finds a food, it goes towards it
+    // When the fish collision hits food, it deletes the food and resets the hungry timer
+
+    // When fish not hungry, fish either moves to a random location or waits for a moment
+
+    // If the fish wants to move in the opposite direction, it must first look forward
+
+    // After the fish eats, it looks forward
 
     [HideInInspector]
     public GameObject thisPrefab;
+    public Sprite fishFrontImage;
+    public Sprite fishSideImage;
     public string fishDescription;
 
     private Scr_GameManager gameManager;
+    private GameObject sideContainer;
+    private GameObject frontContainer;
+    private Animator frontAnimator;
 
     private float hungerCount = 0;
     private bool isHungry = false;
@@ -23,23 +43,28 @@ public class Scr_Fish : MonoBehaviour
     public bool radiated = false;
 
     public float freakCount = 0;
-    public bool isFreaky;
+    public bool canFreak;
+    private GameObject fishToFreakOn;
+    //public float SecondsUntilHungry;
+    //public float SecondsUntilDead;
+
+    //public int tickEventsUntilHungry;
+    //public int tickEventsUntilDead;
 
     public int minutesUntilGrown;
+
     public int minutesUntilHungry;
     public int minutesUntilDead;
 
-    public GameObject heartIcon;
-    public GameObject hungerIcon;
+    public Color hungryColor;
+    private GameObject heartIcon;
+    private GameObject hungerIcon;
 
     [Range(0f, 1f)]
     public float spawnHeight;
 
     public float baseSpeed;
-    private float baseSpeedFactored;
     private float currentSpeed;
-    private float hungrySpeed;
-
     public int fishCost;
     public Vector3 originalScale;
 
@@ -88,6 +113,23 @@ public class Scr_Fish : MonoBehaviour
         }
     }
 
+    public void Awake()
+    {
+        // These are the gameobjects that hold the front and side images of the fish and their animators. The side one also has the mouth collision circle
+        sideContainer = transform.GetChild(0).gameObject;
+        frontContainer = transform.GetChild(1).gameObject;
+        heartIcon = transform.GetChild(2).gameObject;
+        hungerIcon = transform.GetChild(3).gameObject;
+        if (!sideContainer.name.Contains("Side Container"))
+            Debug.Log(gameObject.name + "'s first child's name does not contain 'Side Container'.");
+        if (!frontContainer.name.Contains("Front Container"))
+            Debug.Log(gameObject.name + "'s second child's name does not contain 'Front Container'.");
+        if (!heartIcon.name.Contains("Fish Heart"))
+            Debug.Log(gameObject.name + "'s third child's name does not contain 'Fish Heart'.");
+        if (!hungerIcon.name.Contains("Fish Hunger"))
+            Debug.Log(gameObject.name + "'s fourth child's name does not contain 'Fish Hunger'.");
+
+    }
 
     // Start is called before the first frame update
     public void Start()
@@ -95,16 +137,22 @@ public class Scr_Fish : MonoBehaviour
         gameManager = Scr_GameManager.GMinstance;
 
         originalScale = gameObject.transform.localScale;
-        hungrySpeed = baseSpeed * 1.5f;
 
         // Each fish has a different max range they can travel, based on their size
         SetMinAndMax();
 
+        // Play the spawn animation
+        frontAnimator = frontContainer.GetComponent<Animator>();
+        frontAnimator.Play("Fish Spawn");
+
         // Start not targeting anything
         SetTarget(gameObject.transform.position);
 
+        // Start the hungry timer
+        //InvokeRepeating("HungerCounter", 0, 1);
+
         // Start selecting between Idle and Moving after the drop in animation has played
-        Invoke("IdleOrMove", fishAnimation.frontAnimator.GetCurrentAnimatorStateInfo(0).length);
+        Invoke("IdleOrMove", frontAnimator.GetCurrentAnimatorStateInfo(0).length);
 
         if (radiated)
         {
@@ -124,26 +172,17 @@ public class Scr_Fish : MonoBehaviour
 
         FreakCounter();
 
-        if ((isHungry && FindClosestFood() != null) || (isFreaky && FindClosestMate() != null))
-        {
-            CancelInvoke("IdleOrMove");
-        }
+        //Scr_UIElementsHandler.UpdateTankWater();
+
 
         // Your fish behavior here, e.g., update hunger status.
-    }
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawLine(transform.position, target);
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        currentSpeed = baseSpeedFactored;
-
         //don't do anything if fish is still in spawn animation
-        if (fishAnimation.IsAnimationPlaying(fishAnimation.frontAnimator, "Fish Spawn"))
+        if (IsAnimationPlaying(frontAnimator, "Fish Spawn"))
         {
             return;
         }
@@ -155,31 +194,74 @@ public class Scr_Fish : MonoBehaviour
             // Find a food to eat
             GameObject food = FindClosestFood();
 
-            if (food != null)
+            // If there is no food, keep going towards same target
+            if (food == null)
             {
-                currentSpeed = hungrySpeed;
-                SetTarget(food.transform.position);
-            }
-        }
-        else if (isFreaky)//go freakmode
-        {
-            // Find a fish to freak
-            GameObject mate = FindClosestMate();
+                if (target != new Vector2(transform.position.x, transform.position.y))
+                {
+                    // If target is left of the fish, then set the fish left, otherwise set the fish right
+                    int tempFlip = (target.x < transform.position.x) ? -1 : 1;
+                    sideContainer.transform.localScale = new Vector2(tempFlip, sideContainer.transform.localScale.y);
 
-            if (mate != null)
+                    transform.position = Vector2.MoveTowards(transform.position, target, currentSpeed * Time.deltaTime);
+                    return;
+                }
+                else
+                {
+                    FaceForward();
+                    return;
+                }
+            }
+
+            if (!sideContainer.activeSelf)
             {
-                SetTarget(mate.transform.position);
+                FaceSideways();
             }
-        }
-        transform.position = Vector2.MoveTowards(transform.position, target, currentSpeed * Time.deltaTime);
 
-        // If fish has reached its target...
-        if (target == new Vector2(transform.position.x, transform.position.y) && fishAnimation.GetState() == Scr_FishAnimation.FishState.Move)
-        {
-            IdleOrMove();
+            // Move towards it
+            transform.position = Vector2.MoveTowards(transform.position, food.transform.position, baseSpeed * Time.deltaTime);
+
+            // If pellet is left of the fish, then set the fish left, otherwise set the fish right
+            int leftOrRight = (food.transform.position.x < transform.position.x) ? -1 : 1;
+            sideContainer.transform.localScale = new Vector2(leftOrRight, sideContainer.transform.localScale.y);
         }
+        else if (canFreak)//go freakmode
+        {
+
+            if (!sideContainer.activeSelf)
+            {
+                FaceSideways();
+            }
+
+            transform.position = Vector2.MoveTowards(transform.position, fishToFreakOn.transform.position, currentSpeed * Time.deltaTime);
+
+            int leftOrRight = (fishToFreakOn.transform.position.x < transform.position.x) ? -1 : 1;
+            sideContainer.transform.localScale = new Vector2(leftOrRight, sideContainer.transform.localScale.y);
+
+        }
+        // If the fish has a target that is not itself
+        else if (target != new Vector2(transform.position.x, transform.position.y))
+        {
+            // Move towards target
+            transform.position = Vector2.MoveTowards(transform.position, target, currentSpeed * Time.deltaTime);
+        }
+        // The fish has reached its destination
+        else
+        {
+            // Set to idle until next call of IdleOrMove
+            FaceForward();
+        }
+
     }
 
+    IEnumerator DelayedFreakCheck()
+    {
+        yield return new WaitForEndOfFrame(); // wait for all fish to tick
+
+        FindClosestMate();
+
+        canFreak = (fishToFreakOn != null);
+    }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -190,27 +272,38 @@ public class Scr_Fish : MonoBehaviour
         {
             Scr_Fish collisionObjScr = collisionObj.GetComponent<Scr_Fish>();
 
-            if (isFreaky && collisionObjScr.isFreaky)
+            if (canFreak && collisionObjScr.canFreak)
             {
-
                 freakCount = 0;
-                isFreaky = false;
-                collisionObjScr.isFreaky = false;
+                canFreak = false;
+                collisionObjScr.canFreak = false;
                 collisionObjScr.freakCount = 0;
 
                 heartIcon.SetActive(false);
                 collisionObjScr.heartIcon.SetActive(false);
 
-                gameManager.FreakyFishReset(gameObject);
-                IdleOrMove();
-                collisionObjScr.IdleOrMove();
+
+                FaceForward();
+                collisionObjScr.FaceForward();
+
+                SetTarget(transform.position);
+                collisionObjScr.SetTarget(collisionObj.transform.position);
 
                 if (gameObject.GetInstanceID() < collisionObj.GetInstanceID()) //only the smaller ordered fish in the scene runs this
                 {
-                    GameObject babyFish = gameManager.SpawnBabyFish(thisPrefab, gameObject);
-                    Scr_Fish babyFishScr = babyFish.GetComponent<Scr_Fish>();
+                    GameObject babyFish = gameManager.SpawnBabyFish(thisPrefab, gameObject.transform);
+                    
+                    float hueForBabyFish = GetComponent<Scr_FishHue>().GetHue();
+                    if (radiated)
+                    {
+                        int sign = (Random.Range(0,2) == 0) ? -1 : 1;
+                        hueForBabyFish += sign * gameManager.radiationHueShift;
+                    }
+                    babyFish.GetComponent<Scr_FishHue>().SetHue(hueForBabyFish);
                 }
+
                 return;
+
             }
         }
 
@@ -222,6 +315,9 @@ public class Scr_Fish : MonoBehaviour
         if (isHungry)
         {
             SetNotHungry();
+            FaceForward();
+
+            // When fish eats, it idles until its next call of IdleOrMove
             SetTarget(transform.position);
 
             gameManager.PlaySoundEffect(gameManager.SFX_FishEat, 0.7f, 0.8f, 1.2f);
@@ -264,25 +360,34 @@ public class Scr_Fish : MonoBehaviour
 
     }
 
-    public void IdleOrMove()
+    private void IdleOrMove()
     {
-        CancelInvoke("IdleOrMove");
-
-        // Select a random speed
-        float speedFactor = Random.Range(0.5f, 1.5f);
-        baseSpeedFactored = baseSpeed * speedFactor;
-
         if (Random.Range(0, 2) == 0)
         {
             // Chose to idle
+            FaceForward();
+
+            // Idle at the current position
             SetTarget(transform.position);
-            Invoke("IdleOrMove", 2);
         }
         else
         {
+            FaceSideways();
+
+            // Chose to move to a new target
             SetTarget(Random.Range(minX, maxX), Random.Range(minY, maxY));
+
+            // If target is left of the fish, then set the fish left, otherwise set the fish right
+            int leftOrRight = (target.x < transform.position.x) ? -1 : 1;
+            sideContainer.transform.localScale = new Vector2(leftOrRight, sideContainer.transform.localScale.y);
+
+            // Select a random speed
+            float speedFactor = Random.Range(0.5f, 1f);
+            currentSpeed = baseSpeed * speedFactor;
+
         }
 
+        Invoke("IdleOrMove", 4);
     }
 
     public void HungerCounter()
@@ -317,16 +422,27 @@ public class Scr_Fish : MonoBehaviour
     {
         if (grown)
         {
-            if (!isHungry)
+            if (freakCount != 100)
             {
-                freakCount = Mathf.Min(100, freakCount + tickIntervalInMinutes);
+                if (!isHungry)
+                {
+                    freakCount = Mathf.Min(100, freakCount + tickIntervalInMinutes);
+                }
+                else if (isHungry)
+                {
+                    freakCount = Mathf.Max(0, freakCount - tickIntervalInMinutes);
+                }
+
             }
-            else if (isHungry)
+
+            if (freakCount == 100)
             {
-                freakCount = Mathf.Max(0, freakCount - tickIntervalInMinutes);
+                StartCoroutine(DelayedFreakCheck());
             }
-            isFreaky = (freakCount == 100);
-            heartIcon.SetActive(isFreaky);
+            else
+            {
+                canFreak = false;
+            }
 
             Debug.Log(gameObject.name + freakCount);
         }
@@ -336,12 +452,16 @@ public class Scr_Fish : MonoBehaviour
     public void SetHungry()
     {
         isHungry = true;
+        //sideContainer.GetComponent<BoxCollider2D>().enabled = true;
+        //gameManager.ChangeColor(gameObject, hungryColor);
         hungerIcon.SetActive(true);
     }
     public void SetNotHungry()
     {
         isHungry = false;
         hungerCount = 0;
+        //sideContainer.GetComponent<BoxCollider2D>().enabled = false;
+        //gameManager.ChangeColor(gameObject, Color.white);
         hungerIcon.SetActive(false);
     }
     public void Die()
@@ -357,7 +477,6 @@ public class Scr_Fish : MonoBehaviour
 
 
         Destroy(gameObject);
-
     }
 
     public GameObject FindClosestFood() // Returns the closest edible food to the fish or NULL if no edible food exist.
@@ -388,7 +507,7 @@ public class Scr_Fish : MonoBehaviour
         return null;
     }
 
-    public GameObject FindClosestMate()
+    public void FindClosestMate()
     {
         if (gameManager.foodFishDictionary.Count > 0)
         {
@@ -417,64 +536,39 @@ public class Scr_Fish : MonoBehaviour
 
             if (closestMate && IsWithinBoundsOfTank(closestMate))
             {
-                return closestMate;
+                heartIcon.SetActive(true);
+                fishToFreakOn = closestMate;
             }
             else
             {
-                return null;
+                heartIcon.SetActive(false);
+                fishToFreakOn = null;
             }
 
         }
-        return null;
     }
 
     public void SetTarget(float _Xcoord, float _Ycoord)
     {
         target = new Vector2(_Xcoord, _Ycoord);
-
-        if (target == new Vector2(transform.position.x, transform.position.y))
-        {
-            fishAnimation.SetState(Scr_FishAnimation.FishState.Idle);
-        }
-        else
-        {
-            fishAnimation.SetState(Scr_FishAnimation.FishState.Move);
-        }
-
-        fishAnimation.FaceDirection(target);
     }
     public void SetTarget(Vector2 _position)
     {
         target = _position;
-
-        if (target == new Vector2(transform.position.x, transform.position.y))
-        {
-            fishAnimation.SetState(Scr_FishAnimation.FishState.Idle);
-        }
-        else
-        {
-            fishAnimation.SetState(Scr_FishAnimation.FishState.Move);
-        }
-
-        fishAnimation.FaceDirection(target);
     }
-
+    public void FaceSideways()
+    {
+        frontContainer.SetActive(false);
+        sideContainer.SetActive(true);
+    }
+    public void FaceForward()
+    {
+        frontContainer.SetActive(true);
+        sideContainer.SetActive(false);
+    }
     private void SetMinAndMax() //set the min and max of where fish can travel
     {
         spawnTank = gameManager.GetTankPos(gameObject.transform);
-
-        float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
-        float screenHeightWorld = Camera.main.orthographicSize * 2;
-
-        minX = spawnTank.x - screenWidthWorld / 2;
-        maxX = spawnTank.x + screenWidthWorld / 2;
-        minY = spawnTank.y - screenHeightWorld / 2;
-        maxY = spawnTank.y + screenHeightWorld / 2;
-
-    }
-    private void SetMinAndMax(Vector2 _spawnTank) //set the min and max of where fish can travel
-    {
-        spawnTank = _spawnTank;
 
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
         float screenHeightWorld = Camera.main.orthographicSize * 2;
@@ -498,5 +592,10 @@ public class Scr_Fish : MonoBehaviour
         }
     }
 
-
+    bool IsAnimationPlaying(Animator anim, string animName)
+    {
+        AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
+        return stateInfo.IsName(animName) && stateInfo.normalizedTime < 1f;
+    }
 }
+*/

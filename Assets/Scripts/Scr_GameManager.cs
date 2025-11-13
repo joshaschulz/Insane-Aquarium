@@ -436,6 +436,7 @@ public class Scr_GameManager : MonoBehaviour
             {
                 GameObject releasedFish = baggedFishSocketToUse.transform.GetChild(0).gameObject;
                 Scr_Fish releasedFishScript = releasedFish.GetComponent<Scr_Fish>();
+                Scr_FishAnimation releasedFishAnimScript = releasedFish.GetComponent<Scr_FishAnimation>();
 
                 //spawn fish at random x coordinate at same designated y coordinate
                 //set the x bounds of where the fish can spawn based on screen size
@@ -480,6 +481,7 @@ public class Scr_GameManager : MonoBehaviour
                 SetSortingGroupToLayer(releasedFish, "Game Objects");
 
                 releasedFishScript.Start();
+                releasedFishAnimScript.Awake();
 
                 //baggedFishButton.SetActive(false);
                 // DeselectBaggedFish();
@@ -626,25 +628,47 @@ public class Scr_GameManager : MonoBehaviour
         return newFish;
     }
 
-    public GameObject SpawnBabyFish(GameObject _fishToSpawn, Transform _pos)
+    public GameObject SpawnBabyFish(GameObject _fishToSpawn, GameObject _parentFish)
     {
         //spawn fish at random x coordinate at same designated y coordinate
         //set the x bounds of where the fish can spawn based on screen size
+        Scr_Fish parentFishScr = _parentFish.GetComponent<Scr_Fish>();
+        Vector2 spawnPosition;
+        GameObject newFish;
 
-        Vector2 spawnPosition = new Vector2(_pos.position.x, _pos.position.y - 2);
+        if (_parentFish.transform.position.y - 2 < _parentFish.GetComponent<Scr_Fish>().minY)
+        {
+            spawnPosition = new Vector2(_parentFish.transform.position.x, _parentFish.transform.position.y);
+            newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
+            newFish.GetComponent<Scr_FishAnimation>().frontAnimator.Rebind();
+            newFish.GetComponent<Scr_FishAnimation>().frontAnimator.Update(0f);
+        }
+        else
+        {
+            spawnPosition = new Vector2(_parentFish.transform.position.x, _parentFish.transform.position.y - 2);
+            newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
+        }
 
-        GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
 
         MakeFishSmaller(newFish);
 
         Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
 
 
-
         foodFishDictionary.Add(newFish, _fishToSpawn);
         newFishScript.thisPrefab = _fishToSpawn;
 
         newFishScript.grown = false;
+
+
+        float hueForBabyFish = parentFishScr.GetComponent<Scr_FishHue>().GetHue();
+        if (parentFishScr.radiated)
+        {
+            int sign = (Random.Range(0, 2) == 0) ? -1 : 1;
+            hueForBabyFish += sign * radiationHueShift;
+        }
+        newFishScript.GetComponent<Scr_FishHue>().SetHue(hueForBabyFish);
+
 
         AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(newFish, _fishToSpawn);
 
@@ -703,6 +727,10 @@ public class Scr_GameManager : MonoBehaviour
                 if (existingFishScript.foodInScene.Contains(_foodToRemove))
                 {
                     existingFishScript.foodInScene.Remove(_foodToRemove);
+                    if (existingFishScript.FindClosestFood() == null)
+                    {
+                        existingFishScript.IdleOrMove();
+                    }
                 }
             }
         }
@@ -714,6 +742,27 @@ public class Scr_GameManager : MonoBehaviour
 
         fishScript.foodInScene.Clear();
     }
+
+
+    public void FreakyFishReset(GameObject _fishThatFreaked) // Reseting all freaky fish to Idle or Move when there are no more available fish to freak on
+    {
+        foreach ((GameObject fishOrFoodInstance, GameObject fishOrFoodPrefab) in foodFishDictionary)
+        {
+            if (fishOrFoodInstance.GetComponent<Scr_Fish>() != null) //if the gameobject in dictionary is a fish
+            {
+                Scr_Fish existingFishScript = fishOrFoodInstance.GetComponent<Scr_Fish>();
+
+                if (existingFishScript.isFreaky && fishOrFoodInstance.CompareTag(_fishThatFreaked.tag))
+                {
+                    if (existingFishScript.FindClosestMate() == null)
+                    {
+                        existingFishScript.IdleOrMove();
+                    }
+                }
+            }
+        }
+    }
+
 
 
     public void BagAFish(GameObject _fishToBag)
@@ -751,6 +800,7 @@ public class Scr_GameManager : MonoBehaviour
         PlaySoundEffect(SFX_BagFish, 1);
         PlaySoundEffect(SFX_Bag, 1);
         Scr_Fish fishScript = _fishToBag.GetComponent<Scr_Fish>();
+        Scr_FishAnimation fishAnimScript = _fishToBag.GetComponent<Scr_FishAnimation>();
         SpawnParticles(fishScript.bubblesEffectPrefab, transform.position, transform.rotation, null);
 
 
@@ -772,7 +822,7 @@ public class Scr_GameManager : MonoBehaviour
 
 
         fishScript.SetTarget(_fishToBag.transform.position);
-        fishScript.FaceForward();
+        fishAnimScript.SetState(Scr_FishAnimation.FishState.Idle);
         fishScript.CancelInvoke();
         fishScript.enabled = false;
         _fishToBag.GetComponent<CircleCollider2D>().enabled = false;
@@ -824,6 +874,7 @@ public class Scr_GameManager : MonoBehaviour
         PlaySoundEffect(SFX_BagFish, 1);
         PlaySoundEffect(SFX_Bag, 1);
         Scr_Fish fishScript = _fishToBag.GetComponent<Scr_Fish>();
+        Scr_FishAnimation fishAnimScript = _fishToBag.GetComponent<Scr_FishAnimation>();
         fishScript.enabled = true;
 
 
@@ -832,7 +883,7 @@ public class Scr_GameManager : MonoBehaviour
 
 
         fishScript.SetTarget(_fishToBag.transform.position);
-        fishScript.FaceForward();
+        fishAnimScript.SetState(Scr_FishAnimation.FishState.Idle);
         fishScript.CancelInvoke();
 
         _fishToBag.transform.localEulerAngles = Vector3.zero;
@@ -891,6 +942,10 @@ public class Scr_GameManager : MonoBehaviour
 
         Debug.Log(_fishToBag.name + " was bagged");
         Scr_Fish fishScript = _fishToBag.GetComponent<Scr_Fish>();
+        Scr_FishAnimation fishAnimScript = _fishToBag.GetComponent<Scr_FishAnimation>();
+        fishAnimScript.frontAnimator.Rebind();
+        fishAnimScript.frontAnimator.Update(0f);
+
         fishScript.enabled = true;
 
 
@@ -899,7 +954,7 @@ public class Scr_GameManager : MonoBehaviour
 
 
         fishScript.SetTarget(_fishToBag.transform.position);
-        fishScript.FaceForward();
+        fishAnimScript.SetState(Scr_FishAnimation.FishState.Idle);
         fishScript.CancelInvoke();
 
         _fishToBag.transform.localEulerAngles = Vector3.zero;

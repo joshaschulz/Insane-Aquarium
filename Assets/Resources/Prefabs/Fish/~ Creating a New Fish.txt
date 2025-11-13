@@ -1,6 +1,6 @@
 Duplicate an existing fish prefab
 Replace name and all child object names with new fish name
-Change Scr_Fish and Scr_ToiletFish settings
+Change Scr_Fish, Scr_FishAnimation, and Scr_ToiletFish settings
 Add new fish tag and apply it
 Replace body part sprites with new fish body part sprites
 Change the collider size & mouth position

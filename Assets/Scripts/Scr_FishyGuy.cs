@@ -39,6 +39,15 @@ public class Scr_FishyGuy : MonoBehaviour
 
         _Camera = Camera.main;
 
+        ChangeGameSettings();
+
+    }
+
+    public void ChangeGameSettings()
+    {
+        Scr_GameSettings settings = Scr_GameManager.ActiveSettings;
+        ticksToSpawnChance = settings.fishyGuyTicksToSpawnChance;
+        ticksToExist = settings.fishyGuyTicksToExist;
     }
 
     // Update is called once per frame

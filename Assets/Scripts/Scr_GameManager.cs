@@ -12,6 +12,19 @@ public class Scr_GameManager : MonoBehaviour
     public static Scr_GameManager GMinstance;
     private Camera _Camera;
 
+    //Scriptable Objects game settings
+    public static Scr_GameSettings ActiveSettings { get; private set; }
+
+    [Header("Mode")]
+    public bool useTestSettings = false;
+
+    [Header("Settings Profiles")]
+    public Scr_GameSettings buildSettings;
+    public Scr_GameSettings testSettings;
+
+    private int fastForwardSetting = 1;
+
+
     public AudioSource AS;
     public AudioMixerSnapshot normalSnapshot;
     public AudioMixerSnapshot underwaterSnapshot;
@@ -19,6 +32,8 @@ public class Scr_GameManager : MonoBehaviour
     private Scr_SpawnToiletFish Scr_SpawnToiletFish;
     private Scr_TimeHandler Scr_TimeHandler;
     private Scr_UIElementsHandler Scr_UIElementsHandler;
+    private Scr_FishyGuy Scr_FishyGuy;
+    private Scr_Customer Scr_Customer;
 
     public GameObject rodIdle, rodHooked;
 
@@ -84,6 +99,7 @@ public class Scr_GameManager : MonoBehaviour
     public SpriteRenderer[] tankSpriteRenderers;
 
 
+
     // Click Bag button to turn cursor image to bag and allow for capturing of fish with left click.
     // This should also deselect any currently selected fish food to drop.
     // Bagged fish are removed from the tank and any other fishes' diets.
@@ -111,185 +127,6 @@ public class Scr_GameManager : MonoBehaviour
     public AudioClip SFX_Keypad1, SFX_Keypad2, SFX_Keypad3, SFX_Keypad4, SFX_Keypad5, SFX_Keypad6, SFX_Keypad7, SFX_Keypad8, SFX_Keypad9, SFX_Keypad0, SFX_KeypadDel, SFX_KeypadEnter, SFX_CallFail, SFX_CallRinging, SFX_CallHangUp;
 
 
-    public void ClickKeypad(int key)
-    {
-
-        AudioClip keypadPressed = SFX_Keypad1;
-
-        // Handle pitch for all keys
-        switch (key)
-        {
-            case 1: keypadPressed = SFX_Keypad1; break;
-            case 2: keypadPressed = SFX_Keypad2; break;
-            case 3: keypadPressed = SFX_Keypad3; break;
-            case 4: keypadPressed = SFX_Keypad4; break;
-            case 5: keypadPressed = SFX_Keypad5; break;
-            case 6: keypadPressed = SFX_Keypad6; break;
-            case 7: keypadPressed = SFX_Keypad7; break;
-            case 8: keypadPressed = SFX_Keypad8; break;
-            case 9: keypadPressed = SFX_Keypad9; break;
-            case 0: keypadPressed = SFX_Keypad0; break;
-            case -1: keypadPressed = SFX_KeypadDel; break;
-            case 10: keypadPressed = SFX_KeypadEnter; break;
-        }
-
-        // Play the sound (only skip for 999 which has no sound)
-        if (key != 999)
-        {
-            PlaySoundEffect(keypadPressed, 1f, 1);
-        }
-
-
-        // NEW PURCHASING CODE
-        if (currentlyCalling == "The Hungry Guppy")
-        {
-            if (key == 1)
-            {
-                if (GetMoneyAmount() >= fishFood_1_Prefab.GetComponent<Scr_FoodBehavior>().price)
-                {
-                    SetFishFoodAmount(fishFood_1_Prefab, fishFood_1_Amount + 1);
-                    SubtractMoneyAmount(fishFood_1_Prefab.GetComponent<Scr_FoodBehavior>().price);
-                }
-                else // Not enough money for purchase
-                {
-                    PlaySoundEffect(SFX_Error, 0.3f);
-                    Debug.Log("Not enough money!");
-
-                    // Make money text flash red
-                    FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
-                }
-            }
-            else if (key == 2)
-            {
-                if (GetMoneyAmount() >= fishFood_2_Prefab.GetComponent<Scr_FoodBehavior>().price)
-                {
-                    SetFishFoodAmount(fishFood_2_Prefab, fishFood_2_Amount + 1);
-                    SubtractMoneyAmount(fishFood_2_Prefab.GetComponent<Scr_FoodBehavior>().price);
-                }
-                else // Not enough money for purchase
-                {
-                    PlaySoundEffect(SFX_Error, 0.3f);
-                    Debug.Log("Not enough money!");
-
-                    // Make money text flash red
-                    FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
-                }
-            }
-            else if (key == 3)
-            {
-                if (GetMoneyAmount() >= fishFood_3_Prefab.GetComponent<Scr_FoodBehavior>().price)
-                {
-                    SetFishFoodAmount(fishFood_3_Prefab, fishFood_3_Amount + 1);
-                    SubtractMoneyAmount(fishFood_3_Prefab.GetComponent<Scr_FoodBehavior>().price);
-                }
-                else // Not enough money for purchase
-                {
-                    PlaySoundEffect(SFX_Error, 0.3f);
-                    Debug.Log("Not enough money!");
-
-                    // Make money text flash red
-                    FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
-                }
-            }
-        }
-
-
-
-
-
-        // Handle functionality
-        if (key >= 0 && key <= 9) //press number
-        {
-            if (phoneNumber.text.Length < 10)
-                phoneNumber.text += key.ToString();
-        }
-        else if (key == -1) //delete
-        {
-            if (phoneNumber.text.Length > 0)
-                phoneNumber.text = phoneNumber.text.Substring(0, phoneNumber.text.Length - 1);
-        }
-        else if (key == 10) //enter
-        {
-            Debug.Log($"Entered Number: {phoneNumber.text}");
-
-            //if phone calling sound already playing, destroy it before playing again
-            if (tempPhoneAudioSource != null)
-            {
-                AudioSource tempAudio = tempPhoneAudioSource.GetComponent<AudioSource>();
-
-                if (tempAudio.isPlaying)
-                {
-                    Debug.Log("Cancelled");
-                    tempAudio.Stop();
-                    Destroy(tempPhoneAudioSource);
-                }
-
-            }
-
-            string numberToCall = phoneNumber.text;
-            phoneNumber.text = "";
-
-
-
-            Scr_PhoneContact contact = null;
-
-            // Find the contact with the matching number
-            for (int i = 0; i < contacts.Length; i++)
-            {
-                if (contacts[i].phoneNumber == numberToCall)
-                {
-                    contact = contacts[i];
-                    break;
-                }
-            }
-
-            if (contact != null)
-            {
-                // Play global ringing sound
-                tempPhoneAudioSource = PlaySoundEffectDontDestroy(SFX_CallRinging, 0.1f, 1);
-                Destroy(tempPhoneAudioSource.gameObject, tempPhoneAudioSource.GetComponent<AudioSource>().clip.length);
-
-                // Wait for the sound to finish, then open dialogue
-                StartCoroutine(WaitForCallToFinishThenStartDialogue(contact, tempPhoneAudioSource.GetComponent<AudioSource>()));
-            }
-            else
-            {
-                // Play call fail sound
-                tempPhoneAudioSource = PlaySoundEffectDontDestroy(SFX_CallFail, 0.5f, 1);
-                Destroy(tempPhoneAudioSource.gameObject, tempPhoneAudioSource.GetComponent<AudioSource>().clip.length);
-            }
-
-
-
-
-
-
-        }
-        else if (key == 999) //used for clearing on enabling/disabling phone
-        {
-            phoneNumber.text = "";
-
-            currentlyCalling = string.Empty;
-        }
-
-    }
-
-    // Coroutine: wait for ringing to finish, then start dialogue
-    private IEnumerator WaitForCallToFinishThenStartDialogue(Scr_PhoneContact contact, AudioSource source)
-    {
-        yield return new WaitForSeconds(source.clip.length);
-
-        // Set dialogue lines
-        dialogueBox.lines = contact.dialogueLines;
-
-        // Open dialogue box (with your animation)
-        dialogueBox.gameObject.SetActive(true);
-        dialogueBox.StartDialogue();
-
-        // Trigger contact-specific behavior
-        contact.OnCallAnswered(this);
-    }
-
     private void Awake()
     {
         if (GMinstance == null)
@@ -300,6 +137,8 @@ public class Scr_GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+
 
         Scr_SpawnToiletFish = FindObjectOfType<Scr_SpawnToiletFish>();
         Scr_UIElementsHandler = FindObjectOfType<Scr_UIElementsHandler>();
@@ -314,9 +153,14 @@ public class Scr_GameManager : MonoBehaviour
 
         //Debug.Log("THIS NUMBER OF FISH IMAGES: " + fishSprites.Length);
 
-        UpdateSceneTexts();
 
         baggedFishSockets = new GameObject[] {baggedFish_Socket1, baggedFish_Socket2, baggedFish_Socket3 };
+
+        ActiveSettings = useTestSettings ? testSettings : buildSettings;
+        ChangeGameSettings();
+
+        UpdateSceneTexts();
+
 
         //baggedFish = new List<(GameObject, int)>(); //have to instantiate this thing for some reason
 
@@ -333,6 +177,17 @@ public class Scr_GameManager : MonoBehaviour
             tank.SetActive(false);
         }
         */
+    }
+
+    public void ChangeGameSettings()
+    {
+        Scr_GameSettings settings = ActiveSettings;
+
+        moneyAmount = settings.moneyAmount;
+        Debug.Log("MONEY AMOUNT: "+ settings.moneyAmount);
+        fishFood_1_Amount = settings.fishFood1Amount;
+        fishFood_2_Amount = settings.fishFood2Amount;
+        fishFood_3_Amount = settings.fishFood3Amount;
     }
 
     private void OnEnable()
@@ -1533,5 +1388,216 @@ public class Scr_GameManager : MonoBehaviour
         }
 
         return new Vector2();
+    }
+
+    public void ClickKeypad(int key)
+    {
+
+        AudioClip keypadPressed = SFX_Keypad1;
+
+        // Handle pitch for all keys
+        switch (key)
+        {
+            case 1: keypadPressed = SFX_Keypad1; break;
+            case 2: keypadPressed = SFX_Keypad2; break;
+            case 3: keypadPressed = SFX_Keypad3; break;
+            case 4: keypadPressed = SFX_Keypad4; break;
+            case 5: keypadPressed = SFX_Keypad5; break;
+            case 6: keypadPressed = SFX_Keypad6; break;
+            case 7: keypadPressed = SFX_Keypad7; break;
+            case 8: keypadPressed = SFX_Keypad8; break;
+            case 9: keypadPressed = SFX_Keypad9; break;
+            case 0: keypadPressed = SFX_Keypad0; break;
+            case -1: keypadPressed = SFX_KeypadDel; break;
+            case 10: keypadPressed = SFX_KeypadEnter; break;
+        }
+
+        // Play the sound (only skip for 999 which has no sound)
+        if (key != 999)
+        {
+            PlaySoundEffect(keypadPressed, 1f, 1);
+        }
+
+
+        // NEW PURCHASING CODE
+        if (currentlyCalling == "The Hungry Guppy")
+        {
+            if (key == 1)
+            {
+                if (GetMoneyAmount() >= fishFood_1_Prefab.GetComponent<Scr_FoodBehavior>().price)
+                {
+                    SetFishFoodAmount(fishFood_1_Prefab, fishFood_1_Amount + 1);
+                    SubtractMoneyAmount(fishFood_1_Prefab.GetComponent<Scr_FoodBehavior>().price);
+                }
+                else // Not enough money for purchase
+                {
+                    PlaySoundEffect(SFX_Error, 0.3f);
+                    Debug.Log("Not enough money!");
+
+                    // Make money text flash red
+                    FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
+                }
+            }
+            else if (key == 2)
+            {
+                if (GetMoneyAmount() >= fishFood_2_Prefab.GetComponent<Scr_FoodBehavior>().price)
+                {
+                    SetFishFoodAmount(fishFood_2_Prefab, fishFood_2_Amount + 1);
+                    SubtractMoneyAmount(fishFood_2_Prefab.GetComponent<Scr_FoodBehavior>().price);
+                }
+                else // Not enough money for purchase
+                {
+                    PlaySoundEffect(SFX_Error, 0.3f);
+                    Debug.Log("Not enough money!");
+
+                    // Make money text flash red
+                    FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
+                }
+            }
+            else if (key == 3)
+            {
+                if (GetMoneyAmount() >= fishFood_3_Prefab.GetComponent<Scr_FoodBehavior>().price)
+                {
+                    SetFishFoodAmount(fishFood_3_Prefab, fishFood_3_Amount + 1);
+                    SubtractMoneyAmount(fishFood_3_Prefab.GetComponent<Scr_FoodBehavior>().price);
+                }
+                else // Not enough money for purchase
+                {
+                    PlaySoundEffect(SFX_Error, 0.3f);
+                    Debug.Log("Not enough money!");
+
+                    // Make money text flash red
+                    FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
+                }
+            }
+        }
+
+
+
+
+
+        // Handle functionality
+        if (key >= 0 && key <= 9) //press number
+        {
+            if (phoneNumber.text.Length < 10)
+                phoneNumber.text += key.ToString();
+        }
+        else if (key == -1) //delete
+        {
+            if (phoneNumber.text.Length > 0)
+                phoneNumber.text = phoneNumber.text.Substring(0, phoneNumber.text.Length - 1);
+        }
+        else if (key == 10) //enter
+        {
+            Debug.Log($"Entered Number: {phoneNumber.text}");
+
+            //if phone calling sound already playing, destroy it before playing again
+            if (tempPhoneAudioSource != null)
+            {
+                AudioSource tempAudio = tempPhoneAudioSource.GetComponent<AudioSource>();
+
+                if (tempAudio.isPlaying)
+                {
+                    Debug.Log("Cancelled");
+                    tempAudio.Stop();
+                    Destroy(tempPhoneAudioSource);
+                }
+
+            }
+
+            string numberToCall = phoneNumber.text;
+            phoneNumber.text = "";
+
+
+
+            Scr_PhoneContact contact = null;
+
+            // Find the contact with the matching number
+            for (int i = 0; i < contacts.Length; i++)
+            {
+                if (contacts[i].phoneNumber == numberToCall)
+                {
+                    contact = contacts[i];
+                    break;
+                }
+            }
+
+            if (contact != null)
+            {
+                // Play global ringing sound
+                tempPhoneAudioSource = PlaySoundEffectDontDestroy(SFX_CallRinging, 0.1f, 1);
+                Destroy(tempPhoneAudioSource.gameObject, tempPhoneAudioSource.GetComponent<AudioSource>().clip.length);
+
+                // Wait for the sound to finish, then open dialogue
+                StartCoroutine(WaitForCallToFinishThenStartDialogue(contact, tempPhoneAudioSource.GetComponent<AudioSource>()));
+            }
+            else
+            {
+                // Play call fail sound
+                tempPhoneAudioSource = PlaySoundEffectDontDestroy(SFX_CallFail, 0.5f, 1);
+                Destroy(tempPhoneAudioSource.gameObject, tempPhoneAudioSource.GetComponent<AudioSource>().clip.length);
+            }
+
+
+
+
+
+
+        }
+        else if (key == 999) //used for clearing on enabling/disabling phone
+        {
+            phoneNumber.text = "";
+
+            currentlyCalling = string.Empty;
+        }
+
+    }
+
+    // Coroutine: wait for ringing to finish, then start dialogue
+    private IEnumerator WaitForCallToFinishThenStartDialogue(Scr_PhoneContact contact, AudioSource source)
+    {
+        yield return new WaitForSeconds(source.clip.length);
+
+        // Set dialogue lines
+        dialogueBox.lines = contact.dialogueLines;
+
+        // Open dialogue box (with your animation)
+        dialogueBox.gameObject.SetActive(true);
+        dialogueBox.StartDialogue();
+
+        // Trigger contact-specific behavior
+        contact.OnCallAnswered(this);
+    }
+
+    public void SetFastForwardSetting()
+    {
+        fastForwardSetting++;
+
+        if (fastForwardSetting > 3)
+        {
+            fastForwardSetting = 1;
+        }
+
+        Scr_TimeHandler.UpdateTimeScale(ActiveSettings.secondsPerTickEvent / GetFastForwardSettingFactor());
+    }
+
+    public float GetFastForwardSettingFactor()
+    {
+        float fastForwardSettingFactor;
+
+        if (fastForwardSetting == 3)
+        {
+            fastForwardSettingFactor = ActiveSettings.fastForwardFastest;
+        }
+        else if (fastForwardSetting == 2)
+        {
+            fastForwardSettingFactor = ActiveSettings.fastForwardFast;
+        }
+        else
+        {
+            fastForwardSettingFactor = ActiveSettings.fastForwardNormal;
+        }
+
+        return fastForwardSettingFactor;
     }
 }

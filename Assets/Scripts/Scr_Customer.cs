@@ -35,10 +35,18 @@ public class Scr_Customer : MonoBehaviour
         gameManager = Scr_GameManager.GMinstance;
 
         _Camera = Camera.main;
+        ChangeGameSettings();
 
         GetPotentialCustomers();
         PickCustomer();
 
+    }
+
+    public void ChangeGameSettings()
+    {
+        Scr_GameSettings settings = Scr_GameManager.ActiveSettings;
+        ticksToSpawnChance = settings.customerTicksToSpawnChance;
+        ticksToExist = settings.customerTicksToExist;
     }
 
     // Update is called once per frame

@@ -27,6 +27,7 @@ public class Scr_Fish : MonoBehaviour
 
     public int minutesUntilGrown;
     public int minutesUntilHungry;
+
     public int minutesUntilDead;
 
     public GameObject heartIcon;
@@ -94,6 +95,8 @@ public class Scr_Fish : MonoBehaviour
     {
         gameManager = Scr_GameManager.GMinstance;
 
+        ChangeGameSettings();
+
         originalScale = gameObject.transform.localScale;
         hungrySpeed = baseSpeed * 1.5f;
 
@@ -111,6 +114,67 @@ public class Scr_Fish : MonoBehaviour
             gameManager.SpawnParticles(radiationOutlineEffectPrefab, transform.position, transform.rotation, transform);
             gameManager.SpawnParticles(radiationEffectPrefab, transform.position, transform.rotation, transform);
         }
+
+    }
+
+    public void ChangeGameSettings()
+    {
+        Scr_GameSettings settings = Scr_GameManager.ActiveSettings;
+
+        switch (gameObject.tag)
+        {
+            case "Goldfish":
+                minutesUntilGrown = settings.minutesUntilGrown_Goldfish;
+                minutesUntilHungry = settings.minutesUntilHungry_Goldfish;
+                minutesUntilDead = settings.minutesUntilDead_Goldfish;
+                baseSpeed = settings.baseSpeed_Goldfish;
+                fishCost = settings.fishCost_Goldfish;
+                break;
+
+            case "Betta Fish":
+                minutesUntilGrown = settings.minutesUntilGrown_BettaFish;
+                minutesUntilHungry = settings.minutesUntilHungry_BettaFish;
+                minutesUntilDead = settings.minutesUntilDead_BettaFish;
+                baseSpeed = settings.baseSpeed_BettaFish;
+                fishCost = settings.fishCost_BettaFish;
+                break;
+
+            case "Piranha":
+                minutesUntilGrown = settings.minutesUntilGrown_Piranha;
+                minutesUntilHungry = settings.minutesUntilHungry_Piranha;
+                minutesUntilDead = settings.minutesUntilDead_Piranha;
+                baseSpeed = settings.baseSpeed_Piranha;
+                fishCost = settings.fishCost_Piranha;
+                break;
+
+            case "Clownfish":
+                minutesUntilGrown = settings.minutesUntilGrown_Clownfish;
+                minutesUntilHungry = settings.minutesUntilHungry_Clownfish;
+                minutesUntilDead = settings.minutesUntilDead_Clownfish;
+                baseSpeed = settings.baseSpeed_Clownfish;
+                fishCost = settings.fishCost_Clownfish;
+                break;
+
+            case "Blue Tang":
+                minutesUntilGrown = settings.minutesUntilGrown_BlueTang;
+                minutesUntilHungry = settings.minutesUntilHungry_BlueTang;
+                minutesUntilDead = settings.minutesUntilDead_BlueTang;
+                baseSpeed = settings.baseSpeed_BlueTang;
+                fishCost = settings.fishCost_BlueTang;
+                break;
+
+            default:
+                Debug.Log("Unknown tag on fish! Game settings set to default stats of goldfish (find me in Scr_Fish.ChangeGameSettings())");
+                minutesUntilGrown = settings.minutesUntilGrown_Goldfish;
+                minutesUntilHungry = settings.minutesUntilHungry_Goldfish;
+                minutesUntilDead = settings.minutesUntilDead_Goldfish;
+                baseSpeed = settings.baseSpeed_Goldfish;
+                fishCost = settings.fishCost_Goldfish;
+                break;
+        }
+
+
+
 
     }
 
@@ -140,7 +204,7 @@ public class Scr_Fish : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        currentSpeed = baseSpeedFactored;
+        currentSpeed = baseSpeedFactored * gameManager.GetFastForwardSettingFactor();
 
         //don't do anything if fish is still in spawn animation
         if (fishAnimation.IsAnimationPlaying(fishAnimation.frontAnimator, "Fish Spawn"))
@@ -157,7 +221,7 @@ public class Scr_Fish : MonoBehaviour
 
             if (food != null)
             {
-                currentSpeed = hungrySpeed;
+                currentSpeed = hungrySpeed * gameManager.GetFastForwardSettingFactor();
                 SetTarget(food.transform.position);
             }
         }
@@ -276,7 +340,7 @@ public class Scr_Fish : MonoBehaviour
         {
             // Chose to idle
             SetTarget(transform.position);
-            Invoke("IdleOrMove", 2);
+            Invoke("IdleOrMove", 2 / gameManager.GetFastForwardSettingFactor());
         }
         else
         {

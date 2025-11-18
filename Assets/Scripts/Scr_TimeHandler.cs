@@ -10,17 +10,19 @@ public class Scr_TimeHandler : MonoBehaviour
     [HideInInspector]
     public UnityEvent tickEvent;
 
-    public float tickInterval = 600f; //every __ seconds a tick event will fire
+    public float tickInterval = 600; //every 10 in game minutes (600 in game seconds) a tick event will fire
     private float tickAccumulator; //tick will trigger every __ minutes then reset.
 
 
     [Header("Time Settings")]
-    public float timeScale = 120f; //in-game seconds per real second
+    public float secPerTickEvent; //real seconds per tick event
+    private float timeScale; //in-game seconds per real second
 
-    public int startHour = 6;
-    public int startMinute = 0;
-    public int endHour = 7;
-    public int endMinute = 10;
+
+    public int startHour;
+    public int startMinute;
+    public int endHour;
+    public int endMinute;
 
     private float gameSeconds; //actual in game seconds that have passed
 
@@ -38,8 +40,12 @@ public class Scr_TimeHandler : MonoBehaviour
 
     private void Awake()
     {
+        ChangeGameSettings();
+
         startTimeInSeconds = startHour * 3600 + startMinute * 60;
         endTimeInSeconds = endHour * 3600 + endMinute * 60;
+
+        timeScale = tickInterval / secPerTickEvent;
 
         gameSeconds = startTimeInSeconds; //clock starts at the start time
     }
@@ -60,6 +66,16 @@ public class Scr_TimeHandler : MonoBehaviour
         UpdateClockDisplay();
 
         CheckEventTick();
+    }
+
+    public void ChangeGameSettings()
+    {
+        Scr_GameSettings settings = Scr_GameManager.ActiveSettings;
+        secPerTickEvent = settings.secondsPerTickEvent;
+        startHour = settings.startHour;
+        startMinute = settings.startMinute;
+        endHour = settings.endHour;
+        endMinute = settings.endMinute;
     }
 
     private void UpdateClockDisplay()
@@ -91,5 +107,11 @@ public class Scr_TimeHandler : MonoBehaviour
 
             tickAccumulator -= tickInterval;
         }
+    }
+
+    public void UpdateTimeScale(float newSecPerTickEvent)
+    {
+        timeScale = tickInterval / newSecPerTickEvent;
+
     }
 }

@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8af94a5c3a704d44bb0ee5e36db7c2e4, type: 3}
+  m_Name: TestSettings
+  m_EditorClassIdentifier: 
+  toiletFishTicksToSpawnChance: 2
+  toiletFishReelInSpeed: 0.1
+  toiletFishLateralPullStrength: 1
+  fishyGuyTicksToSpawnChance: 2
+  fishyGuyTicksToExist: 6
+  customerTicksToSpawnChance: 2
+  customerTicksToExist: 6
+  secondsPerTickEvent: 2
+  startHour: 8
+  startMinute: 0
+  endHour: 22
+  endMinute: 0
+  fastForwardNormal: 1
+  fastForwardFast: 2
+  fastForwardFastest: 5
+  moneyAmount: 2000
+  fishFood1Amount: 100
+  fishFood2Amount: 50
+  fishFood3Amount: 20
+  minutesUntilGrown_Goldfish: 60
+  minutesUntilHungry_Goldfish: 90
+  minutesUntilDead_Goldfish: 120
+  baseSpeed_Goldfish: 1.5
+  fishCost_Goldfish: 100
+  minutesUntilGrown_BettaFish: 60
+  minutesUntilHungry_BettaFish: 90
+  minutesUntilDead_BettaFish: 120
+  baseSpeed_BettaFish: 1.5
+  fishCost_BettaFish: 200
+  minutesUntilGrown_Piranha: 60
+  minutesUntilHungry_Piranha: 90
+  minutesUntilDead_Piranha: 120
+  baseSpeed_Piranha: 2
+  fishCost_Piranha: 500
+  minutesUntilGrown_Clownfish: 60
+  minutesUntilHungry_Clownfish: 90
+  minutesUntilDead_Clownfish: 120
+  baseSpeed_Clownfish: 2
+  fishCost_Clownfish: 400
+  minutesUntilGrown_BlueTang: 60
+  minutesUntilHungry_BlueTang: 90
+  minutesUntilDead_BlueTang: 120
+  baseSpeed_BlueTang: 2
+  fishCost_BlueTang: 400

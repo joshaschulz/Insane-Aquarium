@@ -24,13 +24,19 @@ public class Scr_SpawnToiletFish : MonoBehaviour
     void Start()
     {
         gameManager = Scr_GameManager.GMinstance;
-
+        ChangeGameSettings();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void ChangeGameSettings()
+    {
+        Scr_GameSettings settings = Scr_GameManager.ActiveSettings;
+        ticksToSpawnChance = settings.toiletFishTicksToSpawnChance;
     }
 
     private void OnEnable()

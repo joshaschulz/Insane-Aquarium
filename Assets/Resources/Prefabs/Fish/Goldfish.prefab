@@ -1286,6 +1286,7 @@ MonoBehaviour:
   isFreaky: 0
   minutesUntilGrown: 60
   minutesUntilHungry: 90
+  minutesUntilFreaky: 80
   minutesUntilDead: 120
   heartIcon: {fileID: 2859162326584406625}
   hungerIcon: {fileID: 3961908895211311168}

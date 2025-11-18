@@ -67,6 +67,8 @@ public class Scr_Fishing : MonoBehaviour
 
         lineConnector = transform.GetChild(1).GetComponent<Scr_LineConnector>();
 
+        ChangeGameSettings();
+
 
         // Initialize sprite based on starting position
         isLeft = Input.mousePosition.x < screenMiddleX;
@@ -99,6 +101,13 @@ public class Scr_Fishing : MonoBehaviour
         {
             SpawnToiletFish();
         }
+    }
+
+    public void ChangeGameSettings()
+    {
+        Scr_GameSettings settings = Scr_GameManager.ActiveSettings;
+        reelInSpeed = settings.toiletFishReelInSpeed;
+        lateralPullStrength = settings.toiletFishLateralPullStrength;
     }
 
     private void CheckForFishHeight()

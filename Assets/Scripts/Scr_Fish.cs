@@ -57,6 +57,7 @@ public class Scr_Fish : MonoBehaviour
     public GameObject radiationEffectPrefab;
     public GameObject radiationOutlineEffectPrefab;
     public GameObject poopEffectPrefab;
+    public GameObject poopOutlineEffectPrefab;
 
     public List<GameObject> fishDiet;
     public List<GameObject> foodInScene;
@@ -601,6 +602,7 @@ public class Scr_Fish : MonoBehaviour
         else
             gameManager.PlaySoundEffect(gameManager.SFX_Fart2, 0.2f);
 
+        gameManager.SpawnParticles(poopOutlineEffectPrefab, transform.position, transform.rotation, transform);
         gameManager.SpawnParticles(poopEffectPrefab, transform.position, transform.rotation, transform);
     }
     public GameObject FindClosestFood() // Returns the closest edible food to the fish or NULL if no edible food exist.

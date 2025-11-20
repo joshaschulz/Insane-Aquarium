@@ -118,9 +118,6 @@ public class Scr_Fish : MonoBehaviour
 
         ChangeGameSettings();
 
-        if (grown)
-            GenerateRandomStats();
-
         originalScale = gameObject.transform.localScale;
         hungrySpeed = baseSpeed * 1.5f;
 

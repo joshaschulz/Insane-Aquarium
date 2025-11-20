@@ -352,15 +352,6 @@ public class Scr_GameManager : MonoBehaviour
 
         Vector2 spawnPosition = new Vector2(_Camera.transform.position.x, _Camera.transform.position.y);
 
-        //keeps track of number of fish in each tank
-        /*if (_Camera.transform.position.x == tank1.position.x)
-        {
-            tank1Fish++;
-        }
-        else if (_Camera.transform.position.x == tank2.position.x)
-        {
-            tank2Fish++;
-        }*/
 
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
         float screenHeightWorld = Camera.main.orthographicSize * 2;
@@ -374,33 +365,6 @@ public class Scr_GameManager : MonoBehaviour
 
         spawnPosition.x = randPosX;
 
-        //commented because fish dont cost money from button (button used for testing)
-        /*int fishCost = _fishToSpawn.GetComponent<Scr_Fish>().fishCost;
-        if (GetMoneyAmount() >= fishCost)
-        {
-            SetMoneyAmount(GetMoneyAmount() - fishCost);
-            GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
-
-
-
-            foodFishDictionary.Add(newFish, _fishToSpawn);
-            Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
-            newFishScript.thisPrefab = _fishToSpawn;
-
-            if (!newFishScript.grown)
-            {
-                MakeFishSmaller(newFish); //want to spawn fish as child and then have it grow over time
-            }
-
-            AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(newFish, _fishToSpawn);
-
-            PlaySoundEffect(SFX_DropFish, 1, 0.5f, 1.5f);
-        }
-        else
-        {
-            Debug.Log("Insufficient Money for Fish : $" + fishCost);
-        }*/
-
         GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
 
 
@@ -408,6 +372,8 @@ public class Scr_GameManager : MonoBehaviour
         foodFishDictionary.Add(newFish, _fishToSpawn);
         Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
         newFishScript.thisPrefab = _fishToSpawn;
+
+        newFishScript.GenerateRandomStats();
 
         if (!newFishScript.grown)
         {
@@ -450,6 +416,9 @@ public class Scr_GameManager : MonoBehaviour
         Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
         newFishScript.thisPrefab = _fishToSpawn;
 
+        newFishScript.GenerateRandomStats();
+
+
         if (!newFishScript.grown)
         {
             MakeFishSmaller(newFish); //want to spawn fish as child and then have it grow over time
@@ -474,6 +443,8 @@ public class Scr_GameManager : MonoBehaviour
 
         Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
         newFishScript.thisPrefab = _fishToSpawn;
+        newFishScript.ChangeGameSettings();
+        newFishScript.GenerateRandomStats();
 
         if (!newFishScript.grown)
         {

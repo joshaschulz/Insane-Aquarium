@@ -174,14 +174,15 @@ public class Scr_FishyGuy : MonoBehaviour
         }
 
         Scr_Fish fishToBuyScr = fishToBuy.GetComponent<Scr_Fish>();
+        fishToBuyScr.ChangeGameSettings();
         //GameObject baggedFishButtonToUse;
 
-        if (gameManager.moneyAmount > fishToBuyScr.fishCost)
+        if (gameManager.moneyAmount > fishToBuyScr.baseFishCost)
         {
             GameObject fish = gameManager.SpawnBoughtFish(fishToBuy, fishWaitingArea);
             if (gameManager.BagFishyGuyFish(fish))
             {
-                gameManager.SubtractMoneyAmount(fishToBuyScr.fishCost);
+                gameManager.SubtractMoneyAmount(fishToBuyScr.baseFishCost);
 
                 gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.4f, 1f, 1f);
                 gameManager.PlaySoundEffect(gameManager.SFX_MoneyCounter, 0.4f, 1f, 1f);

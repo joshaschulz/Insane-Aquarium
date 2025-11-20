@@ -41,7 +41,7 @@ public class Scr_Fish : MonoBehaviour
     private float currentSpeed;
     private float hungrySpeed;
 
-    public int fishCost;
+    public int baseFishCost; //amount to buy from fishy guy
     public Vector3 originalScale;
 
     private Vector2 target;
@@ -64,6 +64,25 @@ public class Scr_Fish : MonoBehaviour
     private float tickIntervalInMinutes;
 
     public int numberCaught;
+
+    //fish stats (0-5)
+
+    public int priceModifier;
+    public int appeal;
+    public int hungerCapacity;
+    public int freakuency;
+    public int poopInterval;
+
+    public string name;
+    string[] prefixes = {
+    "Blue", "Red", "Gold", "Silver", "Pearl", "Shadow", "Moon", "Star", "Bubble", "Coral",
+    "Swift", "Tiny", "Glitter", "Gloom", "Frost", "Storm", "Pink", "Aqua", "Lime", "Emerald"
+};
+
+    string[] suffixes = {
+    "fin", "tail", "gill", "whisper", "scale", "flash", "spark", "glow",
+    "shimmer", "drifter", "swimmer", "dancer", "dart", "stripe", "snap"
+};
 
     private void OnEnable()
     {
@@ -97,6 +116,8 @@ public class Scr_Fish : MonoBehaviour
 
         ChangeGameSettings();
 
+        GenerateRandomStats();
+
         originalScale = gameObject.transform.localScale;
         hungrySpeed = baseSpeed * 1.5f;
 
@@ -117,6 +138,39 @@ public class Scr_Fish : MonoBehaviour
 
     }
 
+    public void GenerateRandomStats()
+    {
+        name = GenerateRandomName();
+        // reset everything to 0
+        priceModifier = 0;
+        appeal = 0;
+        hungerCapacity = 0;
+        freakuency = 0;
+        poopInterval = 0;
+
+        // put the 5 points into a random stat each time
+        for (int i = 0; i < 5; i++)
+        {
+            int roll = Random.Range(0, 5); // 0 to 4
+
+            switch (roll)
+            {
+                case 0: priceModifier++; break;
+                case 1: appeal++; break;
+                case 2: hungerCapacity++; break;
+                case 3: freakuency++; break;
+                case 4: poopInterval++; break;
+            }
+        }
+    }
+
+    public string GenerateRandomName()
+    {
+        string prefix = prefixes[Random.Range(0, prefixes.Length)];
+        string suffix = suffixes[Random.Range(0, suffixes.Length)];
+        return prefix + suffix.Substring(0, 1).ToUpper() + suffix.Substring(1);
+    }
+
     public void ChangeGameSettings()
     {
         Scr_GameSettings settings = Scr_GameManager.ActiveSettings;
@@ -128,7 +182,7 @@ public class Scr_Fish : MonoBehaviour
                 minutesUntilHungry = settings.minutesUntilHungry_Goldfish;
                 minutesUntilDead = settings.minutesUntilDead_Goldfish;
                 baseSpeed = settings.baseSpeed_Goldfish;
-                fishCost = settings.fishCost_Goldfish;
+                baseFishCost = settings.baseFishCost_Goldfish;
                 break;
 
             case "Betta Fish":
@@ -136,7 +190,7 @@ public class Scr_Fish : MonoBehaviour
                 minutesUntilHungry = settings.minutesUntilHungry_BettaFish;
                 minutesUntilDead = settings.minutesUntilDead_BettaFish;
                 baseSpeed = settings.baseSpeed_BettaFish;
-                fishCost = settings.fishCost_BettaFish;
+                baseFishCost = settings.baseFishCost_BettaFish;
                 break;
 
             case "Piranha":
@@ -144,7 +198,7 @@ public class Scr_Fish : MonoBehaviour
                 minutesUntilHungry = settings.minutesUntilHungry_Piranha;
                 minutesUntilDead = settings.minutesUntilDead_Piranha;
                 baseSpeed = settings.baseSpeed_Piranha;
-                fishCost = settings.fishCost_Piranha;
+                baseFishCost = settings.baseFishCost_Piranha;
                 break;
 
             case "Clownfish":
@@ -152,7 +206,7 @@ public class Scr_Fish : MonoBehaviour
                 minutesUntilHungry = settings.minutesUntilHungry_Clownfish;
                 minutesUntilDead = settings.minutesUntilDead_Clownfish;
                 baseSpeed = settings.baseSpeed_Clownfish;
-                fishCost = settings.fishCost_Clownfish;
+                baseFishCost = settings.baseFishCost_Clownfish;
                 break;
 
             case "Blue Tang":
@@ -160,7 +214,7 @@ public class Scr_Fish : MonoBehaviour
                 minutesUntilHungry = settings.minutesUntilHungry_BlueTang;
                 minutesUntilDead = settings.minutesUntilDead_BlueTang;
                 baseSpeed = settings.baseSpeed_BlueTang;
-                fishCost = settings.fishCost_BlueTang;
+                baseFishCost = settings.baseFishCost_BlueTang;
                 break;
 
             default:
@@ -169,11 +223,11 @@ public class Scr_Fish : MonoBehaviour
                 minutesUntilHungry = settings.minutesUntilHungry_Goldfish;
                 minutesUntilDead = settings.minutesUntilDead_Goldfish;
                 baseSpeed = settings.baseSpeed_Goldfish;
-                fishCost = settings.fishCost_Goldfish;
+                baseFishCost = settings.baseFishCost_Goldfish;
                 break;
         }
 
-
+        Debug.Log("BASE FISH COST:" + baseFishCost);
 
 
     }

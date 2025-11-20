@@ -148,7 +148,7 @@ public class Scr_Fishing : MonoBehaviour
                         fishpedia.SetImages(buttonIndex, prefab.GetComponent<Scr_FishAnimation>().sideSprite, prefab.GetComponent<Scr_FishAnimation>().frontSprite);
                         fishpedia.SetName(buttonIndex, prefab.name);
                         fishpedia.SetDescription(buttonIndex, prefab.GetComponent<Scr_Fish>().fishDescription);
-                        fishpedia.SetStat(buttonIndex, 0, prefab.GetComponent<Scr_Fish>().fishCost);
+                        fishpedia.SetStat(buttonIndex, 0, prefab.GetComponent<Scr_Fish>().baseFishCost);
                         fishpedia.SetStat(buttonIndex, 2, prefab.GetComponent<Scr_Fish>().minutesUntilHungry);
                         fishpedia.SetStat(buttonIndex, 4, prefab.GetComponent<Scr_ToiletFish>().difficultyMultiplier);
                         fishpedia.SetStat(buttonIndex, 5, prefab.GetComponent<Scr_Fish>().numberCaught);

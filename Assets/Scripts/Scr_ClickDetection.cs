@@ -8,6 +8,7 @@ public class Scr_ClickDetection : MonoBehaviour
 {
 
     Scr_GameManager gameManager;
+    public Scr_FishInfoPanel infoPanel;
 
     private void Awake()
     {
@@ -97,6 +98,22 @@ public class Scr_ClickDetection : MonoBehaviour
             {
                 gameManager.DeselectFishBag();
             }
+
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+
+            if (hit.collider != null)
+            {
+                Scr_Fish fish = hit.collider.GetComponent<Scr_Fish>();
+                if (fish != null)
+                {
+                    infoPanel.Show(fish);
+                    return;
+                }
+            }
+
+            infoPanel.Hide();
+
             /*
             if (gameManager.currentBaggedFishButtonSelected != null)
             {

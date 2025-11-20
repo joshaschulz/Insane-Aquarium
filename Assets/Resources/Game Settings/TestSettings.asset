@@ -35,24 +35,24 @@ MonoBehaviour:
   minutesUntilHungry_Goldfish: 90
   minutesUntilDead_Goldfish: 120
   baseSpeed_Goldfish: 1.5
-  fishCost_Goldfish: 100
+  baseFishCost_Goldfish: 200
   minutesUntilGrown_BettaFish: 60
   minutesUntilHungry_BettaFish: 90
   minutesUntilDead_BettaFish: 120
   baseSpeed_BettaFish: 1.5
-  fishCost_BettaFish: 200
+  baseFishCost_BettaFish: 250
   minutesUntilGrown_Piranha: 60
   minutesUntilHungry_Piranha: 90
   minutesUntilDead_Piranha: 120
   baseSpeed_Piranha: 2
-  fishCost_Piranha: 500
+  baseFishCost_Piranha: 300
   minutesUntilGrown_Clownfish: 60
   minutesUntilHungry_Clownfish: 90
   minutesUntilDead_Clownfish: 120
   baseSpeed_Clownfish: 2
-  fishCost_Clownfish: 400
+  baseFishCost_Clownfish: 350
   minutesUntilGrown_BlueTang: 60
   minutesUntilHungry_BlueTang: 90
   minutesUntilDead_BlueTang: 120
   baseSpeed_BlueTang: 2
-  fishCost_BlueTang: 400
+  baseFishCost_BlueTang: 400

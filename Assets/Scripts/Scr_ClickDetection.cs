@@ -10,6 +10,8 @@ public class Scr_ClickDetection : MonoBehaviour
     Scr_GameManager gameManager;
     public Scr_FishInfoPanel infoPanel;
 
+
+
     private void Awake()
     {
         gameManager = GetComponent<Scr_GameManager>();
@@ -105,25 +107,26 @@ public class Scr_ClickDetection : MonoBehaviour
             if (hit.collider != null)
             {
                 Scr_Fish fish = hit.collider.GetComponent<Scr_Fish>();
+
                 if (fish != null)
                 {
+
                     infoPanel.Show(fish);
                     return;
                 }
+                return;
+                }
             }
 
+            //clicked off of fish - hide it
             infoPanel.Hide();
 
-            /*
-            if (gameManager.currentBaggedFishButtonSelected != null)
-            {
-                gameManager.DeselectBaggedFish();
-            }
-            */
+        /*
+        if (gameManager.currentBaggedFishButtonSelected != null)
+        {
+            gameManager.DeselectBaggedFish();
         }
-
-
-
+        */
     }
 
 }

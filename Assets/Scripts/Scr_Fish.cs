@@ -25,9 +25,11 @@ public class Scr_Fish : MonoBehaviour
     public float freakCount = 0;
     public bool isFreaky;
 
+    public float poopCount = 0;
+
     public int minutesUntilGrown;
     public int minutesUntilHungry;
-
+    public int minutesUntilPoop;
     public int minutesUntilDead;
 
     public GameObject heartIcon;
@@ -54,6 +56,7 @@ public class Scr_Fish : MonoBehaviour
     public GameObject bubblesEffectPrefab;
     public GameObject radiationEffectPrefab;
     public GameObject radiationOutlineEffectPrefab;
+    public GameObject poopEffectPrefab;
 
     public List<GameObject> fishDiet;
     public List<GameObject> foodInScene;
@@ -271,6 +274,7 @@ public class Scr_Fish : MonoBehaviour
             case "Goldfish":
                 minutesUntilGrown = settings.minutesUntilGrown_Goldfish;
                 minutesUntilHungry = settings.minutesUntilHungry_Goldfish;
+                minutesUntilPoop = settings.minutesUntilPoop_Goldfish;
                 minutesUntilDead = settings.minutesUntilDead_Goldfish;
                 baseSpeed = settings.baseSpeed_Goldfish;
                 baseFishCost = settings.baseFishCost_Goldfish;
@@ -279,6 +283,7 @@ public class Scr_Fish : MonoBehaviour
             case "Betta Fish":
                 minutesUntilGrown = settings.minutesUntilGrown_BettaFish;
                 minutesUntilHungry = settings.minutesUntilHungry_BettaFish;
+                minutesUntilPoop = settings.minutesUntilPoop_BettaFish;
                 minutesUntilDead = settings.minutesUntilDead_BettaFish;
                 baseSpeed = settings.baseSpeed_BettaFish;
                 baseFishCost = settings.baseFishCost_BettaFish;
@@ -287,6 +292,7 @@ public class Scr_Fish : MonoBehaviour
             case "Piranha":
                 minutesUntilGrown = settings.minutesUntilGrown_Piranha;
                 minutesUntilHungry = settings.minutesUntilHungry_Piranha;
+                minutesUntilPoop = settings.minutesUntilPoop_Piranha;
                 minutesUntilDead = settings.minutesUntilDead_Piranha;
                 baseSpeed = settings.baseSpeed_Piranha;
                 baseFishCost = settings.baseFishCost_Piranha;
@@ -295,6 +301,7 @@ public class Scr_Fish : MonoBehaviour
             case "Clownfish":
                 minutesUntilGrown = settings.minutesUntilGrown_Clownfish;
                 minutesUntilHungry = settings.minutesUntilHungry_Clownfish;
+                minutesUntilPoop = settings.minutesUntilPoop_Clownfish;
                 minutesUntilDead = settings.minutesUntilDead_Clownfish;
                 baseSpeed = settings.baseSpeed_Clownfish;
                 baseFishCost = settings.baseFishCost_Clownfish;
@@ -303,15 +310,17 @@ public class Scr_Fish : MonoBehaviour
             case "Blue Tang":
                 minutesUntilGrown = settings.minutesUntilGrown_BlueTang;
                 minutesUntilHungry = settings.minutesUntilHungry_BlueTang;
+                minutesUntilPoop = settings.minutesUntilPoop_BlueTang;
                 minutesUntilDead = settings.minutesUntilDead_BlueTang;
                 baseSpeed = settings.baseSpeed_BlueTang;
                 baseFishCost = settings.baseFishCost_BlueTang;
                 break;
 
             default:
-                Debug.Log("Unknown tag on fish! Game settings set to default stats of goldfish (find me in Scr_Fish.ChangeGameSettings())");
+                Debug.LogWarning("Unknown tag on fish! Game settings set to default stats of goldfish (find me in Scr_Fish.ChangeGameSettings())");
                 minutesUntilGrown = settings.minutesUntilGrown_Goldfish;
                 minutesUntilHungry = settings.minutesUntilHungry_Goldfish;
+                minutesUntilPoop = settings.minutesUntilPoop_Goldfish;
                 minutesUntilDead = settings.minutesUntilDead_Goldfish;
                 baseSpeed = settings.baseSpeed_Goldfish;
                 baseFishCost = settings.baseFishCost_Goldfish;
@@ -332,6 +341,8 @@ public class Scr_Fish : MonoBehaviour
         GrowCounter();
 
         FreakCounter();
+
+        PoopCounter();
 
         if ((isHungry && FindClosestFood() != null) || (isFreaky && FindClosestMate() != null))
         {
@@ -495,6 +506,7 @@ public class Scr_Fish : MonoBehaviour
 
     }
 
+
     public void HungerCounter()
     {
         hungerCount += tickIntervalInMinutes;
@@ -569,7 +581,28 @@ public class Scr_Fish : MonoBehaviour
         Destroy(gameObject);
 
     }
+    public void PoopCounter()
+    {
+        poopCount += tickIntervalInMinutes;
 
+        if (poopCount >= minutesUntilPoop)
+        {
+            Poop();
+        }
+    }
+    private void Poop()
+    {
+        Debug.Log("Poop!");
+        poopCount = 0;
+
+        int poopSoundSeed = Random.Range(0, 2);
+        if (poopSoundSeed == 0)
+            gameManager.PlaySoundEffect(gameManager.SFX_Fart1, 0.2f);
+        else
+            gameManager.PlaySoundEffect(gameManager.SFX_Fart2, 0.2f);
+
+        gameManager.SpawnParticles(poopEffectPrefab, transform.position, transform.rotation, transform);
+    }
     public GameObject FindClosestFood() // Returns the closest edible food to the fish or NULL if no edible food exist.
     {
         // If there are food objects in the scene that this fish can eat...

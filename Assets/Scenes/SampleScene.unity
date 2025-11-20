@@ -11690,6 +11690,8 @@ MonoBehaviour:
   SFX_TextScroll: {fileID: 8300000, guid: 0cb69f2f0076f0e40937ac0e869cf0fa, type: 3}
   SFX_TextScrollEnd: {fileID: 8300000, guid: 2345132cab005dc44b36dddb86385a2d, type: 3}
   SFX_FishGrow: {fileID: 8300000, guid: 460715804b4ac0445aeee72824b617f9, type: 3}
+  SFX_Fart1: {fileID: 8300000, guid: ffc4412b52c2d2c4ebef36cb0a892e04, type: 3}
+  SFX_Fart2: {fileID: 8300000, guid: 417d4c4c6bbf275468525a08f7d2652b, type: 3}
   SFX_Keypad1: {fileID: 8300000, guid: 38874c59c6951564c84e9b6f3351c622, type: 3}
   SFX_Keypad2: {fileID: 8300000, guid: ee8ac7dc1c0b28e4d8748995a5662995, type: 3}
   SFX_Keypad3: {fileID: 8300000, guid: 1e706eaaf793ae942a45f65ff4b23282, type: 3}

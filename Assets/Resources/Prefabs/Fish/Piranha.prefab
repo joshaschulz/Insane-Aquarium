@@ -261,14 +261,16 @@ MonoBehaviour:
   radiated: 0
   freakCount: 70
   isFreaky: 0
+  poopCount: 0
   minutesUntilGrown: 60
   minutesUntilHungry: 90
+  minutesUntilPoop: 0
   minutesUntilDead: 120
   heartIcon: {fileID: 7094487085532254617}
   hungerIcon: {fileID: 8563883548663662571}
   spawnHeight: 0.5
   baseSpeed: 2
-  fishCost: 500
+  baseFishCost: 0
   originalScale: {x: 0, y: 0, z: 0}
   spawnTank: {x: 0, y: 0}
   minX: 0
@@ -280,10 +282,19 @@ MonoBehaviour:
   bubblesEffectPrefab: {fileID: 7699653466035250317, guid: 4e2ec060f025af64ba8ccc7e09d540eb, type: 3}
   radiationEffectPrefab: {fileID: 7699653466035250317, guid: 88b396a9442737145b370cfdc7c5963d, type: 3}
   radiationOutlineEffectPrefab: {fileID: 7699653466035250317, guid: b272fab0de09ec14d926afe41dd52d15, type: 3}
+  poopEffectPrefab: {fileID: 7699653466035250317, guid: c3d7e6177bfa87546b397b6747d2bcff, type: 3}
   fishDiet:
   - {fileID: 8672692834543181141, guid: 1e8f852235a4ef746860883a25c3714f, type: 3}
   foodInScene: []
   numberCaught: 0
+  generation: 1
+  totalMutations: 0
+  priceModifier: 0
+  appeal: 0
+  hungerCapacity: 0
+  freakuency: 0
+  poopInterval: 0
+  name: 
 --- !u!114 &-1172518200990563500
 MonoBehaviour:
   m_ObjectHideFlags: 0

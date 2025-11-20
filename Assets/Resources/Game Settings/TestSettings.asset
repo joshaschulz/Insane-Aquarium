@@ -26,11 +26,11 @@ MonoBehaviour:
   endMinute: 0
   fastForwardNormal: 1
   fastForwardFast: 2
-  fastForwardFastest: 5
+  fastForwardFastest: 10
   moneyAmount: 2000
   fishFood1Amount: 100
   fishFood2Amount: 50
-  fishFood3Amount: 20
+  fishFood3Amount: 200
   minutesUntilGrown_Goldfish: 60
   minutesUntilHungry_Goldfish: 90
   minutesUntilDead_Goldfish: 120

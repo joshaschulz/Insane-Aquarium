@@ -114,19 +114,17 @@ public class Scr_ClickDetection : MonoBehaviour
                     infoPanel.Show(fish);
                     return;
                 }
-                return;
-                }
             }
 
             //clicked off of fish - hide it
             infoPanel.Hide();
 
-        /*
-        if (gameManager.currentBaggedFishButtonSelected != null)
-        {
-            gameManager.DeselectBaggedFish();
+            /*
+            if (gameManager.currentBaggedFishButtonSelected != null)
+            {
+                gameManager.DeselectBaggedFish();
+            }
+            */
         }
-        */
     }
-
 }

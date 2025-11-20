@@ -65,8 +65,10 @@ public class Scr_Fish : MonoBehaviour
 
     public int numberCaught;
 
-    //fish stats (0-5)
+    public int generation = 1;
+    public int totalMutations = 0;
 
+    //fish stats (0-5)
     public int priceModifier;
     public int appeal;
     public int hungerCapacity;
@@ -77,12 +79,12 @@ public class Scr_Fish : MonoBehaviour
     string[] prefixes = {
     "Blue", "Red", "Gold", "Silver", "Pearl", "Shadow", "Moon", "Star", "Bubble", "Coral",
     "Swift", "Tiny", "Glitter", "Gloom", "Frost", "Storm", "Pink", "Aqua", "Lime", "Emerald"
-};
+       };
 
     string[] suffixes = {
     "fin", "tail", "gill", "whisper", "scale", "flash", "spark", "glow",
     "shimmer", "drifter", "swimmer", "dancer", "dart", "stripe", "snap"
-};
+    };
 
     private void OnEnable()
     {
@@ -116,7 +118,8 @@ public class Scr_Fish : MonoBehaviour
 
         ChangeGameSettings();
 
-        GenerateRandomStats();
+        if (grown)
+            GenerateRandomStats();
 
         originalScale = gameObject.transform.localScale;
         hungrySpeed = baseSpeed * 1.5f;
@@ -164,11 +167,102 @@ public class Scr_Fish : MonoBehaviour
         }
     }
 
+    public void GenerateStatsFromParents(Scr_Fish parent1, Scr_Fish parent2)
+    {
+        name = GenerateNameFromParents(parent1, parent2);
+        //name = GenerateRandomName();
+        priceModifier = Random.Range(0, 2) == 0 ? parent1.priceModifier : parent2.priceModifier;
+        appeal = Random.Range(0, 2) == 0 ? parent1.appeal : parent2.appeal;
+        hungerCapacity = Random.Range(0, 2) == 0 ? parent1.hungerCapacity : parent2.hungerCapacity;
+        freakuency = Random.Range(0, 2) == 0 ? parent1.freakuency : parent2.freakuency;
+        poopInterval = Random.Range(0, 2) == 0 ? parent1.poopInterval : parent2.poopInterval;
+
+        // Determine mutation chance
+        float mutationChance = 0f;
+
+        if (parent1.radiated) mutationChance += 0.5f;
+        if (parent2.radiated) mutationChance += 0.5f;
+
+        // Clamp so 2 radiated parents = 100% chance
+        mutationChance = Mathf.Min(mutationChance, 1f);
+
+        // Roll mutation
+        if (Random.value < mutationChance)
+        {
+            ApplyMutation();
+            totalMutations = Mathf.Max(parent1.totalMutations, parent2.totalMutations) + 1;
+        }
+
+        generation = Mathf.Max(parent1.generation, parent2.generation) + 1;
+    }
+
+    public void ApplyMutation()
+    {
+        int[] stats = { priceModifier, appeal, hungerCapacity, freakuency, poopInterval };
+        int roll = Random.Range(0, 5);
+
+        if (stats[roll] < 5)
+        {
+            stats[roll]++;
+        }
+
+        // write back the mutated value
+        priceModifier = stats[0];
+        appeal = stats[1];
+        hungerCapacity = stats[2];
+        freakuency = stats[3];
+        poopInterval = stats[4];
+    }
+
     public string GenerateRandomName()
     {
         string prefix = prefixes[Random.Range(0, prefixes.Length)];
         string suffix = suffixes[Random.Range(0, suffixes.Length)];
         return prefix + suffix.Substring(0, 1).ToUpper() + suffix.Substring(1);
+    }
+
+    public string GenerateNameFromParents(Scr_Fish parent1, Scr_Fish parent2)
+    {
+        // Extract prefix/suffix from parent1
+        string n1 = parent1.name;
+        int n1Split = -1;
+        for (int i = 1; i < n1.Length; i++)
+        {
+            if (char.IsUpper(n1[i]))
+            {
+                n1Split = i;
+                break;
+            }
+        }
+        string p1Prefix = n1Split > 0 ? n1.Substring(0, n1Split) : n1;
+        string p1Suffix = n1Split > 0 ? n1.Substring(n1Split) : "";
+
+        // Extract prefix/suffix from parent2
+        string n2 = parent2.name;
+        int n2Split = -1;
+        for (int i = 1; i < n2.Length; i++)
+        {
+            if (char.IsUpper(n2[i]))
+            {
+                n2Split = i;
+                break;
+            }
+        }
+        string p2Prefix = n2Split > 0 ? n2.Substring(0, n2Split) : n2;
+        string p2Suffix = n2Split > 0 ? n2.Substring(n2Split) : "";
+
+        // Safety check
+        if (p1Prefix == "" || p1Suffix == "")
+            Debug.LogError("Invalid name format for parent1: " + n1);
+        if (p2Prefix == "" || p2Suffix == "")
+            Debug.LogError("Invalid name format for parent2: " + n2);
+
+        // Randomly pick from parents
+        int choice1 = Random.Range(0, 2); //if 0, picked from parent1. if 1, picked from parent2
+        string finalPrefix = (choice1 == 0) ? p1Prefix : p2Prefix;
+        string finalSuffix = (choice1 == 0) ? p2Suffix : p1Suffix;
+
+        return finalPrefix + finalSuffix;
     }
 
     public void ChangeGameSettings()
@@ -327,6 +421,7 @@ public class Scr_Fish : MonoBehaviour
                 {
                     GameObject babyFish = gameManager.SpawnBabyFish(thisPrefab, gameObject);
                     Scr_Fish babyFishScr = babyFish.GetComponent<Scr_Fish>();
+                    babyFishScr.GenerateStatsFromParents(this, collisionObjScr);
                 }
                 return;
             }

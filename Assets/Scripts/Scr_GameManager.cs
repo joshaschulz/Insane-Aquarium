@@ -39,7 +39,8 @@ public class Scr_GameManager : MonoBehaviour
 
     public GameObject tank;
 
-    public float tankPoopLevel = 0;
+    public float foregroundTankPoopLevel = 0;
+    public float backgroundTankPoopLevel = 0;
     public GameObject foregroundTankPoopOverlay;
     public GameObject backgroundTankPoopOverlay;
 
@@ -98,7 +99,8 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject[] fishPrefabs;
     public Sprite[] fishSprites;
 
-
+    public Transform foregroundTank;
+    public Transform backgroundTank;
     public SpriteRenderer[] tankSpriteRenderers;
 
 
@@ -1060,10 +1062,32 @@ public class Scr_GameManager : MonoBehaviour
             cursorFollower.gameObject.SetActive(false);
         }
     }
-    public void UpdatePoopLevel(GameObject _tank, int _newPoopLevel)
+    public void UpdatePoopLevel(Vector2 _tank, int _poopAmount)
     {
 
+        if (_tank == new Vector2(foregroundTank.position.x, foregroundTank.position.y))
+        {
+            foregroundTankPoopLevel = Mathf.Clamp(foregroundTankPoopLevel + _poopAmount, 0, 100);
+
+            SpriteRenderer foregroundTankPoopOverlaySR = foregroundTankPoopOverlay.GetComponent<SpriteRenderer>();
+
+            Color c = foregroundTankPoopOverlaySR.color;
+            c.a = Mathf.Clamp01(foregroundTankPoopLevel / 100);
+            foregroundTankPoopOverlaySR.color = c;
+        }
+        else if (_tank == new Vector2(backgroundTank.position.x, backgroundTank.position.y))
+        {
+            backgroundTankPoopLevel = Mathf.Clamp(backgroundTankPoopLevel + _poopAmount, 0, 100);
+
+            SpriteRenderer backgroundTankPoopOverlaySR = backgroundTankPoopOverlay.GetComponent<SpriteRenderer>();
+
+            Color c = backgroundTankPoopOverlaySR.color;
+            c.a = Mathf.Clamp01(backgroundTankPoopLevel / 100);
+            backgroundTankPoopOverlaySR.color = c;
+        }
     }
+
+
     public void SpawnParticles(GameObject _particles, Vector3 _position, Quaternion _rotation, Transform _parent)
     {
         GameObject newParticlesObject;

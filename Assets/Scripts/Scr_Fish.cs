@@ -595,7 +595,8 @@ public class Scr_Fish : MonoBehaviour
     {
         Debug.Log("Poop!");
         poopCount = 0;
-        gameManager.tankPoopLevel += 1;
+
+        gameManager.UpdatePoopLevel(spawnTank, 1);
 
         int poopSoundSeed = Random.Range(0, 2);
         if (poopSoundSeed == 0)

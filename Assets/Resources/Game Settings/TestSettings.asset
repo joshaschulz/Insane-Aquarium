@@ -33,30 +33,35 @@ MonoBehaviour:
   fishFood3Amount: 200
   minutesUntilGrown_Goldfish: 60
   minutesUntilHungry_Goldfish: 90
+  minutesUntilFreaky_Goldfish: 100
   minutesUntilPoop_Goldfish: 60
   minutesUntilDead_Goldfish: 120
   baseSpeed_Goldfish: 1.5
   baseFishCost_Goldfish: 200
   minutesUntilGrown_BettaFish: 60
   minutesUntilHungry_BettaFish: 90
+  minutesUntilFreaky_BettaFish: 100
   minutesUntilPoop_BettaFish: 60
   minutesUntilDead_BettaFish: 120
   baseSpeed_BettaFish: 1.5
   baseFishCost_BettaFish: 250
   minutesUntilGrown_Piranha: 60
   minutesUntilHungry_Piranha: 90
+  minutesUntilFreaky_Piranha: 100
   minutesUntilPoop_Piranha: 60
   minutesUntilDead_Piranha: 120
   baseSpeed_Piranha: 2
   baseFishCost_Piranha: 300
   minutesUntilGrown_Clownfish: 60
   minutesUntilHungry_Clownfish: 90
+  minutesUntilFreaky_Clownfish: 100
   minutesUntilPoop_Clownfish: 60
   minutesUntilDead_Clownfish: 120
   baseSpeed_Clownfish: 2
   baseFishCost_Clownfish: 350
   minutesUntilGrown_BlueTang: 60
   minutesUntilHungry_BlueTang: 90
+  minutesUntilFreaky_BlueTang: 100
   minutesUntilPoop_BlueTang: 60
   minutesUntilDead_BlueTang: 120
   baseSpeed_BlueTang: 2

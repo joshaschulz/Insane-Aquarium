@@ -17,7 +17,7 @@ MonoBehaviour:
   toiletFishLateralPullStrength: 1
   fishyGuyTicksToSpawnChance: 12
   fishyGuyTicksToExist: 6
-  customerTicksToSpawnChance: 6
+  customerTicksToSpawnChance: 12
   customerTicksToExist: 6
   secondsPerTickEvent: 6
   startHour: 6
@@ -26,37 +26,42 @@ MonoBehaviour:
   endMinute: 0
   fastForwardNormal: 1
   fastForwardFast: 2
-  fastForwardFastest: 5
+  fastForwardFastest: 10
   moneyAmount: 100
   fishFood1Amount: 20
   fishFood2Amount: 0
   fishFood3Amount: 0
   minutesUntilGrown_Goldfish: 200
   minutesUntilHungry_Goldfish: 300
+  minutesUntilFreaky_Goldfish: 400
   minutesUntilPoop_Goldfish: 350
   minutesUntilDead_Goldfish: 500
   baseSpeed_Goldfish: 1.5
   baseFishCost_Goldfish: 200
   minutesUntilGrown_BettaFish: 200
   minutesUntilHungry_BettaFish: 300
+  minutesUntilFreaky_BettaFish: 400
   minutesUntilPoop_BettaFish: 350
   minutesUntilDead_BettaFish: 500
   baseSpeed_BettaFish: 1.5
   baseFishCost_BettaFish: 250
   minutesUntilGrown_Piranha: 200
   minutesUntilHungry_Piranha: 300
+  minutesUntilFreaky_Piranha: 400
   minutesUntilPoop_Piranha: 350
   minutesUntilDead_Piranha: 500
   baseSpeed_Piranha: 2
   baseFishCost_Piranha: 300
   minutesUntilGrown_Clownfish: 200
   minutesUntilHungry_Clownfish: 300
+  minutesUntilFreaky_Clownfish: 400
   minutesUntilPoop_Clownfish: 350
   minutesUntilDead_Clownfish: 500
   baseSpeed_Clownfish: 2
   baseFishCost_Clownfish: 350
   minutesUntilGrown_BlueTang: 200
   minutesUntilHungry_BlueTang: 300
+  minutesUntilFreaky_BlueTang: 400
   minutesUntilPoop_BlueTang: 350
   minutesUntilDead_BlueTang: 500
   baseSpeed_BlueTang: 2

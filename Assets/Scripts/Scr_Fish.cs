@@ -31,6 +31,7 @@ public class Scr_Fish : MonoBehaviour
     public int minutesUntilHungry;
     public int minutesUntilPoop;
     public int minutesUntilDead;
+    public int minutesUntilFreaky;
 
     public GameObject heartIcon;
     public GameObject hungerIcon;
@@ -275,6 +276,7 @@ public class Scr_Fish : MonoBehaviour
             case "Goldfish":
                 minutesUntilGrown = settings.minutesUntilGrown_Goldfish;
                 minutesUntilHungry = settings.minutesUntilHungry_Goldfish;
+                minutesUntilFreaky = settings.minutesUntilFreaky_Goldfish;
                 minutesUntilPoop = settings.minutesUntilPoop_Goldfish;
                 minutesUntilDead = settings.minutesUntilDead_Goldfish;
                 baseSpeed = settings.baseSpeed_Goldfish;
@@ -284,6 +286,7 @@ public class Scr_Fish : MonoBehaviour
             case "Betta Fish":
                 minutesUntilGrown = settings.minutesUntilGrown_BettaFish;
                 minutesUntilHungry = settings.minutesUntilHungry_BettaFish;
+                minutesUntilFreaky = settings.minutesUntilFreaky_BettaFish;
                 minutesUntilPoop = settings.minutesUntilPoop_BettaFish;
                 minutesUntilDead = settings.minutesUntilDead_BettaFish;
                 baseSpeed = settings.baseSpeed_BettaFish;
@@ -293,6 +296,7 @@ public class Scr_Fish : MonoBehaviour
             case "Piranha":
                 minutesUntilGrown = settings.minutesUntilGrown_Piranha;
                 minutesUntilHungry = settings.minutesUntilHungry_Piranha;
+                minutesUntilFreaky = settings.minutesUntilFreaky_Piranha;
                 minutesUntilPoop = settings.minutesUntilPoop_Piranha;
                 minutesUntilDead = settings.minutesUntilDead_Piranha;
                 baseSpeed = settings.baseSpeed_Piranha;
@@ -302,6 +306,7 @@ public class Scr_Fish : MonoBehaviour
             case "Clownfish":
                 minutesUntilGrown = settings.minutesUntilGrown_Clownfish;
                 minutesUntilHungry = settings.minutesUntilHungry_Clownfish;
+                minutesUntilFreaky = settings.minutesUntilFreaky_Clownfish;
                 minutesUntilPoop = settings.minutesUntilPoop_Clownfish;
                 minutesUntilDead = settings.minutesUntilDead_Clownfish;
                 baseSpeed = settings.baseSpeed_Clownfish;
@@ -311,6 +316,7 @@ public class Scr_Fish : MonoBehaviour
             case "Blue Tang":
                 minutesUntilGrown = settings.minutesUntilGrown_BlueTang;
                 minutesUntilHungry = settings.minutesUntilHungry_BlueTang;
+                minutesUntilFreaky = settings.minutesUntilFreaky_BlueTang;
                 minutesUntilPoop = settings.minutesUntilPoop_BlueTang;
                 minutesUntilDead = settings.minutesUntilDead_BlueTang;
                 baseSpeed = settings.baseSpeed_BlueTang;
@@ -321,6 +327,7 @@ public class Scr_Fish : MonoBehaviour
                 Debug.LogWarning("Unknown tag on fish! Game settings set to default stats of goldfish (find me in Scr_Fish.ChangeGameSettings())");
                 minutesUntilGrown = settings.minutesUntilGrown_Goldfish;
                 minutesUntilHungry = settings.minutesUntilHungry_Goldfish;
+                minutesUntilHungry = settings.minutesUntilFreaky_Goldfish;
                 minutesUntilPoop = settings.minutesUntilPoop_Goldfish;
                 minutesUntilDead = settings.minutesUntilDead_Goldfish;
                 baseSpeed = settings.baseSpeed_Goldfish;
@@ -542,13 +549,13 @@ public class Scr_Fish : MonoBehaviour
         {
             if (!isHungry)
             {
-                freakCount = Mathf.Min(100, freakCount + tickIntervalInMinutes);
+                freakCount = Mathf.Min(minutesUntilFreaky, freakCount + tickIntervalInMinutes);
             }
             else if (isHungry)
             {
                 freakCount = Mathf.Max(0, freakCount - tickIntervalInMinutes);
             }
-            isFreaky = (freakCount == 100);
+            isFreaky = (freakCount == minutesUntilFreaky);
             heartIcon.SetActive(isFreaky);
 
             Debug.Log(gameObject.name + freakCount);
@@ -648,7 +655,7 @@ public class Scr_Fish : MonoBehaviour
                 {
                     Scr_Fish foodFishKeyScr = foodFishKey.GetComponent<Scr_Fish>();
 
-                    if (foodFishKey != gameObject && foodFishKeyScr.CompareTag(gameObject.tag) && foodFishKeyScr.freakCount == 100)
+                    if (foodFishKey != gameObject && foodFishKeyScr.CompareTag(gameObject.tag) && foodFishKeyScr.freakCount == minutesUntilFreaky)
                     {
                         float distance = Vector2.Distance(transform.position, foodFishKey.transform.position);
 

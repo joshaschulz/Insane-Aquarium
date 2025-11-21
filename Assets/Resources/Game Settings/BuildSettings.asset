@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8af94a5c3a704d44bb0ee5e36db7c2e4, type: 3}
   m_Name: BuildSettings
   m_EditorClassIdentifier: 
-  toiletFishTicksToSpawnChance: 6
+  toiletFishTicksToSpawnChance: 12
   toiletFishReelInSpeed: 0.1
   toiletFishLateralPullStrength: 1
   fishyGuyTicksToSpawnChance: 12
@@ -27,37 +27,37 @@ MonoBehaviour:
   fastForwardNormal: 1
   fastForwardFast: 2
   fastForwardFastest: 5
-  moneyAmount: 2000
-  fishFood1Amount: 100
-  fishFood2Amount: 50
-  fishFood3Amount: 20
-  minutesUntilGrown_Goldfish: 60
-  minutesUntilHungry_Goldfish: 90
-  minutesUntilPoop_Goldfish: 60
-  minutesUntilDead_Goldfish: 120
+  moneyAmount: 100
+  fishFood1Amount: 20
+  fishFood2Amount: 0
+  fishFood3Amount: 0
+  minutesUntilGrown_Goldfish: 200
+  minutesUntilHungry_Goldfish: 300
+  minutesUntilPoop_Goldfish: 350
+  minutesUntilDead_Goldfish: 500
   baseSpeed_Goldfish: 1.5
   baseFishCost_Goldfish: 200
-  minutesUntilGrown_BettaFish: 60
-  minutesUntilHungry_BettaFish: 90
-  minutesUntilPoop_BettaFish: 60
-  minutesUntilDead_BettaFish: 120
+  minutesUntilGrown_BettaFish: 200
+  minutesUntilHungry_BettaFish: 300
+  minutesUntilPoop_BettaFish: 350
+  minutesUntilDead_BettaFish: 500
   baseSpeed_BettaFish: 1.5
   baseFishCost_BettaFish: 250
-  minutesUntilGrown_Piranha: 60
-  minutesUntilHungry_Piranha: 90
-  minutesUntilPoop_Piranha: 60
-  minutesUntilDead_Piranha: 120
+  minutesUntilGrown_Piranha: 200
+  minutesUntilHungry_Piranha: 300
+  minutesUntilPoop_Piranha: 350
+  minutesUntilDead_Piranha: 500
   baseSpeed_Piranha: 2
   baseFishCost_Piranha: 300
-  minutesUntilGrown_Clownfish: 60
-  minutesUntilHungry_Clownfish: 90
-  minutesUntilPoop_Clownfish: 60
-  minutesUntilDead_Clownfish: 120
+  minutesUntilGrown_Clownfish: 200
+  minutesUntilHungry_Clownfish: 300
+  minutesUntilPoop_Clownfish: 350
+  minutesUntilDead_Clownfish: 500
   baseSpeed_Clownfish: 2
   baseFishCost_Clownfish: 350
-  minutesUntilGrown_BlueTang: 60
-  minutesUntilHungry_BlueTang: 90
-  minutesUntilPoop_BlueTang: 60
-  minutesUntilDead_BlueTang: 120
+  minutesUntilGrown_BlueTang: 200
+  minutesUntilHungry_BlueTang: 300
+  minutesUntilPoop_BlueTang: 350
+  minutesUntilDead_BlueTang: 500
   baseSpeed_BlueTang: 2
   baseFishCost_BlueTang: 400

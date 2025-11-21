@@ -725,6 +725,7 @@ public class Scr_GameManager : MonoBehaviour
 
         fishScript.grown = true;
 
+        fishScript.GenerateRandomStats();
 
         fishScript.enabled = false;
         _fishToBag.GetComponent<CircleCollider2D>().enabled = false;
@@ -795,6 +796,8 @@ public class Scr_GameManager : MonoBehaviour
         fishScript.originalScale = _fishToBag.transform.localScale;
 
         fishScript.grown = true;
+
+        fishScript.GenerateRandomStats();
 
 
         fishScript.enabled = false;

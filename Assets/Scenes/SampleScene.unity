@@ -3035,6 +3035,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fishpedia: {fileID: 269142422}
+  pipeSpawnPoint: {fileID: 563553951}
+  pipePrefabs:
+  - {fileID: 2934219396983726926, guid: 09de72cdd9e193f499fa7a27a1b83ef8, type: 3}
+  - {fileID: 2934219396983726926, guid: 4fde367a584568940813d5151ba03051, type: 3}
+  - {fileID: 2934219396983726926, guid: d16bbf5753d28b94cabc0cb3a9aa2cdc, type: 3}
+  - {fileID: 2934219396983726926, guid: 8c2274b60d7dbc24ca23fa68e09c4c01, type: 3}
+  - {fileID: 2934219396983726926, guid: 3fd9fe17feda6194094f9a9e9ffc929d, type: 3}
   toiletFish: {fileID: 0}
   reelInSpeed: 0.1
   lateralPullStrength: 1
@@ -6005,6 +6012,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &563553950
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 563553951}
+  m_Layer: 0
+  m_Name: Pipe Spawn Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &563553951
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563553950}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -8.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1662642239}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &574291911
 GameObject:
   m_ObjectHideFlags: 0
@@ -11779,7 +11817,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcbfa85d6a80f1d418dda7b33d4c42e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useTestSettings: 0
+  useTestSettings: 1
   buildSettings: {fileID: 11400000, guid: be4f36254a417374595025d5aec304a8, type: 2}
   testSettings: {fileID: 11400000, guid: d52ba908e3580b84aba08b2da0def0ff, type: 2}
   AS: {fileID: 1031440125}
@@ -17800,6 +17838,7 @@ Transform:
   - {fileID: 555789997}
   - {fileID: 1953580315}
   - {fileID: 1155270340}
+  - {fileID: 563553951}
   - {fileID: 1378629951}
   - {fileID: 1715049822}
   - {fileID: 1618220530}

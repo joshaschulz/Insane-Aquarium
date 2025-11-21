@@ -8,6 +8,9 @@ public class Scr_Fishing : MonoBehaviour
     private Scr_GameManager gameManager;
     public Scr_Fishpedia fishpedia;
 
+    public Transform pipeSpawnPoint;
+    public GameObject[] pipePrefabs;
+
     AudioSource ReelingAudioSource;
     private bool isReeling = false; // Flag to track if the player is reeling
     private float scrollInputThreshold = 0.005f; // Minimum threshold for scroll input
@@ -52,6 +55,8 @@ public class Scr_Fishing : MonoBehaviour
         gameManager = Scr_GameManager.GMinstance;
 
         StartCoroutine(gameManager.RecenterThenUnlock());
+
+        SpawnPipes(10);
     }
 
     void Start()
@@ -421,4 +426,26 @@ public class Scr_Fishing : MonoBehaviour
         }
         return null;
     }
+
+
+
+    public void SpawnPipes(int _count)
+    {
+        Transform currentAttachPoint = pipeSpawnPoint; // drag your toilet's end point in inspector
+
+        for (int i = 0; i < _count; i++)
+        {
+            GameObject prefab = pipePrefabs[Random.Range(0, pipePrefabs.Length)];
+            GameObject pipe = Instantiate(prefab);
+
+            // Position the pipe so its StartPoint aligns with currentAttachPoint
+            Transform start = pipe.transform.Find("Start Point");
+            Vector3 offset = start.position - pipe.transform.position;
+            pipe.transform.position = currentAttachPoint.position - offset;
+
+            // Update attach point for next pipe
+            currentAttachPoint = pipe.transform.Find("End Point");
+        }
+    }
+
 }

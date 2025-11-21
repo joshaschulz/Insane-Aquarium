@@ -174,7 +174,7 @@ public class Scr_FishyGuy : MonoBehaviour
         }
 
         Scr_Fish fishToBuyScr = fishToBuy.GetComponent<Scr_Fish>();
-        fishToBuyScr.ChangeGameSettings();
+        //fishToBuyScr.ChangeGameSettings();
         //GameObject baggedFishButtonToUse;
 
         if (gameManager.moneyAmount > fishToBuyScr.baseFishCost)

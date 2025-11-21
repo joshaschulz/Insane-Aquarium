@@ -1295,6 +1295,7 @@ MonoBehaviour:
   spawnHeight: 0.75
   baseSpeed: 1.5
   baseFishCost: 0
+  fishValue: 0
   originalScale: {x: 0, y: 0, z: 0}
   spawnTank: {x: 0, y: 0}
   minX: 0

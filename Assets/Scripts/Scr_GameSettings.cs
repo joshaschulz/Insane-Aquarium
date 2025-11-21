@@ -43,6 +43,7 @@ public class Scr_GameSettings : ScriptableObject
     public int minutesUntilDead_Goldfish;
     public float baseSpeed_Goldfish;
     public int baseFishCost_Goldfish;
+    public int fishValue_Goldfish;
 
     [Header("Betta Fish")]
     public int minutesUntilGrown_BettaFish;
@@ -52,6 +53,8 @@ public class Scr_GameSettings : ScriptableObject
     public int minutesUntilDead_BettaFish;
     public float baseSpeed_BettaFish;
     public int baseFishCost_BettaFish;
+    public int fishValue_BettaFish;
+
 
     [Header("Piranha")]
     public int minutesUntilGrown_Piranha;
@@ -61,6 +64,8 @@ public class Scr_GameSettings : ScriptableObject
     public int minutesUntilDead_Piranha;
     public float baseSpeed_Piranha;
     public int baseFishCost_Piranha;
+    public int fishValue_Piranha;
+
 
     [Header("Clownfish")]
     public int minutesUntilGrown_Clownfish;
@@ -70,6 +75,8 @@ public class Scr_GameSettings : ScriptableObject
     public int minutesUntilDead_Clownfish;
     public float baseSpeed_Clownfish;
     public int baseFishCost_Clownfish;
+    public int fishValue_Clownfish;
+
 
     [Header("Blue Tang")]
     public int minutesUntilGrown_BlueTang;
@@ -79,4 +86,6 @@ public class Scr_GameSettings : ScriptableObject
     public int minutesUntilDead_BlueTang;
     public float baseSpeed_BlueTang;
     public int baseFishCost_BlueTang;
+    public int fishValue_BlueTang;
+
 }

@@ -378,6 +378,7 @@ public class Scr_GameManager : MonoBehaviour
         Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
         newFishScript.thisPrefab = _fishToSpawn;
 
+        newFishScript.ChangeGameSettings();
         newFishScript.GenerateRandomStats();
 
         if (!newFishScript.grown)
@@ -421,6 +422,7 @@ public class Scr_GameManager : MonoBehaviour
         Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
         newFishScript.thisPrefab = _fishToSpawn;
 
+        newFishScript.ChangeGameSettings();
         newFishScript.GenerateRandomStats();
 
 
@@ -658,6 +660,9 @@ public class Scr_GameManager : MonoBehaviour
         fishScript.enabled = false;
         _fishToBag.GetComponent<CircleCollider2D>().enabled = false;
 
+        FindObjectOfType<Scr_FishInfoPanel>().HideIfFish(fishScript);
+
+
 
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
 
@@ -725,6 +730,7 @@ public class Scr_GameManager : MonoBehaviour
 
         fishScript.grown = true;
 
+        fishScript.ChangeGameSettings();
         fishScript.GenerateRandomStats();
 
         fishScript.enabled = false;

@@ -45,6 +45,7 @@ public class Scr_Fish : MonoBehaviour
     private float hungrySpeed;
 
     public int baseFishCost; //amount to buy from fishy guy
+    public int fishValue; //amount the fish sells for
     public Vector3 originalScale;
 
     private Vector2 target;
@@ -121,7 +122,7 @@ public class Scr_Fish : MonoBehaviour
     {
         gameManager = Scr_GameManager.GMinstance;
 
-        ChangeGameSettings();
+        //ChangeGameSettings();
 
         originalScale = gameObject.transform.localScale;
         hungrySpeed = baseSpeed * 1.5f;
@@ -167,6 +168,8 @@ public class Scr_Fish : MonoBehaviour
                 case 4: poopInterval++; break;
             }
         }
+
+        ApplyStatEffects();
     }
 
     public void GenerateStatsFromParents(Scr_Fish parent1, Scr_Fish parent2)
@@ -196,6 +199,23 @@ public class Scr_Fish : MonoBehaviour
         }
 
         generation = Mathf.Max(parent1.generation, parent2.generation) + 1;
+
+        ApplyStatEffects();
+    }
+
+    public void ApplyStatEffects()
+    {
+        float priceMultiplier = 1f + (priceModifier * 0.20f);
+        fishValue = Mathf.RoundToInt(fishValue * priceMultiplier);
+
+        float hungerMultiplier = 1f + (hungerCapacity * 0.20f);
+        minutesUntilHungry = Mathf.RoundToInt(minutesUntilHungry * hungerMultiplier);
+
+        float poopMultiplier = 1f + (poopInterval * 0.20f);
+        minutesUntilPoop = Mathf.RoundToInt(minutesUntilPoop * poopMultiplier);
+
+        float freakMultiplier = 1f - (freakuency * 0.10f);
+        minutesUntilFreaky = Mathf.RoundToInt(minutesUntilFreaky * freakMultiplier);
     }
 
     public void ApplyMutation()
@@ -281,6 +301,7 @@ public class Scr_Fish : MonoBehaviour
                 minutesUntilDead = settings.minutesUntilDead_Goldfish;
                 baseSpeed = settings.baseSpeed_Goldfish;
                 baseFishCost = settings.baseFishCost_Goldfish;
+                fishValue = settings.fishValue_Goldfish;
                 break;
 
             case "Betta Fish":
@@ -291,6 +312,7 @@ public class Scr_Fish : MonoBehaviour
                 minutesUntilDead = settings.minutesUntilDead_BettaFish;
                 baseSpeed = settings.baseSpeed_BettaFish;
                 baseFishCost = settings.baseFishCost_BettaFish;
+                fishValue = settings.fishValue_BettaFish;
                 break;
 
             case "Piranha":
@@ -301,6 +323,7 @@ public class Scr_Fish : MonoBehaviour
                 minutesUntilDead = settings.minutesUntilDead_Piranha;
                 baseSpeed = settings.baseSpeed_Piranha;
                 baseFishCost = settings.baseFishCost_Piranha;
+                fishValue = settings.fishValue_Piranha;
                 break;
 
             case "Clownfish":
@@ -311,6 +334,7 @@ public class Scr_Fish : MonoBehaviour
                 minutesUntilDead = settings.minutesUntilDead_Clownfish;
                 baseSpeed = settings.baseSpeed_Clownfish;
                 baseFishCost = settings.baseFishCost_Clownfish;
+                fishValue = settings.fishValue_Clownfish;
                 break;
 
             case "Blue Tang":
@@ -321,6 +345,7 @@ public class Scr_Fish : MonoBehaviour
                 minutesUntilDead = settings.minutesUntilDead_BlueTang;
                 baseSpeed = settings.baseSpeed_BlueTang;
                 baseFishCost = settings.baseFishCost_BlueTang;
+                fishValue = settings.fishValue_BlueTang;
                 break;
 
             default:
@@ -332,6 +357,7 @@ public class Scr_Fish : MonoBehaviour
                 minutesUntilDead = settings.minutesUntilDead_Goldfish;
                 baseSpeed = settings.baseSpeed_Goldfish;
                 baseFishCost = settings.baseFishCost_Goldfish;
+                fishValue = settings.fishValue_Goldfish;
                 break;
         }
 
@@ -366,7 +392,7 @@ public class Scr_Fish : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         currentSpeed = baseSpeedFactored * gameManager.GetFastForwardSettingFactor();
 
@@ -437,6 +463,7 @@ public class Scr_Fish : MonoBehaviour
                 {
                     GameObject babyFish = gameManager.SpawnBabyFish(thisPrefab, gameObject);
                     Scr_Fish babyFishScr = babyFish.GetComponent<Scr_Fish>();
+                    babyFishScr.ChangeGameSettings();
                     babyFishScr.GenerateStatsFromParents(this, collisionObjScr);
                 }
                 return;
@@ -523,7 +550,7 @@ public class Scr_Fish : MonoBehaviour
         {
             SetHungry();
         }
-        else if (hungerCount >= minutesUntilDead)
+        else if (hungerCount - minutesUntilHungry >= minutesUntilDead)
         {
             Die();
         }
@@ -584,6 +611,8 @@ public class Scr_Fish : MonoBehaviour
 
         gameManager.foodFishDictionary.Remove(gameObject);
         gameManager.RemoveFoodFromExistingFishDiets(gameObject);
+
+        FindObjectOfType<Scr_FishInfoPanel>().HideIfFish(this); //hide the fish info ui panel if it's showing this fish
 
 
         Destroy(gameObject);

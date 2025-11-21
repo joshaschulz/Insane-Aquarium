@@ -11619,6 +11619,7 @@ MonoBehaviour:
   rodIdle: {fileID: 574291911}
   rodHooked: {fileID: 2067038401}
   tank: {fileID: 681399493}
+  tankPoopLevel: 0
   phoneNumber: {fileID: 664390926}
   contacts:
   - {fileID: 11400000, guid: a97faa7f755972644bda6345461161ad, type: 2}

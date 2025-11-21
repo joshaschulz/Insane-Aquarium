@@ -59,6 +59,9 @@ TagManager:
   - name: Game Objects
     uniqueID: 4175778335
     locked: 0
+  - name: Poop Layer
+    uniqueID: 1538416637
+    locked: 0
   - name: WaterGraph
     uniqueID: 2202278807
     locked: 0

@@ -40,6 +40,8 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject tank;
 
     public float tankPoopLevel = 0;
+    public GameObject foregroundTankPoopOverlay;
+    public GameObject backgroundTankPoopOverlay;
 
     public TextMeshProUGUI phoneNumber; //number entered on the phone
 
@@ -1058,7 +1060,10 @@ public class Scr_GameManager : MonoBehaviour
             cursorFollower.gameObject.SetActive(false);
         }
     }
+    public void UpdatePoopLevel(GameObject _tank, int _newPoopLevel)
+    {
 
+    }
     public void SpawnParticles(GameObject _particles, Vector3 _position, Quaternion _rotation, Transform _parent)
     {
         GameObject newParticlesObject;

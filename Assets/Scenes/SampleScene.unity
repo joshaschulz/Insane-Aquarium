@@ -4973,6 +4973,8 @@ MonoBehaviour:
   - {fileID: 125546261}
   - {fileID: 1228708597}
   - {fileID: 825229061}
+  worldOffset: {x: 0, y: -2, z: 0}
+  screenPadding: 10
 --- !u!1 &498992981
 GameObject:
   m_ObjectHideFlags: 0

@@ -11790,6 +11790,8 @@ MonoBehaviour:
   rodHooked: {fileID: 2067038401}
   tank: {fileID: 681399493}
   tankPoopLevel: 0
+  foregroundTankPoopOverlay: {fileID: 862225216}
+  backgroundTankPoopOverlay: {fileID: 414288479}
   phoneNumber: {fileID: 664390926}
   contacts:
   - {fileID: 11400000, guid: a97faa7f755972644bda6345461161ad, type: 2}

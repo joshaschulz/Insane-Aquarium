@@ -11789,7 +11789,8 @@ MonoBehaviour:
   rodIdle: {fileID: 574291911}
   rodHooked: {fileID: 2067038401}
   tank: {fileID: 681399493}
-  tankPoopLevel: 0
+  foregroundTankPoopLevel: 0
+  backgroundTankPoopLevel: 0
   foregroundTankPoopOverlay: {fileID: 862225216}
   backgroundTankPoopOverlay: {fileID: 414288479}
   phoneNumber: {fileID: 664390926}
@@ -11830,6 +11831,8 @@ MonoBehaviour:
   baggedFishSockets: []
   fishPrefabs: []
   fishSprites: []
+  foregroundTank: {fileID: 352481008}
+  backgroundTank: {fileID: 823700867}
   tankSpriteRenderers:
   - {fileID: 823700866}
   - {fileID: 352481009}

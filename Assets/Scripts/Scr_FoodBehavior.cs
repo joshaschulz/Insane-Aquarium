@@ -50,10 +50,11 @@ public class Scr_FoodBehavior : MonoBehaviour
         }
     }
 
+
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        transform.Translate(0, -fallSpeed / 1000, 0, Space.World);
+        transform.Translate(0, -fallSpeed * Time.deltaTime, 0, Space.World);
 
         if (transform.position.y < groundBarrier.y && fadeOut == false)
         {

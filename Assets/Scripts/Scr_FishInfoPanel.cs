@@ -22,6 +22,7 @@ public class Scr_FishInfoPanel : MonoBehaviour
     private Canvas parentCanvas;
 
     private Scr_Fish currentFish;
+    public Scr_Fish CurrentFish => currentFish; // read-only property
 
 
     void Start()
@@ -91,6 +92,7 @@ public class Scr_FishInfoPanel : MonoBehaviour
     public void Hide()
     {
         currentTarget = null;
+        currentFish = null;
         gameObject.SetActive(false);
     }
 

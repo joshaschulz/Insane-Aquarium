@@ -105,7 +105,7 @@ MonoBehaviour:
   groundBarrierPercentage: 0.15
   price: 2
   radiated: 0
-  fallSpeed: 1
+  fallSpeed: 0.2
   spinSpeed: 5
   spinAmount: 30
   particleEffectPrefabs: []

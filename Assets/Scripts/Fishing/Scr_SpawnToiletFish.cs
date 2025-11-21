@@ -71,7 +71,7 @@ public class Scr_SpawnToiletFish : MonoBehaviour
 
         int num = Random.Range(0, ticksToSpawnChance);
 
-        Debug.Log(num + ", Toilet fish exists: " + toiletFishExist);
+        //Debug.Log(num + ", Toilet fish exists: " + toiletFishExist);
 
         if (fishingPoleHooked.activeSelf)
         {
@@ -101,7 +101,7 @@ public class Scr_SpawnToiletFish : MonoBehaviour
 
         if (num == 0 && !toiletFishExist) //1 in 6 chance to spawn fish (about every hour)
         {
-            Debug.Log("Spawned fish");
+            //Debug.Log("Spawned fish");
 
             if (fishingPoleIdle.activeSelf)
                 fishingPoleHooked.SetActive(true);
@@ -131,7 +131,7 @@ public class Scr_SpawnToiletFish : MonoBehaviour
         else
         {
 
-            Debug.Log(clickedButton.name);
+            //Debug.Log(clickedButton.name);
 
             gameManager.PlaySoundEffect(gameManager.SFX_Error, 0.3f);
 

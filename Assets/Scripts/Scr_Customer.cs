@@ -1,8 +1,9 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using TMPro;
 
 public class Scr_Customer : MonoBehaviour
 {
@@ -28,6 +29,15 @@ public class Scr_Customer : MonoBehaviour
 
     public GameObject customerFishPrefab;
     public Image customerFishImage;
+    public int customerFishQuantity;
+    public TextMeshProUGUI quantityText;
+
+    public Scr_TankBounds[] forSaleTanks;
+    private bool waitingForAutoPurchase = false;
+    private int ticksSinceOrderCreated = 0;
+
+    private bool customerRecentlyLeft = false; //used to have a 1 tick gap in customer spawning
+
 
     // Start is called before the first frame update
     void Start()
@@ -102,6 +112,27 @@ public class Scr_Customer : MonoBehaviour
             CustomerGoAway();
             return;
         }
+        
+        // handle delayed "for sale tank" auto purchase
+        if (customerExists && waitingForAutoPurchase)
+        {
+            ticksSinceOrderCreated++;
+
+            // after exactly 1 tick, try the auto-buy once
+            if (ticksSinceOrderCreated >= 1)
+            {
+                TryAutoPurchaseFromForSaleTank();
+                waitingForAutoPurchase = false; // only try once
+            }
+        }
+
+        if (customerRecentlyLeft) //waits atleast 1 tick since a customer left for another to spawn
+        {
+            // consume the cooldown: skip this tick's spawn chance,
+            // but allow spawning again next tick
+            customerRecentlyLeft = false;
+            return;
+        }
 
         //spawn customer
         int num = Random.Range(0, ticksToSpawnChance);
@@ -112,11 +143,103 @@ public class Scr_Customer : MonoBehaviour
             {
                 customerExists = true;
                 PickCustomer();
-                PickCustomerFish();
+                PickCustomerFishAndQuantity();
             }
         }
 
     }
+
+    private void TryAutoPurchaseFromForSaleTank()
+    {
+        int required = Mathf.Max(1, customerFishQuantity);
+
+        if (forSaleTanks == null || forSaleTanks.Length == 0)
+            return;
+
+        // Each candidate is: (tank, list of fish in that tank that match)
+        List<(Scr_TankBounds tank, List<Scr_Fish> fish)> candidateTanks =
+            new List<(Scr_TankBounds, List<Scr_Fish>)>();
+
+        foreach (var tank in forSaleTanks)
+        {
+            if (tank == null)
+                continue;
+
+            // Only consider tanks whose for-sale sign is active
+            if (!tank.IsForSaleActive)
+                continue;
+
+            Bounds b = tank.GetBounds();
+            List<Scr_Fish> matchingFish = new List<Scr_Fish>();
+
+            // Loop all fish in the scene and see which are inside THIS tank
+            foreach (var kvp in gameManager.foodFishDictionary)
+            {
+                GameObject instance = kvp.Key;
+                GameObject prefab = kvp.Value;
+
+                // Must be the species the customer wants
+                if (prefab != customerFishPrefab)
+                    continue;
+
+                Scr_Fish fishScr = instance.GetComponent<Scr_Fish>();
+                if (fishScr == null)
+                    continue;
+
+                // Must be inside this tank's bounds
+                if (b.Contains(instance.transform.position))
+                {
+                    matchingFish.Add(fishScr);
+                }
+            }
+
+            // This tank qualifies if it alone has enough fish
+            if (matchingFish.Count >= required)
+            {
+                candidateTanks.Add((tank, matchingFish));
+            }
+        }
+
+        // No for-sale tank has enough fish → no auto-sale this tick
+        if (candidateTanks.Count == 0)
+        {
+            Debug.Log("Auto-buy failed: No for-sale tank has enough " +
+                      customerFishPrefab.name + " (needed " + required + ").");
+            return;
+        }
+
+        // Pick one qualifying tank at random
+        int chosenIndex = Random.Range(0, candidateTanks.Count);
+        var chosenTank = candidateTanks[chosenIndex];
+        List<Scr_Fish> fishToSell = chosenTank.fish;
+
+        int money = 0;
+        for (int i = 0; i < required; i++)
+        {
+            Scr_Fish fish = fishToSell[i];
+            money += fish.fishValue;
+
+            if (gameManager.foodFishDictionary.ContainsKey(fish.gameObject))
+            {
+                gameManager.foodFishDictionary.Remove(fish.gameObject);
+            }
+
+            Destroy(fish.gameObject);
+        }
+
+        if (money > 0)
+            gameManager.AddMoneyAmount(money);
+
+        gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.4f, 1f, 1f);
+        gameManager.PlaySoundEffect(gameManager.SFX_MoneyCounter, 0.4f, 1f, 1f);
+
+        Debug.Log("Auto-sale success: Sold " + required + " " +
+                  customerFishPrefab.name + " from tank " + chosenTank.tank.name);
+
+        CustomerGoAway();
+    }
+
+
     public void PickCustomer()
     {
         GameObject activeCustomer = customerImages[Random.Range(0, customerImages.Length)];
@@ -144,29 +267,148 @@ public class Scr_Customer : MonoBehaviour
         }
     }
 
-    public void PickCustomerFish()
+    public void PickCustomerFishAndQuantity() //based on total fish appeal stat
     {
-        //picks a random fish prefab
-        int num = Random.Range(0, gameManager.fishSprites.Length - 1);
-        Sprite fishSprite = gameManager.fishSprites[num];
-        GameObject fishPrefab = gameManager.fishPrefabs[num]; //assumes that fish images in the fish images folder and the fish prefabs in the fish prefabs folder are ordered the same
+        // 1) Build species → weight dictionary
+        Dictionary<GameObject, int> speciesWeights = new Dictionary<GameObject, int>();
+        int totalWeight = 0;
 
-        if (fishSprite)
+        foreach (var kvp in gameManager.foodFishDictionary)
         {
-            customerFishImage.sprite = fishSprite;
-            customerFishImage.SetNativeSize();
+            GameObject instance = kvp.Key;
+            GameObject prefab = kvp.Value;
 
-            customerFishImage.rectTransform.localScale = Vector3.one / 11f; //from native size to about the size of a fish in the tank
+            Scr_Fish fishScript = instance.GetComponent<Scr_Fish>();
+            if (fishScript == null)
+                continue;
 
-            customerFishPrefab = fishPrefab;
+            int appeal = Mathf.Max(0, fishScript.appeal);
+            int weight = 1 + appeal;  // 0⭐ → 1, 5⭐ → 6
 
+            if (!speciesWeights.ContainsKey(prefab))
+                speciesWeights[prefab] = 0;
+
+            speciesWeights[prefab] += weight;
+            totalWeight += weight;
+        }
+
+        GameObject chosenPrefab = null;
+        Sprite fishSprite = null;
+
+        // 2) Either use weighted random OR fallback, but DON'T return
+        if (totalWeight == 0 || speciesWeights.Count == 0)
+        {
+            Debug.LogWarning("No fish species with appeal found in scene; falling back to uniform random prefab.");
+
+            int num = Random.Range(0, gameManager.fishSprites.Length); // upper bound exclusive
+            chosenPrefab = gameManager.fishPrefabs[num];
+            fishSprite = gameManager.fishSprites[num];
         }
         else
         {
-            Debug.LogWarning("No Images found in Resources/Assets/Fish!");
+            // 3) Weighted random pick over species
+            int roll = Random.Range(0, totalWeight); // [0, totalWeight)
+
+            foreach (var kvp in speciesWeights)
+            {
+                GameObject prefab = kvp.Key;
+                int weight = kvp.Value;
+
+                if (roll < weight)
+                {
+                    chosenPrefab = prefab;
+                    break;
+                }
+
+                roll -= weight;
+            }
+
+            if (chosenPrefab == null)
+            {
+                Debug.LogWarning("Weighted species selection failed; no prefab chosen.");
+                return;
+            }
+
+            // 4) Map prefab → sprite using your parallel arrays
+            int index = System.Array.IndexOf(gameManager.fishPrefabs, chosenPrefab);
+            if (index < 0 || index >= gameManager.fishSprites.Length)
+            {
+                Debug.LogWarning("Chosen fish prefab not found in fishPrefabs array.");
+                return;
+            }
+
+            fishSprite = gameManager.fishSprites[index];
         }
 
+        // Now we SHOULD have chosenPrefab and fishSprite (either via weighted or fallback)
+        if (fishSprite != null)
+        {
+            customerFishImage.sprite = fishSprite;
+            customerFishImage.SetNativeSize();
+            customerFishImage.rectTransform.localScale = Vector3.one / 11f;
+            customerFishPrefab = chosenPrefab;
+        }
+        else
+        {
+            Debug.LogWarning("No sprite found for chosen fish prefab.");
+        }
+
+        // --------------------------------------------------------
+        // PICK QUANTITY OF FISH TO BUY BASED ON TOTAL NUMBER
+        // --------------------------------------------------------
+
+        // Count how many fish of this species are currently in the scene
+        int speciesCount = 0;
+
+        foreach (var kvp in gameManager.foodFishDictionary)
+        {
+            GameObject instance = kvp.Key;
+            GameObject prefab = kvp.Value;
+
+            if (prefab != chosenPrefab)
+                continue;
+
+            if (instance.GetComponent<Scr_Fish>() == null)
+                continue; // skip food
+
+            speciesCount++;
+        }
+
+        // Determine how many the customer wants based on the rules
+        int quantity; // default to 1 ALWAYS
+
+        // If there are real fish of that species, apply your rules
+        if (speciesCount > 0)
+        {
+            if (speciesCount <= 10)
+                quantity = 1;
+            else if (speciesCount <= 20)
+                quantity = 2;
+            else
+                quantity = 3;
+
+            // Never ask for more than exist
+            quantity = Mathf.Min(quantity, speciesCount);
+        }
+        else
+        {
+            // speciesCount == 0
+            // This is the "fallback species" case.
+            // Customer still wants 1 of that fish.
+            quantity = 1;
+        }
+
+        // Assign to the customer
+        customerFishQuantity = quantity;
+        quantityText.text = "x" + customerFishQuantity;
+
+        Debug.Log("CUSTOMER WANTS THIS NUMBER OF " + chosenPrefab.name.ToUpper() + ": " + customerFishQuantity);
+
+        waitingForAutoPurchase = true;
+        ticksSinceOrderCreated = 0;
+
     }
+
 
     public void DestroyCustomerFish()
     {
@@ -175,34 +417,53 @@ public class Scr_Customer : MonoBehaviour
 
     public void SellFish()
     {
-        foreach (GameObject baggedFishSocket in gameManager.baggedFishSockets)
+        int requiredQuantity = Mathf.Max(1, customerFishQuantity); // always at least 1
+
+        // collect all bagged fish that match the requested species
+        List<Scr_Fish> matchingFish = new List<Scr_Fish>();
+
+        foreach (GameObject socket in gameManager.baggedFishSockets)
         {
-            if (baggedFishSocket.transform.childCount != 0)
-            {
-                GameObject baggedFish = baggedFishSocket.transform.GetChild(0).gameObject;
-                Scr_Fish baggedFishScr = baggedFish.GetComponent<Scr_Fish>();
+            if (socket.transform.childCount == 0)
+                continue;
 
-                //player has the fish that the customer wants to buy
-                if (baggedFish.CompareTag(customerFishPrefab.tag))
-                {
-                    gameManager.AddMoneyAmount(baggedFishScr.baseFishCost);
+            GameObject baggedFishObj = socket.transform.GetChild(0).gameObject;
+            if (!baggedFishObj.CompareTag(customerFishPrefab.tag))
+                continue;
 
-                    baggedFish.transform.SetParent(null);
-                    Destroy(baggedFish);
-                    gameManager.ShowHideFishBags();
-
-                    gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.4f, 1f, 1f);
-                    gameManager.PlaySoundEffect(gameManager.SFX_MoneyCounter, 0.4f, 1f, 1f);
-
-                    //maybe play a happy customer noise
-                    CustomerGoAway();
-                    return;
-                }
-            }
+            Scr_Fish fishScr = baggedFishObj.GetComponent<Scr_Fish>();
+            if (fishScr != null)
+                matchingFish.Add(fishScr);
         }
 
-        //if reach here, it means that the player did not have the fish to sell
-        UnableToCompleteTransaction();
+        // not enough fish to fulfill the order
+        if (matchingFish.Count < requiredQuantity)
+        {
+            UnableToCompleteTransaction();
+            return;
+        }
+
+        // sell exactly requiredQuantity fish
+        int totalMoney = 0;
+        for (int i = 0; i < requiredQuantity; i++)
+        {
+            Scr_Fish fish = matchingFish[i];
+            totalMoney += fish.fishValue;
+
+            Transform t = fish.transform;
+            t.SetParent(null);
+            Destroy(t.gameObject);
+        }
+
+        if (totalMoney > 0)
+            gameManager.AddMoneyAmount(totalMoney);
+
+        gameManager.ShowHideFishBags();
+
+        gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.4f, 1f, 1f);
+        gameManager.PlaySoundEffect(gameManager.SFX_MoneyCounter, 0.4f, 1f, 1f);
+
+        CustomerGoAway();
     }
 
     public void DenyCustomer()
@@ -216,6 +477,11 @@ public class Scr_Customer : MonoBehaviour
         customerExists = false;
         ticksSinceSpawned = 0;
         DestroyCustomerFish();
+
+        waitingForAutoPurchase = false;
+        ticksSinceOrderCreated = 0;
+
+        customerRecentlyLeft = true;  // ← mark that someone just left
     }
 
     private void UnableToCompleteTransaction()

@@ -31,6 +31,9 @@ public class Scr_FishyGuy : MonoBehaviour
 
     public Transform fishWaitingArea;
 
+    private bool fishyGuyRecentlyLeft = false;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -90,6 +93,12 @@ public class Scr_FishyGuy : MonoBehaviour
 
     public void OnTickEvent()
     {
+        if (fishyGuyRecentlyLeft)
+        {
+            fishyGuyRecentlyLeft = false; // consume the cooldown
+            return; // skip this tick entirely
+        }
+
         //count how long customer has existed
         if (fishyGuyExists)
         {
@@ -276,6 +285,8 @@ public class Scr_FishyGuy : MonoBehaviour
 
         fishBag1.SetActive(true);
         fishBag2.SetActive(true);
+
+        fishyGuyRecentlyLeft = true;
 
         DestroyCustomerFish();
     }

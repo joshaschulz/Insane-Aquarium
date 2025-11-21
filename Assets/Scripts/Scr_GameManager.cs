@@ -522,7 +522,7 @@ public class Scr_GameManager : MonoBehaviour
             {
                 Scr_Fish existingFishScript = fishOrFoodInstance.GetComponent<Scr_Fish>();
 
-                Debug.Log(existingFishScript.fishDiet[0] + " compared to " + _spawnedFishOrFoodPrefab);
+                //Debug.Log(existingFishScript.fishDiet[0] + " compared to " + _spawnedFishOrFoodPrefab);
 
 
                 if (existingFishScript.fishDiet.Contains(_spawnedFishOrFoodPrefab))
@@ -660,7 +660,8 @@ public class Scr_GameManager : MonoBehaviour
         fishScript.enabled = false;
         _fishToBag.GetComponent<CircleCollider2D>().enabled = false;
 
-        FindObjectOfType<Scr_FishInfoPanel>().HideIfFish(fishScript);
+        if (FindObjectOfType<Scr_FishInfoPanel>() != null)
+            FindObjectOfType<Scr_FishInfoPanel>().HideIfFish(fishScript); //hide the fish info ui panel if it's showing this fish
 
 
 

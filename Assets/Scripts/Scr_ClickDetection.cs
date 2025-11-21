@@ -110,8 +110,16 @@ public class Scr_ClickDetection : MonoBehaviour
 
                 if (fish != null)
                 {
+                    if (infoPanel.gameObject.activeSelf && infoPanel.CurrentFish == fish)
+                    {
+                        infoPanel.Hide();
+                    }
+                    else
+                    {
+                        // either panel is hidden, or showing a different fish -> show this one
+                        infoPanel.Show(fish);
+                    }
 
-                    infoPanel.Show(fish);
                     return;
                 }
             }

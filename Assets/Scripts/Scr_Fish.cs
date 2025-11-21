@@ -361,14 +361,11 @@ public class Scr_Fish : MonoBehaviour
                 break;
         }
 
-        Debug.Log("BASE FISH COST:" + baseFishCost);
-
-
     }
 
     public void OnTickEvent()
     {
-        Debug.Log($"{gameObject.name} received a tick event!");
+        //Debug.Log($"{gameObject.name} received a tick event!");
 
         HungerCounter();
 
@@ -584,8 +581,6 @@ public class Scr_Fish : MonoBehaviour
             }
             isFreaky = (freakCount == minutesUntilFreaky);
             heartIcon.SetActive(isFreaky);
-
-            Debug.Log(gameObject.name + freakCount);
         }
 
     }
@@ -612,7 +607,8 @@ public class Scr_Fish : MonoBehaviour
         gameManager.foodFishDictionary.Remove(gameObject);
         gameManager.RemoveFoodFromExistingFishDiets(gameObject);
 
-        FindObjectOfType<Scr_FishInfoPanel>().HideIfFish(this); //hide the fish info ui panel if it's showing this fish
+        if (FindObjectOfType<Scr_FishInfoPanel>() != null)
+            FindObjectOfType<Scr_FishInfoPanel>().HideIfFish(this); //hide the fish info ui panel if it's showing this fish
 
 
         Destroy(gameObject);
@@ -629,7 +625,6 @@ public class Scr_Fish : MonoBehaviour
     }
     private void Poop()
     {
-        Debug.Log("Poop!");
         poopCount = 0;
 
         gameManager.UpdatePoopLevel(spawnTank, 1);
@@ -684,7 +679,7 @@ public class Scr_Fish : MonoBehaviour
                 {
                     Scr_Fish foodFishKeyScr = foodFishKey.GetComponent<Scr_Fish>();
 
-                    if (foodFishKey != gameObject && foodFishKeyScr.CompareTag(gameObject.tag) && foodFishKeyScr.freakCount == minutesUntilFreaky)
+                    if (foodFishKey != gameObject && foodFishKeyScr.CompareTag(gameObject.tag) && foodFishKeyScr.isFreaky)
                     {
                         float distance = Vector2.Distance(transform.position, foodFishKey.transform.position);
 

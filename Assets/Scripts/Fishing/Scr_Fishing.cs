@@ -77,7 +77,7 @@ public class Scr_Fishing : MonoBehaviour
 
         // Initialize sprite based on starting position
         isLeft = Input.mousePosition.x < screenMiddleX;
-        Debug.Log("initial rod is left? " + isLeft);
+        //Debug.Log("initial rod is left? " + isLeft);
         if (isLeft)
         {
             spriteRenderer.sprite = leftRodSprite;
@@ -124,7 +124,7 @@ public class Scr_Fishing : MonoBehaviour
         float mouthToFinLength = Vector2.Distance(fishEdgeCollider.points[0], fishEdgeCollider.points[1]);
         if (lineConnector.pointB.position.y >= toiletWinLine.position.y + mouthToFinLength * toiletFish.transform.localScale.x)
         {
-            Debug.Log("FISH CAUGHT");
+            //Debug.Log("FISH CAUGHT");
             FishCaught();
         }
 
@@ -182,7 +182,7 @@ public class Scr_Fishing : MonoBehaviour
     }
     public void FishEscape()
     {
-        Debug.Log("Fish has escaped");
+        //Debug.Log("Fish has escaped");
 
         toiletFish.GetComponent<Scr_ToiletFish>().escapeFactor = 20;
 
@@ -212,7 +212,7 @@ public class Scr_Fishing : MonoBehaviour
 
     public void FishEscapeNoSound()
     {
-        Debug.Log("Fish has escaped");
+        //Debug.Log("Fish has escaped");
 
         toiletFish.GetComponent<Scr_ToiletFish>().escapeFactor = 20;
 

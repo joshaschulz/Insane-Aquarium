@@ -39,6 +39,7 @@ public class Scr_GameManager : MonoBehaviour
 
     public GameObject tank;
 
+    public float tankPoopLevel = 0;
 
     public TextMeshProUGUI phoneNumber; //number entered on the phone
 

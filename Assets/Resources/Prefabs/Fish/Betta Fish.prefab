@@ -493,6 +493,7 @@ MonoBehaviour:
   spawnHeight: 0.7
   baseSpeed: 1.5
   baseFishCost: 0
+  fishValue: 0
   originalScale: {x: 0, y: 0, z: 0}
   spawnTank: {x: 0, y: 0}
   minX: 0
@@ -610,7 +611,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   difficultyMultiplier: 5
-  escapeFactor: 0.8
+  escapeFactor: 0
   maxHorizontalRange: 0.7
 --- !u!68 &4591617791957535574
 EdgeCollider2D:

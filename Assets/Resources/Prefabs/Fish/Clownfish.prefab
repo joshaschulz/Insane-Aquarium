@@ -577,6 +577,7 @@ MonoBehaviour:
   spawnHeight: 0.6
   baseSpeed: 2
   baseFishCost: 0
+  fishValue: 0
   originalScale: {x: 0, y: 0, z: 0}
   spawnTank: {x: 0, y: 0}
   minX: 0
@@ -694,7 +695,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   difficultyMultiplier: 5
-  escapeFactor: 0.8
+  escapeFactor: 0
   maxHorizontalRange: 0.7
 --- !u!68 &4591617791957535574
 EdgeCollider2D:
@@ -731,8 +732,8 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -2.8232632, y: -0.15270275}
-  - {x: 1.208977, y: -0.15270273}
+  - {x: -1.52, y: -0.15270275}
+  - {x: 1.06, y: -0.15270273}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0

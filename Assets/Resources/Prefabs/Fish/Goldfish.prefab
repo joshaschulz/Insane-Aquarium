@@ -1413,7 +1413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   difficultyMultiplier: 3
-  escapeFactor: 0.4
+  escapeFactor: 0
   maxHorizontalRange: 0.6
 --- !u!68 &69115643324086938
 EdgeCollider2D:

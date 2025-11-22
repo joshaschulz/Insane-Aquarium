@@ -19,6 +19,7 @@ public class Scr_Fishing : MonoBehaviour
     public GameObject toiletFish;
     private GameObject toiletFishToDestroy;
     GameObject caughtToiletFish;
+    private float scrollInput;
     public float reelInSpeed;
     public float lateralPullStrength = 1.5f; // Tune this to make the fish swing more
     public float fishEscapeHeight;
@@ -26,6 +27,13 @@ public class Scr_Fishing : MonoBehaviour
     //public Transform bathroomTransform;
     public Button goToBathroom;
 
+    public int numberOfPipes = 3;
+    public Camera mainCamera;
+    public float cameraSmooth = 5f;
+    public float rodScreenHeight = 0.4f; // 0 = bottom, 1 = top
+
+    public float scaleReductionWhenFishing = 0.25f;
+    private Vector3 originalFishScale;
 
     public Sprite leftRodSprite, rightRodSprite;
     public float rotationSpeed;
@@ -34,7 +42,7 @@ public class Scr_Fishing : MonoBehaviour
     private float screenMiddleX;
     private bool isLeft; // Track the current state to avoid unnecessary updates
 
-    public Transform fishSpawnPosition;
+    private Vector3 fishSpawnPosition;
     private Scr_LineConnector lineConnector;
     private Scr_TimeHandler Scr_TimeHandler;
     public Scr_SpawnToiletFish Scr_SpawnToiletFish;
@@ -56,7 +64,7 @@ public class Scr_Fishing : MonoBehaviour
 
         StartCoroutine(gameManager.RecenterThenUnlock());
 
-        SpawnPipes(10);
+        SpawnPipes(numberOfPipes);
     }
 
     void Start()
@@ -73,6 +81,7 @@ public class Scr_Fishing : MonoBehaviour
         lineConnector = transform.GetChild(1).GetComponent<Scr_LineConnector>();
 
         ChangeGameSettings();
+
 
 
         // Initialize sprite based on starting position
@@ -108,6 +117,20 @@ public class Scr_Fishing : MonoBehaviour
         }
     }
 
+    private void LateUpdate()
+    {
+        if (toiletFish == null) return;
+
+        Vector3 cameraPos = mainCamera.transform.position;
+
+        // Only follow the Y of the fish
+        //cameraPos.x = Mathf.Lerp(cameraPos.x, toiletFish.transform.position.x, Time.deltaTime * cameraSmooth);
+        //cameraPos.y = Mathf.Lerp(cameraPos.y, toiletFish.transform.position.y, Time.deltaTime * cameraSmooth);
+        cameraPos.x = toiletFish.transform.position.x;
+        cameraPos.y = toiletFish.transform.position.y;
+
+        mainCamera.transform.position = cameraPos;
+    }
     public void ChangeGameSettings()
     {
         Scr_GameSettings settings = Scr_GameManager.ActiveSettings;
@@ -170,7 +193,7 @@ public class Scr_Fishing : MonoBehaviour
             isReeling = false;
             ReelingAudioSource.Stop();
         }
-
+        toiletFish.transform.localScale = originalFishScale;
         gameManager.BagToiletFish(toiletFish);
 
         //Scr_SpawnToiletFish.toiletFishExist = false;
@@ -206,13 +229,14 @@ public class Scr_Fishing : MonoBehaviour
 
         Invoke("FishDestroy", 1f);
 
+        Invoke("DestroyPipes", 1f);
 
 
     }
 
     public void FishEscapeNoSound()
     {
-        //Debug.Log("Fish has escaped");
+        Debug.Log("Fish too low! It has escaped!");
 
         toiletFish.GetComponent<Scr_ToiletFish>().escapeFactor = 20;
 
@@ -232,6 +256,7 @@ public class Scr_Fishing : MonoBehaviour
 
         Invoke("FishDestroy", 1f);
 
+        Invoke("DestroyPipes", 1f);
     }
 
     public void GoToBathroom()
@@ -253,7 +278,9 @@ public class Scr_Fishing : MonoBehaviour
 
     private void SpawnToiletFish()
     {
-        toiletFish = Instantiate(GetRandomFish(), fishSpawnPosition);
+        toiletFish = Instantiate(GetRandomFish(), fishSpawnPosition, Quaternion.Euler(0f, 0f, 90f));
+        originalFishScale = toiletFish.transform.localScale;
+        toiletFish.transform.localScale *= scaleReductionWhenFishing;
 
         Scr_Fish toiletFishScr = toiletFish.GetComponent<Scr_Fish>();
         Scr_FishAnimation toiletFishAnimScr = toiletFish.GetComponent<Scr_FishAnimation>();
@@ -308,7 +335,14 @@ public class Scr_Fishing : MonoBehaviour
         if (!toiletFish)
             return;
 
-        float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+        //scrollInput = Input.GetAxis("Mouse ScrollWheel");
+        if (Input.GetMouseButton(0))
+            scrollInput = 0.01f;
+        else if (Input.GetMouseButton(1))
+            scrollInput = -0.01f;
+        else
+            scrollInput = 0;
+
 
         if (Mathf.Abs(scrollInput) > scrollInputThreshold)
         {
@@ -340,15 +374,14 @@ public class Scr_Fishing : MonoBehaviour
             }
         }
 
+        toiletFish.transform.Translate(scrollInput, 0, 0);
         if (scrollInput > 0) // Reeling out
         {
             ReelingAudioSource.pitch = 1f;
-            toiletFish.transform.Translate(-reelInSpeed, 0, 0);
         }
         else if (scrollInput < 0) // Reeling in
         {
             ReelingAudioSource.pitch = 1.3f;
-            toiletFish.transform.Translate(reelInSpeed, 0, 0);
 
         }
     }
@@ -360,8 +393,13 @@ public class Scr_Fishing : MonoBehaviour
 
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition); // Convert to world space
 
-        // Update only the X position, keep Y and Z unchanged
-        transform.position = new Vector3(worldPosition.x, transform.position.y, transform.position.z);
+        // Find world Y of a FIXED screen height (rod stays visually in same spot)
+        Vector3 fixedScreenY = new Vector3(Screen.width * 0.5f, Screen.height * rodScreenHeight, mousePosition.z);
+
+        float fixedWorldY = Camera.main.ScreenToWorldPoint(fixedScreenY).y;
+
+        // Apply the new position
+        transform.position = new Vector3(worldPosition.x, fixedWorldY, transform.position.z);
     }
     private void CheckToFlipRod()
     {
@@ -437,6 +475,7 @@ public class Scr_Fishing : MonoBehaviour
         {
             GameObject prefab = pipePrefabs[Random.Range(0, pipePrefabs.Length)];
             GameObject pipe = Instantiate(prefab);
+            pipe.transform.parent = transform.parent;
 
             // Position the pipe so its StartPoint aligns with currentAttachPoint
             Transform start = pipe.transform.Find("Start Point");
@@ -445,6 +484,28 @@ public class Scr_Fishing : MonoBehaviour
 
             // Update attach point for next pipe
             currentAttachPoint = pipe.transform.Find("End Point");
+
+            // Assign the fishing rod
+            pipe.GetComponent<Scr_ToiletCollision>().fishingRod = this;
+
+            // Set the bottom of the last pipe to be the Fish Escape Height and the Fish Spawn Position
+            if (i == _count - 1)
+            {
+                fishEscapeHeight = currentAttachPoint.position.y - 3;
+
+                fishSpawnPosition = currentAttachPoint.position;
+            }
+        }
+    }
+
+    public void DestroyPipes()
+    {
+        foreach (Transform child in transform.parent)
+        {
+            if (child.name.Contains("Pipe") && child.name.Contains("Clone"))
+            {
+                Destroy(child.gameObject);
+            }
         }
     }
 

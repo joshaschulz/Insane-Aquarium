@@ -7,7 +7,6 @@ public class Scr_GameSettings : ScriptableObject
 {
     [Header("Fishing Minigame")]
     public int toiletFishTicksToSpawnChance; //AllScenes/Stall/ClockSpawnFish
-    public float toiletFishReelInSpeed; //AllScenes/Stall/Rod
     public float toiletFishLateralPullStrength; //AllScenes/Stall/Rod
 
     [Header("Customers")]

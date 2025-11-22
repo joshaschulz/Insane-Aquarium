@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: TestSettings
   m_EditorClassIdentifier: 
   toiletFishTicksToSpawnChance: 2
-  toiletFishReelInSpeed: 0.1
-  toiletFishLateralPullStrength: 1
+  toiletFishLateralPullStrength: 3
   fishyGuyTicksToSpawnChance: 2
   fishyGuyTicksToExist: 6
   customerTicksToSpawnChance: 2

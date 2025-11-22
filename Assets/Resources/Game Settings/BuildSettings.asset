@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: BuildSettings
   m_EditorClassIdentifier: 
   toiletFishTicksToSpawnChance: 12
-  toiletFishReelInSpeed: 0.1
-  toiletFishLateralPullStrength: 1
+  toiletFishLateralPullStrength: 3
   fishyGuyTicksToSpawnChance: 12
   fishyGuyTicksToExist: 6
   customerTicksToSpawnChance: 12

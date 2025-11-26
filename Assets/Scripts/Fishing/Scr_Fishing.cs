@@ -20,7 +20,8 @@ public class Scr_Fishing : MonoBehaviour
     private GameObject toiletFishToDestroy;
     GameObject caughtToiletFish;
     private float scrollInput;
-    private float lateralPullStrength = 1.5f; // Tune this to make the fish swing more
+    public float reelInSpeed;
+    public float lateralPullStrength = 1.5f; // Tune this to make the fish swing more
     public float fishEscapeHeight;
     public Transform toiletWinLine;
     //public Transform bathroomTransform;
@@ -133,6 +134,7 @@ public class Scr_Fishing : MonoBehaviour
     public void ChangeGameSettings()
     {
         Scr_GameSettings settings = Scr_GameManager.ActiveSettings;
+        reelInSpeed = settings.toiletFishReelInSpeed;
         lateralPullStrength = settings.toiletFishLateralPullStrength;
     }
 

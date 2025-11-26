@@ -3046,7 +3046,7 @@ MonoBehaviour:
   - {fileID: 2934219396983726926, guid: 3fd9fe17feda6194094f9a9e9ffc929d, type: 3}
   toiletFish: {fileID: 0}
   reelInSpeed: 0.2
-  lateralPullStrength: 100
+  lateralPullStrength: 2
   fishEscapeHeight: 0
   toiletWinLine: {fileID: 1155270340}
   goToBathroom: {fileID: 390013542}

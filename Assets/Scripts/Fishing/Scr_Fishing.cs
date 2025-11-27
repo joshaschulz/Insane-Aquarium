@@ -201,6 +201,8 @@ public class Scr_Fishing : MonoBehaviour
 
         Invoke("GoToBathroom", 1f);
 
+        Invoke("DestroyPipes", 1f);
+
         //FishDestroy();
     }
     public void FishEscape()

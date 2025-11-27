@@ -65,8 +65,10 @@ public class Scr_SpawnToiletFish : MonoBehaviour
 
     }
 
+    
     public void OnTickEvent()
     {
+        /*
         //Debug.Log($"{gameObject.name} received a tick event!");
 
         int num = Random.Range(0, ticksToSpawnChance);
@@ -76,11 +78,7 @@ public class Scr_SpawnToiletFish : MonoBehaviour
         if (fishingPoleHooked.activeSelf)
         {
             //fish escaped
-
-            /*
-            gameManager.PlaySoundEffect(gameManager.SFX_FishHitToilet, 1f);
-            gameManager.PlaySoundEffect(gameManager.SFX_ToiletSplash, 0.7f);
-            */
+            
 
             //maybe another line snapping sound
 
@@ -116,6 +114,19 @@ public class Scr_SpawnToiletFish : MonoBehaviour
         }
 
         // Your fish behavior here, e.g., update hunger status.
+
+        */
+    }
+
+    public void SpawnToiletFish()
+    {
+        if (!toiletFishExist)
+        {
+            if (gameManager.baggedFish_Socket1.transform.childCount == 0 || gameManager.baggedFish_Socket2.transform.childCount == 0 || gameManager.baggedFish_Socket3.transform.childCount == 0)
+            {
+                shouldSpawn = true;
+            }
+        }
     }
 
     public void FishingPoleHookedButton(Button clickedButton)

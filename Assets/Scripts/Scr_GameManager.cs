@@ -103,6 +103,8 @@ public class Scr_GameManager : MonoBehaviour
     public Transform backgroundTank;
     public SpriteRenderer[] tankSpriteRenderers;
 
+    public float customerAttractionRate = 1f;
+
 
 
     // Click Bag button to turn cursor image to bag and allow for capturing of fish with left click.
@@ -130,6 +132,8 @@ public class Scr_GameManager : MonoBehaviour
     public AudioClip SFX_DropCoin, SFX_DropFish, SFX_DropFood, SFX_FishDeath, SFX_FishEat, SFX_MoneyPickup, SFX_Select, SFX_Error, SFX_Bubbles1, SFX_Bubbles2, SFX_BagFish, SFX_Reeling, SFX_FishHitToilet, SFX_ToiletSplash;
     public AudioClip SFX_Bag, SFX_CashRegister, SFX_FishHooked, SFX_FlipPhoneHigh, SFX_FlipPhoneLow, SFX_Flush, SFX_GenUI1, SFX_GenUI2, SFX_GenUI3, SFX_LineSnap, SFX_MoneyCounter, SFX_Pop, SFX_Snap, SFX_TextScroll, SFX_TextScrollEnd, SFX_FishGrow, SFX_Fart1, SFX_Fart2;
     public AudioClip SFX_Keypad1, SFX_Keypad2, SFX_Keypad3, SFX_Keypad4, SFX_Keypad5, SFX_Keypad6, SFX_Keypad7, SFX_Keypad8, SFX_Keypad9, SFX_Keypad0, SFX_KeypadDel, SFX_KeypadEnter, SFX_CallFail, SFX_CallRinging, SFX_CallHangUp;
+
+
 
 
     private void Awake()
@@ -214,6 +218,59 @@ public class Scr_GameManager : MonoBehaviour
         //maybe want tick events on game manager?
     }
 
+    public void RecalculateCustomerAttractionRate()
+    {
+        if (foodFishDictionary == null || foodFishDictionary.Count == 0)
+        {
+            customerAttractionRate = 1f;
+            return;
+        }
+
+        HashSet<string> speciesSet = new HashSet<string>();
+        Dictionary<string, int> speciesMaxStars = new Dictionary<string, int>();
+
+        foreach (GameObject fishObj in foodFishDictionary.Keys)
+        {
+            if (fishObj == null) continue;
+
+            Scr_Fish fish = fishObj.GetComponent<Scr_Fish>();
+            if (fish == null) continue;
+
+            string speciesTag = fishObj.tag;
+            speciesSet.Add(speciesTag);
+
+            int totalStars = fish.priceModifier
+                            + fish.appeal
+                            + fish.hungerCapacity
+                            + fish.freakuency
+                            + fish.poopInterval; // max 25
+
+            if (!speciesMaxStars.TryGetValue(speciesTag, out int currentMax) || totalStars > currentMax)
+            {
+                speciesMaxStars[speciesTag] = totalStars;
+            }
+        }
+
+        // ---------------------------------------------------------
+        // NEW scaling: 1.0 to 2.0
+        // ---------------------------------------------------------
+        float rate = 1f;  // base attraction
+
+        // +0.05 for each species
+        rate += speciesSet.Count * 0.05f;
+
+        // + up to another 0.05 per species based on star level
+        foreach (var kvp in speciesMaxStars)
+        {
+            int maxStars = kvp.Value; // 0–25
+            float fraction = Mathf.Clamp01(maxStars / 25f);
+            rate += 0.05f * fraction;
+        }
+
+        // cap at 2.0 (200%)
+        customerAttractionRate = Mathf.Min(rate, 2f);
+    }
+
 
     public void DropFood(GameObject _foodToDrop)
     {
@@ -252,6 +309,47 @@ public class Scr_GameManager : MonoBehaviour
 
 
             SetFishFoodAmount(_foodToDrop, GetFishFoodAmount(_foodToDrop) - 1);
+
+            PlaySoundEffect(SFX_DropFood, 1, 0.5f, 1.5f);
+            PlaySoundEffect(SFX_Pop, 0.05f, 0.8f, 1.2f);
+
+
+        }
+    }
+
+    public void DropStructure(GameObject _strucToDrop)
+    {
+        if (_strucToDrop != null)
+        {
+            Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            Vector2 spawnTank = new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.y);
+
+            float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
+            float screenHeightWorld = Camera.main.orthographicSize * 2;
+
+            float maxX = spawnTank.x + screenWidthWorld / 2;
+            float minX = spawnTank.x - screenWidthWorld / 2;
+
+            Vector2 strucSpawnPos;
+
+            //checks if the placed food is outside the screen
+            if (mouseWorldPosition.x > maxX)
+            {
+                strucSpawnPos = new Vector2(maxX, Camera.main.transform.position.y + screenHeightWorld / 2);
+            }
+            else if (mouseWorldPosition.x < minX)
+            {
+                strucSpawnPos = new Vector2(minX, Camera.main.transform.position.y + screenHeightWorld / 2);
+            }
+            else
+            {
+                strucSpawnPos = new Vector2(mouseWorldPosition.x, Camera.main.transform.position.y + screenHeightWorld / 2);
+            }
+
+            GameObject newStruc = Instantiate(_strucToDrop, strucSpawnPos, Quaternion.identity);
+
+            SetFishFoodAmount(_strucToDrop, GetFishFoodAmount(_strucToDrop) - 1);
 
             PlaySoundEffect(SFX_DropFood, 1, 0.5f, 1.5f);
             PlaySoundEffect(SFX_Pop, 0.05f, 0.8f, 1.2f);

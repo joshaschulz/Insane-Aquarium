@@ -17,7 +17,7 @@ MonoBehaviour:
   toiletFishLateralPullStrength: 1
   fishyGuyTicksToSpawnChance: 2
   fishyGuyTicksToExist: 6
-  customerTicksToSpawnChance: 2
+  customerTicksToSpawnChance: 4
   customerTicksToExist: 6
   secondsPerTickEvent: 2
   startHour: 8

@@ -100,6 +100,9 @@ public class Scr_Customer : MonoBehaviour
 
     public void OnTickEvent()
     {
+        gameManager.RecalculateCustomerAttractionRate(); //maybe we dont want this in tickevent. possibly just on buy, birth, sell fish.
+        Debug.Log("Customer attraction rate: " + gameManager.customerAttractionRate);
+
         //count how long customer has existed
         if (customerExists)
         {
@@ -135,11 +138,18 @@ public class Scr_Customer : MonoBehaviour
         }
 
         //spawn customer
-        int num = Random.Range(0, ticksToSpawnChance);
-
-        if (num == 0)
+        if (!customerExists && !Scr_FishyGuy.fishyGuyExists)
         {
-            if (!customerExists && !Scr_FishyGuy.fishyGuyExists)
+            // base chance: 1 / ticksToSpawnChance
+            float baseChance = 1f / ticksToSpawnChance;
+
+            // scale by attraction (1.0–2.0)
+            float chance = baseChance * gameManager.customerAttractionRate;
+
+            // optional: safety clamp, so it never becomes crazy high
+            chance = Mathf.Min(chance, 0.9f); // max 90% chance per tick
+
+            if (Random.value < chance)
             {
                 customerExists = true;
                 PickCustomer();

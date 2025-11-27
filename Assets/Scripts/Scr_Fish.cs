@@ -630,10 +630,11 @@ public class Scr_Fish : MonoBehaviour
         gameManager.UpdatePoopLevel(spawnTank, 1);
 
         int poopSoundSeed = Random.Range(0, 2);
-        if (poopSoundSeed == 0)
+        /*if (poopSoundSeed == 0)
             gameManager.PlaySoundEffect(gameManager.SFX_Fart1, 0.2f);
         else
             gameManager.PlaySoundEffect(gameManager.SFX_Fart2, 0.2f);
+        */
 
         gameManager.SpawnParticles(poopOutlineEffectPrefab, transform.position, transform.rotation, transform);
         gameManager.SpawnParticles(poopEffectPrefab, transform.position, transform.rotation, transform);

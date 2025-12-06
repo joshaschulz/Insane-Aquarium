@@ -348,6 +348,17 @@ public class Scr_Fish : MonoBehaviour
                 fishValue = settings.fishValue_BlueTang;
                 break;
 
+            case "Tetra":
+                minutesUntilGrown = settings.minutesUntilGrown_Tetra;
+                minutesUntilHungry = settings.minutesUntilHungry_Tetra;
+                minutesUntilFreaky = settings.minutesUntilFreaky_Tetra;
+                minutesUntilPoop = settings.minutesUntilPoop_Tetra;
+                minutesUntilDead = settings.minutesUntilDead_Tetra;
+                baseSpeed = settings.baseSpeed_Tetra;
+                baseFishCost = settings.baseFishCost_Tetra;
+                fishValue = settings.fishValue_Tetra;
+                break;
+
             default:
                 Debug.LogWarning("Unknown tag on fish! Game settings set to default stats of goldfish (find me in Scr_Fish.ChangeGameSettings())");
                 minutesUntilGrown = settings.minutesUntilGrown_Goldfish;

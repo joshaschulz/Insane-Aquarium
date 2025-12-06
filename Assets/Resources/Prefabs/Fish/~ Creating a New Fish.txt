@@ -16,3 +16,6 @@ Resize final fish in prefab's parent transform
 Adjust the Fish's edge collider prefab's parent (for fishing minigame)
 Add fish entry to the fishpedia
 Add species-specific mechanics
+Add fish to the build/test game settings
+Add fish settings case to fish script in ChangeGameSettings()
+Make sure Front Container is active and Side Container is inactive

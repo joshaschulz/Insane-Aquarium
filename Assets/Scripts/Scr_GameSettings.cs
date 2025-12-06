@@ -88,4 +88,15 @@ public class Scr_GameSettings : ScriptableObject
     public int baseFishCost_BlueTang;
     public int fishValue_BlueTang;
 
+
+    [Header("Tetra")]
+    public int minutesUntilGrown_Tetra;
+    public int minutesUntilHungry_Tetra;
+    public int minutesUntilFreaky_Tetra;
+    public int minutesUntilPoop_Tetra;
+    public int minutesUntilDead_Tetra;
+    public float baseSpeed_Tetra;
+    public int baseFishCost_Tetra;
+    public int fishValue_Tetra;
+
 }

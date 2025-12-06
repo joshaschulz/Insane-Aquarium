@@ -71,3 +71,11 @@ MonoBehaviour:
   baseSpeed_BlueTang: 2
   baseFishCost_BlueTang: 400
   fishValue_BlueTang: 200
+  minutesUntilGrown_Tetra: 200
+  minutesUntilHungry_Tetra: 300
+  minutesUntilFreaky_Tetra: 400
+  minutesUntilPoop_Tetra: 350
+  minutesUntilDead_Tetra: 500
+  baseSpeed_Tetra: 3
+  baseFishCost_Tetra: 100
+  fishValue_Tetra: 50

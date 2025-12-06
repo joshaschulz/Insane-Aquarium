@@ -2072,13 +2072,14 @@ MonoBehaviour:
   - {fileID: 436015954}
   - {fileID: 1228921312}
   - {fileID: 1490777158}
+  - {fileID: 603269427}
   buttons:
   - {fileID: 617876471}
   - {fileID: 1959229586}
   - {fileID: 1950526152}
   - {fileID: 224114943}
   - {fileID: 1628710471}
-  - {fileID: 1628710471}
+  - {fileID: 788706917}
 --- !u!1 &291923827
 GameObject:
   m_ObjectHideFlags: 0

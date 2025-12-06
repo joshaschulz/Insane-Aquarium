@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -17,14 +17,16 @@ public class Scr_ClickDetection : MonoBehaviour
         gameManager = GetComponent<Scr_GameManager>();
     }
 
-    // Update is called once per frame
     void Update()
     {
+        // ============================
+        // LEFT CLICK
+        // ============================
         if (Input.GetMouseButtonDown(0))
         {
             PointerEventData pointerData = new PointerEventData(EventSystem.current);
             pointerData.position = Input.mousePosition;
-            
+
             List<RaycastResult> results = new List<RaycastResult>();
             EventSystem.current.RaycastAll(pointerData, results);
 
@@ -47,6 +49,7 @@ public class Scr_ClickDetection : MonoBehaviour
                 // Clicked on something
                 if (hit.collider != null)
                 {
+                    // Attempt to bag a fish
                     foreach (var fishPrefab in gameManager.fishPrefabs)
                     {
                         if (hit.collider.CompareTag(fishPrefab.tag) && gameManager.canIBagFish)
@@ -58,43 +61,51 @@ public class Scr_ClickDetection : MonoBehaviour
                     }
                 }
 
-
+                // Drop food if selected
                 if (gameManager.currentFishFoodSelected != null)
                 {
-                    if (gameManager.GetFishFoodAmount(gameManager.currentFishFoodSelected) > 0)
-                    {
-                        gameManager.DropFood(gameManager.currentFishFoodSelected);
+                    gameManager.DropFood(gameManager.currentFishFoodSelected);
 
-                    }
-                    else // Out of selected food
-                    {
-                        gameManager.PlaySoundEffect(gameManager.SFX_Error, 0.3f);
-                        Debug.Log("Out of Selected Fish Food");
-
-                        // Make cursor icon, selected food button, and food amount text flash red
-                        gameManager.FlashColor(gameManager.cursorFollower.gameObject, Color.red, 0.5f, 0.1f);
-                        gameManager.FlashColor(gameManager.currentFishFoodButtonSelected, Color.red, 0.5f, 0.1f);
-                        gameManager.FlashTextColor(gameManager.currentFishFoodButtonSelected.transform.GetChild(0).GetComponent<TextMeshProUGUI>(), Color.red, 0.5f, 0.1f);
-                    }
                 }
             }
         }
+
+        // ============================
+        // RIGHT CLICK
+        // ============================
         if (Input.GetMouseButtonDown(1))
         {
-            if (gameManager.currentFishFoodSelected != null)
-            {
-                gameManager.ChangeFishFoodTypeToDrop(null);
-            }
-            if (gameManager.canIBagFish)
-            {
-                gameManager.DeselectFishBag();
-            }
-
+            // --- CAST TO WORLD ---
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
 
             if (hit.collider != null)
             {
+                // ==============================================
+                // 1) FIRST: Check for a FishFeeder interaction
+                // ==============================================
+                Scr_FishFeeder feeder = hit.collider.GetComponent<Scr_FishFeeder>();
+
+                if (feeder != null)
+                {
+                    // If holding food → assign that food to feeder
+                    if (gameManager.currentFishFoodSelected != null)
+                    {
+                        feeder.SetFoodType(gameManager.currentFishFoodSelected, gameManager.currentFishFoodButtonSelected);
+                    }
+                    else
+                    {
+                        // Empty hand → cycle feeder speed
+                        feeder.CycleSpeed();
+                    }
+
+                    // We handled this click—do NOT run fish info / clearing logic
+                    return;
+                }
+
+                // ==============================================
+                // 2) NEXT: Check for fish info panel logic
+                // ==============================================
                 Scr_Fish fish = hit.collider.GetComponent<Scr_Fish>();
 
                 if (fish != null)
@@ -105,23 +116,32 @@ public class Scr_ClickDetection : MonoBehaviour
                     }
                     else
                     {
-                        // either panel is hidden, or showing a different fish -> show this one
                         infoPanel.Show(fish);
                     }
 
-                    return;
+                    return; // stop further processing
                 }
             }
 
-            //clicked off of fish - hide it
-            infoPanel.Hide();
+            // ==============================================
+            // 3) RIGHT-CLICKED NOTHING IMPORTANT:
+            //    → reset tools & hide UI (original behavior)
+            // ==============================================
 
-            /*
-            if (gameManager.currentBaggedFishButtonSelected != null)
+            // Clear selected food (original behavior)
+            if (gameManager.currentFishFoodSelected != null)
             {
-                gameManager.DeselectBaggedFish();
+                gameManager.ChangeFishFoodTypeToDrop(null);
             }
-            */
+
+            // Deselect bagging
+            if (gameManager.canIBagFish)
+            {
+                gameManager.DeselectFishBag();
+            }
+
+            // Hide fish info panel
+            infoPanel.Hide();
         }
     }
 }

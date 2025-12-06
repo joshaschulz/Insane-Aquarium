@@ -33,7 +33,6 @@ public class Scr_Customer : MonoBehaviour
     public TextMeshProUGUI quantityText;
 
     public Scr_TankBounds[] forSaleTanks;
-    private bool waitingForAutoPurchase = false;
     private int ticksSinceOrderCreated = 0;
 
     private bool customerRecentlyLeft = false; //used to have a 1 tick gap in customer spawning
@@ -117,7 +116,7 @@ public class Scr_Customer : MonoBehaviour
         }
         
         // handle delayed "for sale tank" auto purchase
-        if (customerExists && waitingForAutoPurchase)
+        if (customerExists)
         {
             ticksSinceOrderCreated++;
 
@@ -125,7 +124,6 @@ public class Scr_Customer : MonoBehaviour
             if (ticksSinceOrderCreated >= 1)
             {
                 TryAutoPurchaseFromForSaleTank();
-                waitingForAutoPurchase = false; // only try once
             }
         }
 
@@ -414,7 +412,6 @@ public class Scr_Customer : MonoBehaviour
 
         Debug.Log("CUSTOMER WANTS THIS NUMBER OF " + chosenPrefab.name.ToUpper() + ": " + customerFishQuantity);
 
-        waitingForAutoPurchase = true;
         ticksSinceOrderCreated = 0;
 
     }
@@ -488,7 +485,6 @@ public class Scr_Customer : MonoBehaviour
         ticksSinceSpawned = 0;
         DestroyCustomerFish();
 
-        waitingForAutoPurchase = false;
         ticksSinceOrderCreated = 0;
 
         customerRecentlyLeft = true;  // ← mark that someone just left

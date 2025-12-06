@@ -108,6 +108,12 @@ MonoBehaviour:
   particleEffectPrefabs:
   - {fileID: 7699653466035250317, guid: 154ca43425a4b9c45bce4fc9cf8ec014, type: 3}
   - {fileID: 7699653466035250317, guid: 2abe7bfbfc9557a43911d1d6f6428fa7, type: 3}
+  isShot: 0
+  shotSpeed: 12
+  shotAngleDegrees: 45
+  shotGravity: -10
+  waterDrag: 1.5
+  maxShotTime: 0.3
 --- !u!58 &-8377279493207297222
 CircleCollider2D:
   m_ObjectHideFlags: 0

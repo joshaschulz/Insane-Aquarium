@@ -274,7 +274,7 @@ public class Scr_GameManager : MonoBehaviour
 
     public void DropFood(GameObject _foodToDrop)
     {
-        if (_foodToDrop != null)
+        if (_foodToDrop != null && GetFishFoodAmount(currentFishFoodSelected) > 0)
         {
             Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -312,9 +312,83 @@ public class Scr_GameManager : MonoBehaviour
 
             PlaySoundEffect(SFX_DropFood, 1, 0.5f, 1.5f);
             PlaySoundEffect(SFX_Pop, 0.05f, 0.8f, 1.2f);
+        }
+        else // Out of selected food
+        {
+            PlaySoundEffect(SFX_Error, 0.3f);
+            Debug.Log("Out of Selected Fish Food");
 
+            // Make cursor icon, selected food button, and food amount text flash red
+            FlashColor(cursorFollower.gameObject, Color.red, 0.5f, 0.1f);
+            FlashColor(currentFishFoodButtonSelected, Color.red, 0.5f, 0.1f);
+            FlashTextColor(
+                currentFishFoodButtonSelected.transform.GetChild(0).GetComponent<TextMeshProUGUI>(),
+                Color.red, 0.5f, 0.1f);
+        }
+    }
+
+    public void DropFood(GameObject _foodToDrop, Vector2 worldPos)
+    {
+        if (_foodToDrop != null && GetFishFoodAmount(currentFishFoodSelected) > 0)
+        {
+            // Direct spawn — everything else remains identical
+            GameObject newFood = Instantiate(_foodToDrop, worldPos, Quaternion.identity);
+
+            foodFishDictionary.Add(newFood, _foodToDrop);
+            AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(newFood, _foodToDrop);
+
+            SetFishFoodAmount(_foodToDrop, GetFishFoodAmount(_foodToDrop) - 1);
+
+            PlaySoundEffect(SFX_DropFood, 1, 0.5f, 1.5f);
+            PlaySoundEffect(SFX_Pop, 0.05f, 0.8f, 1.2f);
+        }
+        else // Out of selected food
+        {
+            PlaySoundEffect(SFX_Error, 0.3f);
+            Debug.Log("Out of Selected Fish Food");
+
+            // Make cursor icon, selected food button, and food amount text flash red
+            FlashColor(currentFishFoodButtonSelected, Color.red, 0.5f, 0.1f);
+            FlashTextColor(
+                currentFishFoodButtonSelected.transform.GetChild(0).GetComponent<TextMeshProUGUI>(),
+                Color.red, 0.5f, 0.1f);
+        }
+
+
+
+    }
+    public void DropFoodFromFeeder(GameObject _foodToDrop, Vector2 worldPos, GameObject _feederSelectedFoodTypeButton)
+    {
+        if (GetFishFoodAmount(_foodToDrop) > 0)
+        {
+            // Direct spawn — everything else remains identical
+            GameObject newFood = Instantiate(_foodToDrop, worldPos, Quaternion.identity);
+
+            foodFishDictionary.Add(newFood, _foodToDrop);
+            AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(newFood, _foodToDrop);
+
+            SetFishFoodAmount(_foodToDrop, GetFishFoodAmount(_foodToDrop) - 1);
+
+            PlaySoundEffect(SFX_DropFood, 1, 0.5f, 1.5f);
+            PlaySoundEffect(SFX_Pop, 0.05f, 0.8f, 1.2f);
+
+            newFood.GetComponent<Scr_FoodBehavior>().Shot();
 
         }
+        else // Out of selected food
+        {
+            PlaySoundEffect(SFX_Error, 0.3f);
+            Debug.Log("Out of Selected Fish Food");
+
+            // Make cursor icon, selected food button, and food amount text flash red
+            FlashColor(_feederSelectedFoodTypeButton, Color.red, 0.5f, 0.1f);
+            FlashTextColor(
+                _feederSelectedFoodTypeButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>(),
+                Color.red, 0.5f, 0.1f);
+        }
+
+
+
     }
 
     public void DropStructure(GameObject _strucToDrop)

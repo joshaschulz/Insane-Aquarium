@@ -109,6 +109,12 @@ MonoBehaviour:
   spinSpeed: 5
   spinAmount: 30
   particleEffectPrefabs: []
+  isShot: 0
+  shotSpeed: 10
+  shotAngleDegrees: 45
+  shotGravity: -10
+  waterDrag: 2
+  maxShotTime: 0.3
 --- !u!58 &-8377279493207297222
 CircleCollider2D:
   m_ObjectHideFlags: 0

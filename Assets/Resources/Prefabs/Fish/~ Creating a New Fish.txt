@@ -15,6 +15,7 @@ Create animations
 Resize final fish in prefab's parent transform
 Adjust the Fish's edge collider prefab's parent (for fishing minigame)
 Add fish entry to the fishpedia
+Add fish front image to Resources-Fish folder
 Add species-specific mechanics
 Add fish to the build/test game settings
 Add fish settings case to fish script in ChangeGameSettings()

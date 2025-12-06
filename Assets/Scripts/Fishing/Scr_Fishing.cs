@@ -293,7 +293,7 @@ public class Scr_Fishing : MonoBehaviour
         toiletFishScr.enabled = false;
         toiletFish.GetComponent<Scr_ToiletFish>().enabled = true;
 
-        toiletFish.GetComponentInChildren<Animator>().speed = 5;
+        toiletFish.GetComponentInChildren<Animator>(true).speed = 5;
 
         lineConnector.pointB = FindMouthInFishChildren(toiletFish.transform, "Mouth Position");
         if (lineConnector.pointB == null)

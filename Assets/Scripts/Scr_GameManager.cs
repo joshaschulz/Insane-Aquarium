@@ -893,6 +893,8 @@ public class Scr_GameManager : MonoBehaviour
 
         fishScript.SetTarget(_fishToBag.transform.position);
         fishAnimScript.SetState(Scr_FishAnimation.FishState.Idle);
+        _fishToBag.GetComponentInChildren<Animator>(true).speed = 1;
+
         fishScript.CancelInvoke();
 
         _fishToBag.transform.localEulerAngles = Vector3.zero;

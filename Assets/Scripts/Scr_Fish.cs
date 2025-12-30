@@ -505,6 +505,13 @@ public class Scr_Fish : MonoBehaviour
         }*/
 
 
+        // Make sure these are not null
+        if (collisionObj == null)
+            return;
+
+        if (closestFood == null)
+            return;
+
         if (!gameManager.foodFishDictionary.TryGetValue(collisionObj, out GameObject collisionObjPrefab))
         {
             return;

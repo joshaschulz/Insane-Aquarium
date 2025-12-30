@@ -467,6 +467,13 @@ public class Scr_GameManager : MonoBehaviour
             if (CheckIfInTank()) //only release fish if in a tank
             {
                 GameObject releasedFish = baggedFishSocketToUse.transform.GetChild(0).gameObject;
+
+                if (releasedFish.CompareTag("Starfish"))
+                {
+                    DropStarfish();
+                    return;
+                }
+
                 Scr_Fish releasedFishScript = releasedFish.GetComponent<Scr_Fish>();
                 Scr_FishAnimation releasedFishAnimScript = releasedFish.GetComponent<Scr_FishAnimation>();
 
@@ -478,7 +485,7 @@ public class Scr_GameManager : MonoBehaviour
                 float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
                 float screenHeightWorld = Camera.main.orthographicSize * 2;
 
-                float randomSpawnHeight = Random.Range(0.3f, 0.6f);
+                float randomSpawnHeight = Random.Range(0.2f, 0.9f);
 
                 spawnPosition.y = (spawnPosition.y + screenHeightWorld / 2) - (screenHeightWorld / 2) * randomSpawnHeight;
                 Vector2 randomSpawnBounds = new Vector2(spawnPosition.x - screenWidthWorld / 2, spawnPosition.x + screenWidthWorld / 2);
@@ -523,6 +530,107 @@ public class Scr_GameManager : MonoBehaviour
 
         }
     }
+
+    public void DropStarfish()
+    {
+        GameObject baggedFishButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+
+        GameObject baggedFishButtonToUse = null;
+        GameObject baggedFishSocketToUse = null;
+
+        if (baggedFishButton != null)
+        {
+            if (baggedFishButton == baggedFish_Button1)
+            {
+                baggedFishButtonToUse = baggedFish_Button1;
+                baggedFishSocketToUse = baggedFish_Socket1;
+            }
+            else if (baggedFishButton == baggedFish_Button2)
+            {
+                baggedFishButtonToUse = baggedFish_Button2;
+                baggedFishSocketToUse = baggedFish_Socket2;
+            }
+            else if (baggedFishButton == baggedFish_Button3)
+            {
+                baggedFishButtonToUse = baggedFish_Button3;
+                baggedFishSocketToUse = baggedFish_Socket3;
+            }
+            else
+            {
+                Debug.Log("No Button selected");
+            }
+        }
+
+
+        if (baggedFishButton != null && baggedFishSocketToUse.transform.childCount != 0)
+        {
+            if (CheckIfInTank()) //only release fish if in a tank
+            {
+                GameObject releasedFish = baggedFishSocketToUse.transform.GetChild(0).gameObject;
+                Scr_Starfish releasedFishScript = releasedFish.GetComponent<Scr_Starfish>();
+                Scr_ImmobileFishAnimation releasedFishAnimScript = releasedFish.GetComponent<Scr_ImmobileFishAnimation>();
+
+
+                //spawn fish at random x coordinate at same designated y coordinate
+                //set the x bounds of where the fish can spawn based on screen size
+
+                Vector2 spawnPosition = new Vector2(_Camera.transform.position.x, _Camera.transform.position.y);
+
+                float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
+                float screenHeightWorld = Camera.main.orthographicSize * 2;
+
+                float randomSpawnHeight = Random.Range(0.2f, 0.9f);
+
+                spawnPosition.y = (spawnPosition.y + screenHeightWorld / 2) - (screenHeightWorld / 2) * randomSpawnHeight;
+                Vector2 randomSpawnBounds = new Vector2(spawnPosition.x - screenWidthWorld / 2, spawnPosition.x + screenWidthWorld / 2);
+
+
+                float randPosX = Random.Range(randomSpawnBounds.x, randomSpawnBounds.y);
+
+                spawnPosition.x = randPosX;
+
+                releasedFish.transform.position = new Vector3(spawnPosition.x, spawnPosition.y, releasedFish.transform.position.z);
+
+
+                // Instead of spawning in a new fish, move this fish to the correct spot
+                releasedFish.transform.SetParent(null);
+                releasedFishScript.enabled = true;
+
+
+                ShowHideFishBags();
+
+                foodFishDictionary.Add(releasedFish, releasedFishScript.thisPrefab);
+
+                foreach (GameObject leg in releasedFishScript.starfishLegs)
+                {
+                    AddSpawnedImmobileFishToExistingFishDiets(leg, releasedFishScript.thisPrefab);
+                    foodFishDictionary.Add(leg, releasedFishScript.thisPrefab);
+
+                }
+
+                PlaySoundEffect(SFX_DropFish, 1, 0.5f, 1.5f);
+
+                Debug.Log(releasedFish.name + " was released");
+
+
+                releasedFish.GetComponent<CircleCollider2D>().enabled = true;
+                releasedFish.transform.localScale = releasedFishScript.originalScale;
+
+                SetSortingGroupToLayer(releasedFish, "Game Objects");
+
+                releasedFishScript.Start();
+                releasedFishAnimScript.Awake();
+                releasedFishAnimScript.PlaySpawnAnimation();
+
+
+                //baggedFishButton.SetActive(false);
+                // DeselectBaggedFish();
+            }
+
+
+        }
+    }
+
     public void SpawnFish(GameObject _fishToSpawn)
     {
         //spawn fish at random x coordinate at same designated y coordinate
@@ -682,6 +790,21 @@ public class Scr_GameManager : MonoBehaviour
         return newFish;
     }
 
+    public GameObject SpawnBoughtStarfish(GameObject _fishToSpawn, Transform _pos)
+    {
+        //spawn fish at random x coordinate at same designated y coordinate
+        //set the x bounds of where the fish can spawn based on screen size
+
+        Vector2 spawnPosition = new Vector2(_pos.position.x, _pos.position.y);
+
+        GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
+
+        Scr_Starfish newFishScript = newFish.GetComponent<Scr_Starfish>();
+        newFishScript.thisPrefab = _fishToSpawn;
+
+        return newFish;
+    }
+
     public GameObject SpawnBabyFish(GameObject _fishToSpawn, GameObject _parentFish)
     {
         //spawn fish at random x coordinate at same designated y coordinate
@@ -763,7 +886,7 @@ public class Scr_GameManager : MonoBehaviour
 
                 if (spawnedFishScript.fishDiet.Contains(fishOrFoodPrefab))
                 {
-                    if (fishOrFoodPrefab.CompareTag("Starfish"))
+                    if (fishOrFoodPrefab.CompareTag("Starfish") && fishOrFoodInstance.GetComponent<Scr_Starfish>() != null)
                         AddStarfishToFishDiet(spawnedFishScript, fishOrFoodInstance);
                     else if (!spawnedFishScript.foodInScene.Contains(fishOrFoodInstance))
                         spawnedFishScript.foodInScene.Add(fishOrFoodInstance);
@@ -1154,6 +1277,13 @@ public class Scr_GameManager : MonoBehaviour
         ShowHideFishBags();
 
         Debug.Log(_fishToBag.name + " was bagged");
+
+        if (_fishToBag.CompareTag("Starfish"))
+        {
+            return BagFishyGuyStarfish(_fishToBag);
+
+        }
+
         Scr_Fish fishScript = _fishToBag.GetComponent<Scr_Fish>();
         Scr_FishAnimation fishAnimScript = _fishToBag.GetComponent<Scr_FishAnimation>();
         fishAnimScript.frontAnimator.Rebind();
@@ -1197,6 +1327,72 @@ public class Scr_GameManager : MonoBehaviour
         // Figure out how to make the bagged fish render in front of the other tank fish and go back to normal upon dropping into tank
         return true;
     }
+
+    public bool BagFishyGuyStarfish(GameObject _fishToBag)
+    {
+        GameObject baggedFishButtonToUse;
+        GameObject baggedFishSocketToUse;
+        // Check to see if there is at least 1 of 3 bags available
+        if (baggedFish_Socket1.transform.childCount == 0)
+        {
+            baggedFishButtonToUse = baggedFish_Button1;
+            baggedFishSocketToUse = baggedFish_Socket1;
+        }
+        else if (baggedFish_Socket2.transform.childCount == 0)
+        {
+            baggedFishButtonToUse = baggedFish_Button2;
+            baggedFishSocketToUse = baggedFish_Socket2;
+        }
+        else if (baggedFish_Socket3.transform.childCount == 0)
+        {
+            baggedFishButtonToUse = baggedFish_Button3;
+            baggedFishSocketToUse = baggedFish_Socket3;
+        }
+        else
+        {
+            Debug.Log("All fish bags were taken up!");
+            // Perhaps disable the button to bag more fish in this case
+            return false;
+        }
+
+        ShowHideFishBags();
+
+        Scr_Starfish fishScript = _fishToBag.GetComponent<Scr_Starfish>();
+        Scr_ImmobileFishAnimation fishAnimScript = _fishToBag.GetComponent<Scr_ImmobileFishAnimation>();
+        fishAnimScript.frontAnimator.Rebind();
+        fishAnimScript.frontAnimator.Update(0f);
+
+        fishScript.enabled = true;
+
+
+        baggedFishButtonToUse.SetActive(true);
+        _fishToBag.transform.SetParent(baggedFishSocketToUse.transform);
+
+        fishScript.CancelInvoke();
+
+        _fishToBag.transform.localEulerAngles = Vector3.zero;
+        var s = _fishToBag.transform.localScale;
+        _fishToBag.transform.localScale = new Vector3(Mathf.Abs(s.x), Mathf.Abs(s.y), Mathf.Abs(s.z));
+
+        fishScript.originalScale = _fishToBag.transform.localScale;
+
+        fishScript.enabled = false;
+        _fishToBag.GetComponent<CircleCollider2D>().enabled = false;
+
+
+        float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
+
+        float baggedFishButtonWidth = (baggedFishButtonToUse.GetComponent<RectTransform>().rect.width / Camera.main.pixelWidth) * screenWidthWorld;
+        _fishToBag.transform.localScale /= baggedFishButtonWidth * 4f;
+
+        // Move the fish to the position where the fishbag button appears to be in the world
+        Vector3 baggedFishButtonPosition = Camera.main.ScreenToWorldPoint(baggedFishButtonToUse.transform.position);
+        _fishToBag.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y - 0.2f, _fishToBag.transform.position.z);
+
+        // Figure out how to make the bagged fish render in front of the other tank fish and go back to normal upon dropping into tank
+        return true;
+    }
+
 
     public void UpdateText(TextMeshProUGUI _textObject, int _amount)
     {

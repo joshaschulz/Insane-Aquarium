@@ -21,12 +21,19 @@ public class Scr_ImmobileFishAnimation : MonoBehaviour
 
 
         frontAnimator = frontContainer.GetComponent<Animator>();
-        frontAnimator.Play("Fish Spawn");
+        PlaySpawnAnimation();
     }
 
     public bool IsAnimationPlaying(Animator anim, string animName)
     {
         AnimatorStateInfo stateInfo = anim.GetCurrentAnimatorStateInfo(0);
         return stateInfo.IsName(animName) && stateInfo.normalizedTime < 1f;
+    }
+
+    public void PlaySpawnAnimation()
+    {
+        // Either trigger or directly play the clip
+        frontAnimator.Play("Fish Spawn", -1, 0f); // reset to start of animation
+        // or: anim.SetTrigger("Spawn");
     }
 }

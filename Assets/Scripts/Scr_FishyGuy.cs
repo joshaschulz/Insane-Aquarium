@@ -181,23 +181,29 @@ public class Scr_FishyGuy : MonoBehaviour
                 break;
             }
         }
-
-        Scr_Fish fishToBuyScr = fishToBuy.GetComponent<Scr_Fish>();
-        //fishToBuyScr.ChangeGameSettings();
-        //GameObject baggedFishButtonToUse;
-
-        if (gameManager.moneyAmount > fishToBuyScr.baseFishCost)
+        
+        if (fishToBuy.GetComponent<Scr_Starfish>() != null)
         {
-            GameObject fish = gameManager.SpawnBoughtFish(fishToBuy, fishWaitingArea);
-            if (gameManager.BagFishyGuyFish(fish))
+            Scr_Starfish fishToBuyScr = fishToBuy.GetComponent<Scr_Starfish>();
+
+            if (gameManager.moneyAmount > fishToBuyScr.baseFishCost)
             {
-                gameManager.SubtractMoneyAmount(fishToBuyScr.baseFishCost);
+                GameObject fish = gameManager.SpawnBoughtStarfish(fishToBuy, fishWaitingArea);
+                if (gameManager.BagFishyGuyStarfish(fish))
+                {
+                    gameManager.SubtractMoneyAmount(fishToBuyScr.baseFishCost);
 
-                gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.4f, 1f, 1f);
-                gameManager.PlaySoundEffect(gameManager.SFX_MoneyCounter, 0.4f, 1f, 1f);
+                    gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.4f, 1f, 1f);
+                    gameManager.PlaySoundEffect(gameManager.SFX_MoneyCounter, 0.4f, 1f, 1f);
 
-                HideBoughtFishBag(clickedBag);
-                CheckIfBothFishBought();
+                    HideBoughtFishBag(clickedBag);
+                    CheckIfBothFishBought();
+                }
+                else
+                {
+                    UnableToCompleteTransaction();
+                    return;
+                }
             }
             else
             {
@@ -207,9 +213,39 @@ public class Scr_FishyGuy : MonoBehaviour
         }
         else
         {
-            UnableToCompleteTransaction();
-            return;
+            Scr_Fish fishToBuyScr = fishToBuy.GetComponent<Scr_Fish>();
+
+            if (gameManager.moneyAmount > fishToBuyScr.baseFishCost)
+            {
+                GameObject fish = gameManager.SpawnBoughtFish(fishToBuy, fishWaitingArea);
+                if (gameManager.BagFishyGuyFish(fish))
+                {
+                    gameManager.SubtractMoneyAmount(fishToBuyScr.baseFishCost);
+
+                    gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.4f, 1f, 1f);
+                    gameManager.PlaySoundEffect(gameManager.SFX_MoneyCounter, 0.4f, 1f, 1f);
+
+                    HideBoughtFishBag(clickedBag);
+                    CheckIfBothFishBought();
+                }
+                else
+                {
+                    UnableToCompleteTransaction();
+                    return;
+                }
+            }
+            else
+            {
+                UnableToCompleteTransaction();
+                return;
+            }
         }
+
+
+        //fishToBuyScr.ChangeGameSettings();
+        //GameObject baggedFishButtonToUse;
+
+       
 
 
     }

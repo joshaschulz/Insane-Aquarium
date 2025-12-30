@@ -81,6 +81,7 @@ public class Scr_FishInfoPanel : MonoBehaviour
         gameObject.SetActive(true);
     }
 
+
     void SetStars(UnityEngine.UI.Image[] stars, int value)
     {
         for (int i = 0; i < stars.Length; i++)

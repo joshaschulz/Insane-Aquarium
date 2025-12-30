@@ -453,7 +453,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 261931104593206074}
@@ -490,8 +490,7 @@ MonoBehaviour:
   minutesUntilFreaky: 0
   heartIcon: {fileID: 342394445551414795}
   hungerIcon: {fileID: 7398377294821584568}
-  spawnHeight: 0.8
-  baseSpeed: 3
+  baseSpeed: 1
   baseFishCost: 0
   fishValue: 0
   originalScale: {x: 0, y: 0, z: 0}
@@ -536,6 +535,7 @@ MonoBehaviour:
   frontSprite: {fileID: 21300000, guid: b2e329939003b8a4da60efaa02f1cec9, type: 3}
   sideSprite: {fileID: 21300000, guid: 158289d89c86d954d875fefd32f8beb7, type: 3}
   frontAnimator: {fileID: 0}
+  fishAnimator: {fileID: 0}
 --- !u!50 &4021542319324231719
 Rigidbody2D:
   serializedVersion: 4
@@ -727,7 +727,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6605195467458853249}
@@ -1615,7 +1615,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4826436553496603192}

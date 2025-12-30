@@ -55,8 +55,16 @@ public class Scr_ClickDetection : MonoBehaviour
                         if (hit.collider.CompareTag(fishPrefab.tag) && gameManager.canIBagFish)
                         {
                             GameObject fishToBag = hit.collider.gameObject;
-                            Debug.Log("BAG THIS " + fishToBag.name);
-                            gameManager.BagAFish(fishToBag);
+
+                            if (fishToBag.CompareTag("Starfish"))
+                            {
+                                gameManager.BagAStarfish(fishToBag);
+                            }
+                            else
+                            {
+                                gameManager.BagAFish(fishToBag);
+                            }
+
                         }
                     }
                 }
@@ -106,21 +114,26 @@ public class Scr_ClickDetection : MonoBehaviour
                 // ==============================================
                 // 2) NEXT: Check for fish info panel logic
                 // ==============================================
-                Scr_Fish fish = hit.collider.GetComponent<Scr_Fish>();
 
-                if (fish != null)
+                if (hit.collider.GetComponent<Scr_Fish>() != null)
                 {
-                    if (infoPanel.gameObject.activeSelf && infoPanel.CurrentFish == fish)
-                    {
-                        infoPanel.Hide();
-                    }
-                    else
-                    {
-                        infoPanel.Show(fish);
-                    }
+                    Scr_Fish fish = hit.collider.GetComponent<Scr_Fish>();
 
-                    return; // stop further processing
+                    if (fish != null)
+                    {
+                        if (infoPanel.gameObject.activeSelf && infoPanel.CurrentFish == fish)
+                        {
+                            infoPanel.Hide();
+                        }
+                        else
+                        {
+                            infoPanel.Show(fish);
+                        }
+
+                        return; // stop further processing
+                    }
                 }
+
             }
 
             // ==============================================

@@ -131,7 +131,7 @@ public class Scr_GameManager : MonoBehaviour
     // List of Sounds
     public AudioClip SFX_DropCoin, SFX_DropFish, SFX_DropFood, SFX_FishDeath, SFX_FishEat, SFX_MoneyPickup, SFX_Select, SFX_Error, SFX_Bubbles1, SFX_Bubbles2, SFX_BagFish, SFX_Reeling, SFX_FishHitToilet, SFX_ToiletSplash;
     public AudioClip SFX_Bag, SFX_CashRegister, SFX_FishHooked, SFX_FlipPhoneHigh, SFX_FlipPhoneLow, SFX_Flush, SFX_GenUI1, SFX_GenUI2, SFX_GenUI3, SFX_LineSnap, SFX_MoneyCounter, SFX_Pop, SFX_Snap, SFX_TextScroll, SFX_TextScrollEnd, SFX_FishGrow, SFX_Fart1, SFX_Fart2;
-    public AudioClip SFX_Keypad1, SFX_Keypad2, SFX_Keypad3, SFX_Keypad4, SFX_Keypad5, SFX_Keypad6, SFX_Keypad7, SFX_Keypad8, SFX_Keypad9, SFX_Keypad0, SFX_KeypadDel, SFX_KeypadEnter, SFX_CallFail, SFX_CallRinging, SFX_CallHangUp;
+    public AudioClip SFX_Keypad1, SFX_Keypad2, SFX_Keypad3, SFX_Keypad4, SFX_Keypad5, SFX_Keypad6, SFX_Keypad7, SFX_Keypad8, SFX_Keypad9, SFX_Keypad0, SFX_KeypadDel, SFX_KeypadEnter, SFX_CallFail, SFX_CallRinging, SFX_CallHangUp, SFX_StarfishFlop;
 
 
 
@@ -478,8 +478,9 @@ public class Scr_GameManager : MonoBehaviour
                 float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
                 float screenHeightWorld = Camera.main.orthographicSize * 2;
 
-                spawnPosition.y = (spawnPosition.y - screenHeightWorld / 2) + screenHeightWorld * releasedFishScript.spawnHeight;
+                float randomSpawnHeight = Random.Range(0.3f, 0.6f);
 
+                spawnPosition.y = (spawnPosition.y + screenHeightWorld / 2) - (screenHeightWorld / 2) * randomSpawnHeight;
                 Vector2 randomSpawnBounds = new Vector2(spawnPosition.x - screenWidthWorld / 2, spawnPosition.x + screenWidthWorld / 2);
 
 
@@ -533,7 +534,9 @@ public class Scr_GameManager : MonoBehaviour
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
         float screenHeightWorld = Camera.main.orthographicSize * 2;
 
-        spawnPosition.y = (spawnPosition.y - screenHeightWorld / 2) + screenHeightWorld * _fishToSpawn.GetComponent<Scr_Fish>().spawnHeight;
+        float randomSpawnHeight = Random.Range(0.2f, 0.9f);
+
+        spawnPosition.y = (spawnPosition.y + screenHeightWorld / 2) - (screenHeightWorld / 2) * randomSpawnHeight;
 
         Vector2 randomSpawnBounds = new Vector2(spawnPosition.x - screenWidthWorld / 2, spawnPosition.x + screenWidthWorld / 2);
 
@@ -566,6 +569,7 @@ public class Scr_GameManager : MonoBehaviour
 
     }
 
+
     public void SpawnFish(GameObject _fishToSpawn, Transform _pos)
     {
         //spawn fish at random x coordinate at same designated y coordinate
@@ -577,7 +581,10 @@ public class Scr_GameManager : MonoBehaviour
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
         float screenHeightWorld = Camera.main.orthographicSize * 2;
 
-        spawnPosition.y = (spawnPosition.y - screenHeightWorld / 2) + screenHeightWorld * _fishToSpawn.GetComponent<Scr_Fish>().spawnHeight;
+        float randomSpawnHeight = Random.Range(0.2f, 0.9f);
+
+
+        spawnPosition.y = (spawnPosition.y + screenHeightWorld / 2) - (screenHeightWorld / 2) * randomSpawnHeight;
 
         Vector2 randomSpawnBounds = new Vector2(spawnPosition.x - screenWidthWorld / 2, spawnPosition.x + screenWidthWorld / 2);
 
@@ -604,6 +611,48 @@ public class Scr_GameManager : MonoBehaviour
         }
 
         AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(newFish, _fishToSpawn);
+
+        PlaySoundEffect(SFX_DropFish, 1, 0.5f, 1.5f);
+
+        //Scr_UIElementsHandler.UpdateTankWater();
+
+    }
+
+    public void SpawnStarFish(GameObject _fishToSpawn)
+    {
+        //spawn fish at random x coordinate at same designated y coordinate
+        //set the x bounds of where the fish can spawn based on screen size
+
+        Vector2 spawnPosition = new Vector2(_Camera.transform.position.x, _Camera.transform.position.y);
+
+
+        float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
+        float screenHeightWorld = Camera.main.orthographicSize * 2;
+
+        float randomSpawnHeight = Random.Range(0.2f, 0.9f);
+
+        spawnPosition.y = (spawnPosition.y + screenHeightWorld / 2) - (screenHeightWorld / 2) * randomSpawnHeight;
+
+        Vector2 randomSpawnBounds = new Vector2(spawnPosition.x - (screenWidthWorld / 2) * 0.9f, spawnPosition.x + (screenWidthWorld / 2) * 0.9f);
+
+
+        float randPosX = Random.Range(randomSpawnBounds.x, randomSpawnBounds.y);
+
+        spawnPosition.x = randPosX;
+
+        GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
+
+
+        foodFishDictionary.Add(newFish, _fishToSpawn);
+        Scr_Starfish newFishScript = newFish.GetComponent<Scr_Starfish>();
+        newFishScript.thisPrefab = _fishToSpawn;
+
+        foreach (GameObject leg in newFishScript.starfishLegs)
+        {
+            AddSpawnedImmobileFishToExistingFishDiets(leg, _fishToSpawn);
+            foodFishDictionary.Add(leg, _fishToSpawn);
+
+        }
 
         PlaySoundEffect(SFX_DropFish, 1, 0.5f, 1.5f);
 
@@ -714,12 +763,77 @@ public class Scr_GameManager : MonoBehaviour
 
                 if (spawnedFishScript.fishDiet.Contains(fishOrFoodPrefab))
                 {
-                    if (!spawnedFishScript.foodInScene.Contains(fishOrFoodInstance))
+                    if (fishOrFoodPrefab.CompareTag("Starfish"))
+                        AddStarfishToFishDiet(spawnedFishScript, fishOrFoodInstance);
+                    else if (!spawnedFishScript.foodInScene.Contains(fishOrFoodInstance))
                         spawnedFishScript.foodInScene.Add(fishOrFoodInstance);
                 }
             }
         }
     }
+
+    public void AddSpawnedImmobileFishToExistingFishDiets(GameObject _spawnedImmobileFish, GameObject _spawnedImmobileFishPrefab)
+    {
+        foreach ((GameObject fishInstance, GameObject fishPrefab) in foodFishDictionary) //loops through all fish or food in the scene
+        {
+            //adds spawned fish or food to all other fish food diets (if in their diet)
+
+            if (fishInstance.GetComponent<Scr_Fish>() != null) //if the gameobject in dictionary is a fish
+            {
+                Scr_Fish existingFishScript = fishInstance.GetComponent<Scr_Fish>();
+
+                //Debug.Log(existingFishScript.fishDiet[0] + " compared to " + _spawnedFishOrFoodPrefab);
+
+
+                if (existingFishScript.fishDiet.Contains(_spawnedImmobileFishPrefab))
+                {
+                    //Debug.Log(gameObject + "can eat " + _spawnedFishOrFood);
+
+                    if (!existingFishScript.foodInScene.Contains(_spawnedImmobileFish))
+                        existingFishScript.foodInScene.Add(_spawnedImmobileFish);
+                }
+            }
+        }
+    }
+
+    public void AddStarfishToFishDiet(Scr_Fish spawnedFishScript, GameObject starfish)
+    {
+
+        Scr_Starfish starfishScript = starfish.GetComponent<Scr_Starfish>();
+
+        foreach (GameObject leg in starfishScript.starfishLegs)
+        {
+            if (leg == null) continue;
+
+            if (leg.activeSelf && !spawnedFishScript.foodInScene.Contains(leg))
+            {
+                spawnedFishScript.foodInScene.Add(leg);
+            }
+        }
+    }
+
+    public void AddRegeneratedStarfishLegToFishDiets(Scr_Starfish spawnedFishScript, GameObject starfishLeg)
+    {
+        foreach ((GameObject fishOrFoodInstance, GameObject fishOrFoodPrefab) in foodFishDictionary) //loops through all fish or food in the scene
+        {
+            if (fishOrFoodInstance.GetComponent<Scr_Fish>() != null) //if the gameobject in dictionary is a fish
+            {
+                Scr_Fish existingFishScript = fishOrFoodInstance.GetComponent<Scr_Fish>();
+
+                //Debug.Log(existingFishScript.fishDiet[0] + " compared to " + _spawnedFishOrFoodPrefab);
+
+
+                if (existingFishScript.fishDiet.Contains(spawnedFishScript.thisPrefab))
+                {
+                    //Debug.Log(gameObject + "can eat " + _spawnedFishOrFood);
+
+                    if (!existingFishScript.foodInScene.Contains(starfishLeg))
+                        existingFishScript.foodInScene.Add(starfishLeg);
+                }
+            }
+        }
+    }
+
 
     public void RemoveFoodFromExistingFishDiets(GameObject _foodToRemove) //removes fish or food from existing fish diets
     {
@@ -848,6 +962,92 @@ public class Scr_GameManager : MonoBehaviour
 
         // Figure out how to make the bagged fish render in front of the other tank fish and go back to normal upon dropping into tank
     }
+
+    public void BagAStarfish(GameObject _fishToBag)
+    {
+        GameObject baggedFishButtonToUse;
+        GameObject baggedFishSocketToUse;
+        // Check to see if there is at least 1 of 3 bags available
+
+
+        if (baggedFish_Socket1.transform.childCount == 0)
+        {
+            baggedFishButtonToUse = baggedFish_Button1;
+            baggedFishSocketToUse = baggedFish_Socket1;
+        }
+        else if (baggedFish_Socket2.transform.childCount == 0)
+        {
+            baggedFishButtonToUse = baggedFish_Button2;
+            baggedFishSocketToUse = baggedFish_Socket2;
+        }
+        else if (baggedFish_Socket3.transform.childCount == 0)
+        {
+            baggedFishButtonToUse = baggedFish_Button3;
+            baggedFishSocketToUse = baggedFish_Socket3;
+        }
+        else
+        {
+            Debug.Log("All fish bags were taken up!");
+            // Perhaps disable the button to bag more fish in this case
+            return;
+        }
+
+        ShowHideFishBags();
+
+        Debug.Log(_fishToBag.name + " was bagged");
+        PlaySoundEffect(SFX_BagFish, 1);
+        PlaySoundEffect(SFX_Bag, 1);
+        Scr_Starfish fishScript = _fishToBag.GetComponent<Scr_Starfish>();
+        Scr_ImmobileFishAnimation fishAnimScript = _fishToBag.GetComponent<Scr_ImmobileFishAnimation>();
+        SpawnParticles(fishScript.bubblesEffectPrefab, transform.position, transform.rotation, null);
+
+
+        // 1) Remove all legs from foodFishDictionary and all fish diets
+        foreach (GameObject leg in fishScript.starfishLegs)
+        {
+            if (leg == null) continue;
+
+            // If you only care about available legs, keep this:
+            // if (!leg.activeSelf) continue;
+
+            foodFishDictionary.Remove(leg);
+            RemoveFoodFromExistingFishDiets(leg);
+
+            // Make sure they’re not visible/usable anymore
+            //leg.SetActive(false);
+        }
+
+        // 2) Remove the starfish root itself from foodFishDictionary and diets
+        foodFishDictionary.Remove(_fishToBag);
+        RemoveFoodFromExistingFishDiets(_fishToBag);
+
+
+        baggedFishButtonToUse.SetActive(true);
+        //_fishToBag.transform.SetParent(baggedFishButtonToUse.transform);
+        _fishToBag.transform.SetParent(baggedFishSocketToUse.transform);
+
+        fishScript.originalScale = _fishToBag.transform.localScale;
+
+        SetSortingGroupToLayer(_fishToBag, "UI");
+
+
+        fishScript.CancelInvoke();
+        fishScript.enabled = false;
+        _fishToBag.GetComponent<CircleCollider2D>().enabled = false;
+
+
+        float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
+
+        float baggedFishButtonWidth = (baggedFishButtonToUse.GetComponent<RectTransform>().rect.width / Camera.main.pixelWidth) * screenWidthWorld;
+        _fishToBag.transform.localScale /= baggedFishButtonWidth * 4f;
+
+        // Move the fish to the position where the fishbag button appears to be in the world
+        Vector3 baggedFishButtonPosition = Camera.main.ScreenToWorldPoint(baggedFishButtonToUse.transform.position);
+        _fishToBag.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y - 0.2f, _fishToBag.transform.position.z);
+
+        // Figure out how to make the bagged fish render in front of the other tank fish and go back to normal upon dropping into tank
+    }
+
 
     public void BagToiletFish(GameObject _fishToBag)
     {

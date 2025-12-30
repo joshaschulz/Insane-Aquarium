@@ -574,8 +574,7 @@ MonoBehaviour:
   minutesUntilFreaky: 0
   heartIcon: {fileID: 342394445551414795}
   hungerIcon: {fileID: 7398377294821584568}
-  spawnHeight: 0.6
-  baseSpeed: 2
+  baseSpeed: 1
   baseFishCost: 0
   fishValue: 0
   originalScale: {x: 0, y: 0, z: 0}

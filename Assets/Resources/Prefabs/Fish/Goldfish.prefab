@@ -513,7 +513,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9097072014951686611}
@@ -1183,7 +1183,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5294496031346597497}
@@ -1255,7 +1255,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3389921948431230594}
@@ -1292,8 +1292,7 @@ MonoBehaviour:
   minutesUntilFreaky: 0
   heartIcon: {fileID: 2859162326584406625}
   hungerIcon: {fileID: 3961908895211311168}
-  spawnHeight: 0.75
-  baseSpeed: 1.5
+  baseSpeed: 1
   baseFishCost: 0
   fishValue: 0
   originalScale: {x: 0, y: 0, z: 0}
@@ -1309,6 +1308,7 @@ MonoBehaviour:
   radiationOutlineEffectPrefab: {fileID: 7699653466035250317, guid: b272fab0de09ec14d926afe41dd52d15, type: 3}
   poopEffectPrefab: {fileID: 7699653466035250317, guid: c3d7e6177bfa87546b397b6747d2bcff, type: 3}
   poopOutlineEffectPrefab: {fileID: 7699653466035250317, guid: 33103eaaa7818e041b9a6bd94ad35211, type: 3}
+  closestFood: {fileID: 0}
   fishDiet:
   - {fileID: 5447806642486513699, guid: 81deed014d0d31c43902697f2bc0e3d8, type: 3}
   - {fileID: 5447806642486513699, guid: ef302d57c9a62814f8e8425e495c442f, type: 3}

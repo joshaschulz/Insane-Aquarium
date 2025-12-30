@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -37,7 +37,7 @@ public class Scr_Fish : MonoBehaviour
     public GameObject hungerIcon;
 
     [Range(0f, 1f)]
-    public float spawnHeight;
+    //public float spawnHeight;
 
     public float baseSpeed;
     private float baseSpeedFactored;
@@ -60,6 +60,8 @@ public class Scr_Fish : MonoBehaviour
     public GameObject radiationOutlineEffectPrefab;
     public GameObject poopEffectPrefab;
     public GameObject poopOutlineEffectPrefab;
+
+    public GameObject closestFood;
 
     public List<GameObject> fishDiet;
     public List<GameObject> foodInScene;
@@ -94,7 +96,7 @@ public class Scr_Fish : MonoBehaviour
 
     private void OnEnable()
     {
-        // Optionally, get a reference to the TickHandler (assuming there's only one or it�s a singleton)
+        // Optionally, get a reference to the TickHandler (assuming there's only one or it’s a singleton)
         Scr_TimeHandler = FindObjectOfType<Scr_TimeHandler>();
         Scr_UIElementsHandler = FindObjectOfType<Scr_UIElementsHandler>();
 
@@ -415,12 +417,12 @@ public class Scr_Fish : MonoBehaviour
         if (isHungry)
         {
             // Find a food to eat
-            GameObject food = FindClosestFood();
+            closestFood = FindClosestFood();
 
-            if (food != null)
+            if (closestFood != null)
             {
                 currentSpeed = hungrySpeed * gameManager.GetFastForwardSettingFactor();
-                SetTarget(food.transform.position);
+                SetTarget(closestFood.transform.position);
             }
         }
         else if (isFreaky)//go freakmode
@@ -478,10 +480,48 @@ public class Scr_Fish : MonoBehaviour
             }
         }
 
+        /*
         if (!foodInScene.Contains(collisionObj))
+        {   if (collisionObj.CompareTag("Starfish"))
+            {
+                Scr_Starfish starfishScript = collisionObj.GetComponent<Scr_Starfish>();
+                bool anyActive = false;
+
+                foreach (GameObject leg in starfishScript.starfishLegs)
+                {
+                    if (leg.activeSelf)
+                    {
+                        anyActive = true;
+                        break;
+                    }
+                }
+
+                if (!anyActive) return;
+            }
+            else
+            {
+                return;
+            }
+        }*/
+
+
+        if (!gameManager.foodFishDictionary.TryGetValue(collisionObj, out GameObject collisionObjPrefab))
         {
             return;
         }
+
+        if (!gameManager.foodFishDictionary.TryGetValue(closestFood, out GameObject closestFoodPrefab))
+        {
+            return;
+        }
+
+        Debug.Log("CLOSEST FOOD PREFAB: " + closestFoodPrefab);
+
+        if (closestFoodPrefab != collisionObjPrefab)
+        {
+            return;
+        }
+
 
         if (isHungry)
         {
@@ -501,16 +541,28 @@ public class Scr_Fish : MonoBehaviour
             }
 
             // If the food is a fish, make it run Die(), so sound/blood effects happen
-            if (collisionObj.GetComponent<Scr_Fish>() != null)
+            if (collisionObj.GetComponent<Scr_Fish>() != null || collisionObj.GetComponent<Scr_Starfish>() != null)
             {
-                if (collisionObj.GetComponent<Scr_Fish>().radiated && !radiated)
+                if (collisionObj.GetComponent<Scr_Fish>() != null)
                 {
-                    radiated = true;
-                    gameManager.SpawnParticles(radiationOutlineEffectPrefab, transform.position, transform.rotation, transform);
-                    gameManager.SpawnParticles(radiationEffectPrefab, transform.position, transform.rotation, transform);
+                    if (collisionObj.GetComponent<Scr_Fish>().radiated && !radiated)
+                    {
+                        radiated = true;
+                        gameManager.SpawnParticles(radiationOutlineEffectPrefab, transform.position, transform.rotation, transform);
+                        gameManager.SpawnParticles(radiationEffectPrefab, transform.position, transform.rotation, transform);
+                    }
+
+                    collisionObj.GetComponent<Scr_Fish>().Die();
+
+                }
+                else if (collisionObj.GetComponent<Scr_Starfish>() != null)
+                {
+                    collisionObj.GetComponent<Scr_Starfish>().Die();
+                    IdleOrMove();
                 }
 
-                collisionObj.GetComponent<Scr_Fish>().Die();
+
+
             }
             else
             {
@@ -650,33 +702,56 @@ public class Scr_Fish : MonoBehaviour
         gameManager.SpawnParticles(poopOutlineEffectPrefab, transform.position, transform.rotation, transform);
         gameManager.SpawnParticles(poopEffectPrefab, transform.position, transform.rotation, transform);
     }
-    public GameObject FindClosestFood() // Returns the closest edible food to the fish or NULL if no edible food exist.
+
+    public GameObject FindClosestFood()
     {
-        // If there are food objects in the scene that this fish can eat...
-        if (foodInScene.Count > 0)
+        if (foodInScene == null || foodInScene.Count == 0)
+            return null;
+
+        GameObject closestStarfishLeg = null;
+        float minLegDist = float.MaxValue;
+
+        GameObject closestOtherFood = null;
+        float minOtherDist = float.MaxValue;
+
+        foreach (GameObject food in foodInScene)
         {
-            GameObject closestEdibleFood = foodInScene[0];
-            float minDistance = float.MaxValue;
-            for (int j = 0; j < foodInScene.Count; j++)
+            if (food == null || !food.activeInHierarchy)
+                continue;
+
+            float dist = Vector2.Distance(transform.position, food.transform.position);
+
+            // ⭐ Identify starfish leg using parent root
+            Scr_Starfish starfishRoot = food.GetComponentInParent<Scr_Starfish>();
+
+            if (starfishRoot != null) // It's a starfish leg
             {
-
-                float distance = Vector2.Distance(transform.position, foodInScene[j].transform.position);
-
-                if (distance < minDistance)
+                if (dist < minLegDist)
                 {
-                    minDistance = distance;
-                    closestEdibleFood = foodInScene[j];
+                    minLegDist = dist;
+                    closestStarfishLeg = food;
                 }
             }
-
-            //if the food is within the tank that the fish is contained in
-            if (IsWithinBoundsOfTank(closestEdibleFood))
+            else // normal food
             {
-                return closestEdibleFood;
+                if (dist < minOtherDist)
+                {
+                    minOtherDist = dist;
+                    closestOtherFood = food;
+                }
             }
         }
+
+        // Priority:
+        if (closestStarfishLeg != null && IsWithinBoundsOfTank(closestStarfishLeg))
+            return closestStarfishLeg;
+
+        if (closestOtherFood != null && IsWithinBoundsOfTank(closestOtherFood))
+            return closestOtherFood;
+
         return null;
     }
+
 
     public GameObject FindClosestMate()
     {

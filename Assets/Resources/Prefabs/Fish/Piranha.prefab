@@ -232,7 +232,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 261931104593206074}
@@ -269,8 +269,7 @@ MonoBehaviour:
   minutesUntilFreaky: 0
   heartIcon: {fileID: 7094487085532254617}
   hungerIcon: {fileID: 8563883548663662571}
-  spawnHeight: 0.5
-  baseSpeed: 2
+  baseSpeed: 1
   baseFishCost: 0
   fishValue: 0
   originalScale: {x: 0, y: 0, z: 0}
@@ -288,6 +287,7 @@ MonoBehaviour:
   poopOutlineEffectPrefab: {fileID: 7699653466035250317, guid: 33103eaaa7818e041b9a6bd94ad35211, type: 3}
   fishDiet:
   - {fileID: 8672692834543181141, guid: 1e8f852235a4ef746860883a25c3714f, type: 3}
+  - {fileID: 1863455049823253984, guid: a818baef8e21de54e9c553496567b12e, type: 3}
   foodInScene: []
   numberCaught: 0
   generation: 1
@@ -473,7 +473,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6605195467458853249}
@@ -1327,7 +1327,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4826436553496603192}

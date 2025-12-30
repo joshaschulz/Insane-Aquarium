@@ -2527,7 +2527,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1031440123}
         m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
-        m_MethodName: SpawnImmobileFish
+        m_MethodName: SpawnStarFish
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1863455049823253984, guid: a818baef8e21de54e9c553496567b12e, type: 3}
@@ -6952,7 +6952,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &602858186
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -13223,6 +13223,7 @@ MonoBehaviour:
   SFX_CallFail: {fileID: 8300000, guid: 108e7c5d5bbe32742ae39142d8c6056b, type: 3}
   SFX_CallRinging: {fileID: 8300000, guid: 02898e02e0ecb3140b105f1e06bc68de, type: 3}
   SFX_CallHangUp: {fileID: 8300000, guid: 20a44ff68c64b1d468512b67714186f2, type: 3}
+  SFX_StarfishFlop: {fileID: 8300000, guid: e5601d25c4b1e56479bfbe4f9ececca0, type: 3}
 --- !u!114 &1031440124
 MonoBehaviour:
   m_ObjectHideFlags: 0

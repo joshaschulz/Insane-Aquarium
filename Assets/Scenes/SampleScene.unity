@@ -13123,6 +13123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcbfa85d6a80f1d418dda7b33d4c42e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tickEventsPer10Min: 0
   useTestSettings: 1
   buildSettings: {fileID: 11400000, guid: be4f36254a417374595025d5aec304a8, type: 2}
   testSettings: {fileID: 11400000, guid: d52ba908e3580b84aba08b2da0def0ff, type: 2}

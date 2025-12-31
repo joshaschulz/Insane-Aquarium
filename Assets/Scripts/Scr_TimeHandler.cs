@@ -10,7 +10,9 @@ public class Scr_TimeHandler : MonoBehaviour
     [HideInInspector]
     public UnityEvent tickEvent;
 
-    public float tickInterval = 600; //every 10 in game minutes (600 in game seconds) a tick event will fire
+    private Scr_GameManager gameManager;
+
+    public float tickInterval = 60; //every 10 in game minutes (600 in game seconds) a tick event will fire
     private float tickAccumulator; //tick will trigger every __ minutes then reset.
 
 
@@ -18,6 +20,7 @@ public class Scr_TimeHandler : MonoBehaviour
     public float secPerTickEvent; //real seconds per tick event
     private float timeScale; //in-game seconds per real second
 
+    private int numTicksPer10Min;
 
     public int startHour;
     public int startMinute;
@@ -40,7 +43,14 @@ public class Scr_TimeHandler : MonoBehaviour
 
     private void Awake()
     {
+        gameManager = gameObject.GetComponent<Scr_GameManager>();
+
         ChangeGameSettings();
+
+        numTicksPer10Min = (int)(600 / tickInterval);
+
+        gameManager.tickEventsPer10Min = numTicksPer10Min;
+        secPerTickEvent /= numTicksPer10Min;
 
         startTimeInSeconds = startHour * 3600 + startMinute * 60;
         endTimeInSeconds = endHour * 3600 + endMinute * 60;
@@ -56,7 +66,6 @@ public class Scr_TimeHandler : MonoBehaviour
         float deltaGameSeconds = Time.deltaTime * timeScale; //amount of game seconds per frame
         gameSeconds += deltaGameSeconds; //total number of in-game seconds that have passed (60 in-game seconds per real second)
         tickAccumulator += deltaGameSeconds;
-
 
         if (gameSeconds >= endTimeInSeconds)
         {
@@ -105,6 +114,11 @@ public class Scr_TimeHandler : MonoBehaviour
 
             tickEvent?.Invoke(); //? checks if tickEvent is null.
 
+            int hours = ((int)gameSeconds / 3600) % 24;
+            int minutes = ((int)gameSeconds / 60) % 60;
+
+            Debug.Log($"I JUST SENT A TICK EVENT at {hours:00}:{minutes:00}");
+
             tickAccumulator -= tickInterval;
         }
     }
@@ -112,6 +126,7 @@ public class Scr_TimeHandler : MonoBehaviour
     public void UpdateTimeScale(float newSecPerTickEvent)
     {
         timeScale = tickInterval / newSecPerTickEvent;
+        timeScale *= numTicksPer10Min;
 
     }
 }

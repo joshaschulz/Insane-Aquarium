@@ -46,6 +46,9 @@ public class Scr_Customer : MonoBehaviour
         _Camera = Camera.main;
         ChangeGameSettings();
 
+        ticksToSpawnChance *= gameManager.tickEventsPer10Min;
+        ticksToExist *= gameManager.tickEventsPer10Min;
+
         GetPotentialCustomers();
         PickCustomer();
 
@@ -186,6 +189,9 @@ public class Scr_Customer : MonoBehaviour
                 GameObject instance = kvp.Key;
                 GameObject prefab = kvp.Value;
 
+                if (prefab.GetComponent<Scr_Starfish>() != null)
+                    continue;
+
                 // Must be the species the customer wants
                 if (prefab != customerFishPrefab)
                     continue;
@@ -286,6 +292,10 @@ public class Scr_Customer : MonoBehaviour
             GameObject instance = kvp.Key;
             GameObject prefab = kvp.Value;
 
+            // --- [A] skip starfish entirely when building weights ---
+            if (prefab.GetComponent<Scr_Starfish>() != null)
+                continue;
+
             Scr_Fish fishScript = instance.GetComponent<Scr_Fish>();
             if (fishScript == null)
                 continue;
@@ -308,7 +318,25 @@ public class Scr_Customer : MonoBehaviour
         {
             Debug.LogWarning("No fish species with appeal found in scene; falling back to uniform random prefab.");
 
-            int num = Random.Range(0, gameManager.fishSprites.Length); // upper bound exclusive
+            // --- [B] fallback: pick a random NON-starfish prefab ---
+            List<int> nonStarfishIndexes = new List<int>();
+            for (int i = 0; i < gameManager.fishPrefabs.Length; i++)
+            {
+                if (gameManager.fishPrefabs[i].GetComponent<Scr_Starfish>() == null)
+                {
+                    nonStarfishIndexes.Add(i);
+                }
+            }
+
+            if (nonStarfishIndexes.Count == 0)
+            {
+                Debug.LogWarning("All fishPrefabs are starfish; no valid customer fish to choose.");
+                return;
+            }
+
+            int randIdx = Random.Range(0, nonStarfishIndexes.Count);
+            int num = nonStarfishIndexes[randIdx];
+
             chosenPrefab = gameManager.fishPrefabs[num];
             fishSprite = gameManager.fishSprites[num];
         }
@@ -413,8 +441,8 @@ public class Scr_Customer : MonoBehaviour
         Debug.Log("CUSTOMER WANTS THIS NUMBER OF " + chosenPrefab.name.ToUpper() + ": " + customerFishQuantity);
 
         ticksSinceOrderCreated = 0;
-
     }
+
 
 
     public void DestroyCustomerFish()

@@ -3258,8 +3258,7 @@ MonoBehaviour:
   - {fileID: 1863455049823253984, guid: 4f3948a255fd0ae42b534001f5471e7d, type: 3}
   - {fileID: 1863455049823253984, guid: 5cff2fd6fc091ad4a94e279edf86fc22, type: 3}
   - {fileID: 1863455049823253984, guid: 3a77be43267d6f84398daeaab0ac8a37, type: 3}
-  - {fileID: 1863455049823253984, guid: a818baef8e21de54e9c553496567b12e, type: 3}
-  weightedChanceToCatch: 01000000010000000100000001000000010000000100000001000000
+  weightedChanceToCatch: 010000000100000001000000010000000100000001000000
   leftLineStartPosition: {x: -1.13, y: 4.15, z: 0}
   rightLineStartPosition: {x: 1.35, y: 4.02, z: 0}
 --- !u!82 &366276499
@@ -5308,6 +5307,12 @@ MonoBehaviour:
   - {fileID: 825229061}
   worldOffset: {x: 0, y: -2, z: 0}
   screenPadding: 10
+  priceStarsObj: {fileID: 1595150594}
+  appealStarsObj: {fileID: 36598217}
+  hungerStarsObj: {fileID: 1808519720}
+  freakStarsObj: {fileID: 992826937}
+  poopStarsObj: {fileID: 2097882477}
+  currentTarget: {fileID: 0}
 --- !u!1 &498992981
 GameObject:
   m_ObjectHideFlags: 0
@@ -13374,7 +13379,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  tickInterval: 600
+  tickInterval: 60
   secPerTickEvent: 0
   startHour: 9
   startMinute: 0
@@ -13838,10 +13843,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 492050808}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.16035748, y: 30.672014}
-  m_SizeDelta: {x: 115.4277, y: 16.5679}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -0.0000009536743, y: -10}
+  m_SizeDelta: {x: 115.4277, y: 16.567902}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1084823989
 MonoBehaviour:

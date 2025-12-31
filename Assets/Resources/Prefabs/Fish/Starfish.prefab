@@ -223,7 +223,7 @@ MonoBehaviour:
   thisPrefab: {fileID: 0}
   fishDescription: Legs!
   spawnHeight: 1
-  baseFishCost: 100
+  baseFishCost: 500
   originalScale: {x: 0, y: 0, z: 0}
   spawnTank: {x: 0, y: 0}
   minX: 0

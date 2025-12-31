@@ -15,6 +15,8 @@ public class Scr_GameManager : MonoBehaviour
     //Scriptable Objects game settings
     public static Scr_GameSettings ActiveSettings { get; private set; }
 
+    public int tickEventsPer10Min;
+
     [Header("Mode")]
     public bool useTestSettings = false;
 

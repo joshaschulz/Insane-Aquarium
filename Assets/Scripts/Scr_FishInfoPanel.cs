@@ -16,22 +16,32 @@ public class Scr_FishInfoPanel : MonoBehaviour
     public Vector3 worldOffset = new Vector3(0f, -2f, 0f); // below fish in WORLD units
     public float screenPadding = 10f; // padding from screen edges
 
-    private Transform currentTarget;
+    public GameObject priceStarsObj;
+    public GameObject appealStarsObj;
+    public GameObject hungerStarsObj;
+    public GameObject freakStarsObj;
+    public GameObject poopStarsObj;
+
+    public Transform currentTarget;
     private Camera cam;
     private RectTransform rectTransform;
     private Canvas parentCanvas;
 
-    private Scr_Fish currentFish;
-    public Scr_Fish CurrentFish => currentFish; // read-only property
+    private float originalRectHeight;
+
+    //private Scr_Fish currentFish;
+    //public Scr_Fish CurrentFish => currentFish; // read-only property
 
 
-    void Start()
+    void Awake()
     {
         if (cam == null)
             cam = Camera.main;
 
         rectTransform = GetComponent<RectTransform>();
         parentCanvas = GetComponentInParent<Canvas>();
+
+        originalRectHeight = rectTransform.rect.height;
     }
 
     void LateUpdate()
@@ -67,9 +77,16 @@ public class Scr_FishInfoPanel : MonoBehaviour
 
     public void Show(Scr_Fish fish)
     {
-        currentFish = fish;
+        gameObject.SetActive(true);
 
         nameText.text = fish.name;
+
+        priceStarsObj.SetActive(true);
+        appealStarsObj.SetActive(true);
+        hungerStarsObj.SetActive(true);
+        freakStarsObj.SetActive(true);
+        poopStarsObj.SetActive(true);
+
         SetStars(priceStars, fish.priceModifier);
         SetStars(appealStars, fish.appeal);
         SetStars(hungerCapacityStars, fish.hungerCapacity);
@@ -78,7 +95,28 @@ public class Scr_FishInfoPanel : MonoBehaviour
 
         currentTarget = fish.transform;
 
+
+        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, originalRectHeight);
+
+    }
+
+    public void ShowExotic(Scr_Starfish fish)
+    {
         gameObject.SetActive(true);
+
+        currentTarget = fish.transform;
+
+        nameText.text = fish.name;
+
+        priceStarsObj.SetActive(false);
+        appealStarsObj.SetActive(false);
+        hungerStarsObj.SetActive(false);
+        freakStarsObj.SetActive(false);
+        poopStarsObj.SetActive(false);
+
+        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 20);
+
+
     }
 
 
@@ -93,13 +131,13 @@ public class Scr_FishInfoPanel : MonoBehaviour
     public void Hide()
     {
         currentTarget = null;
-        currentFish = null;
+
         gameObject.SetActive(false);
     }
 
     public void HideIfFish(Scr_Fish fish)
     {
-        if (currentFish == fish)
+        if (currentTarget == fish.transform)
             Hide();
     }
 }

@@ -19,7 +19,7 @@ MonoBehaviour:
   fishyGuyTicksToExist: 6
   customerTicksToSpawnChance: 4
   customerTicksToExist: 6
-  secondsPerTickEvent: 2
+  secondsPerTickEvent: 4
   startHour: 8
   startMinute: 0
   endHour: 22

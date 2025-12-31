@@ -44,6 +44,9 @@ public class Scr_FishyGuy : MonoBehaviour
 
         ChangeGameSettings();
 
+        ticksToSpawnChance *= gameManager.tickEventsPer10Min;
+        ticksToExist *= gameManager.tickEventsPer10Min;
+
     }
 
     public void ChangeGameSettings()

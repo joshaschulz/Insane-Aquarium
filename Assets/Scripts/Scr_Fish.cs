@@ -14,8 +14,8 @@ public class Scr_Fish : MonoBehaviour
 
     private Scr_GameManager gameManager;
 
-    private float hungerCount = 0;
-    private bool isHungry = false;
+    public float hungerCount = 0;
+    public bool isHungry = false;
 
     public float growCount = 0;
     public bool grown = false;
@@ -386,7 +386,7 @@ public class Scr_Fish : MonoBehaviour
 
         FreakCounter();
 
-        PoopCounter();
+        //PoopCounter();
 
         if ((isHungry && FindClosestFood() != null) || (isFreaky && FindClosestMate() != null))
         {
@@ -447,62 +447,63 @@ public class Scr_Fish : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-
         GameObject collisionObj = collision.gameObject;
 
-        if (collisionObj.CompareTag(gameObject.tag))
+        if (!isHungry)
         {
-            Scr_Fish collisionObjScr = collisionObj.GetComponent<Scr_Fish>();
-
-            if (isFreaky && collisionObjScr.isFreaky)
-            {
-
-                freakCount = 0;
-                isFreaky = false;
-                collisionObjScr.isFreaky = false;
-                collisionObjScr.freakCount = 0;
-
-                heartIcon.SetActive(false);
-                collisionObjScr.heartIcon.SetActive(false);
-
-                gameManager.FreakyFishReset(gameObject);
-                IdleOrMove();
-                collisionObjScr.IdleOrMove();
-
-                if (gameObject.GetInstanceID() < collisionObj.GetInstanceID()) //only the smaller ordered fish in the scene runs this
-                {
-                    GameObject babyFish = gameManager.SpawnBabyFish(thisPrefab, gameObject);
-                    Scr_Fish babyFishScr = babyFish.GetComponent<Scr_Fish>();
-                    babyFishScr.ChangeGameSettings();
-                    babyFishScr.GenerateStatsFromParents(this, collisionObjScr);
-                }
+            if (!isFreaky)
                 return;
-            }
-        }
-
-        /*
-        if (!foodInScene.Contains(collisionObj))
-        {   if (collisionObj.CompareTag("Starfish"))
+            else
             {
-                Scr_Starfish starfishScript = collisionObj.GetComponent<Scr_Starfish>();
-                bool anyActive = false;
-
-                foreach (GameObject leg in starfishScript.starfishLegs)
+                if (!collisionObj.CompareTag(gameObject.tag))
+                    return;
+                else
                 {
-                    if (leg.activeSelf)
+                    if (!collisionObj.GetComponent<Scr_Fish>().isFreaky)
+                        return;
+                    else
                     {
-                        anyActive = true;
-                        break;
+                        Scr_Fish collisionObjScr = collisionObj.GetComponent<Scr_Fish>();
+
+                        if (isFreaky && collisionObjScr.isFreaky)
+                        {
+
+                            freakCount = 0;
+                            isFreaky = false;
+                            collisionObjScr.isFreaky = false;
+                            collisionObjScr.freakCount = 0;
+
+                            heartIcon.SetActive(false);
+                            collisionObjScr.heartIcon.SetActive(false);
+
+                            gameManager.FreakyFishReset(gameObject);
+                            IdleOrMove();
+                            collisionObjScr.IdleOrMove();
+
+                            if (gameObject.GetInstanceID() < collisionObj.GetInstanceID()) //only the smaller ordered fish in the scene runs this
+                            {
+                                GameObject babyFish = gameManager.SpawnBabyFish(thisPrefab, gameObject);
+                                Scr_Fish babyFishScr = babyFish.GetComponent<Scr_Fish>();
+                                babyFishScr.ChangeGameSettings();
+                                babyFishScr.GenerateStatsFromParents(this, collisionObjScr);
+                            }
+                            return;
+                        }
                     }
                 }
 
-                if (!anyActive) return;
             }
-            else
-            {
-                return;
-            }
-        }*/
+        }
+        else
+        {
+            if (collisionObj.GetComponent<Scr_Fish>() != null)
+                if (!fishDiet.Contains(collisionObj.GetComponent<Scr_Fish>().thisPrefab))
+                    return;
+                else
+                {
+
+                }
+        }
 
 
         // Make sure these are not null
@@ -524,14 +525,21 @@ public class Scr_Fish : MonoBehaviour
 
         Debug.Log("CLOSEST FOOD PREFAB: " + closestFoodPrefab);
 
+        Debug.Log("closest food prefab: " + closestFoodPrefab);
+        Debug.Log("collision obj prefab: " + collisionObjPrefab);
+        Debug.Log("Are they the same? " + (closestFoodPrefab == collisionObjPrefab));
+
         if (closestFoodPrefab != collisionObjPrefab)
         {
             return;
         }
 
+        Debug.Log("Got to here");
+
 
         if (isHungry)
         {
+            Debug.Log("Got to here even!");
             SetNotHungry();
             SetTarget(transform.position);
 

@@ -121,13 +121,32 @@ public class Scr_ClickDetection : MonoBehaviour
 
                     if (fish != null)
                     {
-                        if (infoPanel.gameObject.activeSelf && infoPanel.CurrentFish == fish)
+                        if (infoPanel.gameObject.activeSelf && infoPanel.currentTarget == fish.transform)
                         {
                             infoPanel.Hide();
                         }
                         else
                         {
                             infoPanel.Show(fish);
+                        }
+
+                        return; // stop further processing
+                    }
+                }
+
+                if (hit.collider.GetComponent<Scr_Starfish>() != null)
+                {
+                    Scr_Starfish fish = hit.collider.GetComponent<Scr_Starfish>();
+
+                    if (fish != null)
+                    {
+                        if (infoPanel.gameObject.activeSelf && infoPanel.currentTarget == fish.transform)
+                        {
+                            infoPanel.Hide();
+                        }
+                        else
+                        {
+                            infoPanel.ShowExotic(fish);
                         }
 
                         return; // stop further processing

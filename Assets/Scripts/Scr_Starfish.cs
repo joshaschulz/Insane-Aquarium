@@ -86,6 +86,7 @@ public class Scr_Starfish : MonoBehaviour
 
         // Each fish has a different max range they can travel, based on their size
         SetMinAndMax();
+        name = GenerateRandomName();
 
 
     }
@@ -100,7 +101,7 @@ public class Scr_Starfish : MonoBehaviour
     public void OnTickEvent()
     {
         // 1 in 10 chance to regenerate leg
-        if (Random.Range(0, 10) == 0)
+        if (Random.Range(0, 10 * gameManager.tickEventsPer10Min) == 0)
         {
             // find all inactive legs
             List<GameObject> inactiveLegs = new List<GameObject>();
@@ -111,18 +112,21 @@ public class Scr_Starfish : MonoBehaviour
             }
 
             // none to enable
-            if (inactiveLegs.Count == 0)
-                return;
+            if (inactiveLegs.Count != 0)
+            {
+                // choose random inactive leg and activate it
+                int index = Random.Range(0, inactiveLegs.Count);
+                inactiveLegs[index].SetActive(true);
 
-            // choose random inactive leg and activate it
-            int index = Random.Range(0, inactiveLegs.Count);
-            inactiveLegs[index].SetActive(true);
+                gameManager.AddRegeneratedStarfishLegToFishDiets(this, inactiveLegs[index]);
+                gameManager.foodFishDictionary.Add(inactiveLegs[index], thisPrefab);
+            }
+                
 
-            gameManager.AddRegeneratedStarfishLegToFishDiets(this, inactiveLegs[index]);
-            gameManager.foodFishDictionary.Add(inactiveLegs[index], thisPrefab);
+
         }
 
-        if (Random.Range(0, 10) == 0) //swap faces
+        if (Random.Range(0, 5 * gameManager.tickEventsPer10Min) == 0) //swap faces
         {
             // swap active state
             bool frontIsActive = frontBody.activeSelf;

@@ -16,7 +16,7 @@ public class Scr_FishFeeder : MonoBehaviour
     public GameObject buttonThatWouldFlash; //______________________________________________________________________________________________________________________________________________DO THIS
 
     [Tooltip("How many ticks between feeding events.")]
-    public int feedIntervalTicks = 3;
+    public int feedIntervalTicks = 30;
 
     [Tooltip("How many pellets to drop each time it feeds.")]
     public int amountPerFeed = 1;

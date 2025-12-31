@@ -996,7 +996,7 @@ MonoBehaviour:
   spawnPosition: {fileID: 7143110064006349236}
   currentFoodToDrop: {fileID: 0}
   buttonThatWouldFlash: {fileID: 0}
-  feedIntervalTicks: 1
+  feedIntervalTicks: 10
   amountPerFeed: 1
   availableFeedIntervals: 010000000200000003000000050000000a000000
   foodSprites:

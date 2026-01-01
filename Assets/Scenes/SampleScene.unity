@@ -165,6 +165,7 @@ GameObject:
   - component: {fileID: 8798606}
   - component: {fileID: 8798609}
   - component: {fileID: 8798608}
+  - component: {fileID: 8798610}
   - component: {fileID: 8798607}
   m_Layer: 5
   m_Name: Button - New Game
@@ -189,7 +190,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 6.7999725, y: 58}
+  m_AnchoredPosition: {x: 6.799988, y: 58}
   m_SizeDelta: {x: 471, y: 266}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8798607
@@ -310,6 +311,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8798605}
   m_CullTransparentMesh: 1
+--- !u!114 &8798610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8798605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &18445626
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,6 +344,7 @@ GameObject:
   - component: {fileID: 18445627}
   - component: {fileID: 18445629}
   - component: {fileID: 18445628}
+  - component: {fileID: 18445630}
   m_Layer: 5
   m_Name: Rock (47)
   m_TagString: Untagged
@@ -385,6 +409,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 18445626}
   m_CullTransparentMesh: 1
+--- !u!114 &18445630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18445626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &20291996
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,6 +575,7 @@ GameObject:
   - component: {fileID: 25563896}
   - component: {fileID: 25563898}
   - component: {fileID: 25563897}
+  - component: {fileID: 25563899}
   m_Layer: 5
   m_Name: Rock (35)
   m_TagString: Untagged
@@ -593,6 +640,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 25563895}
   m_CullTransparentMesh: 1
+--- !u!114 &25563899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 25563895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &36598217
 GameObject:
   m_ObjectHideFlags: 0
@@ -1437,6 +1506,7 @@ GameObject:
   - component: {fileID: 91972460}
   - component: {fileID: 91972462}
   - component: {fileID: 91972461}
+  - component: {fileID: 91972463}
   m_Layer: 5
   m_Name: Rock (15)
   m_TagString: Untagged
@@ -1501,6 +1571,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 91972459}
   m_CullTransparentMesh: 1
+--- !u!114 &91972463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91972459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &96253505
 GameObject:
   m_ObjectHideFlags: 0
@@ -1769,6 +1861,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 99062068}
   m_CullTransparentMesh: 1
+--- !u!1 &114503637
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 114503638}
+  m_Layer: 5
+  m_Name: Fish Mouth
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &114503638
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 114503637}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 669776426}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -36.2, y: 232.5}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &123932334
 GameObject:
   m_ObjectHideFlags: 0
@@ -2188,6 +2315,7 @@ GameObject:
   - component: {fileID: 174255526}
   - component: {fileID: 174255528}
   - component: {fileID: 174255527}
+  - component: {fileID: 174255529}
   m_Layer: 5
   m_Name: Rock (13)
   m_TagString: Untagged
@@ -2252,6 +2380,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 174255525}
   m_CullTransparentMesh: 1
+--- !u!114 &174255529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174255525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &176897285
 GameObject:
   m_ObjectHideFlags: 0
@@ -2327,6 +2477,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 176897285}
   m_CullTransparentMesh: 1
+--- !u!1 &184736116
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 184736117}
+  - component: {fileID: 184736119}
+  - component: {fileID: 184736118}
+  m_Layer: 5
+  m_Name: Logo Line
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &184736117
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 184736116}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.972973, y: 0.972973, z: 0.972973}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 669776426}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -36.540264, y: 245.08119}
+  m_SizeDelta: {x: 3, y: 6000}
+  m_Pivot: {x: 0.5, y: 0}
+--- !u!114 &184736118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 184736116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &184736119
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 184736116}
+  m_CullTransparentMesh: 1
 --- !u!1 &195003961
 GameObject:
   m_ObjectHideFlags: 0
@@ -2338,6 +2563,7 @@ GameObject:
   - component: {fileID: 195003962}
   - component: {fileID: 195003964}
   - component: {fileID: 195003963}
+  - component: {fileID: 195003965}
   m_Layer: 5
   m_Name: Rock (39)
   m_TagString: Untagged
@@ -2361,7 +2587,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -6.6999664, y: -159.9}
+  m_AnchoredPosition: {x: -6.699951, y: -159.9}
   m_SizeDelta: {x: 74, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &195003963
@@ -2402,6 +2628,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 195003961}
   m_CullTransparentMesh: 1
+--- !u!114 &195003965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195003961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &206436373
 GameObject:
   m_ObjectHideFlags: 0
@@ -2488,6 +2736,7 @@ GameObject:
   - component: {fileID: 207511470}
   - component: {fileID: 207511472}
   - component: {fileID: 207511471}
+  - component: {fileID: 207511473}
   m_Layer: 5
   m_Name: Rock (34)
   m_TagString: Untagged
@@ -2552,6 +2801,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 207511469}
   m_CullTransparentMesh: 1
+--- !u!114 &207511473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207511469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &208249621
 GameObject:
   m_ObjectHideFlags: 0
@@ -2563,6 +2834,7 @@ GameObject:
   - component: {fileID: 208249622}
   - component: {fileID: 208249624}
   - component: {fileID: 208249623}
+  - component: {fileID: 208249625}
   m_Layer: 5
   m_Name: Rock (32)
   m_TagString: Untagged
@@ -2627,6 +2899,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 208249621}
   m_CullTransparentMesh: 1
+--- !u!114 &208249625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 208249621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &213474541
 GameObject:
   m_ObjectHideFlags: 0
@@ -2669,6 +2963,7 @@ GameObject:
   - component: {fileID: 218491571}
   - component: {fileID: 218491573}
   - component: {fileID: 218491572}
+  - component: {fileID: 218491574}
   m_Layer: 5
   m_Name: Rock (31)
   m_TagString: Untagged
@@ -2692,7 +2987,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -5.599991, y: 11}
+  m_AnchoredPosition: {x: -5.5999756, y: 11}
   m_SizeDelta: {x: 202, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &218491572
@@ -2733,6 +3028,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 218491570}
   m_CullTransparentMesh: 1
+--- !u!114 &218491574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 218491570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &224114939
 GameObject:
   m_ObjectHideFlags: 0
@@ -3334,6 +3651,7 @@ GameObject:
   - component: {fileID: 268205793}
   - component: {fileID: 268205795}
   - component: {fileID: 268205794}
+  - component: {fileID: 268205796}
   m_Layer: 5
   m_Name: Rock (21)
   m_TagString: Untagged
@@ -3357,7 +3675,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.9000092, y: -200}
+  m_AnchoredPosition: {x: 1.9000244, y: -200}
   m_SizeDelta: {x: 87, y: 215}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &268205794
@@ -3398,6 +3716,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 268205792}
   m_CullTransparentMesh: 1
+--- !u!114 &268205796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268205792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &268747145
 GameObject:
   m_ObjectHideFlags: 0
@@ -4490,6 +4830,7 @@ GameObject:
   - component: {fileID: 345829561}
   - component: {fileID: 345829563}
   - component: {fileID: 345829562}
+  - component: {fileID: 345829564}
   m_Layer: 5
   m_Name: Rock (50)
   m_TagString: Untagged
@@ -4554,6 +4895,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 345829560}
   m_CullTransparentMesh: 1
+--- !u!114 &345829564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345829560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &352481007
 GameObject:
   m_ObjectHideFlags: 0
@@ -5299,6 +5662,7 @@ GameObject:
   - component: {fileID: 383701796}
   - component: {fileID: 383701798}
   - component: {fileID: 383701797}
+  - component: {fileID: 383701799}
   m_Layer: 5
   m_Name: Rock (43)
   m_TagString: Untagged
@@ -5363,6 +5727,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 383701795}
   m_CullTransparentMesh: 1
+--- !u!114 &383701799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 383701795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &387853994
 GameObject:
   m_ObjectHideFlags: 0
@@ -8480,6 +8866,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 550853181}
   m_CullTransparentMesh: 1
+--- !u!1 &554355869
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 554355870}
+  - component: {fileID: 554355872}
+  - component: {fileID: 554355871}
+  m_Layer: 5
+  m_Name: Logo Top
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &554355870
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554355869}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.972973, y: 0.972973, z: 0.972973}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 669776426}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -0.00003528595}
+  m_SizeDelta: {x: 1078, y: 570}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &554355871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554355869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
+  m_Color: {r: 1, g: 0.7028302, b: 0.9883735, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: ae6eca476938397408e65e08cd5bcc0c, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &554355872
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 554355869}
+  m_CullTransparentMesh: 1
 --- !u!1 &555789996
 GameObject:
   m_ObjectHideFlags: 0
@@ -8813,6 +9274,7 @@ GameObject:
   - component: {fileID: 566768422}
   - component: {fileID: 566768424}
   - component: {fileID: 566768423}
+  - component: {fileID: 566768425}
   m_Layer: 5
   m_Name: Rock (28)
   m_TagString: Untagged
@@ -8836,7 +9298,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -5.599991, y: -67}
+  m_AnchoredPosition: {x: -5.5999756, y: -67}
   m_SizeDelta: {x: 241, y: 195}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &566768423
@@ -8877,6 +9339,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 566768421}
   m_CullTransparentMesh: 1
+--- !u!114 &566768425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 566768421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &574291911
 GameObject:
   m_ObjectHideFlags: 0
@@ -10163,6 +10647,7 @@ GameObject:
   - component: {fileID: 649308955}
   - component: {fileID: 649308957}
   - component: {fileID: 649308956}
+  - component: {fileID: 649308958}
   m_Layer: 5
   m_Name: Rock (37)
   m_TagString: Untagged
@@ -10227,6 +10712,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 649308954}
   m_CullTransparentMesh: 1
+--- !u!114 &649308958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649308954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &659689192
 GameObject:
   m_ObjectHideFlags: 0
@@ -10529,6 +11036,108 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 666694427}
   m_CullTransparentMesh: 1
+--- !u!1 &669776425
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 669776426}
+  - component: {fileID: 669776428}
+  - component: {fileID: 669776427}
+  - component: {fileID: 669776429}
+  m_Layer: 5
+  m_Name: LOGO
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &669776426
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669776425}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.185, y: 0.185, z: 0.185}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 184736117}
+  - {fileID: 554355870}
+  - {fileID: 114503638}
+  m_Father: {fileID: 1570855322}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -10}
+  m_SizeDelta: {x: 1078, y: 570}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &669776427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669776425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
+  m_Color: {r: 0.4041589, g: 0.25587398, b: 0.4339623, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: ae6eca476938397408e65e08cd5bcc0c, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &669776428
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669776425}
+  m_CullTransparentMesh: 1
+--- !u!114 &669776429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669776425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22fd03ce316edc04081b9df612550f2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startYOffset: -500
+  segmentDuration: 0.4
+  struggleDuration: 0.2
+  horizontalOffset: 15
+  maxJitterX: 5
+  maxJitterY: 5
+  jitterFrequency: 20
+  fishingLine: {fileID: 184736117}
+  lineEnd: {fileID: 792050907}
+  lineRetractDuration: 0.4
+  lineRetractSpeedMultiplier: 1.2
 --- !u!1 &670605911
 GameObject:
   m_ObjectHideFlags: 0
@@ -11609,6 +12218,7 @@ GameObject:
   - component: {fileID: 764297626}
   - component: {fileID: 764297628}
   - component: {fileID: 764297627}
+  - component: {fileID: 764297629}
   m_Layer: 5
   m_Name: Rock (30)
   m_TagString: Untagged
@@ -11673,6 +12283,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 764297625}
   m_CullTransparentMesh: 1
+--- !u!114 &764297629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 764297625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &765462392
 GameObject:
   m_ObjectHideFlags: 0
@@ -12013,6 +12645,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 788706915}
   m_CullTransparentMesh: 1
+--- !u!1 &792050906
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 792050907}
+  m_Layer: 5
+  m_Name: Line End
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &792050907
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 792050906}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.185, y: 0.185, z: 0.185}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1570855322}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -6.6970215, y: 263.8}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &807403985
 GameObject:
   m_ObjectHideFlags: 0
@@ -12655,6 +13322,7 @@ GameObject:
   - component: {fileID: 826515857}
   - component: {fileID: 826515859}
   - component: {fileID: 826515858}
+  - component: {fileID: 826515860}
   m_Layer: 5
   m_Name: Rock (19)
   m_TagString: Untagged
@@ -12719,6 +13387,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 826515856}
   m_CullTransparentMesh: 1
+--- !u!114 &826515860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 826515856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &828235856
 GameObject:
   m_ObjectHideFlags: 0
@@ -12862,6 +13552,7 @@ GameObject:
   - component: {fileID: 845081891}
   - component: {fileID: 845081893}
   - component: {fileID: 845081892}
+  - component: {fileID: 845081894}
   m_Layer: 5
   m_Name: Rock (20)
   m_TagString: Untagged
@@ -12926,6 +13617,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 845081890}
   m_CullTransparentMesh: 1
+--- !u!114 &845081894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 845081890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &860047403
 GameObject:
   m_ObjectHideFlags: 0
@@ -13494,6 +14207,7 @@ GameObject:
   - component: {fileID: 883605706}
   - component: {fileID: 883605708}
   - component: {fileID: 883605707}
+  - component: {fileID: 883605709}
   m_Layer: 5
   m_Name: Rock (44)
   m_TagString: Untagged
@@ -13558,6 +14272,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 883605705}
   m_CullTransparentMesh: 1
+--- !u!114 &883605709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883605705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &884304888
 GameObject:
   m_ObjectHideFlags: 0
@@ -14471,6 +15207,7 @@ GameObject:
   - component: {fileID: 932122544}
   - component: {fileID: 932122546}
   - component: {fileID: 932122545}
+  - component: {fileID: 932122547}
   m_Layer: 5
   m_Name: Rock (42)
   m_TagString: Untagged
@@ -14535,6 +15272,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 932122543}
   m_CullTransparentMesh: 1
+--- !u!114 &932122547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932122543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &950818949
 GameObject:
   m_ObjectHideFlags: 0
@@ -16244,6 +17003,7 @@ GameObject:
   - component: {fileID: 1030207407}
   - component: {fileID: 1030207409}
   - component: {fileID: 1030207408}
+  - component: {fileID: 1030207410}
   m_Layer: 5
   m_Name: Rock (45)
   m_TagString: Untagged
@@ -16308,6 +17068,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1030207406}
   m_CullTransparentMesh: 1
+--- !u!114 &1030207410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030207406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &1030270819
 GameObject:
   m_ObjectHideFlags: 0
@@ -16504,6 +17286,7 @@ MonoBehaviour:
   SFX_Reeling: {fileID: 8300000, guid: 30af802265963d84bb8759ace34401d1, type: 3}
   SFX_FishHitToilet: {fileID: 8300000, guid: 2d63f3c0441b941448a631db32835364, type: 3}
   SFX_ToiletSplash: {fileID: 8300000, guid: bf68f56ac5ef3584c8d8ca2204f64b2a, type: 3}
+  SFX_RockHit: {fileID: 8300000, guid: f111b06fab7ab9242af6cb806bafe405, type: 3}
   SFX_Bag: {fileID: 8300000, guid: df9a67bddb316e147a22e27349c26d0a, type: 3}
   SFX_CashRegister: {fileID: 8300000, guid: ef0c8042a3463be46912fe3eddc796ad, type: 3}
   SFX_FishHooked: {fileID: 8300000, guid: c72e91bf4e395a146a3ec13bb41a999e, type: 3}
@@ -17055,6 +17838,7 @@ GameObject:
   - component: {fileID: 1042128036}
   - component: {fileID: 1042128038}
   - component: {fileID: 1042128037}
+  - component: {fileID: 1042128039}
   m_Layer: 5
   m_Name: Rock (52)
   m_TagString: Untagged
@@ -17119,6 +17903,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1042128035}
   m_CullTransparentMesh: 1
+--- !u!114 &1042128039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042128035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &1045795905
 GameObject:
   m_ObjectHideFlags: 0
@@ -17205,6 +18011,7 @@ GameObject:
   - component: {fileID: 1048348956}
   - component: {fileID: 1048348958}
   - component: {fileID: 1048348957}
+  - component: {fileID: 1048348959}
   m_Layer: 5
   m_Name: Rock (26)
   m_TagString: Untagged
@@ -17269,6 +18076,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1048348955}
   m_CullTransparentMesh: 1
+--- !u!114 &1048348959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048348955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &1049904087
 GameObject:
   m_ObjectHideFlags: 0
@@ -19054,6 +19883,7 @@ GameObject:
   - component: {fileID: 1177982042}
   - component: {fileID: 1177982044}
   - component: {fileID: 1177982043}
+  - component: {fileID: 1177982045}
   m_Layer: 5
   m_Name: Rock (51)
   m_TagString: Untagged
@@ -19118,6 +19948,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1177982041}
   m_CullTransparentMesh: 1
+--- !u!114 &1177982045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177982041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &1182510422
 GameObject:
   m_ObjectHideFlags: 0
@@ -21043,6 +21895,7 @@ GameObject:
   - component: {fileID: 1315786134}
   - component: {fileID: 1315786136}
   - component: {fileID: 1315786135}
+  - component: {fileID: 1315786137}
   m_Layer: 5
   m_Name: Rock (41)
   m_TagString: Untagged
@@ -21107,6 +21960,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1315786133}
   m_CullTransparentMesh: 1
+--- !u!114 &1315786137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315786133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &1318843488
 GameObject:
   m_ObjectHideFlags: 0
@@ -21197,6 +22072,7 @@ GameObject:
   - component: {fileID: 1323401744}
   - component: {fileID: 1323401746}
   - component: {fileID: 1323401745}
+  - component: {fileID: 1323401747}
   m_Layer: 5
   m_Name: Rock (22)
   m_TagString: Untagged
@@ -21261,6 +22137,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1323401743}
   m_CullTransparentMesh: 1
+--- !u!114 &1323401747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1323401743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &1323477433
 GameObject:
   m_ObjectHideFlags: 0
@@ -22563,6 +23461,7 @@ GameObject:
   - component: {fileID: 1452394348}
   - component: {fileID: 1452394350}
   - component: {fileID: 1452394349}
+  - component: {fileID: 1452394351}
   m_Layer: 5
   m_Name: Rock (24)
   m_TagString: Untagged
@@ -22627,6 +23526,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1452394347}
   m_CullTransparentMesh: 1
+--- !u!114 &1452394351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1452394347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &1481934261
 GameObject:
   m_ObjectHideFlags: 0
@@ -22638,6 +23559,7 @@ GameObject:
   - component: {fileID: 1481934262}
   - component: {fileID: 1481934265}
   - component: {fileID: 1481934264}
+  - component: {fileID: 1481934266}
   - component: {fileID: 1481934263}
   m_Layer: 5
   m_Name: Button - Exit
@@ -22711,35 +23633,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1031440123}
         m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
-        m_MethodName: MoveToScene
-        m_Mode: 2
+        m_MethodName: QuitGame
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 989523230}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1031440123}
-        m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
-        m_MethodName: EnableElement
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 672596395}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1031440123}
-        m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
-        m_MethodName: DisableElement
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 893609176}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -22783,6 +23681,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1481934261}
   m_CullTransparentMesh: 1
+--- !u!114 &1481934266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481934261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!4 &1485162394 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5801440846511047181, guid: d220892c07a7e814498b5070ce3cbe44, type: 3}
@@ -23021,6 +23941,7 @@ GameObject:
   - component: {fileID: 1508775811}
   - component: {fileID: 1508775813}
   - component: {fileID: 1508775812}
+  - component: {fileID: 1508775814}
   m_Layer: 5
   m_Name: Rock (23)
   m_TagString: Untagged
@@ -23085,6 +24006,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1508775810}
   m_CullTransparentMesh: 1
+--- !u!114 &1508775814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508775810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &1511175560
 GameObject:
   m_ObjectHideFlags: 0
@@ -23609,7 +24552,7 @@ GameObject:
   - component: {fileID: 1570855324}
   - component: {fileID: 1570855323}
   m_Layer: 5
-  m_Name: Falling Rocks
+  m_Name: Falling Rocks (Panel)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23670,12 +24613,14 @@ RectTransform:
   - {fileID: 1481934262}
   - {fileID: 845081891}
   - {fileID: 1978028506}
+  - {fileID: 669776426}
+  - {fileID: 792050907}
   m_Father: {fileID: 893609180}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 266, y: 449.38}
+  m_SizeDelta: {x: 266, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1570855323
 MonoBehaviour:
@@ -23690,7 +24635,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.10839226, g: 0.07355821, b: 0.1792453, a: 1}
+  m_Color: {r: 0.17221434, g: 0.13096298, b: 0.254717, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -23803,6 +24748,7 @@ GameObject:
   - component: {fileID: 1591415357}
   - component: {fileID: 1591415359}
   - component: {fileID: 1591415358}
+  - component: {fileID: 1591415360}
   m_Layer: 5
   m_Name: Rock (29)
   m_TagString: Untagged
@@ -23867,6 +24813,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1591415356}
   m_CullTransparentMesh: 1
+--- !u!114 &1591415360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1591415356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &1595150594
 GameObject:
   m_ObjectHideFlags: 0
@@ -24886,6 +25854,7 @@ GameObject:
   - component: {fileID: 1657405014}
   - component: {fileID: 1657405016}
   - component: {fileID: 1657405015}
+  - component: {fileID: 1657405017}
   m_Layer: 5
   m_Name: Rock (36)
   m_TagString: Untagged
@@ -24909,7 +25878,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.699997, y: -228.4}
+  m_AnchoredPosition: {x: 1.7000122, y: -228.4}
   m_SizeDelta: {x: 239, y: 135}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1657405015
@@ -24950,6 +25919,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1657405013}
   m_CullTransparentMesh: 1
+--- !u!114 &1657405017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1657405013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &1659997119
 GameObject:
   m_ObjectHideFlags: 0
@@ -25999,6 +26990,7 @@ GameObject:
   - component: {fileID: 1736695285}
   - component: {fileID: 1736695287}
   - component: {fileID: 1736695286}
+  - component: {fileID: 1736695288}
   m_Layer: 5
   m_Name: Rock (18)
   m_TagString: Untagged
@@ -26063,6 +27055,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1736695284}
   m_CullTransparentMesh: 1
+--- !u!114 &1736695288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1736695284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &1740159167
 GameObject:
   m_ObjectHideFlags: 0
@@ -27430,6 +28444,7 @@ GameObject:
   - component: {fileID: 1826154663}
   - component: {fileID: 1826154665}
   - component: {fileID: 1826154664}
+  - component: {fileID: 1826154666}
   m_Layer: 5
   m_Name: Rock (33)
   m_TagString: Untagged
@@ -27494,6 +28509,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1826154662}
   m_CullTransparentMesh: 1
+--- !u!114 &1826154666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826154662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &1826475582
 GameObject:
   m_ObjectHideFlags: 0
@@ -27658,6 +28695,7 @@ GameObject:
   - component: {fileID: 1826663407}
   - component: {fileID: 1826663409}
   - component: {fileID: 1826663408}
+  - component: {fileID: 1826663410}
   m_Layer: 5
   m_Name: Rock (17)
   m_TagString: Untagged
@@ -27722,6 +28760,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1826663406}
   m_CullTransparentMesh: 1
+--- !u!114 &1826663410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826663406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &1832173154
 GameObject:
   m_ObjectHideFlags: 0
@@ -27916,6 +28976,7 @@ GameObject:
   - component: {fileID: 1833533594}
   - component: {fileID: 1833533597}
   - component: {fileID: 1833533596}
+  - component: {fileID: 1833533598}
   - component: {fileID: 1833533595}
   m_Layer: 5
   m_Name: Button - Options
@@ -28061,6 +29122,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1833533593}
   m_CullTransparentMesh: 1
+--- !u!114 &1833533598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1833533593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &1834635405
 GameObject:
   m_ObjectHideFlags: 0
@@ -28329,6 +29412,7 @@ GameObject:
   - component: {fileID: 1843492698}
   - component: {fileID: 1843492700}
   - component: {fileID: 1843492699}
+  - component: {fileID: 1843492701}
   m_Layer: 5
   m_Name: Rock (38)
   m_TagString: Untagged
@@ -28393,6 +29477,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1843492697}
   m_CullTransparentMesh: 1
+--- !u!114 &1843492701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843492697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &1843503590
 GameObject:
   m_ObjectHideFlags: 0
@@ -28935,6 +30041,7 @@ GameObject:
   - component: {fileID: 1875627860}
   - component: {fileID: 1875627862}
   - component: {fileID: 1875627861}
+  - component: {fileID: 1875627863}
   m_Layer: 5
   m_Name: Rock (40)
   m_TagString: Untagged
@@ -28958,7 +30065,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 10.9999695, y: -151.5}
+  m_AnchoredPosition: {x: 10.999985, y: -151.5}
   m_SizeDelta: {x: 202, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1875627861
@@ -28999,6 +30106,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1875627859}
   m_CullTransparentMesh: 1
+--- !u!114 &1875627863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875627859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &1875747392
 GameObject:
   m_ObjectHideFlags: 0
@@ -29714,6 +30843,7 @@ GameObject:
   - component: {fileID: 1916021194}
   - component: {fileID: 1916021196}
   - component: {fileID: 1916021195}
+  - component: {fileID: 1916021197}
   m_Layer: 5
   m_Name: Rock (25)
   m_TagString: Untagged
@@ -29778,6 +30908,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1916021193}
   m_CullTransparentMesh: 1
+--- !u!114 &1916021197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916021193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &1930230098
 GameObject:
   m_ObjectHideFlags: 0
@@ -30225,6 +31377,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1944403447}
+  - component: {fileID: 1944403448}
   m_Layer: 5
   m_Name: Border
   m_TagString: Untagged
@@ -30287,6 +31440,14 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1944403448
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1944403446}
+  m_CullTransparentMesh: 1
 --- !u!1 &1944892515
 GameObject:
   m_ObjectHideFlags: 0
@@ -31064,6 +32225,7 @@ GameObject:
   - component: {fileID: 1978028506}
   - component: {fileID: 1978028508}
   - component: {fileID: 1978028507}
+  - component: {fileID: 1978028509}
   m_Layer: 5
   m_Name: Rock (46)
   m_TagString: Untagged
@@ -31128,6 +32290,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1978028505}
   m_CullTransparentMesh: 1
+--- !u!114 &1978028509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978028505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &1979856095
 GameObject:
   m_ObjectHideFlags: 0
@@ -31214,6 +32398,7 @@ GameObject:
   - component: {fileID: 1980844621}
   - component: {fileID: 1980844623}
   - component: {fileID: 1980844622}
+  - component: {fileID: 1980844624}
   m_Layer: 5
   m_Name: Rock (16)
   m_TagString: Untagged
@@ -31278,6 +32463,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1980844620}
   m_CullTransparentMesh: 1
+--- !u!114 &1980844624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980844620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &1987215200
 GameObject:
   m_ObjectHideFlags: 0
@@ -31421,6 +32628,7 @@ GameObject:
   - component: {fileID: 1993038312}
   - component: {fileID: 1993038314}
   - component: {fileID: 1993038313}
+  - component: {fileID: 1993038315}
   m_Layer: 5
   m_Name: Rock (14)
   m_TagString: Untagged
@@ -31485,6 +32693,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1993038311}
   m_CullTransparentMesh: 1
+--- !u!114 &1993038315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993038311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &2005654012
 GameObject:
   m_ObjectHideFlags: 0
@@ -31628,6 +32858,7 @@ GameObject:
   - component: {fileID: 2006820254}
   - component: {fileID: 2006820256}
   - component: {fileID: 2006820255}
+  - component: {fileID: 2006820257}
   m_Layer: 5
   m_Name: Rock (48)
   m_TagString: Untagged
@@ -31692,6 +32923,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2006820253}
   m_CullTransparentMesh: 1
+--- !u!114 &2006820257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2006820253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &2012358512
 GameObject:
   m_ObjectHideFlags: 0
@@ -31848,6 +33101,7 @@ GameObject:
   - component: {fileID: 2019859196}
   - component: {fileID: 2019859199}
   - component: {fileID: 2019859198}
+  - component: {fileID: 2019859200}
   - component: {fileID: 2019859197}
   m_Layer: 5
   m_Name: Button - Zen Mode
@@ -31993,6 +33247,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2019859195}
   m_CullTransparentMesh: 1
+--- !u!114 &2019859200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019859195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &2022785826
 GameObject:
   m_ObjectHideFlags: 0
@@ -33266,6 +34542,7 @@ GameObject:
   - component: {fileID: 2129022350}
   - component: {fileID: 2129022353}
   - component: {fileID: 2129022352}
+  - component: {fileID: 2129022354}
   - component: {fileID: 2129022351}
   m_Layer: 5
   m_Name: Button - Load Game
@@ -33411,6 +34688,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2129022349}
   m_CullTransparentMesh: 1
+--- !u!114 &2129022354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2129022349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startOffsetY: 1000
+  minFallSpeed: 1800
+  maxFallSpeed: 2400
+  maxAdditionalDelay: 0.1
+  minVolume: 0.3
+  maxVolume: 0.4
+  minPitch: 0.9
+  maxPitch: 1.1
+  minSoundInterval: 0.05
+  maxInitialRotation: 360
 --- !u!1 &2138502115
 GameObject:
   m_ObjectHideFlags: 0

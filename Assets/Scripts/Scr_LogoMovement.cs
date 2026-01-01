@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class Scr_LogoMovement : MonoBehaviour
 {
+    private Scr_GameManager gameManager;
+    private AudioSource reelAudioSource;
+
     [Header("Movement Settings")]
     public float startYOffset = -300f;
     public float segmentDuration = 0.4f;
@@ -20,15 +23,29 @@ public class Scr_LogoMovement : MonoBehaviour
     public float lineRetractDuration = 0.25f;
     public float lineRetractSpeedMultiplier = 1.2f;
 
+    [Header("Audio Settings")]
+    public float reelVolume = 0.7f;
+
     private RectTransform rt;
     private Vector2 targetPosition;
 
     void Start()
     {
-        rt = GetComponent<RectTransform>();
+        gameManager = Scr_GameManager.GMinstance;
 
+        rt = GetComponent<RectTransform>();
         targetPosition = rt.anchoredPosition;
         rt.anchoredPosition = targetPosition + new Vector2(0, startYOffset);
+
+        // Setup AudioSource for reel
+        reelAudioSource = GetComponent<AudioSource>();
+        if (reelAudioSource == null)
+            reelAudioSource = gameObject.AddComponent<AudioSource>();
+
+        reelAudioSource.clip = gameManager.SFX_Reeling;
+        reelAudioSource.loop = true;
+        reelAudioSource.volume = reelVolume;
+        reelAudioSource.Play(); // start reel immediately
 
         StartCoroutine(PullLogoSequence());
     }
@@ -37,28 +54,35 @@ public class Scr_LogoMovement : MonoBehaviour
     {
         Vector2 startPos = rt.anchoredPosition;
 
+        // First segment
         Vector2 firstTarget = startPos + new Vector2(
             -horizontalOffset,
             (targetPosition.y - startPos.y) / 3f
         );
-
         yield return StartCoroutine(MoveWithJitter(firstTarget, segmentDuration));
         yield return new WaitForSeconds(struggleDuration);
 
+        // Second segment
         Vector2 secondTarget = startPos + new Vector2(
             horizontalOffset,
             2f * (targetPosition.y - startPos.y) / 3f
         );
-
         yield return StartCoroutine(MoveWithJitter(secondTarget, segmentDuration));
         yield return new WaitForSeconds(struggleDuration);
 
+        // Final segment
         yield return StartCoroutine(MoveWithJitter(targetPosition, segmentDuration));
 
         UpdateFishingLine();
+
+        // Retract line
         yield return StartCoroutine(RetractFishingLineUpward());
 
-        //SIGNAL ROCKS TO START FALLING
+        // Stop reel sound AFTER pull + line retract
+        if (reelAudioSource != null)
+            reelAudioSource.Stop();
+
+        // Trigger rocks to fall
         Scr_MenuRockFall.AllowFalling = true;
     }
 
@@ -76,12 +100,9 @@ public class Scr_LogoMovement : MonoBehaviour
             Vector2 basePos = Vector2.Lerp(start, destination, easeT);
 
             float jitterX =
-                (Mathf.PerlinNoise(Time.time * jitterFrequency, 0f) - 0.5f)
-                * 2f * maxJitterX;
-
+                (Mathf.PerlinNoise(Time.time * jitterFrequency, 0f) - 0.5f) * 2f * maxJitterX;
             float jitterY =
-                (Mathf.PerlinNoise(0f, Time.time * jitterFrequency) - 0.5f)
-                * 2f * maxJitterY;
+                (Mathf.PerlinNoise(0f, Time.time * jitterFrequency) - 0.5f) * 2f * maxJitterY;
 
             rt.anchoredPosition = basePos + new Vector2(jitterX, jitterY);
 
@@ -126,17 +147,12 @@ public class Scr_LogoMovement : MonoBehaviour
         if (fishingLine == null || lineEnd == null)
             return;
 
-        Vector3 localEnd =
-            fishingLine.parent.InverseTransformPoint(lineEnd.position);
-
+        Vector3 localEnd = fishingLine.parent.InverseTransformPoint(lineEnd.position);
         Vector3 dir = localEnd - fishingLine.localPosition;
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f;
         fishingLine.localRotation = Quaternion.Euler(0f, 0f, angle);
 
-        fishingLine.sizeDelta = new Vector2(
-            fishingLine.sizeDelta.x,
-            dir.magnitude
-        );
+        fishingLine.sizeDelta = new Vector2(fishingLine.sizeDelta.x, dir.magnitude);
     }
 }

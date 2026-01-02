@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8796515177059889580}
   - component: {fileID: 9135532085730853258}
-  - component: {fileID: 5018934210596400859}
+  - component: {fileID: -4488984061253828617}
+  - component: {fileID: -7470782034581460855}
   m_Layer: 0
   m_Name: Filter
   m_TagString: Untagged
@@ -85,7 +86,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5018934210596400859
+--- !u!114 &-4488984061253828617
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,8 +95,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 3024260648436506323}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea3f7f00c6fc38b4c9dc6539455a8bb1, type: 3}
+  m_Script: {fileID: 11500000, guid: 56d644bc7ca9bee41853a1fb7578c04a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallSpeed: 1
-  groundBarrierPercentage: 0.15
+  structureButton: {fileID: 0}
+  cost: 200
+  anchorMode: 1
+  offsetFromCameraBottom: 3
+  offsetFromCameraSide: 0.5
+  flipOnSideSwitch: 1
+--- !u!114 &-7470782034581460855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3024260648436506323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a797c730762438e4088b193744d2c0a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poopRemovedPerClean: 1
+  cleanIntervalTicks: 1

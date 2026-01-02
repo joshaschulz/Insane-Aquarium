@@ -1,4 +1,4 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,7 +25,6 @@ public class Scr_GameManager : MonoBehaviour
     public Scr_GameSettings testSettings;
 
     private int fastForwardSetting = 1;
-
 
     public AudioSource AS;
     public AudioMixerSnapshot normalSnapshot;
@@ -76,6 +75,25 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject fishFood_2_Prefab;
     public GameObject fishFood_3_Prefab;
     public GameObject currentFishFoodSelected;
+
+    [Header("Structure placement")]
+    public GameObject currentStructurePrefabSelected;
+    public GameObject currentStructureGhost;   // the ghost that follows the cursor
+    public GameObject currentStructureButtonSelected;
+
+
+    [Header("Structure placement clamps")]
+    public bool clampStructureY = false;
+    public float clampedStructureY = -3.5f; // set this to your tank bottom y in world coords
+
+    [Header("Structure inventory")]
+    public List<GameObject> structurePrefabs = new List<GameObject>(); // optional, for setup
+    public List<int> structureStartingAmounts = new List<int>();       // same length as above
+
+    [Header("Structure inventory UI")]
+    public List<GameObject> structureButtons = new List<GameObject>(); // same order as structurePrefabs
+
+    private Dictionary<GameObject, int> structureAmountDictionary = new Dictionary<GameObject, int>();
 
 
     public float groundTimeUntilDespawn;
@@ -172,6 +190,15 @@ public class Scr_GameManager : MonoBehaviour
 
         UpdateSceneTexts();
 
+        structureAmountDictionary.Clear();
+        for (int i = 0; i < structurePrefabs.Count; i++)
+        {
+            if (structurePrefabs[i] == null) continue;
+            int amt = 0;
+            if (i < structureStartingAmounts.Count) amt = structureStartingAmounts[i];
+            structureAmountDictionary[structurePrefabs[i]] = Mathf.Max(0, amt);
+        }
+
 
         //baggedFish = new List<(GameObject, int)>(); //have to instantiate this thing for some reason
 
@@ -203,7 +230,7 @@ public class Scr_GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        // Optionally, get a reference to the TickHandler (assuming there's only one or itís a singleton)
+        // Optionally, get a reference to the TickHandler (assuming there's only one or it‚Äôs a singleton)
         Scr_TimeHandler = FindObjectOfType<Scr_TimeHandler>();
 
 
@@ -264,7 +291,7 @@ public class Scr_GameManager : MonoBehaviour
         // + up to another 0.05 per species based on star level
         foreach (var kvp in speciesMaxStars)
         {
-            int maxStars = kvp.Value; // 0ñ25
+            int maxStars = kvp.Value; // 0‚Äì25
             float fraction = Mathf.Clamp01(maxStars / 25f);
             rate += 0.05f * fraction;
         }
@@ -273,7 +300,50 @@ public class Scr_GameManager : MonoBehaviour
         customerAttractionRate = Mathf.Min(rate, 2f);
     }
 
+    public bool DropStructure(GameObject structurePrefab, Vector3 worldPos, bool placingOnRight)
+    {
+        if (structurePrefab != null && GetStructureAmount(structurePrefab) > 0)
+        {
+            GameObject placed = Instantiate(structurePrefab, worldPos, Quaternion.identity);
 
+            // Apply wall flip if needed (same logic you already had)
+            var rules = structurePrefab.GetComponent<Scr_StructurePlacementRules>();
+            if (rules != null && rules.anchorMode == Scr_StructurePlacementRules.AnchorMode.LockToCameraSide && rules.flipOnSideSwitch)
+            {
+                Vector3 s = placed.transform.localScale;
+                s.x = Mathf.Abs(s.x) * (placingOnRight ? 1f : -1f);
+                placed.transform.localScale = s;
+            }
+
+            // consume 1
+            SetStructureAmount(structurePrefab, GetStructureAmount(structurePrefab) - 1);
+
+            // (optional) play a ‚Äúplace‚Äù sound if you want
+            // PlaySoundEffect(SFX_Select, 0.6f);
+
+            return true;
+        }
+        else
+        {
+            PlaySoundEffect(SFX_Error, 0.3f);
+            Debug.Log("Out of Selected Structure");
+
+            // Flash the structure button red (and optionally your cursor follower ghost too)
+            if (currentStructureButtonSelected != null)
+            {
+                FlashColor(currentStructureButtonSelected, Color.red, 0.5f, 0.1f);
+
+                // if your structure button has a TMP amount text as child(0), same as food:
+                var tmp = currentStructureButtonSelected.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+                if (tmp != null)
+                    FlashTextColor(tmp, Color.red, 0.5f, 0.1f);
+            }
+
+            CancelStructurePlacement();
+
+            return false;
+        }
+    }
     public void DropFood(GameObject _foodToDrop)
     {
         if (_foodToDrop != null && GetFishFoodAmount(currentFishFoodSelected) > 0)
@@ -333,7 +403,7 @@ public class Scr_GameManager : MonoBehaviour
     {
         if (_foodToDrop != null && GetFishFoodAmount(currentFishFoodSelected) > 0)
         {
-            // Direct spawn ó everything else remains identical
+            // Direct spawn ‚Äî everything else remains identical
             GameObject newFood = Instantiate(_foodToDrop, worldPos, Quaternion.identity);
 
             foodFishDictionary.Add(newFood, _foodToDrop);
@@ -359,11 +429,11 @@ public class Scr_GameManager : MonoBehaviour
 
 
     }
-    public void DropFoodFromFeeder(GameObject _foodToDrop, Vector2 worldPos, GameObject _feederSelectedFoodTypeButton)
+    public void DropFoodFromFeeder(GameObject _foodToDrop, Vector2 worldPos, GameObject _feederSelectedFoodTypeButton, bool flipped)
     {
         if (GetFishFoodAmount(_foodToDrop) > 0)
         {
-            // Direct spawn ó everything else remains identical
+            // Direct spawn ‚Äî everything else remains identical
             GameObject newFood = Instantiate(_foodToDrop, worldPos, Quaternion.identity);
 
             foodFishDictionary.Add(newFood, _foodToDrop);
@@ -374,7 +444,7 @@ public class Scr_GameManager : MonoBehaviour
             PlaySoundEffect(SFX_DropFood, 1, 0.5f, 1.5f);
             PlaySoundEffect(SFX_Pop, 0.05f, 0.8f, 1.2f);
 
-            newFood.GetComponent<Scr_FoodBehavior>().Shot();
+            newFood.GetComponent<Scr_FoodBehavior>().Shot(flipped);
 
         }
         else // Out of selected food
@@ -393,46 +463,6 @@ public class Scr_GameManager : MonoBehaviour
 
     }
 
-    public void DropStructure(GameObject _strucToDrop)
-    {
-        if (_strucToDrop != null)
-        {
-            Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-            Vector2 spawnTank = new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.y);
-
-            float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
-            float screenHeightWorld = Camera.main.orthographicSize * 2;
-
-            float maxX = spawnTank.x + screenWidthWorld / 2;
-            float minX = spawnTank.x - screenWidthWorld / 2;
-
-            Vector2 strucSpawnPos;
-
-            //checks if the placed food is outside the screen
-            if (mouseWorldPosition.x > maxX)
-            {
-                strucSpawnPos = new Vector2(maxX, Camera.main.transform.position.y + screenHeightWorld / 2);
-            }
-            else if (mouseWorldPosition.x < minX)
-            {
-                strucSpawnPos = new Vector2(minX, Camera.main.transform.position.y + screenHeightWorld / 2);
-            }
-            else
-            {
-                strucSpawnPos = new Vector2(mouseWorldPosition.x, Camera.main.transform.position.y + screenHeightWorld / 2);
-            }
-
-            GameObject newStruc = Instantiate(_strucToDrop, strucSpawnPos, Quaternion.identity);
-
-            SetFishFoodAmount(_strucToDrop, GetFishFoodAmount(_strucToDrop) - 1);
-
-            PlaySoundEffect(SFX_DropFood, 1, 0.5f, 1.5f);
-            PlaySoundEffect(SFX_Pop, 0.05f, 0.8f, 1.2f);
-
-
-        }
-    }
     public void DropFish()
     {
         GameObject baggedFishButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
@@ -1138,7 +1168,7 @@ public class Scr_GameManager : MonoBehaviour
             foodFishDictionary.Remove(leg);
             RemoveFoodFromExistingFishDiets(leg);
 
-            // Make sure theyíre not visible/usable anymore
+            // Make sure they‚Äôre not visible/usable anymore
             //leg.SetActive(false);
         }
 
@@ -1395,6 +1425,184 @@ public class Scr_GameManager : MonoBehaviour
         return true;
     }
 
+    public void SelectStructureToPlace(GameObject structurePrefab, GameObject structureButton)
+    {
+
+        ClearOtherTools("structure");
+        CancelStructurePlacement();
+
+        currentStructurePrefabSelected = structurePrefab;
+        currentStructureButtonSelected = structureButton;
+
+        // if out of stock, error + flash and do not start ghost placement
+        if (structurePrefab == null || GetStructureAmount(structurePrefab) <= 0)
+        {
+            currentStructureButtonSelected = structureButton;
+            PlaySoundEffect(SFX_Error, 0.3f);
+
+            if (structureButton != null)
+            {
+                FlashColor(structureButton, Color.red, 0.5f, 0.1f);
+                var tmp = structureButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+                if (tmp != null) FlashTextColor(tmp, Color.red, 0.5f, 0.1f);
+            }
+
+            CancelStructurePlacement();
+
+            return;
+        }
+
+        currentStructureButtonSelected = structureButton;
+        currentStructurePrefabSelected = structurePrefab;
+
+        // Spawn a ghost version that follows the cursor
+        currentStructureGhost = Instantiate(structurePrefab);
+
+        // disable colliders / rb etc... (your existing code stays)
+        foreach (var col in currentStructureGhost.GetComponentsInChildren<Collider2D>())
+            col.enabled = false;
+
+        foreach (var rb in currentStructureGhost.GetComponentsInChildren<Rigidbody2D>())
+            rb.simulated = false;
+
+        foreach (var sr in currentStructureGhost.GetComponentsInChildren<SpriteRenderer>())
+        {
+            Color c = sr.color;
+            c.a = 0.5f;
+            sr.color = c;
+        }
+
+        var follower = currentStructureGhost.AddComponent<Scr_CursorFollower>();
+        follower.followInWorldSpace = true;
+        follower.zDistanceFromCamera = Mathf.Abs(Camera.main.transform.position.z);
+
+        Scr_StructurePlacementRules rules = structurePrefab.GetComponent<Scr_StructurePlacementRules>();
+
+        if (rules != null)
+        {
+            if (rules.anchorMode == Scr_StructurePlacementRules.AnchorMode.LockToCameraBottom)
+            {
+                follower.lockY = true;
+                follower.lockedYValue = GetCameraBottomY() + rules.offsetFromCameraBottom;
+            }
+            else if (rules.anchorMode == Scr_StructurePlacementRules.AnchorMode.LockToCameraSide)
+            {
+                follower.clampToCameraSide = true;
+                follower.offsetFromCameraSide = rules.offsetFromCameraSide;
+                follower.flipOnSideSwitch = rules.flipOnSideSwitch;
+                follower.SendMessage("InitializeSideFromCursor", SendMessageOptions.DontRequireReceiver);
+            }
+        }
+    }
+
+    public void PlaceStructureAt(Vector3 worldPos)
+    {
+        // hard guard
+        if (currentStructurePrefabSelected == null)
+        {
+            CancelStructurePlacement();
+            return;
+        }
+
+        // guard for 0 stock
+        if (GetStructureAmount(currentStructurePrefabSelected) <= 0)
+        {
+            CancelStructurePlacement();
+            return;
+        }
+
+        worldPos.z = 0f;
+
+        var rules = currentStructurePrefabSelected.GetComponent<Scr_StructurePlacementRules>();
+
+        // clamp to bottom rule (if you have it)
+        if (rules != null && rules.anchorMode == Scr_StructurePlacementRules.AnchorMode.LockToCameraBottom)
+        {
+            worldPos.y = GetCameraBottomY() + rules.offsetFromCameraBottom;
+        }
+
+        // clamp to side rule
+        bool placingOnRight = false;
+        if (rules != null && rules.anchorMode == Scr_StructurePlacementRules.AnchorMode.LockToCameraSide)
+        {
+            // get the final clamped x (same as before)
+            float viewportX = Camera.main.ScreenToViewportPoint(Input.mousePosition).x;
+            placingOnRight = viewportX >= 0.5f;
+
+            float zDist = Mathf.Abs(Camera.main.transform.position.z);
+            Vector3 leftEdge = Camera.main.ViewportToWorldPoint(new Vector3(0f, 0.5f, zDist));
+            Vector3 rightEdge = Camera.main.ViewportToWorldPoint(new Vector3(1f, 0.5f, zDist));
+
+            worldPos.x = placingOnRight ? (rightEdge.x - rules.offsetFromCameraSide) : (leftEdge.x + rules.offsetFromCameraSide);
+
+            // even better: read the follower (ghost is the source of truth)
+            if (currentStructureGhost != null)
+            {
+                var follower = currentStructureGhost.GetComponent<Scr_CursorFollower>();
+                if (follower != null) placingOnRight = follower.IsOnRightSide;
+            }
+        }
+
+        bool placedOk = DropStructure(currentStructurePrefabSelected, worldPos, placingOnRight);
+
+        if (placedOk)
+        {
+            CancelStructurePlacement();
+        }
+    }
+
+    public void CancelStructurePlacement()
+    {
+        currentStructurePrefabSelected = null;
+
+        if (currentStructureGhost != null)
+        {
+            Destroy(currentStructureGhost);
+            currentStructureGhost = null;
+        }
+    }
+
+    public int GetStructureAmount(GameObject structurePrefab)
+    {
+        if (structurePrefab == null) return 0;
+        return structureAmountDictionary.TryGetValue(structurePrefab, out int amt) ? amt : 0;
+    }
+
+    public void SetStructureAmount(GameObject structurePrefab, int amount)
+    {
+        if (structurePrefab == null) return;
+
+        int newAmount = Mathf.Max(0, amount);
+        structureAmountDictionary[structurePrefab] = newAmount;
+
+        // update selected structure button text
+        if (currentStructurePrefabSelected == structurePrefab &&
+            currentStructureButtonSelected != null)
+        {
+            var tmp = currentStructureButtonSelected
+                .transform.GetChild(0)
+                .GetComponent<TextMeshProUGUI>();
+
+            if (tmp != null)
+            {
+                Debug.Log($"TMP name: {tmp.gameObject.name}  BEFORE: '{tmp.text}'  amount={newAmount}");
+                UpdateText(tmp, newAmount);
+                Debug.Log($"AFTER: '{tmp.text}'");
+            }
+        }
+    }
+
+    public float GetCameraBottomY()
+    {
+        Camera cam = Camera.main;
+
+        // bottom center of the camera viewport
+        Vector3 bottom = cam.ViewportToWorldPoint(
+            new Vector3(0.5f, 0f, Mathf.Abs(cam.transform.position.z))
+        );
+
+        return bottom.y;
+    }
 
     public void UpdateText(TextMeshProUGUI _textObject, int _amount)
     {
@@ -1551,6 +1759,49 @@ public class Scr_GameManager : MonoBehaviour
         Debug.Log("normal sounds");
     }
 
+    public void ClearOtherTools(string keep)
+    {
+        // keep can be "food", "structure", or "" (clear all)
+
+        if (keep != "structure")
+        {
+            CancelStructurePlacement();
+        }
+
+        if (keep != "food")
+        {
+            if (currentFishFoodSelected != null)
+            {
+                ChangeFishFoodTypeToDrop(null);
+            }
+        }
+
+        // if you also want to cancel bagging when switching tools, add it here:
+        // if (keep != "bag" && canIBagFish) DeselectFishBag();
+    }
+
+    public bool BuyStructure(GameObject structurePrefab, int amountToBuy = 1)
+    {
+        if (structurePrefab == null) return false;
+
+        var rules = structurePrefab.GetComponent<Scr_StructurePlacementRules>();
+        if (rules == null) return false;
+
+        int totalCost = rules.cost * amountToBuy;
+
+        if (GetMoneyAmount() < totalCost)
+        {
+            return false;
+        }
+
+        SubtractMoneyAmount(totalCost);
+
+        int current = GetStructureAmount(structurePrefab);
+        SetStructureAmount(structurePrefab, current + amountToBuy);
+
+        return true;
+    }
+
 
     public void ChangeFishFoodTypeToDrop(GameObject _fishFoodType)
     {
@@ -1558,6 +1809,11 @@ public class Scr_GameManager : MonoBehaviour
         if (_fishFoodType != null && canIBagFish)
         {
             DeselectFishBag();
+        }
+
+        if (_fishFoodType != null)
+        {
+            CancelStructurePlacement();
         }
         // If a bagged fish was selected and a food is clicked
         /*
@@ -1667,6 +1923,17 @@ public class Scr_GameManager : MonoBehaviour
             c.a = Mathf.Clamp01(backgroundTankPoopLevel / 100);
             backgroundTankPoopOverlaySR.color = c;
         }
+    }
+
+    public float GetPoopLevel(Vector2 tankPos)
+    {
+        if (tankPos == new Vector2(foregroundTank.position.x, foregroundTank.position.y))
+            return foregroundTankPoopLevel;
+
+        if (tankPos == new Vector2(backgroundTank.position.x, backgroundTank.position.y))
+            return backgroundTankPoopLevel;
+
+        return 0f;
     }
 
 
@@ -1828,12 +2095,34 @@ public class Scr_GameManager : MonoBehaviour
 
     public void UpdateSceneTexts()
     {
+
         UpdateText(moneyText, moneyAmount);
         UpdateText(fishFood_1_AmountText, fishFood_1_Amount);
         UpdateText(fishFood_2_AmountText, fishFood_2_Amount);
         UpdateText(fishFood_3_AmountText, fishFood_3_Amount);
 
-        // Add more text boxes and values as we make them...
+        int count = Mathf.Min(structurePrefabs.Count, structureButtons.Count);
+
+        for (int i = 0; i < count; i++)
+        {
+            GameObject prefab = structurePrefabs[i];
+            GameObject buttonObj = structureButtons[i];
+
+            if (prefab == null || buttonObj == null) continue;
+
+            int amount = GetStructureAmount(prefab);
+
+            // get the TMP anywhere under the button (more robust than GetChild(0))
+            TextMeshProUGUI tmp = buttonObj.GetComponentInChildren<TextMeshProUGUI>(true);
+            if (tmp != null)
+            {
+                UpdateText(tmp, amount);
+            }
+
+            // optional: disable button when 0
+            var btn = buttonObj.GetComponent<UnityEngine.UI.Button>();
+            if (btn != null) btn.interactable = (amount > 0);
+        }
     }
 
     public int CheckIfTankHasFish(Transform tank)
@@ -1919,7 +2208,7 @@ public class Scr_GameManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
         yield return null;
 
-        // 3) Unlock ó position stays at the center
+        // 3) Unlock ‚Äî position stays at the center
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;                     // optional
 

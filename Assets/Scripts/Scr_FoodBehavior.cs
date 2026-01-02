@@ -37,7 +37,6 @@ public class Scr_FoodBehavior : MonoBehaviour
     private bool hasLanded = false;
 
 
-
     private void Start()
     {
         gameManager = Scr_GameManager.GMinstance;
@@ -157,7 +156,7 @@ public class Scr_FoodBehavior : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void Shot()
+    public void Shot(bool flipped)
     {
         // remember whatever the current sinking speed is
         normalFallSpeed = fallSpeed;
@@ -175,7 +174,8 @@ public class Scr_FoodBehavior : MonoBehaviour
         // compute initial velocity: left + up
         float rad = shotAngleDegrees * Mathf.Deg2Rad;
 
-        shotVelocity.x = -Mathf.Cos(rad) * shotSpeed; // left
+
+        shotVelocity.x = -Mathf.Cos(rad) * shotSpeed * ((!flipped) ? 1 : -1); // left
         shotVelocity.y = Mathf.Sin(rad) * shotSpeed;  // up
     }
 }

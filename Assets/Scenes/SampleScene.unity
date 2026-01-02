@@ -3346,6 +3346,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6484a629b941a6844add5fbd9c4d814c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  followInWorldSpace: 0
+  zDistanceFromCamera: 10
 --- !u!1 &250875310
 GameObject:
   m_ObjectHideFlags: 0
@@ -8305,6 +8307,7 @@ GameObject:
   - component: {fileID: 529144281}
   - component: {fileID: 529144280}
   - component: {fileID: 529144279}
+  - component: {fileID: 529144282}
   m_Layer: 5
   m_Name: Filter Button
   m_TagString: Untagged
@@ -8375,19 +8378,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 529144280}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1031440123}
-        m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
-        m_MethodName: ChangeCursorType
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 3024260648436506323, guid: 9a6fe53f5bad8634489c36a1113d2dc2, type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &529144280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8426,6 +8417,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 529144277}
   m_CullTransparentMesh: 1
+--- !u!114 &529144282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 529144277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea3f7f00c6fc38b4c9dc6539455a8bb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 1031440123}
+  structurePrefab: {fileID: 3024260648436506323, guid: 9a6fe53f5bad8634489c36a1113d2dc2, type: 3}
 --- !u!1 &542357182
 GameObject:
   m_ObjectHideFlags: 0
@@ -17350,6 +17355,8 @@ MonoBehaviour:
   fishFood_2_Prefab: {fileID: 5447806642486513699, guid: ef302d57c9a62814f8e8425e495c442f, type: 3}
   fishFood_3_Prefab: {fileID: 5447806642486513699, guid: 1ab43b254f256dd4a802af59dd57dfdd, type: 3}
   currentFishFoodSelected: {fileID: 0}
+  currentStructurePrefabSelected: {fileID: 0}
+  currentStructureGhost: {fileID: 0}
   groundTimeUntilDespawn: 1
   goldCoinWorth: 25
   fishIdCounter: 0

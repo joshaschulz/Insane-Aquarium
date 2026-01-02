@@ -386,7 +386,7 @@ public class Scr_Fish : MonoBehaviour
 
         FreakCounter();
 
-        //PoopCounter();
+        PoopCounter();
 
         if ((isHungry && FindClosestFood() != null) || (isFreaky && FindClosestMate() != null))
         {

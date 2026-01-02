@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Scr_FishFeeder : MonoBehaviour
 {
+    [Header("UI")]
+    public TextMeshPro speedText;
+
     [Header("references")]
     public Scr_GameManager gameManager;   // assign in inspector
     public Scr_TankBounds Scr_TankBounds;     // assign in inspector OR auto-find in Awake
@@ -30,9 +33,14 @@ public class Scr_FishFeeder : MonoBehaviour
     [Header("Tank visuals")]
     public GameObject[] foodSprites;   // assign all 20 sprite holders in inspector
 
+    private bool pausedBecauseEmpty = false;
+    public int startSpeedIndex = 0; // 0 = paused by default
+
+
     private void Start()
     {
         gameManager = Scr_GameManager.GMinstance;
+        UpdateSpeedText();
     }
 
     private void Awake()
@@ -49,7 +57,12 @@ public class Scr_FishFeeder : MonoBehaviour
             Debug.LogWarning($"{name} (FishFeeder): no Scr_TankBounds assigned/found.");
         }
 
-        SyncSpeedIndexToCurrentInterval();
+        ApplyStartSpeed();
+    }
+
+    private void LateUpdate()
+    {
+        KeepSpeedTextUpright();
     }
 
     private void OnEnable()
@@ -78,9 +91,9 @@ public class Scr_FishFeeder : MonoBehaviour
     // =========================
     public void OnTickEvent()
     {
-        Debug.Log("TICKED");
-        if (feedIntervalTicks <= 0) return;
+        if (feedIntervalTicks <= 0) return; // 0 = paused
         if (currentFoodToDrop == null) return;
+        if (pausedBecauseEmpty) return;
 
         tickCounter++;
 
@@ -95,27 +108,56 @@ public class Scr_FishFeeder : MonoBehaviour
     {
         for (int i = 0; i < amountPerFeed; i++)
         {
-            SpawnOneFood();
+            bool spawned = SpawnOneFood();
+            if (!spawned)
+            {
+                // ran out mid-burst; stop trying this tick
+                break;
+            }
         }
     }
 
-    private void SpawnOneFood()
+    private bool SpawnOneFood()
     {
-        Debug.Log("FOOD SPAWNED");
         if (gameManager == null)
         {
             Debug.LogWarning($"{name} (FishFeeder): gameManager not assigned.");
-            return;
+            return false;
         }
 
         if (currentFoodToDrop == null)
         {
             Debug.LogWarning($"{name} (FishFeeder): currentFoodToDrop is null.");
-            return;
+            return false;
         }
 
-        gameManager.DropFoodFromFeeder(currentFoodToDrop, spawnPosition.position, buttonThatWouldFlash);
+        int amountLeft = gameManager.GetFishFoodAmount(currentFoodToDrop);
+
+        // OUT OF FOOD: play error once, then pause automatic feeding
+        if (amountLeft <= 0)
+        {
+            if (!pausedBecauseEmpty)
+            {
+                // call your existing manager function ONCE so it plays the error + flashes red
+                bool flipped = (transform.localScale.x == -1);
+                gameManager.DropFoodFromFeeder(currentFoodToDrop, spawnPosition.position, buttonThatWouldFlash, flipped);
+
+                pausedBecauseEmpty = true;
+            }
+
+            UpdateFeederFillVisual(0);
+            return false;
+        }
+
+        // HAVE FOOD: ensure not paused and fire normally
+        pausedBecauseEmpty = false;
+
+        bool flippedSpawn = (transform.localScale.x == -1);
+        gameManager.DropFoodFromFeeder(currentFoodToDrop, spawnPosition.position, buttonThatWouldFlash, flippedSpawn);
+
+        // Update visual using the new amount after dropping
         UpdateFeederFillVisual(gameManager.GetFishFoodAmount(currentFoodToDrop));
+        return true;
     }
 
     private Vector2 GetRandomTopOfTankPosition()
@@ -142,6 +184,8 @@ public class Scr_FishFeeder : MonoBehaviour
 
     public void SetFoodType(GameObject foodPrefab, GameObject foodButtonSelected)
     {
+        pausedBecauseEmpty = false;
+
         currentFoodToDrop = foodPrefab;
         buttonThatWouldFlash = foodButtonSelected;
 
@@ -159,31 +203,31 @@ public class Scr_FishFeeder : MonoBehaviour
         }
 
         currentSpeedIndex = (currentSpeedIndex + 1) % availableFeedIntervals.Length;
-        feedIntervalTicks = Mathf.Max(1, availableFeedIntervals[currentSpeedIndex]);
+        feedIntervalTicks = availableFeedIntervals[currentSpeedIndex];
         tickCounter = 0;
 
-        Debug.Log($"{name} (FishFeeder): speed set to every {feedIntervalTicks} ticks.");
+        UpdateSpeedText();
+
+
+        if (feedIntervalTicks == 0)
+        {
+            Debug.Log($"{name} (FishFeeder): speed set to PAUSED.");
+        }
+        else
+        {
+            Debug.Log($"{name} (FishFeeder): speed set to every {feedIntervalTicks} ticks.");
+        }
     }
 
-    private void SyncSpeedIndexToCurrentInterval()
+    private void ApplyStartSpeed()
     {
         if (availableFeedIntervals == null || availableFeedIntervals.Length == 0) return;
 
-        int closestIndex = 0;
-        int closestDiff = Mathf.Abs(feedIntervalTicks - availableFeedIntervals[0]);
+        currentSpeedIndex = Mathf.Clamp(startSpeedIndex, 0, availableFeedIntervals.Length - 1);
+        feedIntervalTicks = availableFeedIntervals[currentSpeedIndex];
+        tickCounter = 0;
 
-        for (int i = 1; i < availableFeedIntervals.Length; i++)
-        {
-            int diff = Mathf.Abs(feedIntervalTicks - availableFeedIntervals[i]);
-            if (diff < closestDiff)
-            {
-                closestDiff = diff;
-                closestIndex = i;
-            }
-        }
-
-        currentSpeedIndex = closestIndex;
-        feedIntervalTicks = Mathf.Max(1, availableFeedIntervals[currentSpeedIndex]);
+        UpdateSpeedText();
     }
 
     public void UpdateFeederFillVisual(int amount)
@@ -255,5 +299,46 @@ public class Scr_FishFeeder : MonoBehaviour
 
             go.transform.localEulerAngles = new Vector3(0f, 0f, Random.Range(0f, 360f));
         }
+    }
+    private void UpdateSpeedText()
+    {
+        if (speedText == null)
+            return;
+
+        int displaySpeed = GetDisplaySpeedLevel();
+        speedText.text = displaySpeed.ToString();
+
+        speedText.color = (displaySpeed == 0) ? Color.gray : Color.white;
+    }
+
+    private int GetDisplaySpeedLevel()
+    {
+        // paused always shows 0
+        if (feedIntervalTicks == 0)
+            return 0;
+
+        // count how many non-zero speeds are "up to" our currentSpeedIndex
+        // so it displays 1,2,3,... even if actual tick intervals skip numbers
+        int level = 0;
+
+        for (int i = 0; i <= currentSpeedIndex && i < availableFeedIntervals.Length; i++)
+        {
+            if (availableFeedIntervals[i] != 0)
+                level++;
+        }
+
+        // level is now 1..N for non-zero entries
+        return level;
+    }
+
+    private void KeepSpeedTextUpright()
+    {
+        if (speedText == null) return;
+
+        float parentX = transform.localScale.x;
+
+        Vector3 s = speedText.transform.localScale;
+        s.x = Mathf.Abs(s.x) * Mathf.Sign(parentX);
+        speedText.transform.localScale = s;
     }
 }

@@ -1,32 +1,45 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Scr_StructureBehavior : MonoBehaviour
+public class Scr_StructureButton : MonoBehaviour
 {
-    private Scr_GameManager gameManager;
+    [Header("assign in inspector")]
+    public Scr_GameManager gameManager;
+    public GameObject structurePrefab;
 
-    public float fallSpeed;
+    private Button button;
 
-    public float groundBarrierPercentage;
-    private Vector2 groundBarrier;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        gameManager = Scr_GameManager.GMinstance;
+        button = GetComponent<Button>();
+        if (button == null)
+        {
+            Debug.LogError("[Scr_StructureButton] no Button component found on " + gameObject.name);
+            return;
+        }
 
-        groundBarrier = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height * groundBarrierPercentage));
+        button.onClick.AddListener(OnClick);
 
+        Debug.Log("[Scr_StructureButton] wired OnClick on " + gameObject.name);
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    private void OnClick()
     {
-        if (!(fallSpeed == 0))
-            transform.Translate(0, -fallSpeed * Time.deltaTime, 0, Space.World);
-        else
-            fallSpeed = 0;
+        Debug.Log("[Scr_StructureButton] clicked " + gameObject.name);
 
+        if (gameManager == null)
+        {
+            Debug.LogError("[Scr_StructureButton] gameManager is NULL (assign it in inspector).");
+            return;
+        }
+
+        if (structurePrefab == null)
+        {
+            Debug.LogError("[Scr_StructureButton] structurePrefab is NULL (assign it in inspector).");
+            return;
+        }
+
+        gameManager.SelectStructureToPlace(structurePrefab, gameObject);
+        Debug.Log("[Scr_StructureButton] called SelectStructureToPlace successfully.");
     }
 }

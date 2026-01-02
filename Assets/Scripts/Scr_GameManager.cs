@@ -1613,6 +1613,45 @@ public class Scr_GameManager : MonoBehaviour
         return bottom.y;
     }
 
+    public void EnableMenuFish(GameObject spawner)
+    {
+        spawner.SetActive(true);
+
+        StartMenuAmbientSpawning();
+
+    }
+
+    public void DisableMenuFish(GameObject spawner)
+    {
+        StopMenuAmbientSpawning();
+
+        spawner.SetActive(false);
+    }
+
+    private void StopMenuAmbientSpawning()
+    {
+        // stop fish spawners
+        foreach (var fishSpawner in FindObjectsOfType<Scr_MenuFishSpawner>())
+        {
+            fishSpawner.StopAndClear();
+        }
+
+        // stop starfish spawners
+        foreach (var starfishSpawner in FindObjectsOfType<Scr_MenuStarfishSpawner>())
+        {
+            starfishSpawner.StopAndClear();
+        }
+    }
+
+    private void StartMenuAmbientSpawning()
+    {
+        foreach (var spawner in FindObjectsOfType<Scr_MenuFishSpawner>())
+            spawner.StartSpawning();
+
+        foreach (var spawner in FindObjectsOfType<Scr_MenuStarfishSpawner>())
+            spawner.StartSpawning();
+    }
+
     public void UpdateText(TextMeshProUGUI _textObject, int _amount)
     {
         _textObject.GetComponent<Scr_NumberCounter>().SetValue = _amount;

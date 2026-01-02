@@ -20,3 +20,7 @@ Add species-specific mechanics
 Add fish to the build/test game settings
 Add fish settings case to fish script in ChangeGameSettings()
 Make sure Front Container is active and Side Container is inactive
+Duplicate a menu fish in prefabs/menu fish (not the starfish)
+Change to be new fish
+Make sure the tag is "Menu Fish"
+In Menu Fish Spawner game object, add the fish as a new element to fish prefabs

@@ -1492,6 +1492,14 @@ public class Scr_GameManager : MonoBehaviour
                 follower.flipOnSideSwitch = rules.flipOnSideSwitch;
                 follower.SendMessage("InitializeSideFromCursor", SendMessageOptions.DontRequireReceiver);
             }
+            else if (rules.anchorMode == Scr_StructurePlacementRules.AnchorMode.FreeAboveY)
+            {
+                // IMPORTANT: leave follower in free mode
+                // (we will clamp when placing, and optionally you can clamp in follower too later)
+                follower.followInWorldSpace = true;
+                follower.lockY = false;
+                follower.clampToCameraSide = false;
+            }
         }
     }
 
@@ -1542,6 +1550,7 @@ public class Scr_GameManager : MonoBehaviour
                 if (follower != null) placingOnRight = follower.IsOnRightSide;
             }
         }
+
 
         bool placedOk = DropStructure(currentStructurePrefabSelected, worldPos, placingOnRight);
 

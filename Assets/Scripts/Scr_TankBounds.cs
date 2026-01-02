@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Scr_TankBounds : MonoBehaviour
 {
-    public Vector2 size = new Vector2(3f, 2f); // width, height in world units
+    public Vector2 size = new Vector2(3f, 2f);
 
-    [Tooltip("The for-sale sticker GameObject under this tank.")]
-    public GameObject forSaleSign; // assign the sticker here
+    // runtime reference (set automatically when a sign is placed inside this tank)
+    [HideInInspector] public Scr_ForSaleSticker activeForSaleSticker;
 
     public Bounds GetBounds()
     {
@@ -16,6 +14,16 @@ public class Scr_TankBounds : MonoBehaviour
 
     public bool IsForSaleActive
     {
-        get { return forSaleSign != null && forSaleSign.activeInHierarchy; }
+        get { return activeForSaleSticker != null && activeForSaleSticker.gameObject.activeInHierarchy; }
+    }
+
+    public void RegisterForSaleSticker(Scr_ForSaleSticker sign)
+    {
+        activeForSaleSticker = sign;
+    }
+
+    public void UnregisterForSaleSticker(Scr_ForSaleSticker sign)
+    {
+        if (activeForSaleSticker == sign) activeForSaleSticker = null;
     }
 }

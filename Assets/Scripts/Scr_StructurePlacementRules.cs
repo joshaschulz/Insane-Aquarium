@@ -10,7 +10,8 @@ public class Scr_StructurePlacementRules : MonoBehaviour
     {
         Free,
         LockToCameraBottom,
-        LockToCameraSide // clamp X to left/right edge, follow Y
+        LockToCameraSide, // clamp X to left/right edge, follow Y
+        FreeAboveY
     }
 
     public int cost;
@@ -25,7 +26,5 @@ public class Scr_StructurePlacementRules : MonoBehaviour
     [Header("Side anchor")]
     [Tooltip("World units IN from the left/right edge of the camera view")]
     public float offsetFromCameraSide = 0.5f;
-
-    [Tooltip("If true, object flips when switching sides (mirror on X scale)")]
     public bool flipOnSideSwitch = true;
 }

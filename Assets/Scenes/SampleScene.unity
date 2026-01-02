@@ -11568,7 +11568,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &672596396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17601,10 +17601,12 @@ MonoBehaviour:
   structurePrefabs:
   - {fileID: 3024260648436506323, guid: 9a6fe53f5bad8634489c36a1113d2dc2, type: 3}
   - {fileID: 4929024843989503357, guid: 1b6025f71b44d9440b143f28f48a2896, type: 3}
-  structureStartingAmounts: 0100000001000000
+  - {fileID: 5584873671986153646, guid: 323bc94d685bd9c4bb9ed482f6a4caf4, type: 3}
+  structureStartingAmounts: 010000000100000001000000
   structureButtons:
   - {fileID: 529144277}
   - {fileID: 836564950}
+  - {fileID: 1979041712}
   groundTimeUntilDespawn: 1
   goldCoinWorth: 25
   fishIdCounter: 0
@@ -32726,7 +32728,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1031440123}
-  structurePrefab: {fileID: 4929024843989503357, guid: 1b6025f71b44d9440b143f28f48a2896, type: 3}
+  structurePrefab: {fileID: 5584873671986153646, guid: 323bc94d685bd9c4bb9ed482f6a4caf4, type: 3}
 --- !u!114 &1979041715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32791,7 +32793,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 14624f803010bb041b9dd52fe6aa0b41, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 340936ebcabf88548bc166d0e9abd190, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

@@ -135,7 +135,7 @@ public class Scr_SpawnToiletFish : MonoBehaviour
 
         if (gameManager.baggedFish_Socket1.transform.childCount == 0 || gameManager.baggedFish_Socket2.transform.childCount == 0 || gameManager.baggedFish_Socket3.transform.childCount == 0)
         {
-            gameManager.MoveToScene(StallTransform);
+            gameManager.MoveToSceneOrPause(StallTransform);
             gameManager.DisableElement(bathroom);
             gameManager.EnableElement(rod);
         }

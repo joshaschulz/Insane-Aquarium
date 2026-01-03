@@ -123,6 +123,9 @@ public class Scr_GameManager : MonoBehaviour
     public Transform backgroundTank;
     public SpriteRenderer[] tankSpriteRenderers;
 
+    public GameObject pauseMenu;
+    public GameObject backButton;
+
     public float customerAttractionRate = 1f;
 
 
@@ -2109,21 +2112,44 @@ public class Scr_GameManager : MonoBehaviour
         }
     }
 
-    public void MoveToScene(Transform transform)
+    public void MoveToSceneOrPause(Transform transform)
     {
-        _Camera.transform.position = new Vector3(transform.position.x, transform.position.y, _Camera.transform.position.z);
-
-        // Deselect any currently selected fish food or bagging state
-        if (currentFishFoodSelected != null)
+        if (pauseMenu.activeSelf)
         {
-            ChangeFishFoodTypeToDrop(null);
+            pauseMenu.SetActive(false);
+            EnableAllButtons();
         }
-        if (canIBagFish)
+        else if  (_Camera.transform.position == new Vector3(transform.position.x, transform.position.y, _Camera.transform.position.z))
         {
-            DeselectFishBag();
+            pauseMenu.SetActive(true);
+            DisableAllButtons();
+            backButton.GetComponent<Button>().interactable = true;
+        }
+        else
+        {
+            _Camera.transform.position = new Vector3(transform.position.x, transform.position.y, _Camera.transform.position.z);
+
+            // Deselect any currently selected fish food or bagging state
+            if (currentFishFoodSelected != null)
+            {
+                ChangeFishFoodTypeToDrop(null);
+            }
+            if (canIBagFish)
+            {
+                DeselectFishBag();
+            }
         }
     }
-
+    public void DisableAllButtons()
+    {
+        foreach (Button b in Object.FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            b.interactable = false;
+    }
+    public void EnableAllButtons()
+    {
+        foreach (Button b in Object.FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            b.interactable = true;
+    }
     public void EnableElement(GameObject _element)
     {
         _element.SetActive(true);

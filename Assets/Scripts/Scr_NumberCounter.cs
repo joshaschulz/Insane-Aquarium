@@ -7,6 +7,7 @@ using TMPro;
 
 public class Scr_NumberCounter : MonoBehaviour
 {
+
     public TextMeshProUGUI Text;
     public int CountFPS = 30;
     public float Duration = 1f;
@@ -31,10 +32,12 @@ public class Scr_NumberCounter : MonoBehaviour
     }
     private Coroutine CountingCoroutine;
 
+
     private void Awake()
     {
         Text = GetComponent<TextMeshProUGUI>();
     }
+
 
     private void UpdateText(int newValue)
     {

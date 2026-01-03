@@ -188,7 +188,7 @@ public class Scr_GameManager : MonoBehaviour
         ActiveSettings = useTestSettings ? testSettings : buildSettings;
         ChangeGameSettings();
 
-        UpdateSceneTexts();
+        //UpdateSceneTexts();
 
         structureAmountDictionary.Clear();
         for (int i = 0; i < structurePrefabs.Count; i++)
@@ -1654,6 +1654,8 @@ public class Scr_GameManager : MonoBehaviour
 
     public void UpdateText(TextMeshProUGUI _textObject, int _amount)
     {
+        if (!_textObject.gameObject.activeInHierarchy)
+            return;
         _textObject.GetComponent<Scr_NumberCounter>().SetValue = _amount;
     }
 
@@ -2140,15 +2142,14 @@ public class Scr_GameManager : MonoBehaviour
         rodIdle.SetActive(!Scr_SpawnToiletFish.shouldSpawn);
         rodHooked.SetActive(Scr_SpawnToiletFish.shouldSpawn);
     }
-
-    public void UpdateSceneTexts()
+    public void UpdateFoodTexts()
     {
-
-        UpdateText(moneyText, moneyAmount);
         UpdateText(fishFood_1_AmountText, fishFood_1_Amount);
         UpdateText(fishFood_2_AmountText, fishFood_2_Amount);
         UpdateText(fishFood_3_AmountText, fishFood_3_Amount);
-
+    }
+    public void UpdateStructureTexts()
+    {
         int count = Mathf.Min(structurePrefabs.Count, structureButtons.Count);
 
         for (int i = 0; i < count; i++)
@@ -2171,6 +2172,13 @@ public class Scr_GameManager : MonoBehaviour
             var btn = buttonObj.GetComponent<UnityEngine.UI.Button>();
             if (btn != null) btn.interactable = (amount > 0);
         }
+    }
+    public void UpdateSceneTexts()
+    {
+
+        UpdateText(moneyText, moneyAmount);
+        UpdateFoodTexts();
+        UpdateStructureTexts();
     }
 
     public int CheckIfTankHasFish(Transform tank)

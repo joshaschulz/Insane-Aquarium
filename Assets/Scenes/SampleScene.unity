@@ -297,6 +297,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1031440123}
+        m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
+        m_MethodName: UpdateSceneTexts
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8798608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1701,8 +1713,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -11.599976, y: 0.000015258789}
-  m_SizeDelta: {x: 65, y: 26}
+  m_AnchoredPosition: {x: -11.599976, y: -1}
+  m_SizeDelta: {x: 56.71, y: 26}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &82281158
 MonoBehaviour:
@@ -1724,7 +1736,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: $###
+  m_text: '###'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1758,7 +1770,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -1817,7 +1829,7 @@ MonoBehaviour:
   CountFPS: 30
   Duration: 0.5
   NumberFormat: N0
-  TextBeforeNumber: $
+  TextBeforeNumber: 
   TextAfterNumber: 
 --- !u!1 &91972459
 GameObject:
@@ -5465,7 +5477,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 351, y: -211.56544}
+  m_AnchoredPosition: {x: 351, y: 190.92}
   m_SizeDelta: {x: 37.9046, y: 20.6842}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &293182727
@@ -5878,8 +5890,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: -364}
-  m_SizeDelta: {x: 46.3866, y: 30}
+  m_AnchoredPosition: {x: 20, y: -105}
+  m_SizeDelta: {x: 30, y: 15}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &309935378
 MonoBehaviour:
@@ -10713,8 +10725,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: -314}
-  m_SizeDelta: {x: 46.3866, y: 30}
+  m_AnchoredPosition: {x: 20, y: -90}
+  m_SizeDelta: {x: 30, y: 15}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &564834481
 MonoBehaviour:
@@ -11538,6 +11550,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 1715057378}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1031440123}
+        m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
+        m_MethodName: UpdateFoodTexts
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -13118,7 +13142,7 @@ MonoBehaviour:
   lineEnd: {fileID: 792050907}
   lineRetractDuration: 0.2
   lineRetractSpeedMultiplier: 1.5
-  reelVolume: 0.1
+  reelVolume: 0.2
 --- !u!82 &669776430
 AudioSource:
   m_ObjectHideFlags: 0
@@ -15505,8 +15529,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: -64}
-  m_SizeDelta: {x: 46.3866, y: 30}
+  m_AnchoredPosition: {x: 20, y: -15}
+  m_SizeDelta: {x: 30, y: 15}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &820073771
 MonoBehaviour:
@@ -17764,8 +17788,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: -113.99999}
-  m_SizeDelta: {x: 46.3866, y: 30}
+  m_AnchoredPosition: {x: 20, y: -30}
+  m_SizeDelta: {x: 30, y: 15}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &896720489
 MonoBehaviour:
@@ -23086,8 +23110,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: -214}
-  m_SizeDelta: {x: 46.3866, y: 30}
+  m_AnchoredPosition: {x: 20, y: -60}
+  m_SizeDelta: {x: 30, y: 15}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1111650079
 MonoBehaviour:
@@ -23371,7 +23395,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -251.15253, y: -142}
+  m_AnchoredPosition: {x: -251.15253, y: -94.19}
   m_SizeDelta: {x: 297.6907, y: 166.59}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1132991546
@@ -26266,7 +26290,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 351, y: -211.56544}
+  m_AnchoredPosition: {x: 351, y: 190.92}
   m_SizeDelta: {x: 37.9046, y: 20.6842}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1260143824
@@ -26607,8 +26631,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: -164}
-  m_SizeDelta: {x: 46.3866, y: 30}
+  m_AnchoredPosition: {x: 20, y: -45}
+  m_SizeDelta: {x: 30, y: 15}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1274304000
 MonoBehaviour:
@@ -34812,6 +34836,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1031440123}
+        m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
+        m_MethodName: UpdateStructureTexts
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1721686440
 GameObject:
   m_ObjectHideFlags: 0
@@ -39585,7 +39621,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 603.61, y: -14.730011}
+  m_AnchoredPosition: {x: 676.9, y: -14.730011}
   m_SizeDelta: {x: 46.3866, y: 30}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1930230100
@@ -40368,8 +40404,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: -264}
-  m_SizeDelta: {x: 46.3866, y: 30}
+  m_AnchoredPosition: {x: 20, y: -75}
+  m_SizeDelta: {x: 30, y: 15}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1952362487
 MonoBehaviour:
@@ -44377,7 +44413,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 351, y: -211.56544}
+  m_AnchoredPosition: {x: 351, y: 190.92}
   m_SizeDelta: {x: 37.9046, y: 20.6842}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2138502117

@@ -360,10 +360,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -547,10 +547,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -853,10 +853,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -1975,10 +1975,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -3204,10 +3204,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -3527,10 +3527,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -3700,10 +3700,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -3798,10 +3798,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -3971,10 +3971,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -4971,10 +4971,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -6375,10 +6375,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -7149,10 +7149,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -10935,10 +10935,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -12721,10 +12721,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -14679,10 +14679,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -16129,10 +16129,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -16495,10 +16495,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -17351,10 +17351,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -18684,10 +18684,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -21371,10 +21371,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -22238,10 +22238,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -22486,10 +22486,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -24578,10 +24578,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -25827,21 +25827,13 @@ PrefabInstance:
     m_TransformParent: {fileID: 519420032}
     m_Modifications:
     - target: {fileID: 1968223233856078321, guid: 7c39a922e56edce46970c1fefba6a279, type: 3}
-      propertyPath: playOnAwake
-      value: 0
+      propertyPath: InitialModule.startSize.scalar
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 1968223233856078321, guid: 7c39a922e56edce46970c1fefba6a279, type: 3}
-      propertyPath: TriggerModule.enabled
-      value: 0
+      propertyPath: InitialModule.startSize.minScalar
+      value: 1.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1968223233856078321, guid: 7c39a922e56edce46970c1fefba6a279, type: 3}
-      propertyPath: TriggerModule.primitives.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1968223233856078321, guid: 7c39a922e56edce46970c1fefba6a279, type: 3}
-      propertyPath: TriggerModule.primitives.Array.data[0]
-      value: 
-      objectReference: {fileID: 1031440121}
     - target: {fileID: 5215294492967828724, guid: 7c39a922e56edce46970c1fefba6a279, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -27446,10 +27438,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -27623,10 +27615,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -29978,10 +29970,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -30181,10 +30173,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -30519,10 +30511,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -31806,10 +31798,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -33742,10 +33734,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -35392,10 +35384,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -37071,10 +37063,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -37322,10 +37314,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -37759,10 +37751,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -38150,10 +38142,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -38779,10 +38771,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -39656,10 +39648,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -41338,10 +41330,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -41647,10 +41639,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -41877,10 +41869,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -42233,10 +42225,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -42557,10 +42549,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9
@@ -44492,10 +44484,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87befcb80e220e741bbc10bd735a8205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startOffsetY: 1000
-  minFallSpeed: 1800
-  maxFallSpeed: 2400
-  maxAdditionalDelay: 0.1
+  startOffsetY: 15
+  minFallSpeed: 25
+  maxFallSpeed: 40
+  maxAdditionalDelay: 0.15
   minVolume: 0.3
   maxVolume: 0.4
   minPitch: 0.9

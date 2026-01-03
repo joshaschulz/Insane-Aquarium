@@ -6,6 +6,7 @@ using System.Linq;
 
 public class Scr_Fish : MonoBehaviour
 {
+
     public Scr_FishAnimation fishAnimation;
 
     [HideInInspector]
@@ -47,6 +48,8 @@ public class Scr_Fish : MonoBehaviour
     public int baseFishCost; //amount to buy from fishy guy
     public int fishValue; //amount the fish sells for
     public Vector3 originalScale;
+
+    //public sizeWhenBagged;
 
     private Vector2 target;
 

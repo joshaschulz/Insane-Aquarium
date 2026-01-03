@@ -15,6 +15,8 @@ TagManager:
   - Blue Tang
   - Tetra
   - Starfish
+  - Menu Starfish
+  - Menu Fish
   layers:
   - Default
   - TransparentFX
@@ -33,7 +35,7 @@ TagManager:
   - Structures
   - Fish
   - 
-  - 
+  - GameObjects Over UI
   - 
   - 
   - 
@@ -72,6 +74,9 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 686396841
+    locked: 0
+  - name: UI2
+    uniqueID: 311041923
     locked: 0
   - name: Scene Transition
     uniqueID: 1864783893

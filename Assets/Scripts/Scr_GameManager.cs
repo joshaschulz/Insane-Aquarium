@@ -1090,10 +1090,9 @@ public class Scr_GameManager : MonoBehaviour
         //_fishToBag.transform.SetParent(baggedFishButtonToUse.transform);
         _fishToBag.transform.SetParent(baggedFishSocketToUse.transform);
 
-        fishScript.originalScale = _fishToBag.transform.localScale;
+        //fishScript.originalScale = _fishToBag.transform.localScale;
 
-        SetSortingGroupToLayer(_fishToBag, "UI");
-
+        SetSortingGroupToLayer(_fishToBag, "UI2");
 
         fishScript.SetTarget(_fishToBag.transform.position);
         fishAnimScript.SetState(Scr_FishAnimation.FishState.Idle);
@@ -1109,11 +1108,11 @@ public class Scr_GameManager : MonoBehaviour
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
 
         float baggedFishButtonWidth = (baggedFishButtonToUse.GetComponent<RectTransform>().rect.width / Camera.main.pixelWidth) * screenWidthWorld;
-        _fishToBag.transform.localScale /= baggedFishButtonWidth * 4f;
+        _fishToBag.transform.localScale /= 2;
 
         // Move the fish to the position where the fishbag button appears to be in the world
-        Vector3 baggedFishButtonPosition = Camera.main.ScreenToWorldPoint(baggedFishButtonToUse.transform.position);
-        _fishToBag.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y - 0.2f, _fishToBag.transform.position.z);
+        Vector3 baggedFishButtonPosition = baggedFishButtonToUse.transform.position;
+        _fishToBag.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y, _fishToBag.transform.position.z);
 
         // Figure out how to make the bagged fish render in front of the other tank fish and go back to normal upon dropping into tank
     }
@@ -1181,9 +1180,9 @@ public class Scr_GameManager : MonoBehaviour
         //_fishToBag.transform.SetParent(baggedFishButtonToUse.transform);
         _fishToBag.transform.SetParent(baggedFishSocketToUse.transform);
 
-        fishScript.originalScale = _fishToBag.transform.localScale;
+        //fishScript.originalScale = _fishToBag.transform.localScale;
 
-        SetSortingGroupToLayer(_fishToBag, "UI");
+        SetSortingGroupToLayer(_fishToBag, "UI2");
 
 
         fishScript.CancelInvoke();
@@ -1194,11 +1193,11 @@ public class Scr_GameManager : MonoBehaviour
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
 
         float baggedFishButtonWidth = (baggedFishButtonToUse.GetComponent<RectTransform>().rect.width / Camera.main.pixelWidth) * screenWidthWorld;
-        _fishToBag.transform.localScale /= baggedFishButtonWidth * 4f;
+        _fishToBag.transform.localScale /= 2;
 
         // Move the fish to the position where the fishbag button appears to be in the world
-        Vector3 baggedFishButtonPosition = Camera.main.ScreenToWorldPoint(baggedFishButtonToUse.transform.position);
-        _fishToBag.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y - 0.2f, _fishToBag.transform.position.z);
+        Vector3 baggedFishButtonPosition = baggedFishButtonToUse.transform.position;
+        _fishToBag.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y, _fishToBag.transform.position.z);
 
         // Figure out how to make the bagged fish render in front of the other tank fish and go back to normal upon dropping into tank
     }
@@ -1256,7 +1255,9 @@ public class Scr_GameManager : MonoBehaviour
         var s = _fishToBag.transform.localScale;
         _fishToBag.transform.localScale = new Vector3(Mathf.Abs(s.x), Mathf.Abs(s.y), Mathf.Abs(s.z));
 
-        fishScript.originalScale = _fishToBag.transform.localScale;
+        //fishScript.originalScale = _fishToBag.transform.localScale;
+
+        SetSortingGroupToLayer(_fishToBag, "UI2");
 
         fishScript.grown = true;
 
@@ -1270,11 +1271,11 @@ public class Scr_GameManager : MonoBehaviour
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
 
         float baggedFishButtonWidth = (baggedFishButtonToUse.GetComponent<RectTransform>().rect.width / Camera.main.pixelWidth) * screenWidthWorld;
-        _fishToBag.transform.localScale /= baggedFishButtonWidth * 4f;
+        _fishToBag.transform.localScale /= 2;
 
         // Move the fish to the position where the fishbag button appears to be in the world
-        Vector3 baggedFishButtonPosition = Camera.main.ScreenToWorldPoint(baggedFishButtonToUse.transform.position);
-        _fishToBag.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y - 0.2f, _fishToBag.transform.position.z);
+        Vector3 baggedFishButtonPosition = baggedFishButtonToUse.transform.position;
+        _fishToBag.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y, _fishToBag.transform.position.z);
 
         // Figure out how to make the bagged fish render in front of the other tank fish and go back to normal upon dropping into tank
     }
@@ -1336,7 +1337,10 @@ public class Scr_GameManager : MonoBehaviour
         var s = _fishToBag.transform.localScale;
         _fishToBag.transform.localScale = new Vector3(Mathf.Abs(s.x), Mathf.Abs(s.y), Mathf.Abs(s.z));
 
-        fishScript.originalScale = _fishToBag.transform.localScale;
+        //fishScript.originalScale = _fishToBag.transform.localScale;
+
+        SetSortingGroupToLayer(_fishToBag, "UI2");
+
 
         fishScript.grown = true;
 
@@ -1350,11 +1354,11 @@ public class Scr_GameManager : MonoBehaviour
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
 
         float baggedFishButtonWidth = (baggedFishButtonToUse.GetComponent<RectTransform>().rect.width / Camera.main.pixelWidth) * screenWidthWorld;
-        _fishToBag.transform.localScale /= baggedFishButtonWidth * 4f;
+        _fishToBag.transform.localScale /= 2;
 
         // Move the fish to the position where the fishbag button appears to be in the world
-        Vector3 baggedFishButtonPosition = Camera.main.ScreenToWorldPoint(baggedFishButtonToUse.transform.position);
-        _fishToBag.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y - 0.2f, _fishToBag.transform.position.z);
+        Vector3 baggedFishButtonPosition = baggedFishButtonToUse.transform.position;
+        _fishToBag.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y, _fishToBag.transform.position.z);
 
         // Figure out how to make the bagged fish render in front of the other tank fish and go back to normal upon dropping into tank
         return true;
@@ -1406,7 +1410,10 @@ public class Scr_GameManager : MonoBehaviour
         var s = _fishToBag.transform.localScale;
         _fishToBag.transform.localScale = new Vector3(Mathf.Abs(s.x), Mathf.Abs(s.y), Mathf.Abs(s.z));
 
-        fishScript.originalScale = _fishToBag.transform.localScale;
+        //fishScript.originalScale = _fishToBag.transform.localScale;
+
+        SetSortingGroupToLayer(_fishToBag, "UI2");
+
 
         fishScript.enabled = false;
         _fishToBag.GetComponent<CircleCollider2D>().enabled = false;
@@ -1415,11 +1422,11 @@ public class Scr_GameManager : MonoBehaviour
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
 
         float baggedFishButtonWidth = (baggedFishButtonToUse.GetComponent<RectTransform>().rect.width / Camera.main.pixelWidth) * screenWidthWorld;
-        _fishToBag.transform.localScale /= baggedFishButtonWidth * 4f;
+        _fishToBag.transform.localScale /= 2;
 
         // Move the fish to the position where the fishbag button appears to be in the world
-        Vector3 baggedFishButtonPosition = Camera.main.ScreenToWorldPoint(baggedFishButtonToUse.transform.position);
-        _fishToBag.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y - 0.2f, _fishToBag.transform.position.z);
+        Vector3 baggedFishButtonPosition = baggedFishButtonToUse.transform.position;
+        _fishToBag.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y, _fishToBag.transform.position.z);
 
         // Figure out how to make the bagged fish render in front of the other tank fish and go back to normal upon dropping into tank
         return true;
@@ -2528,6 +2535,7 @@ public class Scr_GameManager : MonoBehaviour
 
         return fastForwardSettingFactor;
     }
+
 
     public void QuitGame()
     {

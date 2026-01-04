@@ -296,6 +296,8 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
             if (cachedFishMovement != null)
             {
                 // kick out to main menu...
+                gameManager.PlaySoundEffect(gameManager.SFX_Flush, 1);
+                gameManager.ClickButton(winPanel.flushFishButton);
             }
         }
     }
@@ -343,6 +345,7 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
 
     public void FlushFish()
     {
+        gameManager.PlaySoundEffect(gameManager.SFX_Flush, 1);
         ResetFishingMinigame();
         DespawnFishingMinigame();
     }
@@ -364,6 +367,11 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
             winPanel.winChest = null;
         }
             
+    }
+
+    public void PlayReelDropSound()
+    {
+        gameManager.PlaySoundEffect(gameManager.SFX_Click, 1);
     }
 
 }

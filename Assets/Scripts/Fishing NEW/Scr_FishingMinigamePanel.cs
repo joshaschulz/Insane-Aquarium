@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class Scr_FishingMinigamePanel : MonoBehaviour
 {
@@ -26,6 +27,9 @@ public class Scr_FishingMinigamePanel : MonoBehaviour
     public GameObject winChest;
 
     public GameObject lineConnectorRoot; // drag the line connector parent here
+
+    public Button bagFishButton;
+    public Button flushFishButton;
 
 
     private void OnEnable()

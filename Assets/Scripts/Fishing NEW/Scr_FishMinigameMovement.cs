@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Scr_FishMinigameMovement : MonoBehaviour
 {
+    private Scr_GameManager gameManager;
+
     [Header("required")]
     public Scr_FishAnimation fishAnimation;
 
@@ -23,6 +25,8 @@ public class Scr_FishMinigameMovement : MonoBehaviour
 
     private void Awake()
     {
+        gameManager = Scr_GameManager.GMinstance;
+
         baseSpeedFactored = baseSpeed;
     }
 
@@ -142,6 +146,9 @@ public class Scr_FishMinigameMovement : MonoBehaviour
         CancelInvoke(nameof(IdleOrMoveFast));
 
         IdleOrMoveFast();
+
+        //gameManager.SpawnParticles(gameManager.bubblesEffectPrefab, transform.position, transform.rotation, null);
+
 
         hooked = true;
 

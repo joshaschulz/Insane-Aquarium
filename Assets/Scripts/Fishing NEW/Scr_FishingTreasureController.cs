@@ -53,6 +53,7 @@ public class Scr_FishingMinigameChestController : MonoBehaviour
     public Canvas uiCanvas;
     public RectTransform chestBarRoot;
     public Vector2 chestBarPixelOffset = new Vector2(0f, 40f);
+    public Vector2 canvasOffset = new Vector2(0f, 80f);
 
     [Header("results")]
     public int chestCount = 0;
@@ -302,8 +303,10 @@ public class Scr_FishingMinigameChestController : MonoBehaviour
 
         chestBarRoot.gameObject.SetActive(true);
 
-        Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(cam, activeChest.transform.position);
-        screenPoint += chestBarPixelOffset;
+        //Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(cam, activeChest.transform.position);
+        Vector2 screenPoint = cam.WorldToScreenPoint(activeChest.transform.position);
+        //screenPoint += chestBarPixelOffset;
+        screenPoint += canvasOffset;
 
         RectTransform canvasRect = uiCanvas.transform as RectTransform;
 

@@ -22212,6 +22212,7 @@ MonoBehaviour:
   pauseMenu: {fileID: 1292209637}
   backButton: {fileID: 1341634466}
   customerAttractionRate: 0
+  bubblesEffectPrefab: {fileID: 7699653466035250317, guid: 4e2ec060f025af64ba8ccc7e09d540eb, type: 3}
   SFX_DropCoin: {fileID: 8300000, guid: 5ddd5e4b84097c64e8fe6b8b28fc1296, type: 3}
   SFX_DropFish: {fileID: 8300000, guid: 23c6049ea0e728142973a9c84341ac3a, type: 3}
   SFX_DropFood: {fileID: 8300000, guid: 96e7efc54c26eac40b24ba697bac8d47, type: 3}
@@ -34682,6 +34683,8 @@ MonoBehaviour:
   winChestLocation: {fileID: 855057973}
   winChest: {fileID: 0}
   lineConnectorRoot: {fileID: 1884585755}
+  bagFishButton: {fileID: 1607116418}
+  flushFishButton: {fileID: 2144714764}
 --- !u!114 &1654857286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34717,7 +34720,8 @@ MonoBehaviour:
   chestFullColor: {r: 0, g: 1, b: 0, a: 1}
   uiCanvas: {fileID: 1991904554}
   chestBarRoot: {fileID: 174297921}
-  chestBarPixelOffset: {x: 0, y: -20}
+  chestBarPixelOffset: {x: 0, y: -30}
+  canvasOffset: {x: 0, y: -50}
   chestCount: 0
   fishingLine: {fileID: 1884585757}
   cursorLagIncreasePerChest: 25
@@ -43557,7 +43561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}

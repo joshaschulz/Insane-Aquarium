@@ -29,8 +29,6 @@ public class Scr_FishyGuy : MonoBehaviour
     public GameObject fishBag1;
     public GameObject fishBag2;
 
-    public Transform fishWaitingArea;
-
     private bool fishyGuyRecentlyLeft = false;
 
 
@@ -191,7 +189,7 @@ public class Scr_FishyGuy : MonoBehaviour
 
             if (gameManager.moneyAmount > fishToBuyScr.baseFishCost)
             {
-                GameObject fish = gameManager.SpawnBoughtStarfish(fishToBuy, fishWaitingArea);
+                GameObject fish = gameManager.SpawnTempStarfish(fishToBuy, gameManager.fishWaitingArea);
                 if (gameManager.BagFishyGuyStarfish(fish))
                 {
                     gameManager.SubtractMoneyAmount(fishToBuyScr.baseFishCost);
@@ -220,7 +218,7 @@ public class Scr_FishyGuy : MonoBehaviour
 
             if (gameManager.moneyAmount > fishToBuyScr.baseFishCost)
             {
-                GameObject fish = gameManager.SpawnBoughtFish(fishToBuy, fishWaitingArea);
+                GameObject fish = gameManager.SpawnTempFish(fishToBuy, gameManager.fishWaitingArea);
                 if (gameManager.BagFishyGuyFish(fish))
                 {
                     gameManager.SubtractMoneyAmount(fishToBuyScr.baseFishCost);

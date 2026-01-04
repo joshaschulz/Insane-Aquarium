@@ -16,6 +16,7 @@ public class Scr_FishAnimation : MonoBehaviour
     private GameObject sideContainer;
     private GameObject frontContainer;
     public Animator frontAnimator;
+    public Animator sideAnimator;
 
 
     public void Awake()
@@ -30,8 +31,13 @@ public class Scr_FishAnimation : MonoBehaviour
             Debug.Log(gameObject.name + "'s second child's name does not contain 'Front Container'.");
 
 
+        
+
         frontAnimator = frontContainer.GetComponent<Animator>();
-        frontAnimator.Play("Fish Spawn");
+        sideAnimator = sideContainer.GetComponent<Animator>();
+
+        if (gameObject.GetComponent<Scr_FishMinigameMovement>() == null)
+            frontAnimator.Play("Fish Spawn");
     }
 
 

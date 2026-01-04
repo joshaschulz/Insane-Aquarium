@@ -1,0 +1,26 @@
+Duplicate an existing fish prefab
+Replace name and all child object names with new fish name
+Change Scr_Fish, Scr_FishAnimation, and Scr_ToiletFish settings
+Add new fish tag and apply it
+Replace body part sprites with new fish body part sprites
+Change the collider size & mouth position
+Move the Hunger/Heart icons and resize if necessary
+Add debug fish spawning button
+Add fish to fishing minigame (Rod -> Scr_Fishing -> FishesToCatch)
+Readjust fishing minigame's weighted chances to catch
+Duplicate existing fish's Animation folder and rename animators/animations
+Apply Animation Controllers to the Front/Side Containers
+Add Idle/Swim Animations to the Front/Side Animation Controllers
+Create animations
+Resize final fish in prefab's parent transform
+Adjust the Fish's edge collider prefab's parent (for fishing minigame)
+Add fish entry to the fishpedia
+Add fish front image to Resources-Fish folder
+Add species-specific mechanics
+Add fish to the build/test game settings
+Add fish settings case to fish script in ChangeGameSettings()
+Make sure Front Container is active and Side Container is inactive
+Duplicate a menu fish in prefabs/menu fish (not the starfish)
+Change to be new fish
+Make sure the tag is "Menu Fish"
+In Menu Fish Spawner game object, add the fish as a new element to fish prefabs

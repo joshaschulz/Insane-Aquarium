@@ -119,6 +119,8 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject[] fishPrefabs;
     public Sprite[] fishSprites;
 
+    public Transform fishWaitingArea;
+
     public Transform foregroundTank;
     public Transform backgroundTank;
     public SpriteRenderer[] tankSpriteRenderers;
@@ -551,7 +553,7 @@ public class Scr_GameManager : MonoBehaviour
 
 
                 releasedFish.GetComponent<CircleCollider2D>().enabled = true;
-                releasedFish.transform.localScale = releasedFishScript.originalScale;
+                releasedFish.transform.localScale = new Vector3(1, 1, 1);
 
                 SetSortingGroupToLayer(releasedFish, "Game Objects");
 
@@ -649,7 +651,7 @@ public class Scr_GameManager : MonoBehaviour
 
 
                 releasedFish.GetComponent<CircleCollider2D>().enabled = true;
-                releasedFish.transform.localScale = releasedFishScript.originalScale;
+                releasedFish.transform.localScale = new Vector3(1, 1, 1);
 
                 SetSortingGroupToLayer(releasedFish, "Game Objects");
 
@@ -803,7 +805,7 @@ public class Scr_GameManager : MonoBehaviour
 
     }
 
-    public GameObject SpawnBoughtFish(GameObject _fishToSpawn, Transform _pos)
+    public GameObject SpawnTempFish(GameObject _fishToSpawn, Transform _pos)
     {
         //spawn fish at random x coordinate at same designated y coordinate
         //set the x bounds of where the fish can spawn based on screen size
@@ -825,7 +827,7 @@ public class Scr_GameManager : MonoBehaviour
         return newFish;
     }
 
-    public GameObject SpawnBoughtStarfish(GameObject _fishToSpawn, Transform _pos)
+    public GameObject SpawnTempStarfish(GameObject _fishToSpawn, Transform _pos)
     {
         //spawn fish at random x coordinate at same designated y coordinate
         //set the x bounds of where the fish can spawn based on screen size
@@ -1093,7 +1095,7 @@ public class Scr_GameManager : MonoBehaviour
         //_fishToBag.transform.SetParent(baggedFishButtonToUse.transform);
         _fishToBag.transform.SetParent(baggedFishSocketToUse.transform);
 
-        //fishScript.originalScale = _fishToBag.transform.localScale;
+        fishScript.originalScale = _fishToBag.transform.localScale;
 
         SetSortingGroupToLayer(_fishToBag, "UI2");
 
@@ -1183,7 +1185,7 @@ public class Scr_GameManager : MonoBehaviour
         //_fishToBag.transform.SetParent(baggedFishButtonToUse.transform);
         _fishToBag.transform.SetParent(baggedFishSocketToUse.transform);
 
-        //fishScript.originalScale = _fishToBag.transform.localScale;
+        fishScript.originalScale = _fishToBag.transform.localScale;
 
         SetSortingGroupToLayer(_fishToBag, "UI2");
 
@@ -1340,7 +1342,7 @@ public class Scr_GameManager : MonoBehaviour
         var s = _fishToBag.transform.localScale;
         _fishToBag.transform.localScale = new Vector3(Mathf.Abs(s.x), Mathf.Abs(s.y), Mathf.Abs(s.z));
 
-        //fishScript.originalScale = _fishToBag.transform.localScale;
+        fishScript.originalScale = _fishToBag.transform.localScale;
 
         SetSortingGroupToLayer(_fishToBag, "UI2");
 
@@ -1413,7 +1415,7 @@ public class Scr_GameManager : MonoBehaviour
         var s = _fishToBag.transform.localScale;
         _fishToBag.transform.localScale = new Vector3(Mathf.Abs(s.x), Mathf.Abs(s.y), Mathf.Abs(s.z));
 
-        //fishScript.originalScale = _fishToBag.transform.localScale;
+        fishScript.originalScale = _fishToBag.transform.localScale;
 
         SetSortingGroupToLayer(_fishToBag, "UI2");
 
@@ -1430,6 +1432,91 @@ public class Scr_GameManager : MonoBehaviour
         // Move the fish to the position where the fishbag button appears to be in the world
         Vector3 baggedFishButtonPosition = baggedFishButtonToUse.transform.position;
         _fishToBag.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y, _fishToBag.transform.position.z);
+
+        // Figure out how to make the bagged fish render in front of the other tank fish and go back to normal upon dropping into tank
+        return true;
+    }
+
+    public bool BagFishingFish(GameObject _fishToBag)
+    {
+        GameObject baggedFishButtonToUse;
+        GameObject baggedFishSocketToUse;
+        // Check to see if there is at least 1 of 3 bags available
+        if (baggedFish_Socket1.transform.childCount == 0)
+        {
+            baggedFishButtonToUse = baggedFish_Button1;
+            baggedFishSocketToUse = baggedFish_Socket1;
+        }
+        else if (baggedFish_Socket2.transform.childCount == 0)
+        {
+            baggedFishButtonToUse = baggedFish_Button2;
+            baggedFishSocketToUse = baggedFish_Socket2;
+        }
+        else if (baggedFish_Socket3.transform.childCount == 0)
+        {
+            baggedFishButtonToUse = baggedFish_Button3;
+            baggedFishSocketToUse = baggedFish_Socket3;
+        }
+        else
+        {
+            Debug.Log("All fish bags were taken up!");
+            // Perhaps disable the button to bag more fish in this case
+            return false;
+        }
+
+        ShowHideFishBags();
+
+        Debug.Log(_fishToBag.name + " was bagged");
+
+        GameObject caughtFish = null;
+
+        foreach (GameObject fishPrefab in fishPrefabs)
+        {
+            if (fishPrefab.CompareTag(_fishToBag.tag))
+                caughtFish = fishPrefab;
+        }
+
+        GameObject fish = SpawnTempFish(caughtFish, fishWaitingArea);
+
+
+        Scr_Fish fishScript = fish.GetComponent<Scr_Fish>();
+        Scr_FishAnimation fishAnimScript = fish.GetComponent<Scr_FishAnimation>();
+        fishAnimScript.frontAnimator.Rebind();
+        fishAnimScript.frontAnimator.Update(0f);
+
+        fishScript.enabled = true;
+
+
+        baggedFishButtonToUse.SetActive(true);
+        fish.transform.SetParent(baggedFishSocketToUse.transform);
+
+
+        fishScript.SetTarget(fish.transform.position);
+        fishAnimScript.SetState(Scr_FishAnimation.FishState.Idle);
+        fishScript.CancelInvoke();
+
+        fish.transform.localEulerAngles = Vector3.zero;
+        var s = fish.transform.localScale;
+        fish.transform.localScale = new Vector3(Mathf.Abs(s.x), Mathf.Abs(s.y), Mathf.Abs(s.z));
+
+        fishScript.originalScale = _fishToBag.transform.localScale;
+
+        SetSortingGroupToLayer(fish, "UI2");
+
+
+        fishScript.grown = true;
+
+        fishScript.GenerateRandomStats();
+
+
+        fishScript.enabled = false;
+        fish.GetComponent<CircleCollider2D>().enabled = false;
+
+        fish.transform.localScale /= 2;
+
+        // Move the fish to the position where the fishbag button appears to be in the world
+        Vector3 baggedFishButtonPosition = baggedFishButtonToUse.transform.position;
+        fish.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y, fish.transform.position.z);
 
         // Figure out how to make the bagged fish render in front of the other tank fish and go back to normal upon dropping into tank
         return true;
@@ -2560,6 +2647,11 @@ public class Scr_GameManager : MonoBehaviour
         }
 
         return fastForwardSettingFactor;
+    }
+
+    public void ClickButton(Button button)
+    {
+        button.onClick.Invoke();
     }
 
 

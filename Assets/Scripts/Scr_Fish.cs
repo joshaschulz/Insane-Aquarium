@@ -53,7 +53,7 @@ public class Scr_Fish : MonoBehaviour
 
     private Vector2 target;
 
-    public Vector2 spawnTank; //keeps track of fish's spawned tank
+    public Transform spawnTank; //keeps track of fish's spawned tank
     public float minX, maxX, minY, maxY;
 
     public GameObject bloodEffectPrefab;
@@ -708,7 +708,7 @@ public class Scr_Fish : MonoBehaviour
     {
         poopCount = 0;
 
-        gameManager.UpdatePoopLevel(spawnTank, 1);
+        gameManager.UpdatePoopLevel(new Vector2(spawnTank.position.x, spawnTank.position.y), 1);
 
         int poopSoundSeed = Random.Range(0, 2);
         /*if (poopSoundSeed == 0)
@@ -846,26 +846,30 @@ public class Scr_Fish : MonoBehaviour
     {
         spawnTank = gameManager.GetTankPos(gameObject.transform);
 
-        float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
-        float screenHeightWorld = Camera.main.orthographicSize * 2;
+        GameObject tankFishSwimBounds = gameManager.GetTankSwimBounds(spawnTank);
 
-        minX = spawnTank.x - screenWidthWorld / 2;
-        maxX = spawnTank.x + screenWidthWorld / 2;
-        minY = spawnTank.y - screenHeightWorld / 2;
-        maxY = spawnTank.y + screenHeightWorld / 2;
+        BoxCollider2D box = tankFishSwimBounds.GetComponent<BoxCollider2D>();
+        Bounds bounds = box.bounds;
+
+        minX = bounds.min.x;
+        maxX = bounds.max.x;
+        minY = bounds.min.y;
+        maxY = bounds.max.y;
 
     }
     private void SetMinAndMax(Vector2 _spawnTank) //set the min and max of where fish can travel
     {
-        spawnTank = _spawnTank;
+        spawnTank = gameManager.GetTankPos(_spawnTank);
 
-        float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
-        float screenHeightWorld = Camera.main.orthographicSize * 2;
+        GameObject tankFishSwimBounds = gameManager.GetTankSwimBounds(spawnTank);
 
-        minX = spawnTank.x - screenWidthWorld / 2;
-        maxX = spawnTank.x + screenWidthWorld / 2;
-        minY = spawnTank.y - screenHeightWorld / 2;
-        maxY = spawnTank.y + screenHeightWorld / 2;
+        BoxCollider2D box = tankFishSwimBounds.GetComponent<BoxCollider2D>();
+        Bounds bounds = box.bounds;
+
+        minX = bounds.min.x;
+        maxX = bounds.max.x;
+        minY = bounds.min.y;
+        maxY = bounds.max.y;
 
     }
 

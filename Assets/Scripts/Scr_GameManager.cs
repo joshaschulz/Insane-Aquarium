@@ -124,7 +124,7 @@ public class Scr_GameManager : MonoBehaviour
     public Transform foregroundTank;
     public Transform backgroundTank;
 
-    public Transform[] allTanks;
+    public GameObject[] tankFishSwimBounds;
 
     public SpriteRenderer[] tankSpriteRenderers;
 
@@ -2320,7 +2320,7 @@ public class Scr_GameManager : MonoBehaviour
 
             if (fishScript != null)
             {
-                if (fishScript.spawnTank == new Vector2(tank.position.x, tank.position.y))
+                if (fishScript.spawnTank == tank)
                 {
                     tankFish++;
                 }
@@ -2432,17 +2432,30 @@ public class Scr_GameManager : MonoBehaviour
         }
     }
 
-    public Vector2 GetTankPos(Transform pos)
+    public Transform GetTankPos(Transform pos)
     {
         foreach (SpriteRenderer tank in tankSpriteRenderers)
         {
             if (tank.bounds.Contains(pos.position))
             {
-                return new Vector2(tank.transform.position.x, tank.transform.position.y);
+                return tank.gameObject.transform;
             }
         }
 
-        return new Vector2();
+        return null;
+    }
+
+    public Transform GetTankPos(Vector2 pos)
+    {
+        foreach (SpriteRenderer tank in tankSpriteRenderers)
+        {
+            if (tank.bounds.Contains(pos))
+            {
+                return tank.gameObject.transform;
+            }
+        }
+
+        return null;
     }
 
     public void ClickKeypad(int key)
@@ -2654,6 +2667,34 @@ public class Scr_GameManager : MonoBehaviour
         }
 
         return fastForwardSettingFactor;
+    }
+
+    public GameObject GetTankSwimBounds(Transform tank)
+    {
+        foreach (GameObject tankFishSwimBounds in tankFishSwimBounds)
+        {
+            if (tank == tankFishSwimBounds.transform.parent.transform)
+            {
+                return tankFishSwimBounds;
+            }
+        }
+
+        return null;
+    }
+
+    public GameObject GetTankSwimBounds(Vector2 tankPos)
+    {
+        foreach (GameObject tankFishSwimBounds in tankFishSwimBounds)
+        {
+            Vector2 parentPos = new Vector2(tankFishSwimBounds.transform.parent.transform.position.x, tankFishSwimBounds.transform.parent.transform.position.y);
+
+            if (tankPos == parentPos)
+            {
+                return tankFishSwimBounds;
+            }
+        }
+
+        return null;
     }
 
     public void ClickButton(Button button)

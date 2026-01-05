@@ -18,7 +18,7 @@ public class Scr_Filter : MonoBehaviour
     private void Start()
     {
         gameManager = Scr_GameManager.GMinstance;
-        myTankPos = gameManager.GetTankPos(transform);
+        myTankPos = new Vector2(gameManager.GetTankPos(transform).position.x, gameManager.GetTankPos(transform).position.y);
     }
 
     private void Update()

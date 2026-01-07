@@ -2114,53 +2114,13 @@ public class Scr_GameManager : MonoBehaviour
         }
     }
 
-    public void ChangeColor(GameObject _Object, Color _colorToChange) // Checks ALL children
+    public void ChangeColor(GameObject _Object, Color _colorToChange)
     {
-        // Check for Sprite Renderer components in the object and its children and change the color
+        foreach (SpriteRenderer sr in _Object.GetComponentsInChildren<SpriteRenderer>(true))
+            sr.color = _colorToChange;
 
-        if (_Object.GetComponent<SpriteRenderer>() != null)
-        {
-            // Change the color of the object
-            _Object.GetComponent<SpriteRenderer>().color = _colorToChange;
-        }
-
-        // Change the color of the object's children
-        foreach (Transform child in _Object.transform)
-        {
-            if (child.gameObject.GetComponent<SpriteRenderer>() != null)
-            {
-                child.gameObject.GetComponent<SpriteRenderer>().color = _colorToChange;
-            }
-
-            if (child.childCount > 0)
-            {
-                ChangeColor(child.gameObject, _colorToChange);
-            }
-        }
-
-
-        // Check for Image components in the object and its children and change the color
-
-        if (_Object.GetComponent<Image>() != null)
-        {
-            // Change the color of the object
-            _Object.GetComponent<Image>().color = _colorToChange;
-        }
-
-        // Change the color of the object's children
-        foreach (Transform child in _Object.transform)
-        {
-            if (child.gameObject.GetComponent<Image>() != null)
-            {
-                child.gameObject.GetComponent<Image>().color = _colorToChange;
-            }
-
-            if (child.childCount > 0)
-            {
-                ChangeColor(child.gameObject, _colorToChange);
-            }
-        }
-
+        foreach (Image img in _Object.GetComponentsInChildren<Image>(true))
+            img.color = _colorToChange;
     }
 
     public void FlashColor(GameObject _object, Color _colorToChange, float _flashTime, float _flashInterval)
@@ -2170,8 +2130,15 @@ public class Scr_GameManager : MonoBehaviour
 
     private IEnumerator FlashColorCoroutine(GameObject _object, Color _colorToChange, float _flashTime, float _flashInterval)
     {
+        Dictionary<Component, Color> originalColors = new Dictionary<Component, Color>();
+
+        foreach (SpriteRenderer sr in _object.GetComponentsInChildren<SpriteRenderer>(true))
+            originalColors[sr] = sr.color;
+
+        foreach (Image img in _object.GetComponentsInChildren<Image>(true))
+            originalColors[img] = img.color;
+
         float elapsedTime = 0f;
-        Color originalColor = Color.white; // Assuming the default color is white.
 
         while (elapsedTime < _flashTime)
         {
@@ -2179,9 +2146,25 @@ public class Scr_GameManager : MonoBehaviour
             yield return new WaitForSeconds(_flashInterval);
             elapsedTime += _flashInterval;
 
-            ChangeColor(_object, originalColor);
+            foreach (var kvp in originalColors)
+            {
+                if (kvp.Key is SpriteRenderer sr)
+                    sr.color = kvp.Value;
+                else if (kvp.Key is Image img)
+                    img.color = kvp.Value;
+            }
+
             yield return new WaitForSeconds(_flashInterval);
             elapsedTime += _flashInterval;
+        }
+
+        // Final safety restore
+        foreach (var kvp in originalColors)
+        {
+            if (kvp.Key is SpriteRenderer sr)
+                sr.color = kvp.Value;
+            else if (kvp.Key is Image img)
+                img.color = kvp.Value;
         }
     }
 
@@ -2192,7 +2175,7 @@ public class Scr_GameManager : MonoBehaviour
     private IEnumerator FlashTextColorCoroutine(TextMeshProUGUI _textObject, Color _colorToChange, float _flashTime, float _flashInterval)
     {
         float elapsedTime = 0f;
-        Color originalColor = Color.white;
+        Color originalColor = _textObject.color;
 
         while (elapsedTime < _flashTime)
         {
@@ -2204,6 +2187,9 @@ public class Scr_GameManager : MonoBehaviour
             yield return new WaitForSeconds(_flashInterval);
             elapsedTime += _flashInterval;
         }
+
+        // Safety restore
+        _textObject.color = originalColor;
     }
 
     public void MoveToSceneOrPause(Transform transform)

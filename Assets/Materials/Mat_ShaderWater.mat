@@ -52,6 +52,14 @@ Material:
     m_Floats:
     - _QueueControl: 1
     - _QueueOffset: 0
+    - _WaterBaseY: 0
+    - _WaterTime: 0
+    - _WaveAmp1: 0
+    - _WaveAmp2: 0
+    - _WaveFreq1: 0
+    - _WaveFreq2: 0
+    - _WaveSpeed1: 0
+    - _WaveSpeed2: 0
     m_Colors:
-    - _BaseColor: {r: 0, g: 0.07823694, b: 0.6981132, a: 0.43137255}
+    - _BaseColor: {r: 0.5990566, g: 0.88755316, b: 1, a: 0.4117647}
   m_BuildTextureStacks: []

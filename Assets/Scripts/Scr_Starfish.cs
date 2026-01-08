@@ -23,6 +23,7 @@ public class Scr_Starfish : MonoBehaviour
     public Transform spawnTank; //keeps track of fish's spawned tank
     public float minX, maxX, minY, maxY;
 
+
     public GameObject bloodEffectPrefab;
     public GameObject bloodOutlineEffectPrefab;
     public GameObject bubblesEffectPrefab;
@@ -242,6 +243,4 @@ public class Scr_Starfish : MonoBehaviour
             return false;
         }
     }
-
-
 }

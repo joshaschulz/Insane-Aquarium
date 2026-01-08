@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -119188961
-  m_SortingLayer: 3
+  m_SortingLayer: 6
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: d381f65dac68e0f4d8b553b5d9eba20c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -155,7 +155,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -119188961
-  m_SortingLayer: 3
+  m_SortingLayer: 6
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: cb0c6c2a97eba564590b307e678e7dcc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -225,7 +225,7 @@ MonoBehaviour:
   spawnHeight: 1
   baseFishCost: 500
   originalScale: {x: 0, y: 0, z: 0}
-  spawnTank: {x: 0, y: 0}
+  spawnTank: {fileID: 0}
   minX: 0
   maxX: 0
   minY: 0
@@ -233,6 +233,7 @@ MonoBehaviour:
   bloodEffectPrefab: {fileID: 7699653466035250317, guid: 29a6421998a7dcd48a84d3e1c2dcec44, type: 3}
   bloodOutlineEffectPrefab: {fileID: 7699653466035250317, guid: ff820ec8f90290e45ad4f2c2e24d6b8e, type: 3}
   bubblesEffectPrefab: {fileID: 7699653466035250317, guid: 4e2ec060f025af64ba8ccc7e09d540eb, type: 3}
+  splashParticlesPrefab: {fileID: 7699653466035250317, guid: a768b7612b253424b849cf0d1705dd50, type: 3}
   frontBody: {fileID: 8920827142380922228}
   backBody: {fileID: 7167375099216594044}
   numberCaught: 0
@@ -526,7 +527,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -119188961
-  m_SortingLayer: 3
+  m_SortingLayer: 6
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 9108e1560243a8946a4e5b995a559b5c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -610,7 +611,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -119188961
-  m_SortingLayer: 3
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 12b9b89f86929a34fb25baad1edc5a63, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -687,7 +688,7 @@ SortingGroup:
   m_GameObject: {fileID: 7964857540707324171}
   m_Enabled: 1
   m_SortingLayerID: -119188961
-  m_SortingLayer: 3
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_SortAtRoot: 0
 --- !u!1 &8281438042407981859
@@ -761,7 +762,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -119188961
-  m_SortingLayer: 3
+  m_SortingLayer: 6
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 3f1302068e402bf40815e50b8c7f999b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -878,7 +879,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -119188961
-  m_SortingLayer: 3
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7b6d811e844c6664dadc85fcd22d1728, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

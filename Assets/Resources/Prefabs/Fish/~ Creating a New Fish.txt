@@ -24,3 +24,4 @@ Duplicate a menu fish in prefabs/menu fish (not the starfish)
 Change to be new fish
 Make sure the tag is "Menu Fish"
 In Menu Fish Spawner game object, add the fish as a new element to fish prefabs
+If it is a fish that has something other than Scr_Fish, add it to the Scr_TankBounds splash detection mechanic

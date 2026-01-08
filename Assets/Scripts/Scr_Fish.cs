@@ -407,6 +407,7 @@ public class Scr_Fish : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         currentSpeed = baseSpeedFactored * gameManager.GetFastForwardSettingFactor();
 
         //don't do anything if fish is still in spawn animation
@@ -445,6 +446,7 @@ public class Scr_Fish : MonoBehaviour
         {
             IdleOrMove();
         }
+
     }
 
 
@@ -884,6 +886,5 @@ public class Scr_Fish : MonoBehaviour
             return false;
         }
     }
-
 
 }

@@ -36,7 +36,7 @@ public class Scr_FishAnimation : MonoBehaviour
         frontAnimator = frontContainer.GetComponent<Animator>();
         sideAnimator = sideContainer.GetComponent<Animator>();
 
-        if (gameObject.GetComponent<Scr_FishMinigameMovement>() == null)
+        if (gameObject.GetComponent<Scr_FishMinigameMovement>() == null && gameObject.GetComponent<Scr_FishIntroMovement>() == null)
             frontAnimator.Play("Fish Spawn");
     }
 

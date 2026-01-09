@@ -50583,6 +50583,7 @@ MonoBehaviour:
   fishFullColor: {r: 0, g: 1, b: 0, a: 1}
   fishingLine: {fileID: 1884585757}
   hookedCrateImage: {fileID: 1254797423}
+  fishHookImage: {fileID: 235394826}
   winPanel: {fileID: 1654857285}
 --- !u!1 &1656714848
 GameObject:

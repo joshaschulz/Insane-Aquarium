@@ -55,6 +55,7 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
     private Camera cam;
 
     public GameObject hookedCrateImage;
+    public GameObject fishHookImage;
 
     private float fishT01 = 0f;
     private float fishFullFillHeight = 0f;
@@ -90,6 +91,7 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
     private void OnEnable()
     {
         fishingLine.cursorFollowSpeed = fishingLine.baseCursorFollowSpeed;
+        fishHookImage.SetActive(true);
 
         if (spawnOnEnable)
         {
@@ -293,6 +295,7 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
                     winPanel.ShowWithFish(cachedFishMovement.gameObject);
             }
             hookedCrateImage.SetActive(false);
+            fishHookImage.SetActive(false);
         }
         else if (!hasWonThisRun && fishT01 <= 0f)
         {
@@ -305,6 +308,7 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
                 gameManager.ClickButton(winPanel.flushFishButton);
             }
             hookedCrateImage.SetActive(false);
+            fishHookImage.SetActive(false);
         }
 
     }

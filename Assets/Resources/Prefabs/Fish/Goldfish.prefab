@@ -1238,7 +1238,7 @@ GameObject:
   - component: {fileID: -7987699502141357884}
   - component: {fileID: 69115643324086938}
   - component: {fileID: 5934414389463618201}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Goldfish
   m_TagString: Goldfish
   m_Icon: {fileID: 0}
@@ -1310,7 +1310,6 @@ MonoBehaviour:
   radiationOutlineEffectPrefab: {fileID: 7699653466035250317, guid: b272fab0de09ec14d926afe41dd52d15, type: 3}
   poopEffectPrefab: {fileID: 7699653466035250317, guid: c3d7e6177bfa87546b397b6747d2bcff, type: 3}
   poopOutlineEffectPrefab: {fileID: 7699653466035250317, guid: 33103eaaa7818e041b9a6bd94ad35211, type: 3}
-  splashParticlesPrefab: {fileID: 7699653466035250317, guid: a768b7612b253424b849cf0d1705dd50, type: 3}
   closestFood: {fileID: 0}
   fishDiet:
   - {fileID: 5447806642486513699, guid: 81deed014d0d31c43902697f2bc0e3d8, type: 3}

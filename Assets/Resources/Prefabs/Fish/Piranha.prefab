@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 6970244539946687739}
   - component: {fileID: 6998234625172859772}
   - component: {fileID: 4481977770677242913}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Piranha
   m_TagString: Piranha
   m_Icon: {fileID: 0}
@@ -287,7 +287,6 @@ MonoBehaviour:
   radiationOutlineEffectPrefab: {fileID: 7699653466035250317, guid: b272fab0de09ec14d926afe41dd52d15, type: 3}
   poopEffectPrefab: {fileID: 7699653466035250317, guid: c3d7e6177bfa87546b397b6747d2bcff, type: 3}
   poopOutlineEffectPrefab: {fileID: 7699653466035250317, guid: 33103eaaa7818e041b9a6bd94ad35211, type: 3}
-  splashParticlesPrefab: {fileID: 7699653466035250317, guid: a768b7612b253424b849cf0d1705dd50, type: 3}
   closestFood: {fileID: 0}
   fishDiet:
   - {fileID: 8672692834543181141, guid: 1e8f852235a4ef746860883a25c3714f, type: 3}

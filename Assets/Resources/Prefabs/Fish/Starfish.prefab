@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 3448536562072476031}
   - component: {fileID: 4591617791957535574}
   - component: {fileID: -5845061872619846951}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Starfish
   m_TagString: Starfish
   m_Icon: {fileID: 0}
@@ -233,7 +233,6 @@ MonoBehaviour:
   bloodEffectPrefab: {fileID: 7699653466035250317, guid: 29a6421998a7dcd48a84d3e1c2dcec44, type: 3}
   bloodOutlineEffectPrefab: {fileID: 7699653466035250317, guid: ff820ec8f90290e45ad4f2c2e24d6b8e, type: 3}
   bubblesEffectPrefab: {fileID: 7699653466035250317, guid: 4e2ec060f025af64ba8ccc7e09d540eb, type: 3}
-  splashParticlesPrefab: {fileID: 7699653466035250317, guid: a768b7612b253424b849cf0d1705dd50, type: 3}
   frontBody: {fileID: 8920827142380922228}
   backBody: {fileID: 7167375099216594044}
   numberCaught: 0

@@ -9802,7 +9802,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &309935377
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16387,7 +16387,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &564834480
 RectTransform:
   m_ObjectHideFlags: 0
@@ -23743,7 +23743,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &820073770
 RectTransform:
   m_ObjectHideFlags: 0
@@ -26638,7 +26638,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &896720488
 RectTransform:
   m_ObjectHideFlags: 0
@@ -31970,10 +31970,10 @@ MonoBehaviour:
   infoPanel: {fileID: 492050811}
   structureMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 16384
   fishMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 32768
 --- !u!82 &1031440125
 AudioSource:
   m_ObjectHideFlags: 0
@@ -34310,7 +34310,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1111650078
 RectTransform:
   m_ObjectHideFlags: 0
@@ -39462,7 +39462,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1274303999
 RectTransform:
   m_ObjectHideFlags: 0
@@ -60037,7 +60037,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1952362486
 RectTransform:
   m_ObjectHideFlags: 0

@@ -46,15 +46,30 @@ public class Scr_FishInfoPanel : MonoBehaviour
 
     void LateUpdate()
     {
-        if (currentTarget == null || cam == null) return;
+        if (currentTarget == null || cam == null || rectTransform == null) return;
+
+        // if this panel lives under a world-space canvas, we need its RectTransform
+        RectTransform canvasRect = parentCanvas != null ? parentCanvas.GetComponent<RectTransform>() : null;
+        if (canvasRect == null) return;
+
+        // the camera that renders the UI (for World Space canvas this matters)
+        Camera uiCam = parentCanvas.worldCamera != null ? parentCanvas.worldCamera : cam;
 
         // 1) world position (fish + offset)
         Vector3 worldPos = currentTarget.position + worldOffset;
 
-        // 2) world → screen
+        // 2) world -> screen
         Vector3 screenPos = cam.WorldToScreenPoint(worldPos);
 
-        // 3) compute panel size in screen pixels
+        // if fish is behind the camera, optionally hide the panel
+        if (screenPos.z < 0f)
+        {
+            // gameObject.SetActive(false); // optional
+            return;
+        }
+        // else gameObject.SetActive(true); // optional
+
+        // 3) compute panel size in screen pixels (same idea as before)
         float scaleFactor = parentCanvas != null ? parentCanvas.scaleFactor : 1f;
         float panelWidth = rectTransform.rect.width * scaleFactor;
         float panelHeight = rectTransform.rect.height * scaleFactor;
@@ -62,7 +77,7 @@ public class Scr_FishInfoPanel : MonoBehaviour
         float halfW = panelWidth * 0.5f;
         float halfH = panelHeight * 0.5f;
 
-        // 4) clamp so the whole panel stays on screen
+        // 4) clamp so the whole panel stays on screen (still in screen pixels)
         float minX = halfW + screenPadding;
         float maxX = Screen.width - halfW - screenPadding;
         float minY = halfH + screenPadding;
@@ -71,8 +86,15 @@ public class Scr_FishInfoPanel : MonoBehaviour
         screenPos.x = Mathf.Clamp(screenPos.x, minX, maxX);
         screenPos.y = Mathf.Clamp(screenPos.y, minY, maxY);
 
-        // 5) apply to UI
-        rectTransform.position = screenPos;
+        // 5) screen -> world ON the canvas plane, then apply
+        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(
+                canvasRect,
+                screenPos,
+                uiCam,
+                out Vector3 worldPoint))
+        {
+            rectTransform.position = worldPoint;
+        }
     }
 
     public void Show(Scr_Fish fish)

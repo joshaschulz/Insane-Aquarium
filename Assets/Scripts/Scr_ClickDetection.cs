@@ -69,25 +69,30 @@ public class Scr_ClickDetection : MonoBehaviour
                 }
 
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+                RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity, fishMask);
 
                 // Clicked on something
                 if (hit.collider != null)
                 {
                     // Attempt to bag a fish
-                    foreach (var fishPrefab in gameManager.fishPrefabs)
-                    {
-                        if (hit.collider.CompareTag(fishPrefab.tag) && gameManager.canIBagFish)
-                        {
-                            GameObject fishToBag = hit.collider.gameObject;
+                    Debug.Log(hit.collider.gameObject.name);
 
-                            if (fishToBag.CompareTag("Starfish"))
+                    if (hit.collider.gameObject.GetComponent<Scr_Fish>() || hit.collider.gameObject.GetComponent<Scr_Starfish>())
+                    {
+                        foreach (var fishPrefab in gameManager.fishPrefabs)
+                        {
+                            if (hit.collider.CompareTag(fishPrefab.tag) && gameManager.canIBagFish)
                             {
-                                gameManager.BagAStarfish(fishToBag);
-                            }
-                            else
-                            {
-                                gameManager.BagAFish(fishToBag);
+                                GameObject fishToBag = hit.collider.gameObject;
+
+                                if (fishToBag.CompareTag("Starfish"))
+                                {
+                                    gameManager.BagAStarfish(fishToBag);
+                                }
+                                else
+                                {
+                                    gameManager.BagAFish(fishToBag);
+                                }
                             }
                         }
                     }
@@ -144,6 +149,8 @@ public class Scr_ClickDetection : MonoBehaviour
             foreach (var h in hits)
             {
                 if (h.collider == null) continue;
+
+                Debug.Log("GOT TO HERE");
 
                 Scr_Fish fish = h.collider.GetComponentInParent<Scr_Fish>();
                 if (fish != null)

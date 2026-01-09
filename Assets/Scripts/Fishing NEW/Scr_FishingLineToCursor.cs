@@ -4,6 +4,7 @@ using UnityEngine;
 public class Scr_FishingLineToCursor : MonoBehaviour
 {
     public LineRenderer line;
+    public Transform fishingHook;
 
     [Header("camera")]
     public Camera targetCamera; // leave null to use Camera.main
@@ -20,6 +21,7 @@ public class Scr_FishingLineToCursor : MonoBehaviour
 
     [Tooltip("when lag is on: higher = snappier, lower = more drag. try 8–20.")]
     public float cursorFollowSpeed = 12f;
+    public float baseCursorFollowSpeed;
 
     [Header("line smoothness")]
     [Tooltip("how many points the line uses. 40–80 is great; you chose 60.")]
@@ -49,6 +51,8 @@ public class Scr_FishingLineToCursor : MonoBehaviour
         line = GetComponent<LineRenderer>();
         cam = targetCamera != null ? targetCamera : Camera.main;
 
+        baseCursorFollowSpeed = cursorFollowSpeed;
+
         AllocatePoints();
 
         if (line.material != null)
@@ -60,6 +64,8 @@ public class Scr_FishingLineToCursor : MonoBehaviour
         cam = targetCamera != null ? targetCamera : Camera.main;
         hasInit = false;
         AllocatePoints();
+
+
     }
 
     private void OnValidate()
@@ -147,8 +153,17 @@ public class Scr_FishingLineToCursor : MonoBehaviour
 
         currentTipWorld = bottomWorld; // or smoothedCursorWorld if that's what you use
 
-
         line.SetPositions(linePoints);
+
+
+
+        Vector3 hookDir = currentTipWorld - linePoints[points - 2];
+        float hookAngle = Mathf.Atan2(hookDir.y, hookDir.x) * Mathf.Rad2Deg;
+
+        Quaternion hookRot = Quaternion.Euler(0f, 0f, hookAngle + 90f);
+
+        fishingHook.position = currentTipWorld;
+        fishingHook.rotation = hookRot;
     }
 
     private Vector3 GetAnchorWorld(Camera c)

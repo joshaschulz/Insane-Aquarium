@@ -32,7 +32,6 @@ public class Scr_FishingMinigameChestController : MonoBehaviour
 
     public float chestSpawnTopPadding = 0.5f;
 
-    [Range(0f, 1f)]
     public float chestStopViewportY = 0.65f;
 
     public float chestFallSpeed = 2.0f;
@@ -69,6 +68,9 @@ public class Scr_FishingMinigameChestController : MonoBehaviour
 
     public GameObject activeChest;
 
+
+    public GameObject hookedCrateImage;
+
     private float chestT01 = 0f;
     private float chestFullFillHeight = 0f;
 
@@ -103,6 +105,7 @@ public class Scr_FishingMinigameChestController : MonoBehaviour
             activeChest = null;
         }
 
+        chestCount = 0;
         chestT01 = 0f;
         chestHovering = false;
         lastChestHoverHitTime = -999f;
@@ -277,6 +280,8 @@ public class Scr_FishingMinigameChestController : MonoBehaviour
                     minCursorFollowSpeed,
                     fishingLine.cursorFollowSpeed - cursorLagIncreasePerChest
                 );
+
+                hookedCrateImage.SetActive(true);
             }
 
             if (!chestBarAlwaysVisible && chestProgressRoot != null)

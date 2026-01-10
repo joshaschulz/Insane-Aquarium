@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5215294492967828724}
   - component: {fileID: 1968223233856078321}
   - component: {fileID: 3429387810008623441}
+  - component: {fileID: 5095385952790441932}
   m_Layer: 0
   m_Name: Bubble Effect
   m_TagString: Untagged
@@ -4805,7 +4806,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -764618607
-  m_SortingLayer: 4
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_RenderMode: 4
   m_MeshDistribution: 0
@@ -4839,3 +4840,15 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!210 &5095385952790441932
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7699653466035250317}
+  m_Enabled: 1
+  m_SortingLayerID: -119188961
+  m_SortingLayer: 6
+  m_SortingOrder: 40
+  m_SortAtRoot: 0

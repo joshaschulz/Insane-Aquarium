@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -6947961932454797672}
   - component: {fileID: -6459579873704631733}
   - component: {fileID: 3772205704402964679}
+  - component: {fileID: 4059061555199782792}
   m_Layer: 0
   m_Name: For Sale Sticker
   m_TagString: Untagged
@@ -52,9 +53,6 @@ MonoBehaviour:
   offsetFromCameraBottom: 3
   offsetFromCameraSide: 0.5
   flipOnSideSwitch: 1
-  freePlacementMinY: 1
-  useCameraBottomAsThreshold: 1
-  cameraBottomThresholdOffset: 1
 --- !u!114 &-6459579873704631733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,8 +104,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1538416637
-  m_SortingLayer: 4
-  m_SortingOrder: 0
+  m_SortingLayer: 3
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 340936ebcabf88548bc166d0e9abd190, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -119,3 +117,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!210 &4059061555199782792
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5584873671986153646}
+  m_Enabled: 1
+  m_SortingLayerID: -119188961
+  m_SortingLayer: 6
+  m_SortingOrder: 5
+  m_SortAtRoot: 0

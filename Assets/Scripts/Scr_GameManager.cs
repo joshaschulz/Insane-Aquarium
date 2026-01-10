@@ -526,7 +526,7 @@ public class Scr_GameManager : MonoBehaviour
                 float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
                 float screenHeightWorld = Camera.main.orthographicSize * 2;
 
-                float randomSpawnHeight = Random.Range(0.2f, 0.9f);
+                float randomSpawnHeight = Random.Range(0.4f, 1.2f);
 
                 spawnPosition.y = (spawnPosition.y + screenHeightWorld / 2) - (screenHeightWorld / 2) * randomSpawnHeight;
                 Vector2 randomSpawnBounds = new Vector2(spawnPosition.x - screenWidthWorld / 2, spawnPosition.x + screenWidthWorld / 2);
@@ -620,7 +620,7 @@ public class Scr_GameManager : MonoBehaviour
                 float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
                 float screenHeightWorld = Camera.main.orthographicSize * 2;
 
-                float randomSpawnHeight = Random.Range(0.2f, 0.9f);
+                float randomSpawnHeight = Random.Range(0.4f, 1.2f);
 
                 spawnPosition.y = (spawnPosition.y + screenHeightWorld / 2) - (screenHeightWorld / 2) * randomSpawnHeight;
                 Vector2 randomSpawnBounds = new Vector2(spawnPosition.x - screenWidthWorld / 2, spawnPosition.x + screenWidthWorld / 2);
@@ -683,7 +683,7 @@ public class Scr_GameManager : MonoBehaviour
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
         float screenHeightWorld = Camera.main.orthographicSize * 2;
 
-        float randomSpawnHeight = Random.Range(0.2f, 0.9f);
+        float randomSpawnHeight = Random.Range(0.4f, 1.2f);
 
         spawnPosition.y = (spawnPosition.y + screenHeightWorld / 2) - (screenHeightWorld / 2) * randomSpawnHeight;
 
@@ -778,7 +778,7 @@ public class Scr_GameManager : MonoBehaviour
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
         float screenHeightWorld = Camera.main.orthographicSize * 2;
 
-        float randomSpawnHeight = Random.Range(0.2f, 0.9f);
+        float randomSpawnHeight = Random.Range(0.4f, 1.2f);
 
         spawnPosition.y = (spawnPosition.y + screenHeightWorld / 2) - (screenHeightWorld / 2) * randomSpawnHeight;
 

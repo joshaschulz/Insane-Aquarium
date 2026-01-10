@@ -546,7 +546,8 @@ public class Scr_Fish : MonoBehaviour
         {
             Debug.Log("Got to here even!");
             SetNotHungry();
-            SetTarget(transform.position);
+            //SetTarget(transform.position);
+            IdleOrMove();
 
             gameManager.PlaySoundEffect(gameManager.SFX_FishEat, 0.7f, 0.8f, 1.2f);
 

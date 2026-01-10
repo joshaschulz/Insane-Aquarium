@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1677891866512599464}
   - component: {fileID: 4911346035467562314}
+  - component: {fileID: 1752703472079453058}
   m_Layer: 0
   m_Name: Fish Heart
   m_TagString: Untagged
@@ -110,8 +111,8 @@ Transform:
   m_GameObject: {fileID: 342394445551414795}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.35, z: 0}
-  m_LocalScale: {x: 0.125, y: 0.125, z: 0.19999999}
+  m_LocalPosition: {x: 0, y: 1.55, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6943579493492925485}
@@ -168,6 +169,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!210 &1752703472079453058
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 342394445551414795}
+  m_Enabled: 1
+  m_SortingLayerID: -119188961
+  m_SortingLayer: 6
+  m_SortingOrder: 15
+  m_SortAtRoot: 0
 --- !u!1 &899147771912746833
 GameObject:
   m_ObjectHideFlags: 0
@@ -430,9 +443,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.013607264, y: 0}
   serializedVersion: 2
-  m_Radius: 0.92
+  m_Radius: 1.7092276
 --- !u!114 &3448536562072476031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -599,7 +612,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: -119188961
   m_SortingLayer: 6
-  m_SortingOrder: 0
+  m_SortingOrder: 15
   m_SortAtRoot: 0
 --- !u!1 &3211988995876329177
 GameObject:
@@ -1176,6 +1189,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4887336147337142023}
   - component: {fileID: 7771842700545507375}
+  - component: {fileID: 4465641061926579751}
   m_Layer: 0
   m_Name: Fish Hunger
   m_TagString: Untagged
@@ -1192,8 +1206,8 @@ Transform:
   m_GameObject: {fileID: 7398377294821584568}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.35, z: 0}
-  m_LocalScale: {x: 0.125, y: 0.125, z: 0.2}
+  m_LocalPosition: {x: 0, y: 1.55, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6943579493492925485}
@@ -1250,6 +1264,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!210 &4465641061926579751
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7398377294821584568}
+  m_Enabled: 1
+  m_SortingLayerID: -119188961
+  m_SortingLayer: 6
+  m_SortingOrder: 15
+  m_SortAtRoot: 0
 --- !u!1 &7964857540707324171
 GameObject:
   m_ObjectHideFlags: 0
@@ -1315,7 +1341,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: -119188961
   m_SortingLayer: 6
-  m_SortingOrder: 0
+  m_SortingOrder: 15
   m_SortAtRoot: 0
 --- !u!1 &8660995529365901962
 GameObject:

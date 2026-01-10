@@ -131,6 +131,8 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject backButton;
 
+    public Scr_Fishpedia fishpedia;
+
     public float customerAttractionRate = 1f;
 
 
@@ -2199,11 +2201,15 @@ public class Scr_GameManager : MonoBehaviour
             pauseMenu.SetActive(false);
             EnableAllButtons();
         }
+        else if (fishpedia.gameObject.activeSelf)
+        {
+            fishpedia.gameObject.SetActive(false);
+            EnableAllButtons();
+        }
         else if  (_Camera.transform.position == new Vector3(transform.position.x, transform.position.y, _Camera.transform.position.z))
         {
             pauseMenu.SetActive(true);
             DisableAllButtons();
-            backButton.GetComponent<Button>().interactable = true;
         }
         else
         {
@@ -2223,12 +2229,48 @@ public class Scr_GameManager : MonoBehaviour
     public void DisableAllButtons()
     {
         foreach (Button b in Object.FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
             b.interactable = false;
+
+            if (b.GetComponent<Scr_HoverableUIElement>())
+            {
+                b.GetComponent<Scr_HoverableUIElement>().enabled = false;
+            }
+        }
+
+        backButton.GetComponent<Button>().interactable = true;
+    }
+
+    // If you want a gameobject and all of its children to be excluded, use this one \/
+    public void DisableAllButtons(Transform _exception)
+    {
+        foreach (Button b in Object.FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            if (b.transform.IsChildOf(_exception))
+            {
+                continue;
+            }
+            b.interactable = false;
+
+            if (b.GetComponent<Scr_HoverableUIElement>())
+            {
+                b.GetComponent<Scr_HoverableUIElement>().enabled = false;
+            }
+        }
+
+        backButton.GetComponent<Button>().interactable = true;
     }
     public void EnableAllButtons()
     {
         foreach (Button b in Object.FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
             b.interactable = true;
+
+            if (b.GetComponent<Scr_HoverableUIElement>())
+            {
+                b.GetComponent<Scr_HoverableUIElement>().enabled = true;
+            }
+        }
     }
     public void EnableElement(GameObject _element)
     {
@@ -2243,10 +2285,21 @@ public class Scr_GameManager : MonoBehaviour
     public void EnableButton(Button _button)
     {
         _button.interactable = true;
+
+        if (_button.GetComponent<Scr_HoverableUIElement>())
+        {
+            _button.GetComponent<Scr_HoverableUIElement>().enabled = true;
+        }
     }
     public void DisableButton(Button _button)
     {
         _button.interactable = false;
+
+
+        if (_button.GetComponent<Scr_HoverableUIElement>())
+        {
+            _button.GetComponent<Scr_HoverableUIElement>().enabled = false;
+        }
     }
 
 

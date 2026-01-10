@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Scr_FishingMinigameFishController : MonoBehaviour
 {
     private Scr_GameManager gameManager;
-
+    public Scr_Fishpedia fishpedia;
 
     [Header("bounds")]
     public Collider2D minigameBoundsCollider;
@@ -296,6 +297,29 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
             }
             hookedCrateImage.SetActive(false);
             fishHookImage.SetActive(false);
+
+
+            // NEW FISHPEDIA CODE
+            // Enabling fishpedia buttons upon catching a fish
+            foreach (var prefab in gameManager.fishPrefabs)
+            {
+                if (prefab.CompareTag(cachedFishMovement.tag))
+                {
+                    prefab.GetComponent<Scr_Fish>().numberCaught++;
+                    int buttonIndex = 0;
+                    foreach (Button button in fishpedia.buttons)
+                    {
+                        if (cachedFishMovement.name.Contains(button.name))
+                        {
+                            fishpedia.EnableEntryButton(buttonIndex);
+                            fishpedia.entries[buttonIndex].transform.GetChild(2).Find("# Caught Numbers").GetComponent<TextMeshProUGUI>().text = prefab.GetComponent<Scr_Fish>().numberCaught.ToString();
+                        }
+                        buttonIndex++;
+                    }
+                }
+            }
+
+
         }
         else if (!hasWonThisRun && fishT01 <= 0f)
         {

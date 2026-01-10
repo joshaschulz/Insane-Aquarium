@@ -10,6 +10,7 @@ public class Scr_Fishpedia : MonoBehaviour
 
     public GameObject[] entries;
     public Button[] buttons;
+    public GameObject buttonsPanel;
 
 
     public void EnableEntryButton(int _id)
@@ -43,8 +44,7 @@ public class Scr_Fishpedia : MonoBehaviour
         }
     }
 
-
-
+    /*
     public void SetName(int _id, string _newName)
     {
         entries[_id].transform.GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = _newName;
@@ -58,6 +58,13 @@ public class Scr_Fishpedia : MonoBehaviour
     {
         entries[_id].transform.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>().text = _newDescription;
     }
+    public int GetStat(int _id, int _statID)
+    {
+        string entryStatNumbersText = entries[_id].transform.GetChild(2).Find("Statistics Numbers").GetComponent<TextMeshProUGUI>().text;
+        string[] EntryStatNumbers = entryStatNumbersText.Split('\n'); // Split at each line break
+        
+        return int.Parse(EntryStatNumbers[_statID]);
+    }
     public void SetStat(int _id, int _statID, int _newValue)
     {
         string entryStatNumbersText = entries[_id].transform.GetChild(2).Find("Statistics Numbers").GetComponent<TextMeshProUGUI>().text;
@@ -67,14 +74,7 @@ public class Scr_Fishpedia : MonoBehaviour
 
         entries[_id].transform.GetChild(2).Find("Statistics Numbers").GetComponent<TextMeshProUGUI>().text = string.Join("\n", EntryStatNumbers);
     }
-    public int GetStat(int _id, int _statID)
-    {
-        string entryStatNumbersText = entries[_id].transform.GetChild(2).Find("Statistics Numbers").GetComponent<TextMeshProUGUI>().text;
-        string[] EntryStatNumbers = entryStatNumbersText.Split('\n'); // Split at each line break
-        
-        return int.Parse(EntryStatNumbers[_statID]);
-    }
-
+    */
     public void ToggleEntryImage()
     {
         Transform activeEntry = null;
@@ -104,6 +104,7 @@ public class Scr_Fishpedia : MonoBehaviour
     {
         gameManager.PlaySoundEffect(gameManager.SFX_GenUI3, 0.08f, 0.8f);
         DisableEntries();
+        buttonsPanel.SetActive(true);
     }
     public void Awake()
     {

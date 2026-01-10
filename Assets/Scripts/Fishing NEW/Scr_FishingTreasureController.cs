@@ -17,6 +17,8 @@ public class Scr_FishingMinigameChestController : MonoBehaviour
     [Header("treasure chest (spawning)")]
     public GameObject[] treasureChestPrefabs;
 
+    public GameObject[] rewardPrefabs;
+
     // one-time trigger settings
     [Range(0f, 1f)]
     public float spawnAtFishProgress = 0.25f;
@@ -78,6 +80,7 @@ public class Scr_FishingMinigameChestController : MonoBehaviour
     private bool chestHovering = false;
 
     private bool chestRolledThisRun = false;
+
 
     private void Awake()
     {

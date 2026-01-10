@@ -98,6 +98,10 @@ public class Scr_FishingMinigamePanel : MonoBehaviour
                 Quaternion.identity
             );
 
+            Animator anim = winChest.GetComponentInChildren<Animator>();
+
+            anim.Play("Crate Opening");
+
             SetSortingGroupLayer(winChest, "UI2", 5);
         }
     }

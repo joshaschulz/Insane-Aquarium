@@ -328,7 +328,7 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
             if (cachedFishMovement != null)
             {
                 // kick out to main menu...
-                gameManager.PlaySoundEffect(gameManager.SFX_Flush, 1);
+                gameManager.PlaySoundEffect(gameManager.SFX_Flush, 0.3f);
                 gameManager.ClickButton(winPanel.flushFishButton);
             }
             hookedCrateImage.SetActive(false);
@@ -380,7 +380,7 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
 
     public void FlushFish()
     {
-        gameManager.PlaySoundEffect(gameManager.SFX_Flush, 1);
+        gameManager.PlaySoundEffect(gameManager.SFX_Flush, 0.3f);
         ResetFishingMinigame();
         DespawnFishingMinigame();
     }

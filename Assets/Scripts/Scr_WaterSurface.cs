@@ -22,9 +22,6 @@ public class Scr_WaterSurface : MonoBehaviour
     private static readonly int Time_ID = Shader.PropertyToID("_WaterTime");
 
 
-    [Header("Splash")]
-    [SerializeField] private GameObject splashPrefab; // particle prefab
-
 
     public int points = 60;
 
@@ -154,11 +151,4 @@ public class Scr_WaterSurface : MonoBehaviour
         return waterY;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.GetComponent<Scr_Fish>() || collision.gameObject.GetComponent<Scr_Starfish>() || collision.gameObject.GetComponent<Scr_FoodBehavior>())
-        {
-            gameManager.SpawnParticles(splashPrefab, collision.transform.position, Quaternion.identity, transform);
-        }
-    }
 }

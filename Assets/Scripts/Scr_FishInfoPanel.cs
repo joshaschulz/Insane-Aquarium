@@ -195,7 +195,8 @@ public class Scr_FishInfoPanel : MonoBehaviour
 
     void SetLegs(GameObject[] legs, int value)
     {
-        int highestActiveOrder = 5;
+        int highestActiveOrder = 3;
+        int distAway = legs.Length - 1 - highestActiveOrder;
         //int lowestActiveOrder = 0;
 
 
@@ -222,7 +223,7 @@ public class Scr_FishInfoPanel : MonoBehaviour
                 c.b = 0.5f;
                 //legs[i].SetActive(false);
 
-                sr.sortingOrder = i -  value;
+                sr.sortingOrder = i - value - distAway;
 
             }
 

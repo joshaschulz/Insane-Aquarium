@@ -6,21 +6,17 @@ public class Scr_FishInfoPanel : MonoBehaviour
 {
     public TMPro.TMP_Text nameText;
 
-    public UnityEngine.UI.Image[] priceStars;
-    public UnityEngine.UI.Image[] appealStars;
-    public UnityEngine.UI.Image[] hungerCapacityStars;
-    public UnityEngine.UI.Image[] freakuencyStars;
-    public UnityEngine.UI.Image[] poopIntervalStars;
+    public GameObject starfishDiagram;
+
+    private GameObject[] appealLegs;
+    private GameObject[] freakLegs;
+    private GameObject[] hungerLegs;
+    private GameObject[] poopLegs;
+    private GameObject[] priceLegs;
 
     [Header("Follow Settings")]
     public Vector3 worldOffset = new Vector3(0f, -2f, 0f); // below fish in WORLD units
     public float screenPadding = 10f; // padding from screen edges
-
-    public GameObject priceStarsObj;
-    public GameObject appealStarsObj;
-    public GameObject hungerStarsObj;
-    public GameObject freakStarsObj;
-    public GameObject poopStarsObj;
 
     public Transform currentTarget;
     private Camera cam;
@@ -42,9 +38,17 @@ public class Scr_FishInfoPanel : MonoBehaviour
         parentCanvas = GetComponentInParent<Canvas>();
 
         originalRectHeight = rectTransform.rect.height;
+
+        GetLegs();
+
     }
 
     void LateUpdate()
+    {
+
+    }
+
+    public void Follow()
     {
         if (currentTarget == null || cam == null || rectTransform == null) return;
 
@@ -97,23 +101,66 @@ public class Scr_FishInfoPanel : MonoBehaviour
         }
     }
 
+    public void GetLegs()
+    {
+        if (starfishDiagram == null)
+        {
+            Debug.LogError("starfishDiagram is not assigned.");
+            return;
+        }
+
+        // helper local function to fetch children as an array
+        GameObject[] GetChildren(Transform parent)
+        {
+            GameObject[] children = new GameObject[parent.childCount];
+            for (int i = 0; i < parent.childCount; i++)
+            {
+                children[i] = parent.GetChild(i).gameObject;
+            }
+            return children;
+        }
+
+        // iterate through the first-level children under starfishDiagram
+        foreach (Transform category in starfishDiagram.transform)
+        {
+            switch (category.name)
+            {
+                case "Appeal":
+                    appealLegs = GetChildren(category);
+                    break;
+
+                case "Freak":
+                    freakLegs = GetChildren(category);
+                    break;
+
+                case "Hunger":
+                    hungerLegs = GetChildren(category);
+                    break;
+
+                case "Poop":
+                    poopLegs = GetChildren(category);
+                    break;
+
+                case "Price":
+                    priceLegs = GetChildren(category);
+                    break;
+            }
+        }
+    }
+
     public void Show(Scr_Fish fish)
     {
         gameObject.SetActive(true);
 
+        //currentTarget = fish.transform;
+
         nameText.text = fish.name;
 
-        priceStarsObj.SetActive(true);
-        appealStarsObj.SetActive(true);
-        hungerStarsObj.SetActive(true);
-        freakStarsObj.SetActive(true);
-        poopStarsObj.SetActive(true);
-
-        SetStars(priceStars, fish.priceModifier);
-        SetStars(appealStars, fish.appeal);
-        SetStars(hungerCapacityStars, fish.hungerCapacity);
-        SetStars(freakuencyStars, fish.freakuency);
-        SetStars(poopIntervalStars, fish.poopInterval);
+        SetLegs(appealLegs, fish.appeal);
+        SetLegs(freakLegs, fish.freakuency);
+        SetLegs(hungerLegs, fish.hungerCapacity);
+        SetLegs(poopLegs, fish.poopInterval);
+        SetLegs(priceLegs, fish.priceModifier);
 
         currentTarget = fish.transform;
 
@@ -130,11 +177,7 @@ public class Scr_FishInfoPanel : MonoBehaviour
 
         nameText.text = fish.name;
 
-        priceStarsObj.SetActive(false);
-        appealStarsObj.SetActive(false);
-        hungerStarsObj.SetActive(false);
-        freakStarsObj.SetActive(false);
-        poopStarsObj.SetActive(false);
+        starfishDiagram.SetActive(false);
 
         rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 20);
 
@@ -142,11 +185,19 @@ public class Scr_FishInfoPanel : MonoBehaviour
     }
 
 
-    void SetStars(UnityEngine.UI.Image[] stars, int value)
+    void SetLegs(GameObject[] legs, int value)
     {
-        for (int i = 0; i < stars.Length; i++)
+        for (int i = 0; i < legs.Length; i++)
         {
-            stars[i].enabled = i < value;
+            if (i < value)
+            {
+                legs[i].SetActive(true);
+            }
+            else
+            {
+                legs[i].SetActive(false);
+
+            }
         }
     }
 

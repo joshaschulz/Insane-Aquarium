@@ -14,6 +14,8 @@ public class Scr_FishInfoPanel : MonoBehaviour
     private GameObject[] poopLegs;
     private GameObject[] priceLegs;
 
+    public TMPro.TMP_Text[] legsNum;
+
     [Header("Follow Settings")]
     public Vector3 worldOffset = new Vector3(0f, -2f, 0f); // below fish in WORLD units
     public float screenPadding = 10f; // padding from screen edges
@@ -162,6 +164,12 @@ public class Scr_FishInfoPanel : MonoBehaviour
         SetLegs(poopLegs, fish.poopInterval);
         SetLegs(priceLegs, fish.priceModifier);
 
+        SetLegsNum(legsNum[0], fish.appeal);
+        SetLegsNum(legsNum[1], fish.freakuency);
+        SetLegsNum(legsNum[2], fish.hungerCapacity);
+        SetLegsNum(legsNum[3], fish.poopInterval);
+        SetLegsNum(legsNum[4], fish.priceModifier);
+
         currentTarget = fish.transform;
 
 
@@ -187,19 +195,78 @@ public class Scr_FishInfoPanel : MonoBehaviour
 
     void SetLegs(GameObject[] legs, int value)
     {
-        for (int i = 0; i < legs.Length; i++)
+        int highestActiveOrder = 5;
+        //int lowestActiveOrder = 0;
+
+
+        for (int i = legs.Length - 2; i >= 0; i--)
         {
+            SpriteRenderer sr = legs[i].GetComponent<SpriteRenderer>();
+            Color c = sr.color;
+
             if (i < value)
             {
-                legs[i].SetActive(true);
+                c.r = 1f;
+                c.g = 1f;
+                c.b = 1f;
+                //legs[i].SetActive(true);
+
+                sr.sortingOrder = highestActiveOrder--;
+
+
             }
             else
             {
-                legs[i].SetActive(false);
+                c.r = 0.5f;
+                c.g = 0.5f;
+                c.b = 0.5f;
+                //legs[i].SetActive(false);
+
+                sr.sortingOrder = i -  value;
 
             }
+
+            sr.color = c;
         }
     }
+
+    void SetLegsNum(TMPro.TMP_Text text, int val)
+    {
+        text.text = val.ToString();
+
+        Transform textPos;
+        GameObject[] legsToUse = null;
+
+        switch (text.name)
+        {
+            case "Appeal Num":
+                legsToUse = appealLegs;
+                break;
+
+            case "Freak Num":
+                legsToUse = freakLegs;
+                break;
+
+            case "Hunger Num":
+                legsToUse = hungerLegs;
+                break;
+
+            case "Poop Num":
+                legsToUse = poopLegs;
+                break;
+
+            case "Price Num":
+                legsToUse = priceLegs;
+                break;
+        }
+
+
+
+        textPos = legsToUse[val].transform;
+
+        text.transform.position = textPos.position;
+    }
+
 
     public void Hide()
     {

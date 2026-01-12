@@ -5,6 +5,7 @@ using UnityEngine;
 public class Scr_FishInfoPanel : MonoBehaviour
 {
     public TMPro.TMP_Text nameText;
+    public TMPro.TMP_Text nameBorderText;
 
     public GameObject starfishDiagram;
 
@@ -13,6 +14,14 @@ public class Scr_FishInfoPanel : MonoBehaviour
     private GameObject[] hungerLegs;
     private GameObject[] poopLegs;
     private GameObject[] priceLegs;
+
+    private int currentAppeal;
+    private int currentFreak;
+    private int currentHunger;
+    private int currentPoop;
+    private int currentPrice;
+
+    public TMPro.TMP_Text statText;
 
     public TMPro.TMP_Text[] legsNum;
 
@@ -48,6 +57,10 @@ public class Scr_FishInfoPanel : MonoBehaviour
     void LateUpdate()
     {
 
+    }
+    private void OnDisable()
+    {
+        Hide();
     }
 
     public void Follow()
@@ -153,22 +166,25 @@ public class Scr_FishInfoPanel : MonoBehaviour
     public void Show(Scr_Fish fish)
     {
         gameObject.SetActive(true);
+        starfishDiagram.SetActive(true);
+        starfishDiagram.transform.position = gameObject.transform.position;
 
         //currentTarget = fish.transform;
 
         nameText.text = fish.name;
+        nameBorderText.text = fish.name;
+
+        currentAppeal = fish.appeal;
+        currentFreak = fish.freakuency;
+        currentHunger = fish.hungerCapacity;
+        currentPoop = fish.poopInterval;
+        currentPrice = fish.priceModifier;
 
         SetLegs(appealLegs, fish.appeal);
         SetLegs(freakLegs, fish.freakuency);
         SetLegs(hungerLegs, fish.hungerCapacity);
         SetLegs(poopLegs, fish.poopInterval);
         SetLegs(priceLegs, fish.priceModifier);
-
-        SetLegsNum(legsNum[0], fish.appeal);
-        SetLegsNum(legsNum[1], fish.freakuency);
-        SetLegsNum(legsNum[2], fish.hungerCapacity);
-        SetLegsNum(legsNum[3], fish.poopInterval);
-        SetLegsNum(legsNum[4], fish.priceModifier);
 
         currentTarget = fish.transform;
 
@@ -184,6 +200,7 @@ public class Scr_FishInfoPanel : MonoBehaviour
         currentTarget = fish.transform;
 
         nameText.text = fish.name;
+        nameBorderText.text = fish.name;
 
         starfishDiagram.SetActive(false);
 
@@ -195,8 +212,9 @@ public class Scr_FishInfoPanel : MonoBehaviour
 
     void SetLegs(GameObject[] legs, int value)
     {
-        int highestActiveOrder = 3;
-        int distAway = legs.Length - 1 - highestActiveOrder;
+        int highestActiveOrder = 5;
+        //int distAway = Mathf.Abs(legs.Length - 1 - highestActiveOrder;
+        int lowestActiveOrder = 2;
         //int lowestActiveOrder = 0;
 
 
@@ -223,7 +241,8 @@ public class Scr_FishInfoPanel : MonoBehaviour
                 c.b = 0.5f;
                 //legs[i].SetActive(false);
 
-                sr.sortingOrder = i - value - distAway;
+                //sr.sortingOrder = i - value - distAway;
+                sr.sortingOrder = lowestActiveOrder--;
 
             }
 
@@ -231,41 +250,38 @@ public class Scr_FishInfoPanel : MonoBehaviour
         }
     }
 
-    void SetLegsNum(TMPro.TMP_Text text, int val)
+    public void ShowHoverNum(GameObject legs)
     {
-        text.text = val.ToString();
+        Debug.Log("Hovered object name: " + legs.name);
 
-        Transform textPos;
-        GameObject[] legsToUse = null;
-
-        switch (text.name)
+        statText.gameObject.SetActive(true);
+        switch (legs.name)
         {
-            case "Appeal Num":
-                legsToUse = appealLegs;
+            case "Appeal":
+                statText.text = "Appeal: " + currentAppeal.ToString();
                 break;
 
-            case "Freak Num":
-                legsToUse = freakLegs;
+            case "Freak":
+                statText.text = "Freak: " + currentFreak.ToString();
                 break;
 
-            case "Hunger Num":
-                legsToUse = hungerLegs;
+            case "Hunger":
+                statText.text = "Hunger: " + currentHunger.ToString();
                 break;
 
-            case "Poop Num":
-                legsToUse = poopLegs;
+            case "Poop":
+                statText.text = "Poop: " + currentPoop.ToString();
                 break;
 
-            case "Price Num":
-                legsToUse = priceLegs;
+            case "Price":
+                statText.text = "Price: " + currentPrice.ToString();
                 break;
         }
+    }
 
-
-
-        textPos = legsToUse[val].transform;
-
-        text.transform.position = textPos.position;
+    public void HideHoverNum()
+    {
+        statText.gameObject.SetActive(false);
     }
 
 
@@ -273,6 +289,7 @@ public class Scr_FishInfoPanel : MonoBehaviour
     {
         currentTarget = null;
 
+        starfishDiagram.SetActive(false);
         gameObject.SetActive(false);
     }
 

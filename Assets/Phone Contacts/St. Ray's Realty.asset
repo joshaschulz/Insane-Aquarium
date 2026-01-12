@@ -15,6 +15,5 @@ MonoBehaviour:
   contactName: St. Ray's Realty
   phoneNumber: 5737082243
   dialogueLines:
-  - Hello! You've reached St. Ray's Realty, your trusted partner in finding dream
-    homes.
-  - Hey it's you again! Press 1 if you want to pull the trigger on the new house.
+  - You've reached St. Ray's Realty!
+  - Are you sure you want to pull the trigger on the new property?

@@ -228,6 +228,19 @@ public class Scr_GameManager : MonoBehaviour
         */
     }
 
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            int index = Random.Range(0, fishPrefabs.Length);
+            SpawnFish(fishPrefabs[index]);
+        }
+        else if (Input.GetKeyDown(KeyCode.B))
+        {
+            SpawnFish(fishPrefabs[0]);
+        }
+    }
+
     public void ChangeGameSettings()
     {
         Scr_GameSettings settings = ActiveSettings;

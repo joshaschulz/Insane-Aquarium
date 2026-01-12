@@ -27,7 +27,7 @@ MonoBehaviour:
   fastForwardNormal: 1
   fastForwardFast: 2
   fastForwardFastest: 5
-  moneyAmount: 2000
+  moneyAmount: 550
   fishFood1Amount: 100
   fishFood2Amount: 50
   fishFood3Amount: 500

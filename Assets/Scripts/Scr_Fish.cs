@@ -152,6 +152,7 @@ public class Scr_Fish : MonoBehaviour
     public void GenerateRandomStats()
     {
         name = GenerateRandomName();
+        name = "Flopper";
         // reset everything to 0
         priceModifier = 0;
         appeal = 0;

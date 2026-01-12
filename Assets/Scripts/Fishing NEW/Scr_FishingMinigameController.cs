@@ -102,6 +102,8 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
         {
             TryCacheCurrentFishAndApplyBounds();
         }
+
+        Cursor.visible = false;
     }
 
     private void LateUpdate()

@@ -83,7 +83,6 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
         if (progressFillRect != null)
             fishFullFillHeight = progressFillRect.sizeDelta.y;
 
-        // ✅ start value in editor/play (gets overridden on spawn too)
         fishT01 = Mathf.Clamp01(startingProgress01);
         SetFishFillHeight(fishT01);
         SetFishFillColor(fishT01);
@@ -103,7 +102,7 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
             TryCacheCurrentFishAndApplyBounds();
         }
 
-        Cursor.visible = false;
+        //Cursor.visible = false;
     }
 
     private void LateUpdate()
@@ -158,7 +157,6 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
 
         hasWonThisRun = false;
 
-        // ✅ reset fish bar to 20% each run
         fishT01 = Mathf.Clamp01(startingProgress01);
 
         currentFishRoot = null;
@@ -268,7 +266,6 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
     {
         bool hoveringFish = (currentFishRoot != null);
 
-        // ✅ minigame "started" only when hooked == true
         bool minigameStarted = (cachedFishMovement != null && cachedFishMovement.hooked);
 
         if (hoveringFish)
@@ -278,7 +275,6 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
         }
         else
         {
-            // ✅ ONLY drain once the minigame has started
             if (minigameStarted)
             {
                 float drainRate = 1f / Mathf.Max(0.01f, secondsToDrain);

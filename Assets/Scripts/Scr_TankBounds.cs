@@ -3,6 +3,7 @@ using UnityEngine;
 public class Scr_TankBounds : MonoBehaviour
 {
     public Vector2 size = new Vector2(3f, 2f);
+    public int numOfFishInTank;
 
     // runtime reference (set automatically when a sign is placed inside this tank)
     [HideInInspector] public Scr_ForSaleSticker activeForSaleSticker;

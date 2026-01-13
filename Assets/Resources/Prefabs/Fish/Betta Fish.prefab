@@ -449,6 +449,7 @@ GameObject:
   - component: {fileID: 3448536562072476031}
   - component: {fileID: 4591617791957535574}
   - component: {fileID: -5845061872619846951}
+  - component: {fileID: -6866409799738672110}
   m_Layer: 15
   m_Name: Betta Fish
   m_TagString: Betta Fish
@@ -527,7 +528,7 @@ MonoBehaviour:
   - {fileID: 5447806642486513699, guid: ef302d57c9a62814f8e8425e495c442f, type: 3}
   - {fileID: 5447806642486513699, guid: 1ab43b254f256dd4a802af59dd57dfdd, type: 3}
   foodInScene: []
-  numberCaught: 0
+  numberCaught: 1
   generation: 1
   totalMutations: 0
   priceModifier: 0
@@ -684,6 +685,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultHueValue: 1
   thisFishHue: 0
+--- !u!114 &-6866409799738672110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863455049823253984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b71fddc933fc8634c9104e37f0ccdf7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2482288659465150058
 GameObject:
   m_ObjectHideFlags: 0

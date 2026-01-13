@@ -215,6 +215,7 @@ GameObject:
   - component: {fileID: 6970244539946687739}
   - component: {fileID: 6998234625172859772}
   - component: {fileID: 4481977770677242913}
+  - component: {fileID: 3907032860811306612}
   m_Layer: 15
   m_Name: Piranha
   m_TagString: Piranha
@@ -449,6 +450,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultHueValue: 1
   thisFishHue: 0
+--- !u!114 &3907032860811306612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1863455049823253984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b71fddc933fc8634c9104e37f0ccdf7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2822489125385185820
 GameObject:
   m_ObjectHideFlags: 0

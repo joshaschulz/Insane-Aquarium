@@ -14,6 +14,7 @@ public class Scr_Fish : MonoBehaviour
     public string fishDescription;
 
     private Scr_GameManager gameManager;
+    private Scr_Stress stressScr;
 
     public float hungerCount = 0;
     public bool isHungry = false;
@@ -25,6 +26,8 @@ public class Scr_Fish : MonoBehaviour
 
     public float freakCount = 0;
     public bool isFreaky;
+
+    public bool isStressed;
 
     public float poopCount = 0;
 
@@ -656,18 +659,29 @@ public class Scr_Fish : MonoBehaviour
     {
         if (grown)
         {
-            if (!isHungry)
+            if (!isStressed)
             {
-                freakCount = Mathf.Min(minutesUntilFreaky, freakCount + tickIntervalInMinutes);
+                if (!isHungry)
+                {
+                    freakCount = Mathf.Min(minutesUntilFreaky, freakCount + tickIntervalInMinutes);
+                }
+                else if (isHungry)
+                {
+                    freakCount = Mathf.Max(0, freakCount - tickIntervalInMinutes);
+                }
+                isFreaky = (freakCount == minutesUntilFreaky);
+                heartIcon.SetActive(isFreaky);
             }
-            else if (isHungry)
-            {
-                freakCount = Mathf.Max(0, freakCount - tickIntervalInMinutes);
-            }
-            isFreaky = (freakCount == minutesUntilFreaky);
-            heartIcon.SetActive(isFreaky);
         }
 
+    }
+    public void SetStressed()
+    {
+        isStressed = true;
+    }
+    public void SetNotStressed()
+    {
+        isStressed = false;
     }
 
     public void SetHungry()

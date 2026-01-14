@@ -12,18 +12,18 @@ public class Scr_Filter : MonoBehaviour
     private Scr_GameManager gameManager;
     private Scr_TimeHandler timeHandler;
 
-    private Vector2 myTankPos;
+    public Vector2 myTankPos;
     private int tickCounter = 0;
 
     private void Start()
     {
         gameManager = Scr_GameManager.GMinstance;
-        myTankPos = new Vector2(gameManager.GetTankPos(transform).position.x, gameManager.GetTankPos(transform).position.y);
+        //myTankPos = new Vector2(gameManager.GetTankPos(transform.position).position.x, gameManager.GetTankPos(transform.position).position.y);
     }
 
     private void Update()
     {
-        Debug.Log(gameManager.GetPoopLevel(myTankPos));
+        //Debug.Log(gameManager.GetPoopLevel(myTankPos));
     }
 
     private void OnEnable()

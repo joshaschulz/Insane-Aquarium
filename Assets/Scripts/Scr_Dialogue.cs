@@ -9,8 +9,11 @@ public class Scr_Dialogue : MonoBehaviour
     public TextMeshProUGUI textComponent;
     public string[] lines;
     public float textSpeed;
+    public Scr_PhoneContact currentContact;
 
-    private int index;
+    public int index;
+
+    private Coroutine typeLine;
 
 
     // Start is called before the first frame update
@@ -24,7 +27,7 @@ public class Scr_Dialogue : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void StartDialogue()
@@ -39,7 +42,7 @@ public class Scr_Dialogue : MonoBehaviour
         yield return StartCoroutine(OpenBox());
 
         // Then start typing
-        yield return StartCoroutine(TypeLine());
+        yield return typeLine = StartCoroutine(TypeLine());
     }
 
     IEnumerator TypeLine()
@@ -72,17 +75,18 @@ public class Scr_Dialogue : MonoBehaviour
         }
     }
 
-    void NextLine()
+    public void NextLine()
     {
         if (index < lines.Length - 1)
         {
             index++;
             textComponent.text = string.Empty;
-            StartCoroutine(TypeLine());
+            typeLine = StartCoroutine(TypeLine());
         }
         else
         {
             StartCloseBoxEnum();
+            gameManager.currentlyCalling = "";
         }
     }
 
@@ -94,10 +98,15 @@ public class Scr_Dialogue : MonoBehaviour
         }
         else
         {
-            StopAllCoroutines();
-            textComponent.text = lines[index];
+            if (typeLine != null)
+            {
+                StopCoroutine(typeLine);
+                textComponent.text = lines[index];
+            }
+
         }
     }
+
     IEnumerator OpenBox()
     {
         RectTransform rect = GetComponent<RectTransform>();
@@ -142,4 +151,6 @@ public class Scr_Dialogue : MonoBehaviour
         gameObject.SetActive(false);
         rect.localScale = originalScale; // reset for next time
     }
+
+
 }

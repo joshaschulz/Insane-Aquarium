@@ -28360,6 +28360,8 @@ MonoBehaviour:
   lines:
   - Test
   textSpeed: 0.05
+  currentContact: {fileID: 0}
+  index: 0
 --- !u!114 &666694430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30251,6 +30253,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 19.17, y: 10.77}
+  numOfFishInTank: 0
   activeForSaleSticker: {fileID: 0}
 --- !u!1 &698693527
 GameObject:
@@ -35239,9 +35242,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 666694429}
-        m_TargetAssemblyTypeName: Scr_Dialogue, Assembly-CSharp
-        m_MethodName: StartCloseBoxEnum
+      - m_Target: {fileID: 1031440123}
+        m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
+        m_MethodName: CancelPhoneCall
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -44859,6 +44862,7 @@ MonoBehaviour:
   foregroundTankPoopOverlay: {fileID: 862225216}
   backgroundTankPoopOverlay: {fileID: 414288479}
   phoneNumber: {fileID: 664390926}
+  tempPhoneAudioSource: {fileID: 0}
   contacts:
   - {fileID: 11400000, guid: a97faa7f755972644bda6345461161ad, type: 2}
   - {fileID: 11400000, guid: 0435abacdbab6524ab16cdac94400c08, type: 2}
@@ -44921,7 +44925,6 @@ MonoBehaviour:
   - {fileID: 352481009}
   pauseMenu: {fileID: 1292209637}
   backButton: {fileID: 1341634466}
-  fishpedia: {fileID: 269142422}
   customerAttractionRate: 0
   bubblesEffectPrefab: {fileID: 7699653466035250317, guid: 4e2ec060f025af64ba8ccc7e09d540eb, type: 3}
   SFX_DropCoin: {fileID: 8300000, guid: 5ddd5e4b84097c64e8fe6b8b28fc1296, type: 3}
@@ -63251,6 +63254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 19.7, y: 10.77}
+  numOfFishInTank: 0
   activeForSaleSticker: {fileID: 0}
 --- !u!1 &1490777158
 GameObject:
@@ -77464,6 +77468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 19.17, y: 10.77}
+  numOfFishInTank: 0
   activeForSaleSticker: {fileID: 0}
 --- !u!1 &1825028957
 GameObject:

@@ -31,6 +31,17 @@ public class Scr_ClickDetection : MonoBehaviour
             List<RaycastResult> results = new List<RaycastResult>();
             EventSystem.current.RaycastAll(pointerData, results);
 
+            // If we clicked while dialogue text is open...
+            if (gameManager.currentlyCalling != "")
+            {
+                if (gameManager.CheckIfOnSelectionDialogue() || gameManager.CheckIfOnFinalPurchaseDialogue() || gameManager.CheckIfOnPurchaseAgain())
+                    return;
+                else
+                {
+                    gameManager.dialogueBox.AdvanceText();
+                }
+            }
+
             if (results.Count > 0)
             {
                 Debug.Log("Clicked UI element: " + results[0].gameObject.name);
@@ -42,12 +53,6 @@ public class Scr_ClickDetection : MonoBehaviour
                 {
                     gameManager.CancelStructurePlacement();
                     return; // do not also place structure or drop food
-                }
-
-                // If we clicked on the Dialogue Text...
-                if (results[0].gameObject.transform.parent.GetComponent<Scr_Dialogue>())
-                {
-                    results[0].gameObject.transform.parent.GetComponent<Scr_Dialogue>().AdvanceText();
                 }
 
                 return; // UI click handled

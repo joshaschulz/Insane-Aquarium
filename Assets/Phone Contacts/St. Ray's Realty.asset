@@ -17,3 +17,9 @@ MonoBehaviour:
   dialogueLines:
   - You've reached St. Ray's Realty!
   - Are you sure you want to pull the trigger on the new property?
+  indexToEnableSelection: 999
+  indexToEnableSelection2: 999
+  indexToEnableSelection3: 999
+  indexToPurchaseAgain: 999
+  indexToEnableFinalPurchase: 999
+  indexToEnd: 999

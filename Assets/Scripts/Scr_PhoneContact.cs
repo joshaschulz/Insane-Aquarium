@@ -7,6 +7,13 @@ public class Scr_PhoneContact : ScriptableObject
     public string phoneNumber;         // Their number
     [TextArea(2, 6)] public string[] dialogueLines; // Dialogue lines
 
+    public int indexToEnableSelection;
+    public int indexToEnableSelection2;
+    public int indexToEnableSelection3;
+    public int indexToPurchaseAgain;
+    public int indexToEnableFinalPurchase;
+    public int indexToEnd;
+
     // Optional: do something special when this contact answers
     public virtual void OnCallAnswered(Scr_GameManager gameManager)
     {

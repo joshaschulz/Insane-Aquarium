@@ -48,11 +48,13 @@ public class Scr_GameManager : MonoBehaviour
     public TextMeshProUGUI phoneNumber; //number entered on the phone
 
     //numbers on the stall
-    private GameObject tempPhoneAudioSource;
+    public GameObject tempPhoneAudioSource;
     public Scr_PhoneContact[] contacts;
     public string currentlyCalling = "";
-
+    private Coroutine calling;
     public Scr_Dialogue dialogueBox;
+    private GameObject fishFoodToPurchase;
+    private GameObject structureToPurchase;
 
     public float radiationHueShift;
 
@@ -131,8 +133,6 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject backButton;
 
-    public Scr_Fishpedia fishpedia;
-
     public float customerAttractionRate = 1f;
 
 
@@ -194,7 +194,7 @@ public class Scr_GameManager : MonoBehaviour
         //Debug.Log("THIS NUMBER OF FISH IMAGES: " + fishSprites.Length);
 
 
-        baggedFishSockets = new GameObject[] {baggedFish_Socket1, baggedFish_Socket2, baggedFish_Socket3 };
+        baggedFishSockets = new GameObject[] { baggedFish_Socket1, baggedFish_Socket2, baggedFish_Socket3 };
 
         ActiveSettings = useTestSettings ? testSettings : buildSettings;
         ChangeGameSettings();
@@ -228,25 +228,12 @@ public class Scr_GameManager : MonoBehaviour
         */
     }
 
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            int index = Random.Range(0, fishPrefabs.Length);
-            SpawnFish(fishPrefabs[index]);
-        }
-        else if (Input.GetKeyDown(KeyCode.B))
-        {
-            SpawnFish(fishPrefabs[0]);
-        }
-    }
-
     public void ChangeGameSettings()
     {
         Scr_GameSettings settings = ActiveSettings;
 
         moneyAmount = settings.moneyAmount;
-        Debug.Log("MONEY AMOUNT: "+ settings.moneyAmount);
+        Debug.Log("MONEY AMOUNT: " + settings.moneyAmount);
         fishFood_1_Amount = settings.fishFood1Amount;
         fishFood_2_Amount = settings.fishFood2Amount;
         fishFood_3_Amount = settings.fishFood3Amount;
@@ -1546,6 +1533,8 @@ public class Scr_GameManager : MonoBehaviour
 
     public void SelectStructureToPlace(GameObject structurePrefab, GameObject structureButton)
     {
+        if (!CheckIfInTank())
+            return;
 
         ClearOtherTools("structure");
         CancelStructurePlacement();
@@ -1700,9 +1689,11 @@ public class Scr_GameManager : MonoBehaviour
     {
         if (structurePrefab == null) return;
 
-        int newAmount = Mathf.Max(0, amount);
-        structureAmountDictionary[structurePrefab] = newAmount;
+        structureAmountDictionary[structurePrefab] = amount;
 
+        UpdateStructureTexts();
+
+        /*
         // update selected structure button text
         if (currentStructurePrefabSelected == structurePrefab &&
             currentStructureButtonSelected != null)
@@ -1713,11 +1704,12 @@ public class Scr_GameManager : MonoBehaviour
 
             if (tmp != null)
             {
-                Debug.Log($"TMP name: {tmp.gameObject.name}  BEFORE: '{tmp.text}'  amount={newAmount}");
+                Debug.Log($"TMP name: {tmp.gameObject.name}  BEFORE: '{tmp.text}'  amount={amount}");
                 UpdateText(tmp, newAmount);
                 Debug.Log($"AFTER: '{tmp.text}'");
             }
-        }
+        }*/
+
     }
 
     public float GetCameraBottomY()
@@ -2021,7 +2013,7 @@ public class Scr_GameManager : MonoBehaviour
             currentFishFoodButtonSelected = fishFood_3_Button;
         }
     }
-    
+
 
     public void SelectFishBag()
     {
@@ -2214,15 +2206,11 @@ public class Scr_GameManager : MonoBehaviour
             pauseMenu.SetActive(false);
             EnableAllButtons();
         }
-        else if (fishpedia.gameObject.activeSelf)
-        {
-            fishpedia.gameObject.SetActive(false);
-            EnableAllButtons();
-        }
-        else if  (_Camera.transform.position == new Vector3(transform.position.x, transform.position.y, _Camera.transform.position.z))
+        else if (_Camera.transform.position == new Vector3(transform.position.x, transform.position.y, _Camera.transform.position.z))
         {
             pauseMenu.SetActive(true);
             DisableAllButtons();
+            backButton.GetComponent<Button>().interactable = true;
         }
         else
         {
@@ -2242,48 +2230,12 @@ public class Scr_GameManager : MonoBehaviour
     public void DisableAllButtons()
     {
         foreach (Button b in Object.FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None))
-        {
             b.interactable = false;
-
-            if (b.GetComponent<Scr_HoverableUIElement>())
-            {
-                b.GetComponent<Scr_HoverableUIElement>().enabled = false;
-            }
-        }
-
-        backButton.GetComponent<Button>().interactable = true;
-    }
-
-    // If you want a gameobject and all of its children to be excluded, use this one \/
-    public void DisableAllButtons(Transform _exception)
-    {
-        foreach (Button b in Object.FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None))
-        {
-            if (b.transform.IsChildOf(_exception))
-            {
-                continue;
-            }
-            b.interactable = false;
-
-            if (b.GetComponent<Scr_HoverableUIElement>())
-            {
-                b.GetComponent<Scr_HoverableUIElement>().enabled = false;
-            }
-        }
-
-        backButton.GetComponent<Button>().interactable = true;
     }
     public void EnableAllButtons()
     {
         foreach (Button b in Object.FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None))
-        {
             b.interactable = true;
-
-            if (b.GetComponent<Scr_HoverableUIElement>())
-            {
-                b.GetComponent<Scr_HoverableUIElement>().enabled = true;
-            }
-        }
     }
     public void EnableElement(GameObject _element)
     {
@@ -2298,21 +2250,10 @@ public class Scr_GameManager : MonoBehaviour
     public void EnableButton(Button _button)
     {
         _button.interactable = true;
-
-        if (_button.GetComponent<Scr_HoverableUIElement>())
-        {
-            _button.GetComponent<Scr_HoverableUIElement>().enabled = true;
-        }
     }
     public void DisableButton(Button _button)
     {
         _button.interactable = false;
-
-
-        if (_button.GetComponent<Scr_HoverableUIElement>())
-        {
-            _button.GetComponent<Scr_HoverableUIElement>().enabled = false;
-        }
     }
 
 
@@ -2539,61 +2480,9 @@ public class Scr_GameManager : MonoBehaviour
         }
 
 
-        // NEW PURCHASING CODE
-        if (currentlyCalling == "The Hungry Guppy")
-        {
-            if (key == 1)
-            {
-                if (GetMoneyAmount() >= fishFood_1_Prefab.GetComponent<Scr_FoodBehavior>().price)
-                {
-                    SetFishFoodAmount(fishFood_1_Prefab, fishFood_1_Amount + 1);
-                    SubtractMoneyAmount(fishFood_1_Prefab.GetComponent<Scr_FoodBehavior>().price);
-                }
-                else // Not enough money for purchase
-                {
-                    PlaySoundEffect(SFX_Error, 0.3f);
-                    Debug.Log("Not enough money!");
-
-                    // Make money text flash red
-                    FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
-                }
-            }
-            else if (key == 2)
-            {
-                if (GetMoneyAmount() >= fishFood_2_Prefab.GetComponent<Scr_FoodBehavior>().price)
-                {
-                    SetFishFoodAmount(fishFood_2_Prefab, fishFood_2_Amount + 1);
-                    SubtractMoneyAmount(fishFood_2_Prefab.GetComponent<Scr_FoodBehavior>().price);
-                }
-                else // Not enough money for purchase
-                {
-                    PlaySoundEffect(SFX_Error, 0.3f);
-                    Debug.Log("Not enough money!");
-
-                    // Make money text flash red
-                    FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
-                }
-            }
-            else if (key == 3)
-            {
-                if (GetMoneyAmount() >= fishFood_3_Prefab.GetComponent<Scr_FoodBehavior>().price)
-                {
-                    SetFishFoodAmount(fishFood_3_Prefab, fishFood_3_Amount + 1);
-                    SubtractMoneyAmount(fishFood_3_Prefab.GetComponent<Scr_FoodBehavior>().price);
-                }
-                else // Not enough money for purchase
-                {
-                    PlaySoundEffect(SFX_Error, 0.3f);
-                    Debug.Log("Not enough money!");
-
-                    // Make money text flash red
-                    FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
-                }
-            }
-        }
 
 
-
+        HandlePhoneCallInteraction(key);
 
 
         // Handle functionality
@@ -2609,26 +2498,14 @@ public class Scr_GameManager : MonoBehaviour
         }
         else if (key == 10) //enter
         {
-            Debug.Log($"Entered Number: {phoneNumber.text}");
-
-            //if phone calling sound already playing, destroy it before playing again
-            if (tempPhoneAudioSource != null)
+            if (currentlyCalling != "")
             {
-                AudioSource tempAudio = tempPhoneAudioSource.GetComponent<AudioSource>();
-
-                if (tempAudio.isPlaying)
-                {
-                    Debug.Log("Cancelled");
-                    tempAudio.Stop();
-                    Destroy(tempPhoneAudioSource);
-                }
-
+                phoneNumber.text = "";
+                return;
             }
 
             string numberToCall = phoneNumber.text;
             phoneNumber.text = "";
-
-
 
             Scr_PhoneContact contact = null;
 
@@ -2642,6 +2519,22 @@ public class Scr_GameManager : MonoBehaviour
                 }
             }
 
+            Debug.Log($"Entered Number: {phoneNumber.text}");
+
+            //if phone calling sound already playing, destroy it before playing again
+            if (tempPhoneAudioSource != null)
+            {
+                AudioSource tempAudio = tempPhoneAudioSource.GetComponent<AudioSource>();
+
+                if (tempAudio.isPlaying)
+                {
+                    CancelPhoneCall();
+                }
+
+            }
+
+
+
             if (contact != null)
             {
                 // Play global ringing sound
@@ -2649,15 +2542,14 @@ public class Scr_GameManager : MonoBehaviour
                 Destroy(tempPhoneAudioSource.gameObject, tempPhoneAudioSource.GetComponent<AudioSource>().clip.length);
 
                 // Wait for the sound to finish, then open dialogue
-                StartCoroutine(WaitForCallToFinishThenStartDialogue(contact, tempPhoneAudioSource.GetComponent<AudioSource>()));
+                calling = StartCoroutine(WaitForCallToFinishThenStartDialogue(contact, tempPhoneAudioSource.GetComponent<AudioSource>()));
             }
-            else
+            else if (numberToCall != "")
             {
                 // Play call fail sound
                 tempPhoneAudioSource = PlaySoundEffectDontDestroy(SFX_CallFail, 0.5f, 1);
                 Destroy(tempPhoneAudioSource.gameObject, tempPhoneAudioSource.GetComponent<AudioSource>().clip.length);
             }
-
 
 
 
@@ -2673,13 +2565,347 @@ public class Scr_GameManager : MonoBehaviour
 
     }
 
+    public void HandlePhoneCallInteraction(int key)
+    {
+        // NEW PURCHASING CODE
+        if (key == 10)
+        {
+            int textNum;
+
+            string raw = phoneNumber.text;
+
+            if (string.IsNullOrWhiteSpace(raw))
+            {
+                textNum = 0;
+            }
+            else if (long.TryParse(raw, out long longVal))
+            {
+                textNum = longVal > int.MaxValue
+                    ? int.MaxValue
+                    : (int)longVal;
+            }
+            else
+            {
+                textNum = 0;
+            }
+
+            if (currentlyCalling == "The Hungry Guppy")//pressed enter - confirms choice
+            {
+                if (CheckIfOnSelectionDialogue1())
+                {
+                    if (textNum == 1)
+                    {
+                        dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase] = $"Pellets are {fishFood_1_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
+
+                        fishFoodToPurchase = fishFood_1_Prefab;
+                        dialogueBox.index = dialogueBox.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBox.NextLine();
+
+                    }
+                    else if (textNum == 2)
+                    {
+                        dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase] = $"Flakes are {fishFood_2_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
+
+                        fishFoodToPurchase = fishFood_2_Prefab;
+                        dialogueBox.index = dialogueBox.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBox.NextLine();
+
+                    }
+                    else if (textNum == 3)
+                    {
+                        dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase] = $"Radiation Drops are {fishFood_3_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
+
+                        fishFoodToPurchase = fishFood_3_Prefab;
+                        dialogueBox.index = dialogueBox.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBox.NextLine();
+
+                    }
+
+
+                }
+                else if (CheckIfOnFinalPurchaseDialogue())
+                {
+                    if (textNum == 0)
+                    {
+                        dialogueBox.lines[dialogueBox.currentContact.indexToEnd] = $"Why bother calling if you aren't going to purchase anything???";
+
+                    }
+                    if (GetMoneyAmount() >= fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum)
+                    {
+                        SetFishFoodAmount(fishFoodToPurchase, GetFishFoodAmount(fishFoodToPurchase) + textNum);
+                        SubtractMoneyAmount(fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum);
+
+                        //dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase + 1] = $"You purchased {textNum} {fishFoodToPurchase.name}s for {fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum} Krona. Thanks for shopping with The Hungry Guppy!";
+                        dialogueBox.index = dialogueBox.currentContact.indexToPurchaseAgain - 1;
+                        dialogueBox.NextLine();
+                    }
+                    else // Not enough money for purchase
+                    {
+                        PlaySoundEffect(SFX_Error, 0.3f);
+                        Debug.Log("Not enough money!");
+
+                        // Make money text flash red
+                        FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
+                    }
+                }
+                else if (CheckIfOnPurchaseAgain())
+                {
+                    if (textNum == 1)
+                    {
+                        dialogueBox.index = dialogueBox.currentContact.indexToEnableSelection - 1;
+                        dialogueBox.NextLine();
+
+                    }
+                    else if (textNum == 2)
+                    {
+                        dialogueBox.index = dialogueBox.currentContact.indexToEnd - 1;
+                        dialogueBox.NextLine();
+
+                    }
+                }
+                else
+                {
+                    dialogueBox.AdvanceText();
+                }
+            }
+            else if (currentlyCalling == "The Aquarium Emporium")
+            {
+
+                if (CheckIfOnSelectionDialogue1())
+                {
+                    if (textNum == 1)
+                    {
+                        dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase] = $"Filters are {structurePrefabs[0].GetComponent<Scr_StructurePlacementRules>().cost} Krona each. Enter the amount you wish to purchase and press enter.";
+
+                        structureToPurchase = structurePrefabs[0];
+                        dialogueBox.index = dialogueBox.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBox.NextLine();
+
+                    }
+                    if (textNum == 2)
+                    {
+                        dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase] = $"Feeders are {structurePrefabs[1].GetComponent<Scr_StructurePlacementRules>().cost} Krona each. Enter the amount you wish to purchase and press enter.";
+
+                        structureToPurchase = structurePrefabs[1];
+                        dialogueBox.index = dialogueBox.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBox.NextLine();
+
+                    }
+
+                    else if (textNum == 3)
+                    {
+                        dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase] = $"Sale Signs are {structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost} Krona each. Enter the amount you wish to purchase and press enter.";
+
+                        structureToPurchase = structurePrefabs[2];
+                        dialogueBox.index = dialogueBox.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBox.NextLine();
+
+                    }
+                }
+                else if (CheckIfOnFinalPurchaseDialogue())
+                {
+                    if (textNum == 0)
+                    {
+                        dialogueBox.lines[dialogueBox.currentContact.indexToEnd] = $"Why bother calling if you aren't going to purchase anything???";
+
+                    }
+                    if (GetMoneyAmount() >= structureToPurchase.GetComponent<Scr_StructurePlacementRules>().cost * textNum)
+                    {
+                        SetStructureAmount(structureToPurchase, GetStructureAmount(structureToPurchase) + textNum);
+                        SubtractMoneyAmount(structureToPurchase.GetComponent<Scr_StructurePlacementRules>().cost * textNum);
+
+                        //dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase + 1] = $"You purchased {textNum} {fishFoodToPurchase.name}s for {fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum} Krona. Thanks for shopping with The Hungry Guppy!";
+                        dialogueBox.index = dialogueBox.currentContact.indexToPurchaseAgain - 1;
+                        dialogueBox.NextLine();
+                    }
+                    else // Not enough money for purchase
+                    {
+                        PlaySoundEffect(SFX_Error, 0.3f);
+                        Debug.Log("Not enough money!");
+
+                        // Make money text flash red
+                        FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
+                    }
+                }
+                else if (CheckIfOnPurchaseAgain())
+                {
+                    if (textNum == 1)
+                    {
+                        dialogueBox.index = dialogueBox.currentContact.indexToEnableSelection - 1;
+                        dialogueBox.NextLine();
+
+                    }
+                    else if (textNum == 2)
+                    {
+                        dialogueBox.index = dialogueBox.currentContact.indexToEnd - 1;
+                        dialogueBox.NextLine();
+
+                    }
+                }
+                else
+                {
+                    dialogueBox.AdvanceText();
+                }
+            }
+            /*
+            else if (currentlyCalling == "St. Ray's Realty")
+            {
+                if (CheckIfOnSelectionDialogue1())
+                {
+                    if (textNum == 1)
+                    {
+                        dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase] = $"Pellets are {fishFood_1_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
+
+                        fishFoodToPurchase = fishFood_1_Prefab;
+                        dialogueBox.AdvanceText();
+
+                    }
+                    else if (textNum == 2)
+                    {
+                        dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase] = $"Flakes are {fishFood_2_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
+
+                        fishFoodToPurchase = fishFood_2_Prefab;
+                        dialogueBox.AdvanceText();
+
+                    }
+                    else if (textNum == 3)
+                    {
+                        dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase] = $"Radiation Drops are {fishFood_3_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
+
+                        fishFoodToPurchase = fishFood_3_Prefab;
+                        dialogueBox.AdvanceText();
+
+                    }
+
+
+                }
+                else if (CheckIfOnFinalPurchaseDialogue())
+                {
+                    if (textNum == 0)
+                    {
+                        dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase + 1] = $"Why bother calling if you aren't going to purchase anything???";
+
+                    }
+                    if (GetMoneyAmount() >= fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum)
+                    {
+                        SetFishFoodAmount(fishFoodToPurchase, GetFishFoodAmount(fishFoodToPurchase) + textNum);
+                        SubtractMoneyAmount(fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum);
+
+                        //dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase + 1] = $"You purchased {textNum} {fishFoodToPurchase.name}s for {fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum} Krona. Thanks for shopping with The Hungry Guppy!";
+                        dialogueBox.index = dialogueBox.currentContact.indexToEnd;
+                        dialogueBox.AdvanceText();
+                    }
+                    else // Not enough money for purchase
+                    {
+                        PlaySoundEffect(SFX_Error, 0.3f);
+                        Debug.Log("Not enough money!");
+
+                        // Make money text flash red
+                        FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
+                    }
+                }
+                else
+                {
+                    dialogueBox.AdvanceText();
+                }
+            
+            }
+            */
+        }
+    }
+    public bool CheckIfOnPurchaseAgain()
+    {
+        if (dialogueBox.currentContact.indexToPurchaseAgain != 999 && dialogueBox.textComponent.text == dialogueBox.lines[dialogueBox.currentContact.indexToPurchaseAgain])
+        {
+            return true;
+        }
+        return false;
+    }
+    public bool CheckIfOnSelectionDialogue3()
+    {
+        if (dialogueBox.currentContact.indexToEnableSelection3 != 999 && dialogueBox.textComponent.text == dialogueBox.lines[dialogueBox.currentContact.indexToEnableSelection3])
+        {
+            return true;
+        }
+        return false;
+    }
+    public bool CheckIfOnSelectionDialogue2()
+    {
+        if (dialogueBox.currentContact.indexToEnableSelection2 != 999 && dialogueBox.textComponent.text == dialogueBox.lines[dialogueBox.currentContact.indexToEnableSelection2])
+        {
+            return true;
+        }
+        return false;
+    }
+    public bool CheckIfOnSelectionDialogue1()
+    {
+        if (dialogueBox.currentContact.indexToEnableSelection != 999 && dialogueBox.textComponent.text == dialogueBox.lines[dialogueBox.currentContact.indexToEnableSelection])
+        {
+            return true;
+        }
+        return false;
+    }
+    public bool CheckIfOnSelectionDialogue()
+    {
+        if (dialogueBox.currentContact.indexToEnableSelection != 999 && dialogueBox.textComponent.text == dialogueBox.lines[dialogueBox.currentContact.indexToEnableSelection])
+        {
+            return true;
+        }
+        else if (dialogueBox.currentContact.indexToEnableSelection2 != 999 && dialogueBox.textComponent.text == dialogueBox.lines[dialogueBox.currentContact.indexToEnableSelection2])
+        {
+            return true;
+        }
+        else if (dialogueBox.currentContact.indexToEnableSelection3 != 999 && dialogueBox.textComponent.text == dialogueBox.lines[dialogueBox.currentContact.indexToEnableSelection3])
+        {
+            return true;
+        }
+
+
+        return false;
+    }
+    public bool CheckIfOnFinalPurchaseDialogue()
+    {
+        if (dialogueBox.currentContact.indexToEnableFinalPurchase == 999)
+        {
+            return false;
+        }
+
+        return dialogueBox.textComponent.text == dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase];
+    }
+
+    public void CancelPhoneCall()
+    {
+        if (calling != null)
+            StopCoroutine(calling);
+        //dialogueBox.StopAllCoroutines();
+        dialogueBox.StartCloseBoxEnum();
+        //currentlyCalling = null;
+
+        if (tempPhoneAudioSource != null)
+        {
+            Debug.Log("SOUND PLAYING");
+            AudioSource tempAudio = tempPhoneAudioSource.GetComponent<AudioSource>();
+
+            if (tempAudio.isPlaying)
+            {
+                Debug.Log(tempAudio.clip.name);
+
+                Debug.Log("Cancelled");
+                tempAudio.Stop();
+                Destroy(tempPhoneAudioSource);
+            }
+        }
+    }
+
     // Coroutine: wait for ringing to finish, then start dialogue
     private IEnumerator WaitForCallToFinishThenStartDialogue(Scr_PhoneContact contact, AudioSource source)
     {
         yield return new WaitForSeconds(source.clip.length);
 
         // Set dialogue lines
-        dialogueBox.lines = contact.dialogueLines;
+        dialogueBox.lines = (string[])contact.dialogueLines.Clone();
+        //dialogueBox.lines = contact.dialogueLines;
+        dialogueBox.currentContact = contact;
 
         // Open dialogue box (with your animation)
         dialogueBox.gameObject.SetActive(true);

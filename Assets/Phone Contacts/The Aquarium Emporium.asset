@@ -17,5 +17,14 @@ MonoBehaviour:
   dialogueLines:
   - Hi there! You've reached The Aquarium Emporium, the premier spot for all your
     fish tank needs.
-  - Press 1 for Helpful Devices.
-  - Press 2 for Cosmetics.
+  - Enter 1 for Filters, 2 for Feeders, or 3 for Sale Signs and press enter.
+  - Would you like to purchase anything else? Enter 1 for yes, or 2 for no and press
+    enter.
+  - PURCHASE TEXT
+  - Thanks for shopping with The Aquarium Emporium!
+  indexToEnableSelection: 1
+  indexToEnableSelection2: 999
+  indexToEnableSelection3: 999
+  indexToPurchaseAgain: 2
+  indexToEnableFinalPurchase: 3
+  indexToEnd: 4

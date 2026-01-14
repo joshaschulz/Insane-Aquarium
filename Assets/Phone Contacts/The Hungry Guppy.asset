@@ -18,6 +18,14 @@ MonoBehaviour:
   - Thank you for calling The Hungry Guppy!
   - We have a premium selection of the finest fish foods.
   - Stay on the line to choose from our catalog.
-  - Press 1 for buy Pellets. [1 pellet per $1]
-  - Press 2 for Flakes. [1 pellet per $2]
-  - Press 3 for Radiation. [1 pellet per $5]
+  - Enter 1 for Pellets, 2 for Flakes, or 3 for Radiation Drops and press enter.
+  - Would you like to purchase anything else? Enter 1 for yes, or 2 for no and press
+    enter.
+  - PURCHASE TEXT
+  - Thanks for shopping at the Hungry Guppy!
+  indexToEnableSelection: 3
+  indexToEnableSelection2: 999
+  indexToEnableSelection3: 999
+  indexToPurchaseAgain: 4
+  indexToEnableFinalPurchase: 5
+  indexToEnd: 6

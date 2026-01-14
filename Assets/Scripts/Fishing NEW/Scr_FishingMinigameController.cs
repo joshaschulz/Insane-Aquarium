@@ -90,6 +90,7 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
 
     private void OnEnable()
     {
+        Cursor.visible = false;
         fishingLine.cursorFollowSpeed = fishingLine.baseCursorFollowSpeed;
         fishHookImage.SetActive(true);
 
@@ -102,7 +103,6 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
             TryCacheCurrentFishAndApplyBounds();
         }
 
-        //Cursor.visible = false;
     }
 
     private void LateUpdate()
@@ -296,6 +296,7 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
             hookedCrateImage.SetActive(false);
             fishHookImage.SetActive(false);
 
+            Cursor.visible = true;
 
             // NEW FISHPEDIA CODE
             // Enabling fishpedia buttons upon catching a fish
@@ -331,6 +332,8 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
             }
             hookedCrateImage.SetActive(false);
             fishHookImage.SetActive(false);
+            
+            Cursor.visible = true;
         }
 
     }
@@ -387,6 +390,7 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
     {
         enabled = true;
         winPanel.lineConnectorRoot.SetActive(true);
+        Cursor.visible = true;
     }
 
     public void DespawnFishingMinigame()

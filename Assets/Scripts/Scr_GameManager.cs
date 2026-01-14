@@ -317,6 +317,26 @@ public class Scr_GameManager : MonoBehaviour
         {
             GameObject placed = Instantiate(structurePrefab, worldPos, Quaternion.identity);
 
+
+            var filter = placed.GetComponentInChildren<Scr_Filter>();
+            var feeder = placed.GetComponentInChildren<Scr_FishFeeder>();
+            var saleSticker = placed.GetComponentInChildren<Scr_ForSaleSticker>();
+
+            if (filter != null)
+            {
+                filter.enabled = true;
+            }
+            else if (feeder != null)
+            {
+                feeder.enabled = true;
+            }
+            else if (saleSticker != null)
+            {
+                saleSticker.enabled = true;
+            }
+
+
+
             // Apply wall flip if needed (same logic you already had)
             var rules = structurePrefab.GetComponent<Scr_StructurePlacementRules>();
             if (rules != null && rules.anchorMode == Scr_StructurePlacementRules.AnchorMode.LockToCameraSide && rules.flipOnSideSwitch)

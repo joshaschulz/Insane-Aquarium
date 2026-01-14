@@ -12,6 +12,8 @@ public class Scr_Filter : MonoBehaviour
     private Scr_GameManager gameManager;
     private Scr_TimeHandler timeHandler;
 
+    public GameObject filterBubblesPrefab;
+
     public Vector2 myTankPos;
     private int tickCounter = 0;
 
@@ -23,11 +25,13 @@ public class Scr_Filter : MonoBehaviour
 
     private void Update()
     {
-        //Debug.Log(gameManager.GetPoopLevel(myTankPos));
+        Debug.Log(gameManager.GetPoopLevel(myTankPos));
     }
 
     private void OnEnable()
     {
+        filterBubblesPrefab.SetActive(true);
+
         timeHandler = FindObjectOfType<Scr_TimeHandler>();
         if (timeHandler != null)
             timeHandler.tickEvent.AddListener(OnTickEvent);

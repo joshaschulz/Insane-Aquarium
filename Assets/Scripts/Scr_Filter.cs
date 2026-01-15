@@ -23,11 +23,6 @@ public class Scr_Filter : MonoBehaviour
         //myTankPos = new Vector2(gameManager.GetTankPos(transform.position).position.x, gameManager.GetTankPos(transform.position).position.y);
     }
 
-    private void Update()
-    {
-        Debug.Log(gameManager.GetPoopLevel(myTankPos));
-    }
-
     private void OnEnable()
     {
         filterBubblesPrefab.SetActive(true);

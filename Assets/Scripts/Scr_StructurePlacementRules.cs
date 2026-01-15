@@ -5,6 +5,7 @@ public class Scr_StructurePlacementRules : MonoBehaviour
 {
 
     public Button structureButton;
+    public GameObject thisPrefab;
 
     public enum AnchorMode
     {

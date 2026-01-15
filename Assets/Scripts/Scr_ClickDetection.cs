@@ -8,6 +8,7 @@ public class Scr_ClickDetection : MonoBehaviour
 {
     Scr_GameManager gameManager;
     public Scr_FishInfoPanel infoPanel;
+    public Transform hudButtonPanel;
 
     [Header("raycast priority")]
     public LayerMask structureMask; // set to Structures in inspector
@@ -30,6 +31,7 @@ public class Scr_ClickDetection : MonoBehaviour
 
             List<RaycastResult> results = new List<RaycastResult>();
             EventSystem.current.RaycastAll(pointerData, results);
+
 
             // If we clicked while dialogue text is open...
             if (gameManager.currentlyCalling != "")
@@ -55,6 +57,18 @@ public class Scr_ClickDetection : MonoBehaviour
                     return; // do not also place structure or drop food
                 }
 
+
+                // Deselect bagging
+                if (gameManager.canIBagFish)
+                {
+                    gameManager.DeselectFishBag();
+                }
+                // Deselect Wrench
+                if (gameManager.canIRemoveStructures)
+                {
+                    gameManager.DeselectWrench();
+                }
+
                 return; // UI click handled
             }
             else
@@ -63,6 +77,7 @@ public class Scr_ClickDetection : MonoBehaviour
                 // 0) If we are in STRUCTURE PLACEMENT MODE:
                 //    place the structure at the cursor and return.
                 // -----------------------------------------
+                
                 if (gameManager.currentStructurePrefabSelected != null)
                 {
                     Vector3 mousePos = Input.mousePosition;
@@ -75,6 +90,7 @@ public class Scr_ClickDetection : MonoBehaviour
 
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity, fishMask);
+                RaycastHit2D structHit = Physics2D.Raycast(ray.origin, ray.direction, Mathf.Infinity, structureMask);
 
                 // Clicked on something
                 if (hit.collider != null)
@@ -103,6 +119,28 @@ public class Scr_ClickDetection : MonoBehaviour
                     }
                 }
 
+                if (structHit.collider != null)
+                {
+                    if (structHit.collider.gameObject.GetComponent<Scr_StructurePlacementRules>() != null && gameManager.canIRemoveStructures)
+                    {
+                        Debug.Log(structHit.collider.gameObject);
+                        GameObject structureToRemove = structHit.collider.gameObject;
+                        gameManager.RemoveStructure(structureToRemove);
+                    }
+
+
+                    Scr_FishFeeder feeder = structHit.collider.GetComponentInParent<Scr_FishFeeder>();
+                    if (feeder != null)
+                    {
+                        if (gameManager.currentFishFoodSelected != null)
+                            feeder.SetFoodType(gameManager.currentFishFoodSelected, gameManager.currentFishFoodButtonSelected);
+                        else
+                            feeder.CycleSpeed();
+
+                        return; // handled
+                    }
+                }
+
                 // Drop food if selected
                 if (gameManager.currentFishFoodSelected != null)
                 {
@@ -116,6 +154,13 @@ public class Scr_ClickDetection : MonoBehaviour
         // ============================
         if (Input.GetMouseButtonDown(1))
         {
+            gameManager.EnableElement(hudButtonPanel.GetChild(1).gameObject);
+            gameManager.DisableElement(hudButtonPanel.GetChild(2).gameObject);
+            gameManager.EnableElement(hudButtonPanel.GetChild(3).gameObject);
+            gameManager.DisableElement(hudButtonPanel.GetChild(4).gameObject);
+            gameManager.EnableElement(hudButtonPanel.GetChild(5).gameObject);
+            gameManager.DisableElement(hudButtonPanel.GetChild(6).gameObject);
+
             // -----------------------------------------
             // If we are placing a structure, right-click cancels build mode
             // -----------------------------------------
@@ -196,6 +241,11 @@ public class Scr_ClickDetection : MonoBehaviour
             if (gameManager.canIBagFish)
             {
                 gameManager.DeselectFishBag();
+            }
+            // Deselect Wrench
+            if (gameManager.canIRemoveStructures)
+            {
+                gameManager.DeselectWrench();
             }
 
             // Hide fish info panel

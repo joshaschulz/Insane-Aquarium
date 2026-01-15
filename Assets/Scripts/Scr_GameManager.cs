@@ -107,7 +107,9 @@ public class Scr_GameManager : MonoBehaviour
 
     public Dictionary<GameObject, GameObject> foodFishDictionary; //instance is the key, prefab is the value
 
+    public GameObject wrench_Button;
     public GameObject fishBag_Button;
+    public bool canIRemoveStructures;
     //public List<(GameObject, int)> baggedFish; // Fish Prefab, HungerCount
     public bool canIBagFish;
 
@@ -1090,7 +1092,24 @@ public class Scr_GameManager : MonoBehaviour
         }
     }
 
+    public void RemoveStructure(GameObject _structureToRemove)
+    {
+        Debug.Log("DESTROY " + _structureToRemove);
 
+        GameObject[] structPrefabs = Resources.LoadAll<GameObject>("Prefabs/Structures");
+
+        GameObject structToRemove = null;
+
+        foreach (GameObject structure in structPrefabs)
+        {
+            if (_structureToRemove.name.Contains(structure.name))
+            {
+                structToRemove = structure;
+            }
+        }
+        SetStructureAmount(structToRemove, structureAmountDictionary[structToRemove] + 1);
+        Destroy(_structureToRemove);
+    }
 
     public void BagAFish(GameObject _fishToBag)
     {
@@ -1733,7 +1752,14 @@ public class Scr_GameManager : MonoBehaviour
 
         structureAmountDictionary[structurePrefab] = amount;
 
+        int index = structurePrefabs.IndexOf(structurePrefab);
+        if (amount > 0)
+        {
+            structureButtons[index].SetActive(true);
+        }
+
         UpdateStructureTexts();
+
 
         /*
         // update selected structure button text
@@ -1857,16 +1883,28 @@ public class Scr_GameManager : MonoBehaviour
         if (_fishFoodType == fishFood_1_Prefab)
         {
             fishFood_1_Amount = _newFishFoodAmount;
+            if (fishFood_1_Amount > 0)
+            {
+                fishFood_1_Button.SetActive(true);
+            }
             UpdateText(fishFood_1_AmountText, fishFood_1_Amount);
         }
         else if (_fishFoodType == fishFood_2_Prefab)
         {
             fishFood_2_Amount = _newFishFoodAmount;
+            if (fishFood_2_Amount > 0)
+            {
+                fishFood_2_Button.SetActive(true);
+            }
             UpdateText(fishFood_2_AmountText, fishFood_2_Amount);
         }
         else if (_fishFoodType == fishFood_3_Prefab)
         {
             fishFood_3_Amount = _newFishFoodAmount;
+            if (fishFood_3_Amount > 0)
+            {
+                fishFood_3_Button.SetActive(true);
+            }
             UpdateText(fishFood_3_AmountText, fishFood_3_Amount);
         }
         else
@@ -2090,6 +2128,38 @@ public class Scr_GameManager : MonoBehaviour
         canIBagFish = false;
     }
 
+    public void SelectWrench()
+    {
+        // If a fish food is currently selected, remove it
+        if (currentFishFoodSelected != null)
+        {
+            ChangeFishFoodTypeToDrop(null);
+        }
+
+        /*
+        // If a bagged fish is currently selected, remove it
+        if (currentBaggedFishButtonSelected != null)
+        {
+            DeselectBaggedFish();
+        }
+        */
+
+        // Change the cursor image to a wrench image and play a sound effect
+        ChangeCursorFollower(wrench_Button.GetComponent<Image>().sprite);
+        PlaySoundEffect(SFX_Select, 0.7f);
+
+        // Set a state where clicking on a structure will remove it from the scene and add it to structures list
+        canIRemoveStructures = true;
+    }
+    public void DeselectWrench()
+    {
+        // Change the cursor image to nothing and play a sound effect
+        ChangeCursorFollower(null);
+        PlaySoundEffect(SFX_Select, 0.7f, 0.8f);
+
+        // Set a state where clicking on a structure will remove it from the scene and add it to structures list
+        canIRemoveStructures = false;
+    }
     public void ChangeCursorFollower(Sprite _cursorSprite)
     {
         if (_cursorSprite != null)

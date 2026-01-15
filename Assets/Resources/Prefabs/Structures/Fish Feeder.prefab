@@ -887,7 +887,7 @@ GameObject:
   - component: {fileID: 705957036903496100}
   - component: {fileID: 3693462900222119171}
   - component: {fileID: 1911641727647164389}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Fish Feeder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -945,6 +945,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   structureButton: {fileID: 0}
+  thisPrefab: {fileID: 4929024843989503357}
   cost: 300
   anchorMode: 2
   offsetFromCameraBottom: 0.5

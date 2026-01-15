@@ -36,6 +36,8 @@ public class Scr_GameManager : MonoBehaviour
     private Scr_FishyGuy Scr_FishyGuy;
     private Scr_Customer Scr_Customer;
 
+    public GameObject fishpedia;
+
     public GameObject rodIdle, rodHooked;
 
     public GameObject tank;
@@ -186,7 +188,6 @@ public class Scr_GameManager : MonoBehaviour
 
         Scr_SpawnToiletFish = FindObjectOfType<Scr_SpawnToiletFish>();
         Scr_UIElementsHandler = FindObjectOfType<Scr_UIElementsHandler>();
-
 
         _Camera = Camera.main;
 
@@ -2242,9 +2243,10 @@ public class Scr_GameManager : MonoBehaviour
 
     public void MoveToSceneOrPause(Transform transform)
     {
-        if (pauseMenu.activeSelf)
+        if (pauseMenu.activeSelf || fishpedia.activeSelf)
         {
             pauseMenu.SetActive(false);
+            fishpedia.SetActive(false);
             EnableAllButtons();
         }
         else if (_Camera.transform.position == new Vector3(transform.position.x, transform.position.y, _Camera.transform.position.z))
@@ -2272,6 +2274,18 @@ public class Scr_GameManager : MonoBehaviour
     {
         foreach (Button b in Object.FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             b.interactable = false;
+    }
+    public void DisableAllButtons(Transform exclusion)
+    {
+        foreach (Button b in Object.FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            if (b.transform.IsChildOf(exclusion))
+                continue;
+
+            b.interactable = false;
+
+        }
+
     }
     public void EnableAllButtons()
     {

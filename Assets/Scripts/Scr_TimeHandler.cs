@@ -35,10 +35,12 @@ public class Scr_TimeHandler : MonoBehaviour
     [Header("UI Elements")]
     public TextMeshProUGUI timeDisplayText;
 
+    public bool timePaused;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     private void Awake()
@@ -63,6 +65,9 @@ public class Scr_TimeHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (timePaused)
+            return;
+
         float deltaGameSeconds = Time.deltaTime * timeScale; //amount of game seconds per frame
         gameSeconds += deltaGameSeconds; //total number of in-game seconds that have passed (60 in-game seconds per real second)
         tickAccumulator += deltaGameSeconds;
@@ -70,11 +75,23 @@ public class Scr_TimeHandler : MonoBehaviour
         if (gameSeconds >= endTimeInSeconds)
         {
             gameSeconds = startTimeInSeconds + (gameSeconds - endTimeInSeconds);
+
+            gameManager.EndDay();
         }
 
         UpdateClockDisplay();
 
         CheckEventTick();
+    }
+
+    public void PauseTime()
+    {
+        timePaused = true;
+    }
+
+    public void UnpauseTime()
+    {
+        timePaused = false;
     }
 
     public void ChangeGameSettings()

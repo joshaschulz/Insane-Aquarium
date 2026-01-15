@@ -26,6 +26,9 @@ public class Scr_GameManager : MonoBehaviour
 
     private int fastForwardSetting = 1;
 
+    public Scr_EndDay Scr_EndDay;
+    public Button payUpButton;
+
     public AudioSource AS;
     public AudioMixerSnapshot normalSnapshot;
     public AudioMixerSnapshot underwaterSnapshot;
@@ -186,7 +189,7 @@ public class Scr_GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-
+        GetComponent<Scr_TimeHandler>().PauseTime();
 
         Scr_SpawnToiletFish = FindObjectOfType<Scr_SpawnToiletFish>();
         Scr_UIElementsHandler = FindObjectOfType<Scr_UIElementsHandler>();
@@ -2318,12 +2321,17 @@ public class Scr_GameManager : MonoBehaviour
             pauseMenu.SetActive(false);
             fishpedia.SetActive(false);
             EnableAllButtons();
+
+            gameObject.GetComponent<Scr_TimeHandler>().UnpauseTime();
         }
         else if (_Camera.transform.position == new Vector3(transform.position.x, transform.position.y, _Camera.transform.position.z))
         {
             pauseMenu.SetActive(true);
             DisableAllButtons();
             backButton.GetComponent<Button>().interactable = true;
+
+            gameObject.GetComponent<Scr_TimeHandler>().PauseTime();
+
         }
         else
         {
@@ -2340,6 +2348,19 @@ public class Scr_GameManager : MonoBehaviour
             }
         }
     }
+
+    public void OpenCloseFishpedia()
+    {
+        if (!fishpedia.activeSelf)
+        {
+            fishpedia.SetActive(true);
+            return;
+        }
+
+        ClickButton(backButton.GetComponent<Button>());
+
+    }
+
     public void DisableAllButtons()
     {
         foreach (Button b in Object.FindObjectsByType<Button>(FindObjectsInactive.Include, FindObjectsSortMode.None))
@@ -3114,6 +3135,17 @@ public class Scr_GameManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    public void EndDay()
+    {
+        GetComponent<Scr_TimeHandler>().PauseTime();
+
+        DisableAllButtons();
+        EnableButton(payUpButton);
+
+        Scr_EndDay.PlayEndDayUI();
+
     }
 
     public void ClickButton(Button button)

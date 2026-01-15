@@ -411,6 +411,8 @@ public class Scr_Fish : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (gameManager.GetComponent<Scr_TimeHandler>().timePaused)
+            return;
 
         currentSpeed = baseSpeedFactored * gameManager.GetFastForwardSettingFactor();
 

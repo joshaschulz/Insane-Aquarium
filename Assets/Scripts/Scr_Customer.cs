@@ -17,6 +17,9 @@ public class Scr_Customer : MonoBehaviour
     public GameObject customerImagesParent;
     private GameObject[] customerImages;
 
+    public Scr_CustomerContact[] customerDialogues;
+    private Scr_CustomerContact customerContactToUse;
+
     public GameObject customer;
 
     public int ticksToSpawnChance;
@@ -24,6 +27,10 @@ public class Scr_Customer : MonoBehaviour
 
     public bool customerExists = false;
     private int ticksSinceSpawned;
+
+    private int ticksToSpawnInitially;
+    private int ticksSinceStart;
+    private bool initialSpawnDelayComplete = false;
 
     private bool isCameraInBathroom;
 
@@ -35,7 +42,9 @@ public class Scr_Customer : MonoBehaviour
     public Scr_TankBounds[] forSaleTanks;
     private int ticksSinceOrderCreated = 0;
 
-    private bool customerRecentlyLeft = false; //used to have a 1 tick gap in customer spawning
+    public int cooldownIn10MinUnits = 1; // e.g. 1 = 10 minutes, 2 = 20 minutes
+
+    private int customerCooldownTicksRemaining = 0;
 
 
     // Start is called before the first frame update
@@ -49,8 +58,10 @@ public class Scr_Customer : MonoBehaviour
         ticksToSpawnChance *= gameManager.tickEventsPer10Min;
         ticksToExist *= gameManager.tickEventsPer10Min;
 
+        ticksToSpawnInitially = ticksToExist / 2;
+
         GetPotentialCustomers();
-        PickCustomer();
+        //PickCustomer();
 
     }
 
@@ -103,7 +114,19 @@ public class Scr_Customer : MonoBehaviour
     public void OnTickEvent()
     {
         gameManager.RecalculateCustomerAttractionRate(); //maybe we dont want this in tickevent. possibly just on buy, birth, sell fish.
-        Debug.Log("Customer attraction rate: " + gameManager.customerAttractionRate);
+
+        //startup delay before allowing ANY customer spawn
+        if (!initialSpawnDelayComplete)
+        {
+            ticksSinceStart++;
+
+            if (ticksSinceStart < ticksToSpawnInitially)
+            {
+                return; //too early to spawn
+            }
+
+            initialSpawnDelayComplete = true; //from now on spawning is allowed
+        }
 
         //count how long customer has existed
         if (customerExists)
@@ -130,11 +153,9 @@ public class Scr_Customer : MonoBehaviour
             }
         }
 
-        if (customerRecentlyLeft) //waits atleast 1 tick since a customer left for another to spawn
+        if (customerCooldownTicksRemaining > 0)
         {
-            // consume the cooldown: skip this tick's spawn chance,
-            // but allow spawning again next tick
-            customerRecentlyLeft = false;
+            customerCooldownTicksRemaining--;
             return;
         }
 
@@ -217,8 +238,7 @@ public class Scr_Customer : MonoBehaviour
         // No for-sale tank has enough fish → no auto-sale this tick
         if (candidateTanks.Count == 0)
         {
-            Debug.Log("Auto-buy failed: No for-sale tank has enough " +
-                      customerFishPrefab.name + " (needed " + required + ").");
+            //Debug.Log("Auto-buy failed: No for-sale tank has enough " + customerFishPrefab.name + " (needed " + required + ").");
             return;
         }
 
@@ -259,6 +279,21 @@ public class Scr_Customer : MonoBehaviour
         GameObject activeCustomer = customerImages[Random.Range(0, customerImages.Length)];
 
         activeCustomer.SetActive(true);
+
+        foreach (Scr_CustomerContact customerContact in customerDialogues)
+        {
+            if (customerContact.contactName.Equals(activeCustomer.name))
+            {
+                Debug.Log("PICKED " + customerContact.contactName);
+                customerContactToUse = customerContact;
+            }
+        }
+
+        if (customerExists)
+        {
+            gameManager.StartCustomerDialogue(customerContactToUse);
+            Debug.Log("GOT TO ONENABLE WITH " + customerContactToUse.name);
+        }
 
         foreach (GameObject customer in customerImages)
         {
@@ -338,7 +373,7 @@ public class Scr_Customer : MonoBehaviour
             int num = nonStarfishIndexes[randIdx];
 
             chosenPrefab = gameManager.fishPrefabs[num];
-            fishSprite = gameManager.fishSprites[num];
+            fishSprite = gameManager.sideFishSprites[num];
         }
         else
         {
@@ -367,13 +402,13 @@ public class Scr_Customer : MonoBehaviour
 
             // 4) Map prefab → sprite using your parallel arrays
             int index = System.Array.IndexOf(gameManager.fishPrefabs, chosenPrefab);
-            if (index < 0 || index >= gameManager.fishSprites.Length)
+            if (index < 0 || index >= gameManager.sideFishSprites.Length)
             {
                 Debug.LogWarning("Chosen fish prefab not found in fishPrefabs array.");
                 return;
             }
 
-            fishSprite = gameManager.fishSprites[index];
+            fishSprite = gameManager.sideFishSprites[index];
         }
 
         // Now we SHOULD have chosenPrefab and fishSprite (either via weighted or fallback)
@@ -381,7 +416,7 @@ public class Scr_Customer : MonoBehaviour
         {
             customerFishImage.sprite = fishSprite;
             customerFishImage.SetNativeSize();
-            customerFishImage.rectTransform.localScale = Vector3.one / 11f;
+            customerFishImage.rectTransform.localScale = Vector3.one / 9f;
             customerFishPrefab = chosenPrefab;
         }
         else
@@ -452,6 +487,7 @@ public class Scr_Customer : MonoBehaviour
 
     public void SellFish()
     {
+
         int requiredQuantity = Mathf.Max(1, customerFishQuantity); // always at least 1
 
         // collect all bagged fish that match the requested species
@@ -498,6 +534,8 @@ public class Scr_Customer : MonoBehaviour
         gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.4f, 1f, 1f);
         gameManager.PlaySoundEffect(gameManager.SFX_MoneyCounter, 0.4f, 1f, 1f);
 
+        //gameManager.dialogueBoxCustomer.StartCloseBoxEnum();
+
         CustomerGoAway();
     }
 
@@ -509,13 +547,15 @@ public class Scr_Customer : MonoBehaviour
 
     public void CustomerGoAway()
     {
+        gameManager.dialogueBoxCustomer.StartCloseBoxEnum();
+
         customerExists = false;
         ticksSinceSpawned = 0;
         DestroyCustomerFish();
 
         ticksSinceOrderCreated = 0;
 
-        customerRecentlyLeft = true;  // ← mark that someone just left
+        customerCooldownTicksRemaining = cooldownIn10MinUnits * gameManager.tickEventsPer10Min;
     }
 
     private void UnableToCompleteTransaction()

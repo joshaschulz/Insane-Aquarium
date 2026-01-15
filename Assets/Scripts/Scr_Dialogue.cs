@@ -22,6 +22,12 @@ public class Scr_Dialogue : MonoBehaviour
         gameManager = Scr_GameManager.GMinstance;
 
         textComponent.text = string.Empty;
+
+    }
+
+    private void OnEnable()
+    {
+
     }
 
     // Update is called once per frame
@@ -36,6 +42,7 @@ public class Scr_Dialogue : MonoBehaviour
         index = 0;
         StartCoroutine(StartDialogueSequence());
     }
+
     IEnumerator StartDialogueSequence()
     {
         // Play the opening animation first
@@ -110,8 +117,8 @@ public class Scr_Dialogue : MonoBehaviour
     IEnumerator OpenBox()
     {
         RectTransform rect = GetComponent<RectTransform>();
+        Vector3 targetScale = rect.localScale;
         rect.localScale = Vector3.zero;
-        Vector3 targetScale = Vector3.one;
         float duration = 0.15f;
         float time = 0f;
 

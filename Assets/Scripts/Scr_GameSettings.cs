@@ -99,4 +99,5 @@ public class Scr_GameSettings : ScriptableObject
     public int baseFishCost_Tetra;
     public int fishValue_Tetra;
 
+
 }

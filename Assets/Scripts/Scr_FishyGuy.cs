@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -15,6 +16,12 @@ public class Scr_FishyGuy : MonoBehaviour
 
     public GameObject fishyGuyImage;
 
+    public Scr_CustomerContact fishyGuyDialogue;
+
+    private int ticksToSpawnInitially;
+    private int ticksSinceStart;
+    private bool initialSpawnDelayComplete = false;
+
     public int ticksToSpawnChance;
     public int ticksToExist;
 
@@ -24,12 +31,17 @@ public class Scr_FishyGuy : MonoBehaviour
     private bool isCameraInBathroom;
 
     public Image fishyGuyFishImage1;
-    public Image fishyGuyFishImage2;
+    private GameObject fishToBuy;
+    //public Image fishyGuyFishImage2;
+
+    public TextMeshProUGUI priceText;
 
     public GameObject fishBag1;
-    public GameObject fishBag2;
+    //public GameObject fishBag2;
 
-    private bool fishyGuyRecentlyLeft = false;
+    public int cooldownIn10MinUnits = 1; // e.g. 1 = 10 minutes, 2 = 20 minutes
+
+    private int fishyGuyCooldownTicksRemaining = 0;
 
 
 
@@ -44,6 +56,9 @@ public class Scr_FishyGuy : MonoBehaviour
 
         ticksToSpawnChance *= gameManager.tickEventsPer10Min;
         ticksToExist *= gameManager.tickEventsPer10Min;
+
+        ticksToSpawnInitially = ticksToExist / 2;
+
 
     }
 
@@ -94,10 +109,23 @@ public class Scr_FishyGuy : MonoBehaviour
 
     public void OnTickEvent()
     {
-        if (fishyGuyRecentlyLeft)
+        //startup delay before allowing ANY customer spawn
+        if (!initialSpawnDelayComplete)
         {
-            fishyGuyRecentlyLeft = false; // consume the cooldown
-            return; // skip this tick entirely
+            ticksSinceStart++;
+
+            if (ticksSinceStart < ticksToSpawnInitially)
+            {
+                return; //too early to spawn
+            }
+
+            initialSpawnDelayComplete = true; //from now on spawning is allowed
+        }
+
+        if (fishyGuyCooldownTicksRemaining > 0)
+        {
+            fishyGuyCooldownTicksRemaining--;
+            return;
         }
 
         //count how long customer has existed
@@ -129,26 +157,34 @@ public class Scr_FishyGuy : MonoBehaviour
 
     public void PickFishyGuyFish()
     {
-        //picks a random fish prefab
-        Sprite fishSprite1 = gameManager.fishSprites[Random.Range(0, gameManager.fishSprites.Length - 1)];
-        Sprite fishSprite2 = gameManager.fishSprites[Random.Range(0, gameManager.fishSprites.Length - 1)];
 
-        while (fishSprite1 == fishSprite2)
+        Scr_CustomerContact customerContactToUse = fishyGuyDialogue;
+
+        if (fishyGuyExists)
         {
-            fishSprite2 = gameManager.fishSprites[Random.Range(0, gameManager.fishSprites.Length - 1)];
+            gameManager.StartCustomerDialogue(customerContactToUse);
         }
 
+        //picks a random fish prefab
+        Sprite fishSprite1 = gameManager.exoticFishSprites[Random.Range(0, gameManager.exoticFishSprites.Length - 1)];
 
+        foreach (var p in gameManager.exoticFishPrefabs)
+        {
+            Debug.Log("Comparing " + fishSprite1.name + " to " + p.name);
+            if (fishSprite1.name.Contains(p.name))
+            {
+                fishToBuy = p;
+                break;
+            }
+        }
 
-        if (fishSprite1 && fishSprite2)
+        Debug.Log("FISHY GUY PICKED" + fishSprite1.name);
+
+        if (fishSprite1)
         {
             fishyGuyFishImage1.sprite = fishSprite1;
             fishyGuyFishImage1.SetNativeSize();
             fishyGuyFishImage1.rectTransform.localScale = Vector3.one / 11f; //from native size to about the size of a fish in the tank
-
-            fishyGuyFishImage2.sprite = fishSprite2;
-            fishyGuyFishImage2.SetNativeSize();
-            fishyGuyFishImage2.rectTransform.localScale = Vector3.one / 11f; //from native size to about the size of a fish in the tank
 
         }
         else
@@ -156,33 +192,21 @@ public class Scr_FishyGuy : MonoBehaviour
             Debug.LogWarning("No Images found in Resources/Assets/Fish!");
         }
 
+        if (fishToBuy.GetComponent<Scr_Starfish>() != null)
+        {
+            priceText.text = fishToBuy.GetComponent<Scr_Starfish>().baseFishCost.ToString();
+        }
+
     }
 
     public void DestroyCustomerFish()
     {
         fishyGuyFishImage1.sprite = null;
-        fishyGuyFishImage2.sprite = null;
+        //fishyGuyFishImage2.sprite = null;
     }
 
     public void BuyFish()
-    {
-        GameObject clickedBag = EventSystem.current.currentSelectedGameObject;
-        Transform clickedFish = clickedBag.transform.GetChild(0);
-        Image clickedFishImage = clickedFish.GetComponent<Image>();
-
-        string spriteName = clickedFishImage.sprite.name;
-        string baseName = NormalizeName(spriteName);
-
-        GameObject fishToBuy = null;
-        foreach (var p in gameManager.fishPrefabs)
-        {
-            if (string.Equals(p.name, baseName, System.StringComparison.OrdinalIgnoreCase))
-            {
-                fishToBuy = p;
-                break;
-            }
-        }
-        
+    { 
         if (fishToBuy.GetComponent<Scr_Starfish>() != null)
         {
             Scr_Starfish fishToBuyScr = fishToBuy.GetComponent<Scr_Starfish>();
@@ -197,37 +221,12 @@ public class Scr_FishyGuy : MonoBehaviour
                     gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.4f, 1f, 1f);
                     gameManager.PlaySoundEffect(gameManager.SFX_MoneyCounter, 0.4f, 1f, 1f);
 
-                    HideBoughtFishBag(clickedBag);
-                    CheckIfBothFishBought();
-                }
-                else
-                {
-                    UnableToCompleteTransaction();
-                    return;
-                }
-            }
-            else
-            {
-                UnableToCompleteTransaction();
-                return;
-            }
-        }
-        else
-        {
-            Scr_Fish fishToBuyScr = fishToBuy.GetComponent<Scr_Fish>();
+                    //HideBoughtFishBag(clickedBag);
+                    //CheckIfBothFishBought();
 
-            if (gameManager.moneyAmount > fishToBuyScr.baseFishCost)
-            {
-                GameObject fish = gameManager.SpawnTempFish(fishToBuy, gameManager.fishWaitingArea);
-                if (gameManager.BagFishyGuyFish(fish))
-                {
-                    gameManager.SubtractMoneyAmount(fishToBuyScr.baseFishCost);
+                    //gameManager.dialogueBoxCustomer.StartCloseBoxEnum();
 
-                    gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.4f, 1f, 1f);
-                    gameManager.PlaySoundEffect(gameManager.SFX_MoneyCounter, 0.4f, 1f, 1f);
-
-                    HideBoughtFishBag(clickedBag);
-                    CheckIfBothFishBought();
+                    FishyGuyGoAway();
                 }
                 else
                 {
@@ -269,13 +268,14 @@ public class Scr_FishyGuy : MonoBehaviour
         fishBag.SetActive(false);
     }
 
+    /*
     public void CheckIfBothFishBought() //if both fish are bought then the fishy guy goes away
     {
         if(!fishBag1.activeSelf && !fishBag2.activeSelf)
         {
             FishyGuyGoAway();
         }
-    }
+    }*/
 
     /*public void SellFish()
     {
@@ -317,15 +317,19 @@ public class Scr_FishyGuy : MonoBehaviour
 
     public void FishyGuyGoAway()
     {
+        gameManager.dialogueBoxCustomer.StartCloseBoxEnum();
+
+
         fishyGuyExists = false;
         ticksSinceSpawned = 0;
 
         fishBag1.SetActive(true);
-        fishBag2.SetActive(true);
+        //fishBag2.SetActive(true);
 
-        fishyGuyRecentlyLeft = true;
+        fishyGuyCooldownTicksRemaining = cooldownIn10MinUnits * gameManager.tickEventsPer10Min;
 
         DestroyCustomerFish();
+
     }
 
     private void UnableToCompleteTransaction()

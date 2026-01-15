@@ -117,7 +117,7 @@ public class Scr_TimeHandler : MonoBehaviour
             int hours = ((int)gameSeconds / 3600) % 24;
             int minutes = ((int)gameSeconds / 60) % 60;
 
-            Debug.Log($"I JUST SENT A TICK EVENT at {hours:00}:{minutes:00}");
+            //Debug.Log($"I JUST SENT A TICK EVENT at {hours:00}:{minutes:00}");
 
             tickAccumulator -= tickInterval;
         }

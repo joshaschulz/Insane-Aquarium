@@ -52,7 +52,8 @@ public class Scr_GameManager : MonoBehaviour
     public Scr_PhoneContact[] contacts;
     public string currentlyCalling = "";
     private Coroutine calling;
-    public Scr_Dialogue dialogueBox;
+    public Scr_Dialogue dialogueBoxPhone;
+    public Scr_Dialogue dialogueBoxCustomer;
     private GameObject fishFoodToPurchase;
     private GameObject structureToPurchase;
 
@@ -119,7 +120,10 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject[] baggedFishSockets;
 
     public GameObject[] fishPrefabs;
+    public GameObject[] exoticFishPrefabs;
     public Sprite[] fishSprites;
+    public Sprite[] sideFishSprites;
+    public Sprite[] exoticFishSprites;
 
     public Transform fishWaitingArea;
 
@@ -188,8 +192,17 @@ public class Scr_GameManager : MonoBehaviour
 
         foodFishDictionary = new Dictionary<GameObject, GameObject>(); //have to instantiate a dictionary for some reason
 
-        fishPrefabs = Resources.LoadAll<GameObject>("Prefabs/Fish");
-        fishSprites = Resources.LoadAll<Sprite>("Fish");
+        fishPrefabs = Resources.LoadAll<GameObject>("Prefabs/Fish/Normal Fish");
+        exoticFishPrefabs = Resources.LoadAll<GameObject>("Prefabs/Fish/Exotic Fish");
+
+
+
+        fishSprites = Resources.LoadAll<Sprite>("Fish/Fish Front");
+        sideFishSprites = Resources.LoadAll<Sprite>("Fish/Fish Side");
+        exoticFishSprites = Resources.LoadAll<Sprite>("Fish/Exotic Fish");
+
+
+
 
         //Debug.Log("THIS NUMBER OF FISH IMAGES: " + fishSprites.Length);
 
@@ -226,6 +239,14 @@ public class Scr_GameManager : MonoBehaviour
             tank.SetActive(false);
         }
         */
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SpawnFish(fishPrefabs[0]);
+        }
     }
 
     public void ChangeGameSettings()
@@ -2615,29 +2636,29 @@ public class Scr_GameManager : MonoBehaviour
                 {
                     if (textNum == 1)
                     {
-                        dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase] = $"Pellets are {fishFood_1_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Pellets are {fishFood_1_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
 
                         fishFoodToPurchase = fishFood_1_Prefab;
-                        dialogueBox.index = dialogueBox.currentContact.indexToEnableFinalPurchase - 1;
-                        dialogueBox.NextLine();
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBoxPhone.NextLine();
 
                     }
                     else if (textNum == 2)
                     {
-                        dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase] = $"Flakes are {fishFood_2_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Flakes are {fishFood_2_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
 
                         fishFoodToPurchase = fishFood_2_Prefab;
-                        dialogueBox.index = dialogueBox.currentContact.indexToEnableFinalPurchase - 1;
-                        dialogueBox.NextLine();
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBoxPhone.NextLine();
 
                     }
                     else if (textNum == 3)
                     {
-                        dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase] = $"Radiation Drops are {fishFood_3_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Radiation Drops are {fishFood_3_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
 
                         fishFoodToPurchase = fishFood_3_Prefab;
-                        dialogueBox.index = dialogueBox.currentContact.indexToEnableFinalPurchase - 1;
-                        dialogueBox.NextLine();
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBoxPhone.NextLine();
 
                     }
 
@@ -2647,7 +2668,7 @@ public class Scr_GameManager : MonoBehaviour
                 {
                     if (textNum == 0)
                     {
-                        dialogueBox.lines[dialogueBox.currentContact.indexToEnd] = $"Why bother calling if you aren't going to purchase anything???";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnd] = $"Why bother calling if you aren't going to purchase anything???";
 
                     }
                     if (GetMoneyAmount() >= fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum)
@@ -2655,9 +2676,9 @@ public class Scr_GameManager : MonoBehaviour
                         SetFishFoodAmount(fishFoodToPurchase, GetFishFoodAmount(fishFoodToPurchase) + textNum);
                         SubtractMoneyAmount(fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum);
 
-                        //dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase + 1] = $"You purchased {textNum} {fishFoodToPurchase.name}s for {fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum} Krona. Thanks for shopping with The Hungry Guppy!";
-                        dialogueBox.index = dialogueBox.currentContact.indexToPurchaseAgain - 1;
-                        dialogueBox.NextLine();
+                        //dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase + 1] = $"You purchased {textNum} {fishFoodToPurchase.name}s for {fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum} Krona. Thanks for shopping with The Hungry Guppy!";
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToPurchaseAgain - 1;
+                        dialogueBoxPhone.NextLine();
                     }
                     else // Not enough money for purchase
                     {
@@ -2672,20 +2693,20 @@ public class Scr_GameManager : MonoBehaviour
                 {
                     if (textNum == 1)
                     {
-                        dialogueBox.index = dialogueBox.currentContact.indexToEnableSelection - 1;
-                        dialogueBox.NextLine();
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableSelection - 1;
+                        dialogueBoxPhone.NextLine();
 
                     }
                     else if (textNum == 2)
                     {
-                        dialogueBox.index = dialogueBox.currentContact.indexToEnd - 1;
-                        dialogueBox.NextLine();
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnd - 1;
+                        dialogueBoxPhone.NextLine();
 
                     }
                 }
                 else
                 {
-                    dialogueBox.AdvanceText();
+                    dialogueBoxPhone.AdvanceText();
                 }
             }
             else if (currentlyCalling == "The Aquarium Emporium")
@@ -2695,30 +2716,30 @@ public class Scr_GameManager : MonoBehaviour
                 {
                     if (textNum == 1)
                     {
-                        dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase] = $"Filters are {structurePrefabs[0].GetComponent<Scr_StructurePlacementRules>().cost} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Filters are {structurePrefabs[0].GetComponent<Scr_StructurePlacementRules>().cost} Krona each. Enter the amount you wish to purchase and press enter.";
 
                         structureToPurchase = structurePrefabs[0];
-                        dialogueBox.index = dialogueBox.currentContact.indexToEnableFinalPurchase - 1;
-                        dialogueBox.NextLine();
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBoxPhone.NextLine();
 
                     }
                     if (textNum == 2)
                     {
-                        dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase] = $"Feeders are {structurePrefabs[1].GetComponent<Scr_StructurePlacementRules>().cost} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Feeders are {structurePrefabs[1].GetComponent<Scr_StructurePlacementRules>().cost} Krona each. Enter the amount you wish to purchase and press enter.";
 
                         structureToPurchase = structurePrefabs[1];
-                        dialogueBox.index = dialogueBox.currentContact.indexToEnableFinalPurchase - 1;
-                        dialogueBox.NextLine();
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBoxPhone.NextLine();
 
                     }
 
                     else if (textNum == 3)
                     {
-                        dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase] = $"Sale Signs are {structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Sale Signs are {structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost} Krona each. Enter the amount you wish to purchase and press enter.";
 
                         structureToPurchase = structurePrefabs[2];
-                        dialogueBox.index = dialogueBox.currentContact.indexToEnableFinalPurchase - 1;
-                        dialogueBox.NextLine();
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBoxPhone.NextLine();
 
                     }
                 }
@@ -2726,7 +2747,7 @@ public class Scr_GameManager : MonoBehaviour
                 {
                     if (textNum == 0)
                     {
-                        dialogueBox.lines[dialogueBox.currentContact.indexToEnd] = $"Why bother calling if you aren't going to purchase anything???";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnd] = $"Why bother calling if you aren't going to purchase anything???";
 
                     }
                     if (GetMoneyAmount() >= structureToPurchase.GetComponent<Scr_StructurePlacementRules>().cost * textNum)
@@ -2734,9 +2755,9 @@ public class Scr_GameManager : MonoBehaviour
                         SetStructureAmount(structureToPurchase, GetStructureAmount(structureToPurchase) + textNum);
                         SubtractMoneyAmount(structureToPurchase.GetComponent<Scr_StructurePlacementRules>().cost * textNum);
 
-                        //dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase + 1] = $"You purchased {textNum} {fishFoodToPurchase.name}s for {fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum} Krona. Thanks for shopping with The Hungry Guppy!";
-                        dialogueBox.index = dialogueBox.currentContact.indexToPurchaseAgain - 1;
-                        dialogueBox.NextLine();
+                        //dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase + 1] = $"You purchased {textNum} {fishFoodToPurchase.name}s for {fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum} Krona. Thanks for shopping with The Hungry Guppy!";
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToPurchaseAgain - 1;
+                        dialogueBoxPhone.NextLine();
                     }
                     else // Not enough money for purchase
                     {
@@ -2751,20 +2772,20 @@ public class Scr_GameManager : MonoBehaviour
                 {
                     if (textNum == 1)
                     {
-                        dialogueBox.index = dialogueBox.currentContact.indexToEnableSelection - 1;
-                        dialogueBox.NextLine();
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableSelection - 1;
+                        dialogueBoxPhone.NextLine();
 
                     }
                     else if (textNum == 2)
                     {
-                        dialogueBox.index = dialogueBox.currentContact.indexToEnd - 1;
-                        dialogueBox.NextLine();
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnd - 1;
+                        dialogueBoxPhone.NextLine();
 
                     }
                 }
                 else
                 {
-                    dialogueBox.AdvanceText();
+                    dialogueBoxPhone.AdvanceText();
                 }
             }
             /*
@@ -2774,26 +2795,26 @@ public class Scr_GameManager : MonoBehaviour
                 {
                     if (textNum == 1)
                     {
-                        dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase] = $"Pellets are {fishFood_1_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Pellets are {fishFood_1_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
 
                         fishFoodToPurchase = fishFood_1_Prefab;
-                        dialogueBox.AdvanceText();
+                        dialogueBoxPhone.AdvanceText();
 
                     }
                     else if (textNum == 2)
                     {
-                        dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase] = $"Flakes are {fishFood_2_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Flakes are {fishFood_2_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
 
                         fishFoodToPurchase = fishFood_2_Prefab;
-                        dialogueBox.AdvanceText();
+                        dialogueBoxPhone.AdvanceText();
 
                     }
                     else if (textNum == 3)
                     {
-                        dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase] = $"Radiation Drops are {fishFood_3_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Radiation Drops are {fishFood_3_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
 
                         fishFoodToPurchase = fishFood_3_Prefab;
-                        dialogueBox.AdvanceText();
+                        dialogueBoxPhone.AdvanceText();
 
                     }
 
@@ -2803,7 +2824,7 @@ public class Scr_GameManager : MonoBehaviour
                 {
                     if (textNum == 0)
                     {
-                        dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase + 1] = $"Why bother calling if you aren't going to purchase anything???";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase + 1] = $"Why bother calling if you aren't going to purchase anything???";
 
                     }
                     if (GetMoneyAmount() >= fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum)
@@ -2811,9 +2832,9 @@ public class Scr_GameManager : MonoBehaviour
                         SetFishFoodAmount(fishFoodToPurchase, GetFishFoodAmount(fishFoodToPurchase) + textNum);
                         SubtractMoneyAmount(fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum);
 
-                        //dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase + 1] = $"You purchased {textNum} {fishFoodToPurchase.name}s for {fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum} Krona. Thanks for shopping with The Hungry Guppy!";
-                        dialogueBox.index = dialogueBox.currentContact.indexToEnd;
-                        dialogueBox.AdvanceText();
+                        //dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase + 1] = $"You purchased {textNum} {fishFoodToPurchase.name}s for {fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum} Krona. Thanks for shopping with The Hungry Guppy!";
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnd;
+                        dialogueBoxPhone.AdvanceText();
                     }
                     else // Not enough money for purchase
                     {
@@ -2826,7 +2847,7 @@ public class Scr_GameManager : MonoBehaviour
                 }
                 else
                 {
-                    dialogueBox.AdvanceText();
+                    dialogueBoxPhone.AdvanceText();
                 }
             
             }
@@ -2835,7 +2856,7 @@ public class Scr_GameManager : MonoBehaviour
     }
     public bool CheckIfOnPurchaseAgain()
     {
-        if (dialogueBox.currentContact.indexToPurchaseAgain != 999 && dialogueBox.textComponent.text == dialogueBox.lines[dialogueBox.currentContact.indexToPurchaseAgain])
+        if (dialogueBoxPhone.currentContact.indexToPurchaseAgain != 999 && dialogueBoxPhone.textComponent.text == dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToPurchaseAgain])
         {
             return true;
         }
@@ -2843,7 +2864,7 @@ public class Scr_GameManager : MonoBehaviour
     }
     public bool CheckIfOnSelectionDialogue3()
     {
-        if (dialogueBox.currentContact.indexToEnableSelection3 != 999 && dialogueBox.textComponent.text == dialogueBox.lines[dialogueBox.currentContact.indexToEnableSelection3])
+        if (dialogueBoxPhone.currentContact.indexToEnableSelection3 != 999 && dialogueBoxPhone.textComponent.text == dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableSelection3])
         {
             return true;
         }
@@ -2851,7 +2872,7 @@ public class Scr_GameManager : MonoBehaviour
     }
     public bool CheckIfOnSelectionDialogue2()
     {
-        if (dialogueBox.currentContact.indexToEnableSelection2 != 999 && dialogueBox.textComponent.text == dialogueBox.lines[dialogueBox.currentContact.indexToEnableSelection2])
+        if (dialogueBoxPhone.currentContact.indexToEnableSelection2 != 999 && dialogueBoxPhone.textComponent.text == dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableSelection2])
         {
             return true;
         }
@@ -2859,7 +2880,7 @@ public class Scr_GameManager : MonoBehaviour
     }
     public bool CheckIfOnSelectionDialogue1()
     {
-        if (dialogueBox.currentContact.indexToEnableSelection != 999 && dialogueBox.textComponent.text == dialogueBox.lines[dialogueBox.currentContact.indexToEnableSelection])
+        if (dialogueBoxPhone.currentContact.indexToEnableSelection != 999 && dialogueBoxPhone.textComponent.text == dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableSelection])
         {
             return true;
         }
@@ -2867,15 +2888,15 @@ public class Scr_GameManager : MonoBehaviour
     }
     public bool CheckIfOnSelectionDialogue()
     {
-        if (dialogueBox.currentContact.indexToEnableSelection != 999 && dialogueBox.textComponent.text == dialogueBox.lines[dialogueBox.currentContact.indexToEnableSelection])
+        if (dialogueBoxPhone.currentContact.indexToEnableSelection != 999 && dialogueBoxPhone.textComponent.text == dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableSelection])
         {
             return true;
         }
-        else if (dialogueBox.currentContact.indexToEnableSelection2 != 999 && dialogueBox.textComponent.text == dialogueBox.lines[dialogueBox.currentContact.indexToEnableSelection2])
+        else if (dialogueBoxPhone.currentContact.indexToEnableSelection2 != 999 && dialogueBoxPhone.textComponent.text == dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableSelection2])
         {
             return true;
         }
-        else if (dialogueBox.currentContact.indexToEnableSelection3 != 999 && dialogueBox.textComponent.text == dialogueBox.lines[dialogueBox.currentContact.indexToEnableSelection3])
+        else if (dialogueBoxPhone.currentContact.indexToEnableSelection3 != 999 && dialogueBoxPhone.textComponent.text == dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableSelection3])
         {
             return true;
         }
@@ -2885,20 +2906,20 @@ public class Scr_GameManager : MonoBehaviour
     }
     public bool CheckIfOnFinalPurchaseDialogue()
     {
-        if (dialogueBox.currentContact.indexToEnableFinalPurchase == 999)
+        if (dialogueBoxPhone.currentContact.indexToEnableFinalPurchase == 999)
         {
             return false;
         }
 
-        return dialogueBox.textComponent.text == dialogueBox.lines[dialogueBox.currentContact.indexToEnableFinalPurchase];
+        return dialogueBoxPhone.textComponent.text == dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase];
     }
 
     public void CancelPhoneCall()
     {
         if (calling != null)
             StopCoroutine(calling);
-        //dialogueBox.StopAllCoroutines();
-        dialogueBox.StartCloseBoxEnum();
+        //dialogueBoxPhone.StopAllCoroutines();
+        dialogueBoxPhone.StartCloseBoxEnum();
         //currentlyCalling = null;
 
         if (tempPhoneAudioSource != null)
@@ -2923,16 +2944,32 @@ public class Scr_GameManager : MonoBehaviour
         yield return new WaitForSeconds(source.clip.length);
 
         // Set dialogue lines
-        dialogueBox.lines = (string[])contact.dialogueLines.Clone();
-        //dialogueBox.lines = contact.dialogueLines;
-        dialogueBox.currentContact = contact;
+        dialogueBoxPhone.lines = (string[])contact.dialogueLines.Clone();
+        //dialogueBoxPhone.lines = contact.dialogueLines;
+        dialogueBoxPhone.currentContact = contact;
 
         // Open dialogue box (with your animation)
-        dialogueBox.gameObject.SetActive(true);
-        dialogueBox.StartDialogue();
+        dialogueBoxPhone.gameObject.SetActive(true);
+        dialogueBoxPhone.StartDialogue();
 
         // Trigger contact-specific behavior
         contact.OnCallAnswered(this);
+    }
+
+
+    public void StartCustomerDialogue(Scr_CustomerContact contact)
+    {
+        //pick a random customer dialogue line
+        int index = Random.Range(0, contact.dialogueLines.Length);
+
+        dialogueBoxCustomer.lines = new string[] { contact.dialogueLines[index] };
+
+        // Open dialogue box (with your animation)
+        dialogueBoxCustomer.gameObject.SetActive(true);
+        dialogueBoxCustomer.StartDialogue();
+
+        Debug.Log("STARTED THE DIALOGUE BOX WITH " + contact.contactName);
+
     }
 
     public void SetFastForwardSetting()

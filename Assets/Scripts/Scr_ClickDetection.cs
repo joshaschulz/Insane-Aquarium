@@ -38,7 +38,7 @@ public class Scr_ClickDetection : MonoBehaviour
                     return;
                 else
                 {
-                    gameManager.dialogueBox.AdvanceText();
+                    gameManager.dialogueBoxPhone.AdvanceText();
                 }
             }
 

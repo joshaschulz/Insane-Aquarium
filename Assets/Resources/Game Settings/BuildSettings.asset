@@ -31,6 +31,9 @@ MonoBehaviour:
   fishFood1Amount: 20
   fishFood2Amount: 0
   fishFood3Amount: 0
+  rentAmount: 100
+  taxPercentage: 2
+  exoticFishTaxAmount: 20
   minutesUntilGrown_Goldfish: 200
   minutesUntilHungry_Goldfish: 300
   minutesUntilFreaky_Goldfish: 400

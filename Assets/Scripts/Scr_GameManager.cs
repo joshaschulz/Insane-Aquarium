@@ -6,6 +6,8 @@ using System.Linq;
 using TMPro;
 using UnityEngine.Audio;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
+
 
 public class Scr_GameManager : MonoBehaviour
 {
@@ -28,6 +30,20 @@ public class Scr_GameManager : MonoBehaviour
 
     public Scr_EndDay Scr_EndDay;
     public Button payUpButton;
+    private int totalBillsValue;
+    public TextMeshProUGUI rentText;
+    public TextMeshProUGUI incomeTaxText;
+    public TextMeshProUGUI exoticFishTaxText;
+    public TextMeshProUGUI totalBillsText;
+    public TextMeshProUGUI currentDayText;
+
+    public int currentDay = 1;
+
+    public Transform bathroom;
+    public Transform mainMenu;
+    public GameObject mainMenuCanvas;
+    public GameObject gameCanvas;
+    public GameObject hudCanvas;
 
     public AudioSource AS;
     public AudioMixerSnapshot normalSnapshot;
@@ -61,6 +77,10 @@ public class Scr_GameManager : MonoBehaviour
     public Scr_Dialogue dialogueBoxCustomer;
     private GameObject fishFoodToPurchase;
     private GameObject structureToPurchase;
+
+    public GameObject customerTradePanel;
+    public GameObject fishyGuyTradePanel;
+
 
     public float radiationHueShift;
 
@@ -2349,6 +2369,11 @@ public class Scr_GameManager : MonoBehaviour
         }
     }
 
+    public void MoveToScene(Transform transform)
+    {
+        _Camera.transform.position = new Vector3(transform.position.x, transform.position.y, _Camera.transform.position.z);
+    }
+
     public void OpenCloseFishpedia()
     {
         if (!fishpedia.activeSelf)
@@ -3062,7 +3087,7 @@ public class Scr_GameManager : MonoBehaviour
     }
 
 
-    public void StartCustomerDialogue(Scr_CustomerContact contact)
+    public void StartCustomerDialogue(Scr_CustomerContact contact, GameObject element)
     {
         //pick a random customer dialogue line
         int index = Random.Range(0, contact.dialogueLines.Length);
@@ -3071,9 +3096,29 @@ public class Scr_GameManager : MonoBehaviour
 
         // Open dialogue box (with your animation)
         dialogueBoxCustomer.gameObject.SetActive(true);
-        dialogueBoxCustomer.StartDialogue();
+        dialogueBoxCustomer.StartDialogue(element);
 
         Debug.Log("STARTED THE DIALOGUE BOX WITH " + contact.contactName);
+
+    }
+
+    public void OpenCustomerTradePanel()
+    {
+
+    }
+
+    public void CloseCustomerTradePanel()
+    {
+
+    }
+
+    public void OpenFishyGuyTradePanel()
+    {
+
+    }
+
+    public void CloseFishyGuyTradePanel()
+    {
 
     }
 
@@ -3144,8 +3189,144 @@ public class Scr_GameManager : MonoBehaviour
         DisableAllButtons();
         EnableButton(payUpButton);
 
+        CalculateBills();
+
+        currentDayText.text = currentDay.ToString();
+
         Scr_EndDay.PlayEndDayUI();
 
+    }
+
+    public void CalculateBills()
+    {
+        int totalBills;
+
+        int rent = ActiveSettings.rentAmount;
+        rentText.text = rent.ToString();
+
+        int incomeTax = moneyAmount * ActiveSettings.taxPercentage / 100;
+        incomeTaxText.text = incomeTax.ToString();
+
+        int numExoticFish = 0;
+
+        //find all exotic fish in the scene (food fish dictionary + fish bags)
+
+        foreach ((GameObject obj, GameObject objPrefab) in foodFishDictionary)
+        {
+            if (obj != null)
+            {
+                foreach (GameObject exoticFishPrefab in exoticFishPrefabs)
+                {
+                    if (obj.CompareTag(exoticFishPrefab.tag))
+                    {
+                        numExoticFish++;
+                    }
+                }
+            }
+        }
+
+        foreach (GameObject obj in baggedFishSockets)
+        {
+            if (obj.transform.childCount <= 0)
+                continue;
+
+            GameObject objChild = obj.transform.GetChild(0).gameObject;
+            if (objChild != null)
+            {
+                foreach (GameObject exoticFishPrefab in exoticFishPrefabs)
+                {
+                    if (objChild.CompareTag(exoticFishPrefab.tag))
+                    {
+                        numExoticFish++;
+                    }
+                }
+            }
+        }
+
+        int exoticFishTax = ActiveSettings.exoticFishTaxAmount * numExoticFish;
+        exoticFishTaxText.text = exoticFishTax.ToString();
+
+        totalBills = rent + incomeTax + exoticFishTax;
+        totalBillsValue = totalBills;
+        totalBillsText.text = totalBills.ToString();
+    }
+
+    public void PayUpOrLose()
+    {
+        if (moneyAmount > totalBillsValue)
+        {
+            SubtractMoneyAmount(totalBillsValue);
+
+            EnableAllButtons();
+            MoveToScene(bathroom);
+
+            Scr_EndDay.PlayCloseEndDayUI();
+
+            Scr_TimeHandler.ResetTime();
+            GetComponent<Scr_TimeHandler>().UnpauseTime();
+
+
+            currentDay++;
+        }
+        else
+        {
+            Debug.Log("Not enough money!");
+
+            /*
+            EnableAllButtons();
+            MoveToScene(mainMenu);
+            mainMenuCanvas.SetActive(true);
+            gameCanvas.SetActive(false);
+            hudCanvas.SetActive(false);
+
+            Scr_TimeHandler.ResetTime();
+            Scr_TimeHandler.PauseTime();
+
+            Scr_EndDay.PlayCloseEndDayUI();
+
+
+            ClearAllFish();
+            */
+
+            ResetScene();
+
+        }
+    }
+
+    /*
+    public void StartNewGame()
+    {
+        currentDay = 1;
+
+        moneyAmount = ActiveSettings.moneyAmount;
+
+        ClearAllFish();
+    }*/
+
+
+    public void ResetScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void ClearAllFish()
+    {
+        foreach ((GameObject obj, GameObject objPrefab) in foodFishDictionary)
+        {
+            if (obj != null)
+            {
+                Destroy(obj);
+            }
+        }
+
+        foreach (GameObject obj in baggedFishSockets)
+        {
+            if (obj.transform.childCount <= 0)
+                continue;
+
+            GameObject objChild = obj.transform.GetChild(0).gameObject;
+            Destroy(objChild);
+        }
     }
 
     public void ClickButton(Button button)

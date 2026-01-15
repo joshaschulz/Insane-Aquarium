@@ -10,6 +10,8 @@ public class Scr_Dialogue : MonoBehaviour
     public string[] lines;
     public float textSpeed;
     public Scr_PhoneContact currentContact;
+    public GameObject customerTradePanel;
+    public GameObject fishyGuyTradePanel;
 
     public int index;
 
@@ -43,10 +45,25 @@ public class Scr_Dialogue : MonoBehaviour
         StartCoroutine(StartDialogueSequence());
     }
 
+    public void StartDialogue(GameObject element)
+    {
+        textComponent.text = string.Empty;
+        index = 0;
+        StartCoroutine(StartDialogueSequence(element));
+    }
+
     IEnumerator StartDialogueSequence()
     {
         // Play the opening animation first
         yield return StartCoroutine(OpenBox());
+
+        // Then start typing
+        yield return typeLine = StartCoroutine(TypeLine());
+    }
+    IEnumerator StartDialogueSequence(GameObject element)
+    {
+        // Play the opening animation first
+        yield return StartCoroutine(CustomerOpenBox(element));
 
         // Then start typing
         yield return typeLine = StartCoroutine(TypeLine());
@@ -114,7 +131,7 @@ public class Scr_Dialogue : MonoBehaviour
         }
     }
 
-    IEnumerator OpenBox()
+    public IEnumerator OpenBox()
     {
         RectTransform rect = GetComponent<RectTransform>();
         Vector3 targetScale = rect.localScale;
@@ -138,7 +155,7 @@ public class Scr_Dialogue : MonoBehaviour
             return;
         StartCoroutine(CloseBox());
     }
-    IEnumerator CloseBox()
+    public IEnumerator CloseBox()
     {
         RectTransform rect = GetComponent<RectTransform>();
         Vector3 originalScale = rect.localScale;
@@ -155,8 +172,65 @@ public class Scr_Dialogue : MonoBehaviour
         }
 
         rect.localScale = targetScale;
-        gameObject.SetActive(false);
         rect.localScale = originalScale; // reset for next time
+    }
+
+
+    public void StartCustomerOpenBoxEnum(GameObject element)
+    {
+        StartCoroutine(CustomerOpenBox(element));
+    }
+    IEnumerator CustomerOpenBox(GameObject element)
+    {
+        element.SetActive(true);
+        RectTransform rect = gameObject.GetComponent<RectTransform>();
+        Vector3 targetScale = rect.localScale;
+        rect.localScale = Vector3.zero;
+        float duration = 0.15f;
+        float time = 0f;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float t = time / duration;
+            rect.localScale = Vector3.Lerp(Vector3.zero, targetScale, t);
+
+            Debug.Log(rect.localScale);
+
+            yield return null;
+        }
+
+        rect.localScale = targetScale;
+
+        Debug.Log("OPENED " + element.name + " BOX");
+    }
+    public void StartCustomerCloseBoxEnum(GameObject element)
+    {
+        if (!gameObject.activeInHierarchy)
+            return;
+        StartCoroutine(CustomerCloseBox(element));
+    }
+    IEnumerator CustomerCloseBox(GameObject element)
+    {
+        RectTransform rect = gameObject.GetComponent<RectTransform>();
+        Vector3 originalScale = rect.localScale;
+        Vector3 targetScale = Vector3.zero;
+        float duration = 0.15f; // how fast it closes
+        float time = 0f;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float t = time / duration;
+            rect.localScale = Vector3.Lerp(originalScale, targetScale, t);
+            yield return null;
+        }
+
+        rect.localScale = targetScale;
+        rect.localScale = originalScale; // reset for next time
+
+        element.SetActive(false);
+        gameObject.SetActive(false);
     }
 
 

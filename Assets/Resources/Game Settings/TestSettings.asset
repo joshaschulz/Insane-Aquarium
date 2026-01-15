@@ -25,12 +25,15 @@ MonoBehaviour:
   endHour: 24
   endMinute: 0
   fastForwardNormal: 1
-  fastForwardFast: 2
+  fastForwardFast: 4
   fastForwardFastest: 50
   moneyAmount: 550
   fishFood1Amount: 30
   fishFood2Amount: 0
   fishFood3Amount: 0
+  rentAmount: 100
+  taxPercentage: 2
+  exoticFishTaxAmount: 20
   minutesUntilGrown_Goldfish: 60
   minutesUntilHungry_Goldfish: 90
   minutesUntilFreaky_Goldfish: 100

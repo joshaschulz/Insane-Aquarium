@@ -74,8 +74,6 @@ public class Scr_TimeHandler : MonoBehaviour
 
         if (gameSeconds >= endTimeInSeconds)
         {
-            gameSeconds = startTimeInSeconds + (gameSeconds - endTimeInSeconds);
-
             gameManager.EndDay();
         }
 
@@ -92,6 +90,16 @@ public class Scr_TimeHandler : MonoBehaviour
     public void UnpauseTime()
     {
         timePaused = false;
+    }
+
+    public void SetGameSeconds(int newGameSeconds)
+    {
+        gameSeconds = newGameSeconds;
+    }
+
+    public void ResetTime()
+    {
+        gameSeconds = startTimeInSeconds;
     }
 
     public void ChangeGameSettings()

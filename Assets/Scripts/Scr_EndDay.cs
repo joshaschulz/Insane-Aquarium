@@ -44,6 +44,13 @@ public class Scr_EndDay : MonoBehaviour
         routine = StartCoroutine(EndDaySequence());
     }
 
+    public void PlayCloseEndDayUI()
+    {
+        if (routine != null) StopCoroutine(routine);
+        routine = StartCoroutine(CloseEndDaySequence());
+    }
+
+
     private IEnumerator EndDaySequence()
     {
         endOfDayCanvas.gameObject.SetActive(true);
@@ -68,6 +75,21 @@ public class Scr_EndDay : MonoBehaviour
         // 2) slide paper up
         if (endOfDayPaper != null)
             yield return SlideRect(endOfDayPaper, paperOffScreenPos, paperOnScreenPos, paperSlideSeconds);
+    }
+
+    private IEnumerator CloseEndDaySequence()
+    {
+        // slide paper back down
+        if (endOfDayPaper != null)
+            yield return SlideRect(endOfDayPaper, paperOnScreenPos, paperOffScreenPos, paperSlideSeconds);
+
+        // fade black screen out
+        if (blackScreenCanvasGroup != null)
+            yield return FadeCanvasGroup(blackScreenCanvasGroup, 1f, 0f, fadeInSeconds);
+
+        // disable canvas
+        if (endOfDayCanvas != null)
+            endOfDayCanvas.gameObject.SetActive(false);
     }
 
     private IEnumerator FadeCanvasGroup(CanvasGroup cg, float from, float to, float seconds)
@@ -121,4 +143,6 @@ public class Scr_EndDay : MonoBehaviour
 
         rt.anchoredPosition = to;
     }
+
+
 }

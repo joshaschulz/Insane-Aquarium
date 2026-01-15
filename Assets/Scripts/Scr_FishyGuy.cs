@@ -162,7 +162,7 @@ public class Scr_FishyGuy : MonoBehaviour
 
         if (fishyGuyExists)
         {
-            gameManager.StartCustomerDialogue(customerContactToUse);
+            gameManager.StartCustomerDialogue(customerContactToUse, gameManager.fishyGuyTradePanel);
         }
 
         //picks a random fish prefab
@@ -317,7 +317,7 @@ public class Scr_FishyGuy : MonoBehaviour
 
     public void FishyGuyGoAway()
     {
-        gameManager.dialogueBoxCustomer.StartCloseBoxEnum();
+        gameManager.dialogueBoxCustomer.StartCustomerCloseBoxEnum(gameManager.fishyGuyTradePanel);
 
 
         fishyGuyExists = false;
@@ -328,7 +328,7 @@ public class Scr_FishyGuy : MonoBehaviour
 
         fishyGuyCooldownTicksRemaining = cooldownIn10MinUnits * gameManager.tickEventsPer10Min;
 
-        DestroyCustomerFish();
+        //DestroyCustomerFish();
 
     }
 

@@ -49177,6 +49177,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 698263192}
     m_Modifications:
     - target: {fileID: 1676760469456931623, guid: 427ca6237376c9a4fae60fd3822e0105, type: 3}
+      propertyPath: yOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1676760469456931623, guid: 427ca6237376c9a4fae60fd3822e0105, type: 3}
       propertyPath: underwaterRenderer
       value: 
       objectReference: {fileID: 1931123914}
@@ -49226,7 +49230,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2998251598569749468, guid: 427ca6237376c9a4fae60fd3822e0105, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -104942,6 +104946,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1488993799}
     m_Modifications:
     - target: {fileID: 1676760469456931623, guid: 427ca6237376c9a4fae60fd3822e0105, type: 3}
+      propertyPath: yOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1676760469456931623, guid: 427ca6237376c9a4fae60fd3822e0105, type: 3}
       propertyPath: underwaterRenderer
       value: 
       objectReference: {fileID: 964045289}
@@ -104991,7 +104999,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2998251598569749468, guid: 427ca6237376c9a4fae60fd3822e0105, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -111129,6 +111137,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1824477585}
     m_Modifications:
     - target: {fileID: 1676760469456931623, guid: 427ca6237376c9a4fae60fd3822e0105, type: 3}
+      propertyPath: yOffset
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1676760469456931623, guid: 427ca6237376c9a4fae60fd3822e0105, type: 3}
       propertyPath: underwaterRenderer
       value: 
       objectReference: {fileID: 1849673469}
@@ -111178,7 +111190,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2998251598569749468, guid: 427ca6237376c9a4fae60fd3822e0105, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

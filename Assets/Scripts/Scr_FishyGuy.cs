@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class Scr_FishyGuy : MonoBehaviour
 {
     private Scr_GameManager gameManager;
+    public Scr_Fishpedia fishpedia;
     private Scr_TimeHandler Scr_TimeHandler;
     private Scr_UIElementsHandler Scr_UIElementsHandler;
     private Scr_Customer Scr_Customer;
@@ -230,6 +231,22 @@ public class Scr_FishyGuy : MonoBehaviour
 
                     //gameManager.dialogueBoxCustomer.StartCloseBoxEnum();
 
+
+
+                    // NEW FISHPEDIA CODE
+                    // Enabling fishpedia buttons upon buying an exotic fish
+                    int buttonIndex = 0;
+                    foreach (Button button in fishpedia.buttons)
+                    {
+                        if (fishToBuy.name.Contains(button.name))
+                        {
+                            Debug.Log("FOUND THE " + button.name + " BUTTON");
+                            fishpedia.EnableEntryButton(buttonIndex);
+                        }
+                        buttonIndex++;
+                    }
+
+
                     FishyGuyGoAway();
                 }
                 else
@@ -245,11 +262,10 @@ public class Scr_FishyGuy : MonoBehaviour
             }
         }
 
-
         //fishToBuyScr.ChangeGameSettings();
         //GameObject baggedFishButtonToUse;
 
-       
+
 
 
     }

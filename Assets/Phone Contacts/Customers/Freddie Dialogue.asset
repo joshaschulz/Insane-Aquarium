@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contactName: Freddie
   dialogueLines:
-  - TEXT 1
-  - TEXT 2
-  - TEXT 3
-  - TEXT 4
-  - TEXT 5
+  - "Sooo, what's the most fish you\u2019ll let me buy?"
+  - Suki and I are gonna prank our teacher. Give me your fattest fish!
+  - "I met this lady on the bus who said she loves these fish. I\u2019m gonna surprise
+    her with this."
+  - "Do you think glitter and mayonnaise is too hard to clean up? Anyways, I\u2019ll
+    take this one."
+  - The last guy I bought fish from went out of business. I wonder why.
   indexToEnableSelection: 0

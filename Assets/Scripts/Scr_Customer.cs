@@ -291,7 +291,10 @@ public class Scr_Customer : MonoBehaviour
 
         if (customerExists)
         {
+
+            gameManager.IncrementVisits(customerContactToUse);
             gameManager.StartCustomerDialogue(customerContactToUse, gameManager.customerTradePanel);
+            gameManager.dialogueBoxCustomer.customerName.text = activeCustomer.name.ToString();
 
             Debug.Log("GOT TO ONENABLE WITH " + customerContactToUse.name);
         }
@@ -548,7 +551,7 @@ public class Scr_Customer : MonoBehaviour
 
     public void CustomerGoAway()
     {
-        gameManager.dialogueBoxCustomer.StartCustomerCloseBoxEnum(gameManager.fishyGuyTradePanel);
+        gameManager.dialogueBoxCustomer.StartCustomerCloseBoxEnum(gameManager.customerTradePanel);
 
         customerExists = false;
         ticksSinceSpawned = 0;

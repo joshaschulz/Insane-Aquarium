@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contactName: Mallory
   dialogueLines:
-  - TEXT 1
-  - TEXT 2
-  - TEXT 3
-  - TEXT 4
-  - TEXT 5
+  - Do you have any guppies? Or any that sparkle?
+  - My big sister is gonna love this one.
+  - "I\u2019m gonna name her Bubbles."
+  - This, please.
+  - '*Blub* *Blub* *Blub* fishy, fishy, fishy.'
   indexToEnableSelection: 0

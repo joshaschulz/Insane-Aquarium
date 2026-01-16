@@ -81,6 +81,8 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject customerTradePanel;
     public GameObject fishyGuyTradePanel;
 
+    private Dictionary<Scr_CustomerContact, int> visitsByContact = new Dictionary<Scr_CustomerContact, int>();
+
 
     public float radiationHueShift;
 
@@ -3090,9 +3092,14 @@ public class Scr_GameManager : MonoBehaviour
     public void StartCustomerDialogue(Scr_CustomerContact contact, GameObject element)
     {
         //pick a random customer dialogue line
-        int index = Random.Range(0, contact.dialogueLines.Length);
+        int index = Random.Range(1, contact.dialogueLines.Length);
 
-        dialogueBoxCustomer.lines = new string[] { contact.dialogueLines[index] };
+        if (GetVisits(contact) > 1)
+            dialogueBoxCustomer.lines = new string[] { contact.dialogueLines[index] };
+        else
+        {
+            dialogueBoxCustomer.lines = new string[] { contact.dialogueLines[0] };
+        }
 
         // Open dialogue box (with your animation)
         dialogueBoxCustomer.gameObject.SetActive(true);
@@ -3102,24 +3109,21 @@ public class Scr_GameManager : MonoBehaviour
 
     }
 
-    public void OpenCustomerTradePanel()
+    public int GetVisits(Scr_CustomerContact contact)
     {
+        if (contact == null) return 0;
 
+        return visitsByContact[contact];
     }
 
-    public void CloseCustomerTradePanel()
+    public void IncrementVisits(Scr_CustomerContact contact)
     {
+        if (contact == null) return;
 
-    }
+        if (!visitsByContact.ContainsKey(contact))
+            visitsByContact[contact] = 0;
 
-    public void OpenFishyGuyTradePanel()
-    {
-
-    }
-
-    public void CloseFishyGuyTradePanel()
-    {
-
+        visitsByContact[contact]++;
     }
 
     public void SetFastForwardSetting()

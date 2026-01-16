@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contactName: Bensen
   dialogueLines:
-  - TEXT 1
-  - TEXT 2
-  - TEXT 3
-  - TEXT 4
-  - TEXT 5
+  - "I forgot to feed my son\u2019s fish, and I need a replacement, quickly!"
+  - Where did you say you get these fish?
+  - "Just give me anything. My boss will have my hide if I\u2019m not back to work
+    soon!"
+  - If you need a sales expert, I might be looking for work soon.
+  - "I need a pick me up. I\u2019ve got a 10,000 cell spreadsheet with my name on
+    it when I get back to the office."
   indexToEnableSelection: 0

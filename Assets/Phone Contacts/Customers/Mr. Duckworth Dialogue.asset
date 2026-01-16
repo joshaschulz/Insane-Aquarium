@@ -14,9 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contactName: Mr. Duckworth
   dialogueLines:
-  - TEXT 1
-  - TEXT 2
-  - TEXT 3
-  - TEXT 4
-  - TEXT 5
+  - "Howdy partner. How\u2019s life treatin\u2019 ya? I\u2019ll take one of these
+    off yer hands."
+  - "This little guy is essential for doin\u2019 1,800 miles in a night."
+  - "Just got a 10-gallon installed in my rig for this fella. Hope he don\u2019t
+    mind life on the road."
+  - "I used to fish every day back in the summer of \u201882. O\u2019 course, that
+    was before I started haulin\u2019."
+  - "I\u2019ll surprise my wife with this one. Texas heat won't hurt him."
   indexToEnableSelection: 0

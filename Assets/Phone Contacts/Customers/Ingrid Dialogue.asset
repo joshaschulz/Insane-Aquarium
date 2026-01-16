@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contactName: Ingrid
   dialogueLines:
-  - TEXT 1
-  - TEXT 2
-  - TEXT 3
-  - TEXT 4
-  - TEXT 5
+  - Do you have anything that sparkles?
+  - This one is SO CUTE! I have to have it.
+  - "Just got back from clinicals. I thought I\u2019d swing by and show my support!"
+  - Mallory is gonna freak when I show her this.
+  - "You\u2019re here like all the time. Do you even have time to study??"
   indexToEnableSelection: 0

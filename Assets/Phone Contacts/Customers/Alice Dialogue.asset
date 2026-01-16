@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contactName: Alice
   dialogueLines:
-  - TEXT 1
-  - TEXT 2
-  - TEXT 3
-  - TEXT 4
-  - TEXT 5
+  - Oh my. It smells like Sea Lavender in here. No, that's not a good thing.
+  - If you need help with the pre-calc homework, let me know.
+  - If you see Suki in here, tell her to cool it with the fish. No offense.
+  - "I\u2019m going to be a florist when I graduate. Maybe we could go into business
+    together! A sort of, fish-flower hybrid business."
+  - This cutie would go so well in my tank. It's got these fronds that look just
+    like coral.
   indexToEnableSelection: 0

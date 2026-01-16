@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contactName: Fishy Guy
   dialogueLines:
-  - TEXT 1
-  - TEXT 2
-  - TEXT 3
-  - TEXT 4
-  - TEXT 5
+  - "I\u2019ve got something you might be interested in."
+  - "Hey new guy, over here\u2026"
+  - "Psst\u2026you in the market for something a little more\u2026 exotic?"
+  - "You\u2019ll thank me later."
+  - "I think they\u2019re onto me. I\u2019ve got to go. Are you buying or not?"
   indexToEnableSelection: 0

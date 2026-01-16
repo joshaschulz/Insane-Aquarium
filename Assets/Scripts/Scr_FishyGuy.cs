@@ -162,7 +162,11 @@ public class Scr_FishyGuy : MonoBehaviour
 
         if (fishyGuyExists)
         {
+            gameManager.IncrementVisits(customerContactToUse);
+
             gameManager.StartCustomerDialogue(customerContactToUse, gameManager.fishyGuyTradePanel);
+            gameManager.dialogueBoxCustomer.customerName.text = gameObject.name.ToString();
+
         }
 
         //picks a random fish prefab
@@ -317,8 +321,11 @@ public class Scr_FishyGuy : MonoBehaviour
 
     public void FishyGuyGoAway()
     {
+        Debug.Log("TRIED FISHY GUY GO AWAY");
+
         gameManager.dialogueBoxCustomer.StartCustomerCloseBoxEnum(gameManager.fishyGuyTradePanel);
 
+        Debug.Log("FISHY GUY GO AWAY");
 
         fishyGuyExists = false;
         ticksSinceSpawned = 0;

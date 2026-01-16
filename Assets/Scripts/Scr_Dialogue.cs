@@ -10,8 +10,8 @@ public class Scr_Dialogue : MonoBehaviour
     public string[] lines;
     public float textSpeed;
     public Scr_PhoneContact currentContact;
-    public GameObject customerTradePanel;
-    public GameObject fishyGuyTradePanel;
+
+    public TextMeshProUGUI customerName;
 
     public int index;
 
@@ -195,19 +195,14 @@ public class Scr_Dialogue : MonoBehaviour
             float t = time / duration;
             rect.localScale = Vector3.Lerp(Vector3.zero, targetScale, t);
 
-            Debug.Log(rect.localScale);
-
             yield return null;
         }
 
         rect.localScale = targetScale;
-
-        Debug.Log("OPENED " + element.name + " BOX");
     }
     public void StartCustomerCloseBoxEnum(GameObject element)
     {
-        if (!gameObject.activeInHierarchy)
-            return;
+
         StartCoroutine(CustomerCloseBox(element));
     }
     IEnumerator CustomerCloseBox(GameObject element)

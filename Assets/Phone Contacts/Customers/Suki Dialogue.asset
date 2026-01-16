@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contactName: Suki
   dialogueLines:
-  - TEXT 1
-  - TEXT 2
-  - TEXT 3
-  - TEXT 4
-  - TEXT 5
+  - My mom keeps putting these strange ferns in my fish tank. Do you have something
+    that eats plants?
+  - I could fit this one in my pocket, right?
+  - Freddie likes these ones. He says they have a certain quality about them.
+  - Did you see the weird guy in the mask walk by? He looks familiar.
+  - "Have you seen Shark Tale? I think you\u2019d like it."
   indexToEnableSelection: 0

@@ -264,6 +264,7 @@ MonoBehaviour:
   radiated: 0
   freakCount: 0
   isFreaky: 0
+  isStressed: 0
   poopCount: 0
   minutesUntilGrown: 60
   minutesUntilHungry: 90
@@ -462,6 +463,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b71fddc933fc8634c9104e37f0ccdf7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minComfortableSameSpeciesPopulation: 0
+  maxComfortableTankPopulation: 20
+  maxIsInfinite: 0
+  comfortableWithPredators: 1
+  comfortablePoopLevel: 75
 --- !u!1 &2822489125385185820
 GameObject:
   m_ObjectHideFlags: 0

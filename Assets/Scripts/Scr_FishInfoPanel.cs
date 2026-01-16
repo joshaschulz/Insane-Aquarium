@@ -8,7 +8,7 @@ public class Scr_FishInfoPanel : MonoBehaviour
     public TMPro.TMP_Text nameBorderText;
     public TMPro.TMP_Text speciesText;
     public TMPro.TMP_Text generationText;
-    public TMPro.TMP_Text mutatedText;
+    public TMPro.TMP_Text radiatedText;
     public TMPro.TMP_Text fishStateText;
     public GameObject stressFactorTextPrefab;
 
@@ -182,7 +182,7 @@ public class Scr_FishInfoPanel : MonoBehaviour
         nameBorderText.text = fish.name;
         speciesText.text = fish.tag;
         generationText.text = fish.generation.ToString();
-        mutatedText.text = fish.radiated ? "Yes" : "No";
+        radiatedText.text = fish.radiated ? "Yes" : "No";
         fishStateText.text = fish.isStressed ? (fish.name + " is stressed") : (fish.name + " is doing fine");
         if (fish.isStressed)
         {

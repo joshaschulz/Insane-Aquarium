@@ -51391,7 +51391,7 @@ MonoBehaviour:
   exoticFishTaxText: {fileID: 1148546093}
   totalBillsText: {fileID: 361148326}
   currentDayText: {fileID: 607085060}
-  currentDay: 0
+  currentDay: 1
   bathroom: {fileID: 989523230}
   mainMenu: {fileID: 1238695075}
   mainMenuCanvas: {fileID: 893609176}

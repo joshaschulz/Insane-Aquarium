@@ -28133,6 +28133,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1031440123}
+        m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
+        m_MethodName: EnableUnderwaterAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &575956537
 GameObject:
   m_ObjectHideFlags: 0
@@ -50265,18 +50277,6 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1031440123}
         m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
-        m_MethodName: DisableElement
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1780107370}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1031440123}
-        m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
         m_MethodName: EnableElement
         m_Mode: 2
         m_Arguments:
@@ -52114,6 +52114,7 @@ MonoBehaviour:
   normalSnapshot: {fileID: 24500006, guid: cf2a04c0dd72560439165a42d93979ad, type: 2}
   underwaterSnapshot: {fileID: 3137943638556364632, guid: cf2a04c0dd72560439165a42d93979ad, type: 2}
   cursorFollower: {fileID: 249612465}
+  Scr_TimeHandler: {fileID: 0}
   Scr_FishyGuy: {fileID: 1196355331}
   Scr_Customer: {fileID: 1016291779}
   fishpedia: {fileID: 269142418}
@@ -57556,18 +57557,6 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 352481008}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1031440123}
-        m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
-        m_MethodName: DisableElement
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1780107370}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -68504,18 +68493,6 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 1742373888}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1031440123}
-        m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
-        m_MethodName: DisableElement
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 1780107370}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -80679,6 +80656,30 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 672596395}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1031440127}
+        m_TargetAssemblyTypeName: Scr_TimeHandler, Assembly-CSharp
+        m_MethodName: UnpauseTime
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1031440123}
+        m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
+        m_MethodName: DisableUnderwaterAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -110902,6 +110903,30 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 672596395}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1031440127}
+        m_TargetAssemblyTypeName: Scr_TimeHandler, Assembly-CSharp
+        m_MethodName: UnpauseTime
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1031440123}
+        m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
+        m_MethodName: DisableUnderwaterAudio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

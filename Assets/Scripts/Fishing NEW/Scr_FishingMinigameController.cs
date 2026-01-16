@@ -86,6 +86,7 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
         fishT01 = Mathf.Clamp01(startingProgress01);
         SetFishFillHeight(fishT01);
         SetFishFillColor(fishT01);
+
     }
 
     private void OnEnable()
@@ -93,6 +94,8 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
         Cursor.visible = false;
         fishingLine.cursorFollowSpeed = fishingLine.baseCursorFollowSpeed;
         fishHookImage.SetActive(true);
+        gameManager.Scr_TimeHandler.PauseTime();
+
 
         if (spawnOnEnable)
         {
@@ -327,6 +330,9 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
             if (cachedFishMovement != null)
             {
                 // kick out to main menu...
+                gameManager.Scr_TimeHandler.UnpauseTime();
+                gameManager.DisableUnderwaterAudio();
+
                 gameManager.PlaySoundEffect(gameManager.SFX_Flush, 0.3f);
                 gameManager.ClickButton(winPanel.flushFishButton);
             }

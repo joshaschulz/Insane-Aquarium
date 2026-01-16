@@ -50,7 +50,7 @@ public class Scr_GameManager : MonoBehaviour
     public AudioMixerSnapshot underwaterSnapshot;
     public Scr_CursorFollower cursorFollower;
     private Scr_SpawnToiletFish Scr_SpawnToiletFish;
-    private Scr_TimeHandler Scr_TimeHandler;
+    public Scr_TimeHandler Scr_TimeHandler;
     private Scr_UIElementsHandler Scr_UIElementsHandler;
     public Scr_FishyGuy Scr_FishyGuy;
     public Scr_Customer Scr_Customer;
@@ -3278,6 +3278,7 @@ public class Scr_GameManager : MonoBehaviour
 
             EnableAllButtons();
             MoveToScene(bathroom);
+            DisableUnderwaterAudio();
 
             Scr_EndDay.PlayCloseEndDayUI();
 

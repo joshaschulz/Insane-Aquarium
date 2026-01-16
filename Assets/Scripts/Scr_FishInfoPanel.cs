@@ -14,6 +14,7 @@ public class Scr_FishInfoPanel : MonoBehaviour
 
     public GameObject starfishDiagram;
     public Vector3 starDiagramOffset;
+    public Vector3 stressFactorOffset;
 
     private GameObject[] appealLegs;
     private GameObject[] freakLegs;
@@ -185,9 +186,12 @@ public class Scr_FishInfoPanel : MonoBehaviour
         fishStateText.text = fish.isStressed ? (fish.name + " is stressed") : (fish.name + " is doing fine");
         if (fish.isStressed)
         {
+            int numOfStressFactors = 0;
             foreach(Scr_Stress.StressFactor s in fish.GetComponent<Scr_Stress>().activeStressFactors)
             {
+                numOfStressFactors++;
                 GameObject newStressFactor = Instantiate(stressFactorTextPrefab, fishStateText.transform);
+                newStressFactor.transform.localPosition += stressFactorOffset * numOfStressFactors;
                 switch (s)
                 {
                     case Scr_Stress.StressFactor.Crowded:
@@ -324,6 +328,11 @@ public class Scr_FishInfoPanel : MonoBehaviour
     public void Hide()
     {
         currentTarget = null;
+
+        for (int i = fishStateText.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(fishStateText.transform.GetChild(i).gameObject);
+        }
 
         starfishDiagram.SetActive(false);
         gameObject.SetActive(false);

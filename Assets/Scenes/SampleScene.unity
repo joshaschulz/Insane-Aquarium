@@ -26235,6 +26235,7 @@ MonoBehaviour:
   stressFactorTextPrefab: {fileID: 4703049713365368494, guid: 127f78d873b2ecc4d90f95c507a2b63c, type: 3}
   starfishDiagram: {fileID: 1181112948}
   starDiagramOffset: {x: 3.5, y: 0, z: 0}
+  stressFactorOffset: {x: 0, y: -15, z: 0}
   statText: {fileID: 405237549}
   legsNum:
   - {fileID: 0}

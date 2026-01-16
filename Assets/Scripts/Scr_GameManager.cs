@@ -1116,7 +1116,6 @@ public class Scr_GameManager : MonoBehaviour
             }
         }
     }
-
     public void RemoveStructure(GameObject _structureToRemove)
     {
         Debug.Log("DESTROY " + _structureToRemove);
@@ -3354,6 +3353,25 @@ public class Scr_GameManager : MonoBehaviour
         button.onClick.Invoke();
     }
 
+    public List<GameObject> GetAllFishInTank(Transform _tank)
+    {
+        List<GameObject> fishInTank = new List<GameObject>();
+
+        foreach (GameObject instance in foodFishDictionary.Keys)
+        {
+            if (instance.GetComponent<Scr_Fish>() || instance.GetComponent<Scr_Starfish>())
+            {
+                // Check if they are inside the tank
+                if (instance.GetComponent<Scr_Fish>().spawnTank == _tank || instance.GetComponent<Scr_Starfish>().spawnTank == _tank)
+                {
+                    fishInTank.Add(instance);
+                }
+
+            }
+        }
+
+        return fishInTank;
+    }
 
     public void QuitGame()
     {

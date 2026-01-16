@@ -231,12 +231,5 @@ public class Scr_Dialogue : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void Reset()
-    {
-        customer.SetActive(false);
-        fishyGuy.SetActive(false);
-        StartCloseBoxEnum();
-    }
-
 
 }

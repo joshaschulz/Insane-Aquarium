@@ -36624,8 +36624,8 @@ MonoBehaviour:
   - Test
   textSpeed: 0.05
   currentContact: {fileID: 0}
-  customer: {fileID: 0}
-  fishyGuy: {fileID: 0}
+  customer: {fileID: 2022785826}
+  fishyGuy: {fileID: 1890121989}
   customerName: {fileID: 1444966986}
   index: 0
 --- !u!114 &770952737
@@ -50014,6 +50014,8 @@ MonoBehaviour:
   normalSnapshot: {fileID: 24500006, guid: cf2a04c0dd72560439165a42d93979ad, type: 2}
   underwaterSnapshot: {fileID: 3137943638556364632, guid: cf2a04c0dd72560439165a42d93979ad, type: 2}
   cursorFollower: {fileID: 249612465}
+  Scr_FishyGuy: {fileID: 1196355331}
+  Scr_Customer: {fileID: 1016291779}
   fishpedia: {fileID: 269142418}
   rodIdle: {fileID: 574291911}
   rodHooked: {fileID: 2067038401}

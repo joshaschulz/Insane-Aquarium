@@ -52,8 +52,8 @@ public class Scr_GameManager : MonoBehaviour
     private Scr_SpawnToiletFish Scr_SpawnToiletFish;
     private Scr_TimeHandler Scr_TimeHandler;
     private Scr_UIElementsHandler Scr_UIElementsHandler;
-    private Scr_FishyGuy Scr_FishyGuy;
-    private Scr_Customer Scr_Customer;
+    public Scr_FishyGuy Scr_FishyGuy;
+    public Scr_Customer Scr_Customer;
 
     public GameObject fishpedia;
 
@@ -3186,6 +3186,19 @@ public class Scr_GameManager : MonoBehaviour
         return null;
     }
 
+    public void ResetCustomer()
+    {
+        if (dialogueBoxCustomer.customer.activeSelf == true)
+        {
+            Scr_Customer.CustomerGoAway();
+        }
+
+        if (dialogueBoxCustomer.fishyGuy.activeSelf == true)
+        {
+            Scr_FishyGuy.FishyGuyGoAway();
+        }
+    }
+
     public void EndDay()
     {
         GetComponent<Scr_TimeHandler>().PauseTime();
@@ -3193,7 +3206,7 @@ public class Scr_GameManager : MonoBehaviour
         DisableAllButtons();
         EnableButton(payUpButton);
 
-        dialogueBoxCustomer.Reset();
+        ResetCustomer();
 
         CalculateBills();
 

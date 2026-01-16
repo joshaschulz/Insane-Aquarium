@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contactName: Freddie
   dialogueLines:
+  - "Hiya! My name\u2019s Freddie. Are those fish? And you\u2019re selling them?
+    AWESOME."
   - "Sooo, what's the most fish you\u2019ll let me buy?"
   - Suki and I are gonna prank our teacher. Give me your fattest fish!
   - "I met this lady on the bus who said she loves these fish. I\u2019m gonna surprise

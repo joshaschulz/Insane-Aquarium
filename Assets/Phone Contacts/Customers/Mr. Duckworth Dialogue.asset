@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contactName: Mr. Duckworth
   dialogueLines:
+  - "Name\u2019s Duckworth, pleasure to meet ya. How \u2018bout ya show me your best
+    selection."
   - "Howdy partner. How\u2019s life treatin\u2019 ya? I\u2019ll take one of these
     off yer hands."
   - "This little guy is essential for doin\u2019 1,800 miles in a night."

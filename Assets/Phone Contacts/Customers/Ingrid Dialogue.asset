@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contactName: Ingrid
   dialogueLines:
+  - Wow you finally set up the fish shop you always talked about. I like it. It's
+    quaint.
   - Do you have anything that sparkles?
   - This one is SO CUTE! I have to have it.
   - "Just got back from clinicals. I thought I\u2019d swing by and show my support!"

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contactName: Alice
   dialogueLines:
+  - "You\u2019re in my math class right? Nice to meet you, I\u2019m Alice. Oh hey,
+    nice fish."
   - Oh my. It smells like Sea Lavender in here. No, that's not a good thing.
   - If you need help with the pre-calc homework, let me know.
   - If you see Suki in here, tell her to cool it with the fish. No offense.

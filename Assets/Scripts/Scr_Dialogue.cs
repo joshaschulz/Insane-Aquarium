@@ -11,6 +11,9 @@ public class Scr_Dialogue : MonoBehaviour
     public float textSpeed;
     public Scr_PhoneContact currentContact;
 
+    public GameObject customer;
+    public GameObject fishyGuy;
+
     public TextMeshProUGUI customerName;
 
     public int index;
@@ -226,6 +229,13 @@ public class Scr_Dialogue : MonoBehaviour
 
         element.SetActive(false);
         gameObject.SetActive(false);
+    }
+
+    public void Reset()
+    {
+        customer.SetActive(false);
+        fishyGuy.SetActive(false);
+        StartCloseBoxEnum();
     }
 
 

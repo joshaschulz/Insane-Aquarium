@@ -3193,6 +3193,8 @@ public class Scr_GameManager : MonoBehaviour
         DisableAllButtons();
         EnableButton(payUpButton);
 
+        dialogueBoxCustomer.Reset();
+
         CalculateBills();
 
         currentDayText.text = currentDay.ToString();

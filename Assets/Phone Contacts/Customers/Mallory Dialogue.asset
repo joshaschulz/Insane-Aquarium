@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contactName: Mallory
   dialogueLines:
+  - Hello. Can I buy a fishy?
   - Do you have any guppies? Or any that sparkle?
   - My big sister is gonna love this one.
   - "I\u2019m gonna name her Bubbles."

@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contactName: Suki
   dialogueLines:
+  - "Fish shop in a bathroom? That\u2019s strange. I\u2019ll be back for more."
   - My mom keeps putting these strange ferns in my fish tank. Do you have something
     that eats plants?
   - I could fit this one in my pocket, right?

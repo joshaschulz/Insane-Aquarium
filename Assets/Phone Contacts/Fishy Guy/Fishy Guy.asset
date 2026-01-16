@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contactName: Fishy Guy
   dialogueLines:
+  - "Hey new guy\u2026 Nice little operation you have here. I don\u2019t have much
+    time, check this out."
   - "I\u2019ve got something you might be interested in."
   - "Hey new guy, over here\u2026"
   - "Psst\u2026you in the market for something a little more\u2026 exotic?"

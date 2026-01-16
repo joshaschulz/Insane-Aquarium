@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contactName: Bensen
   dialogueLines:
+  - Hello. Nice to meet you. My name is Bensen. It smells like a pet store in- oh.
   - "I forgot to feed my son\u2019s fish, and I need a replacement, quickly!"
   - Where did you say you get these fish?
   - "Just give me anything. My boss will have my hide if I\u2019m not back to work

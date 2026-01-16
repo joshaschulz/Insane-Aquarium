@@ -129,7 +129,7 @@ public class Scr_Fish : MonoBehaviour
     public void Start()
     {
         gameManager = Scr_GameManager.GMinstance;
-
+        stressScr = GetComponent<Scr_Stress>();
         //ChangeGameSettings();
 
         originalScale = gameObject.transform.localScale;
@@ -386,6 +386,8 @@ public class Scr_Fish : MonoBehaviour
     public void OnTickEvent()
     {
         //Debug.Log($"{gameObject.name} received a tick event!");
+
+        stressScr.CheckStress();
 
         HungerCounter();
 

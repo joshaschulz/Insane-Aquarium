@@ -6,8 +6,14 @@ public class Scr_FishInfoPanel : MonoBehaviour
 {
     public TMPro.TMP_Text nameText;
     public TMPro.TMP_Text nameBorderText;
+    public TMPro.TMP_Text speciesText;
+    public TMPro.TMP_Text generationText;
+    public TMPro.TMP_Text mutatedText;
+    public TMPro.TMP_Text fishStateText;
+    public GameObject stressFactorTextPrefab;
 
     public GameObject starfishDiagram;
+    public Vector3 starDiagramOffset;
 
     private GameObject[] appealLegs;
     private GameObject[] freakLegs;
@@ -167,12 +173,42 @@ public class Scr_FishInfoPanel : MonoBehaviour
     {
         gameObject.SetActive(true);
         starfishDiagram.SetActive(true);
-        starfishDiagram.transform.position = gameObject.transform.position;
+        starfishDiagram.transform.position = gameObject.transform.position + starDiagramOffset;
 
         //currentTarget = fish.transform;
 
         nameText.text = fish.name;
         nameBorderText.text = fish.name;
+        speciesText.text = fish.tag;
+        generationText.text = fish.generation.ToString();
+        mutatedText.text = fish.radiated ? "Yes" : "No";
+        fishStateText.text = fish.isStressed ? (fish.name + " is stressed") : (fish.name + " is doing fine");
+        if (fish.isStressed)
+        {
+            foreach(Scr_Stress.StressFactor s in fish.GetComponent<Scr_Stress>().activeStressFactors)
+            {
+                GameObject newStressFactor = Instantiate(stressFactorTextPrefab, fishStateText.transform);
+                switch (s)
+                {
+                    case Scr_Stress.StressFactor.Crowded:
+                        newStressFactor.GetComponent<TMPro.TMP_Text>().text = (fish.name + " is too crowded");
+                        break;
+                    case Scr_Stress.StressFactor.Lonely:
+                        newStressFactor.GetComponent<TMPro.TMP_Text>().text = (fish.name + " is too lonely");
+                        break;
+                    case Scr_Stress.StressFactor.Hungry:
+                        newStressFactor.GetComponent<TMPro.TMP_Text>().text = (fish.name + " is hungry");
+                        break;
+                    case Scr_Stress.StressFactor.PredatorNearby:
+                        newStressFactor.GetComponent<TMPro.TMP_Text>().text = (fish.name + " is in danger");
+                        break;
+                    case Scr_Stress.StressFactor.DirtyTank:
+                        newStressFactor.GetComponent<TMPro.TMP_Text>().text = (fish.name + " is disgusted with their tank");
+                        break;
+                }
+                
+            }
+        }
 
         currentAppeal = fish.appeal;
         currentFreak = fish.freakuency;

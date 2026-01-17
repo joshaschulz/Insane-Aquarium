@@ -91,14 +91,36 @@ public class Scr_Fish : MonoBehaviour
 
     public string name;
     string[] prefixes = {
-    "Blue", "Red", "Gold", "Silver", "Pearl", "Shadow", "Moon", "Star", "Bubble", "Coral",
-    "Swift", "Tiny", "Glitter", "Gloom", "Frost", "Storm", "Pink", "Aqua", "Lime", "Emerald"
-       };
+    "Mr.", "Mrs.", "Miss", "Master", "Sir", "Lady",
+    "Captain", "Prince", "Princess", "King", "Queen",
+    "Lord", "Duke", "Duchess", "Dr.", "Professor",
+    "Count", "Countess","Senor", "Senora", "Monsieur",
+    "Madame", "Baby", "Little", "Tiny", "Chief", "Commander",
+    "Admiral", "Bishop", "Reverend","General", "Mayor",
+};
 
-    string[] suffixes = {
-    "fin", "tail", "gill", "whisper", "scale", "flash", "spark", "glow",
-    "shimmer", "drifter", "swimmer", "dancer", "dart", "stripe", "snap"
-    };
+    string[] nameOptions = {
+    "Bubbles", "Finley", "Splash", "Nemo", "Dory",
+    "Goldie", "Gillbert", "Pearl", "Marina", "Coral",
+    "Azure", "Rainbow", "Sunny", "Pebbles", "Blue",
+    "Flash", "Finn", "Glimmer", "Twinkle", "Skye",
+    "Shadow", "Sapphire", "Copper", "Stripe", "Dot",
+    "Misty", "Echo", "Flipper", "Jet", "Spark",
+    "Wave", "Drift", "Frost", "Mystic", "Goby",
+    "Sprinkles", "Tide", "Salty", "Crystal", "Jelly",
+    "Blinky", "Pip", "Ziggy", "Ruby", "Luna",
+    "Star", "Bubblegum", "Marbles", "Chroma", "Glitter",
+    "Sushi", "Taffy", "Cherry", "Minty", "Poppy",
+    "Coco", "Mango", "Tiki", "Orbit", "Pixel",
+    "Nimbus", "Shade", "Cosmo", "Rogue", "Sprout",
+    "Zephyr", "Swoosh", "Ripple", "Lagoon", "Tango",
+    "Phoenix", "Orbit", "Blaze", "Rascal", "Nimbus",
+    "Sparkle", "Twist", "Dash", "Whisper", "Galaxy",
+    "Pebble", "Puddle", "Fizz", "Mochi", "Sundae",
+    "Waffle", "Pickle", "Noodle", "Mermy", "Fable",
+    "Quill", "Pipette", "Biscuit", "Gizmo", "Banjo",
+    "Cricket", "Echo", "Flora", "Zeppelin", "Nova"
+};
 
     private void OnEnable()
     {
@@ -155,7 +177,6 @@ public class Scr_Fish : MonoBehaviour
     public void GenerateRandomStats()
     {
         name = GenerateRandomName();
-        name = "Flopper";
         // reset everything to 0
         priceModifier = 0;
         appeal = 0;
@@ -183,7 +204,7 @@ public class Scr_Fish : MonoBehaviour
 
     public void GenerateStatsFromParents(Scr_Fish parent1, Scr_Fish parent2)
     {
-        name = GenerateNameFromParents(parent1, parent2);
+        name = GenerateRandomName();
         //name = GenerateRandomName();
         priceModifier = Random.Range(0, 2) == 0 ? parent1.priceModifier : parent2.priceModifier;
         appeal = Random.Range(0, 2) == 0 ? parent1.appeal : parent2.appeal;
@@ -248,54 +269,9 @@ public class Scr_Fish : MonoBehaviour
     public string GenerateRandomName()
     {
         string prefix = prefixes[Random.Range(0, prefixes.Length)];
-        string suffix = suffixes[Random.Range(0, suffixes.Length)];
-        return prefix + suffix.Substring(0, 1).ToUpper() + suffix.Substring(1);
+        string nameOption = nameOptions[Random.Range(0, nameOptions.Length)];
+        return prefix + " " + nameOption;
     }
-
-    public string GenerateNameFromParents(Scr_Fish parent1, Scr_Fish parent2)
-    {
-        // Extract prefix/suffix from parent1
-        string n1 = parent1.name;
-        int n1Split = -1;
-        for (int i = 1; i < n1.Length; i++)
-        {
-            if (char.IsUpper(n1[i]))
-            {
-                n1Split = i;
-                break;
-            }
-        }
-        string p1Prefix = n1Split > 0 ? n1.Substring(0, n1Split) : n1;
-        string p1Suffix = n1Split > 0 ? n1.Substring(n1Split) : "";
-
-        // Extract prefix/suffix from parent2
-        string n2 = parent2.name;
-        int n2Split = -1;
-        for (int i = 1; i < n2.Length; i++)
-        {
-            if (char.IsUpper(n2[i]))
-            {
-                n2Split = i;
-                break;
-            }
-        }
-        string p2Prefix = n2Split > 0 ? n2.Substring(0, n2Split) : n2;
-        string p2Suffix = n2Split > 0 ? n2.Substring(n2Split) : "";
-
-        // Safety check
-        if (p1Prefix == "" || p1Suffix == "")
-            Debug.LogError("Invalid name format for parent1: " + n1);
-        if (p2Prefix == "" || p2Suffix == "")
-            Debug.LogError("Invalid name format for parent2: " + n2);
-
-        // Randomly pick from parents
-        int choice1 = Random.Range(0, 2); //if 0, picked from parent1. if 1, picked from parent2
-        string finalPrefix = (choice1 == 0) ? p1Prefix : p2Prefix;
-        string finalSuffix = (choice1 == 0) ? p2Suffix : p1Suffix;
-
-        return finalPrefix + finalSuffix;
-    }
-
     public void ChangeGameSettings()
     {
         Scr_GameSettings settings = Scr_GameManager.ActiveSettings;

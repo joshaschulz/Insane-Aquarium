@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Scr_FishInfoPanel : MonoBehaviour
 {
-    public TMPro.TMP_Text nameText;
+    public TMPro.TMP_InputField nameInput;
     public TMPro.TMP_Text nameBorderText;
     public TMPro.TMP_Text speciesText;
     public TMPro.TMP_Text generationText;
@@ -43,7 +43,7 @@ public class Scr_FishInfoPanel : MonoBehaviour
 
     private float originalRectHeight;
 
-    //private Scr_Fish currentFish;
+    private Scr_Fish currentFish;
     //public Scr_Fish CurrentFish => currentFish; // read-only property
 
 
@@ -175,44 +175,17 @@ public class Scr_FishInfoPanel : MonoBehaviour
         gameObject.SetActive(true);
         starfishDiagram.SetActive(true);
         starfishDiagram.transform.position = gameObject.transform.position + starDiagramOffset;
-
+        
+        currentFish = fish;
         //currentTarget = fish.transform;
 
-        nameText.text = fish.name;
+        nameInput.text = fish.name;
         nameBorderText.text = fish.name;
         speciesText.text = fish.tag;
         generationText.text = fish.generation.ToString();
         radiatedText.text = fish.radiated ? "Yes" : "No";
-        fishStateText.text = fish.isStressed ? (fish.name + " is stressed") : (fish.name + " is doing fine");
-        if (fish.isStressed)
-        {
-            int numOfStressFactors = 0;
-            foreach(Scr_Stress.StressFactor s in fish.GetComponent<Scr_Stress>().activeStressFactors)
-            {
-                numOfStressFactors++;
-                GameObject newStressFactor = Instantiate(stressFactorTextPrefab, fishStateText.transform);
-                newStressFactor.transform.localPosition += stressFactorOffset * numOfStressFactors;
-                switch (s)
-                {
-                    case Scr_Stress.StressFactor.Crowded:
-                        newStressFactor.GetComponent<TMPro.TMP_Text>().text = (fish.name + " is too crowded");
-                        break;
-                    case Scr_Stress.StressFactor.Lonely:
-                        newStressFactor.GetComponent<TMPro.TMP_Text>().text = (fish.name + " is too lonely");
-                        break;
-                    case Scr_Stress.StressFactor.Hungry:
-                        newStressFactor.GetComponent<TMPro.TMP_Text>().text = (fish.name + " is hungry");
-                        break;
-                    case Scr_Stress.StressFactor.PredatorNearby:
-                        newStressFactor.GetComponent<TMPro.TMP_Text>().text = (fish.name + " is in danger");
-                        break;
-                    case Scr_Stress.StressFactor.DirtyTank:
-                        newStressFactor.GetComponent<TMPro.TMP_Text>().text = (fish.name + " is disgusted with their tank");
-                        break;
-                }
-                
-            }
-        }
+        DetermineFishState();
+        
 
         currentAppeal = fish.appeal;
         currentFreak = fish.freakuency;
@@ -239,7 +212,7 @@ public class Scr_FishInfoPanel : MonoBehaviour
 
         currentTarget = fish.transform;
 
-        nameText.text = fish.name;
+        nameInput.text = fish.name;
         nameBorderText.text = fish.name;
 
         starfishDiagram.SetActive(false);
@@ -329,11 +302,6 @@ public class Scr_FishInfoPanel : MonoBehaviour
     {
         currentTarget = null;
 
-        for (int i = fishStateText.transform.childCount - 1; i >= 0; i--)
-        {
-            Destroy(fishStateText.transform.GetChild(i).gameObject);
-        }
-
         starfishDiagram.SetActive(false);
         gameObject.SetActive(false);
     }
@@ -342,5 +310,68 @@ public class Scr_FishInfoPanel : MonoBehaviour
     {
         if (currentTarget == fish.transform)
             Hide();
+    }
+    public void BeginRename()
+    {
+        if (currentFish == null) return;
+
+        nameInput.readOnly = false;
+        nameInput.ActivateInputField();
+    }
+    public void FinishRename()
+    {
+        if (currentFish == null) return;
+
+        currentFish.name = nameInput.text;
+        nameBorderText.text = nameInput.text;
+        nameInput.readOnly = true;
+
+        DetermineFishState();
+    }
+    public void UpdateBorderText()
+    {
+        if (currentFish == null) return;
+
+        nameBorderText.text = nameInput.text;
+    }
+
+    public void DetermineFishState()
+    {
+        fishStateText.text = currentFish.isStressed ? (currentFish.name + " is stressed") : (currentFish.name + " is doing fine");
+        
+        for (int i = fishStateText.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(fishStateText.transform.GetChild(i).gameObject);
+        }
+
+        if (currentFish.isStressed)
+        {
+            int numOfStressFactors = 0;
+            foreach (Scr_Stress.StressFactor s in currentFish.GetComponent<Scr_Stress>().activeStressFactors)
+            {
+                numOfStressFactors++;
+                GameObject newStressFactor = Instantiate(stressFactorTextPrefab, fishStateText.transform);
+                newStressFactor.transform.localPosition += stressFactorOffset * numOfStressFactors;
+                switch (s)
+                {
+                    case Scr_Stress.StressFactor.Crowded:
+                        newStressFactor.GetComponent<TMPro.TMP_Text>().text = (currentFish.name + " is too crowded");
+                        break;
+                    case Scr_Stress.StressFactor.Lonely:
+                        newStressFactor.GetComponent<TMPro.TMP_Text>().text = (currentFish.name + " is too lonely");
+                        break;
+                    case Scr_Stress.StressFactor.Hungry:
+                        newStressFactor.GetComponent<TMPro.TMP_Text>().text = (currentFish.name + " is hungry");
+                        break;
+                    case Scr_Stress.StressFactor.PredatorNearby:
+                        newStressFactor.GetComponent<TMPro.TMP_Text>().text = (currentFish.name + " is in danger");
+                        break;
+                    case Scr_Stress.StressFactor.DirtyTank:
+                        newStressFactor.GetComponent<TMPro.TMP_Text>().text = (currentFish.name + " is disgusted with their tank");
+                        break;
+                }
+
+            }
+        }
     }
 }

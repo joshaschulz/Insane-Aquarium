@@ -58,5 +58,6 @@ public class Scr_AnimationEvents : MonoBehaviour
 
         fishingPanelScr.bagFishButton.gameObject.SetActive(true);
         fishingPanelScr.flushFishButton.gameObject.SetActive(true);
+        fishingPanelScr.treasureQuantityText.SetActive(true);
     }
 }

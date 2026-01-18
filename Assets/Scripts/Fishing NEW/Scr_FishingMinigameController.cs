@@ -296,6 +296,8 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
                 if (winPanel != null)
                     winPanel.ShowWithFish(cachedFishMovement.gameObject);
             }
+
+
             hookedCrateImage.SetActive(false);
             fishHookImage.SetActive(false);
 
@@ -397,6 +399,7 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
         enabled = true;
         winPanel.lineConnectorRoot.SetActive(true);
         Cursor.visible = true;
+        winPanel.treasureQuantityText.SetActive(false);
     }
 
     public void DespawnFishingMinigame()

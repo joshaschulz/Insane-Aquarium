@@ -1,10 +1,13 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class Scr_FishingMinigamePanel : MonoBehaviour
 {
+    private Scr_GameManager gameManager;
+
     [Header("ui")]
     public GameObject panel;
 
@@ -27,16 +30,28 @@ public class Scr_FishingMinigamePanel : MonoBehaviour
     public GameObject winChest;
 
     public GameObject lineConnectorRoot; // drag the line connector parent here
+    public GameObject treasureQuantityText;
+    public int treasureQuantity;
 
     public Button bagFishButton;
     public Button flushFishButton;
 
+    public void Awake()
+    {
+        gameManager = Scr_GameManager.GMinstance;
+
+    }
 
     private void OnEnable()
     {
 
         if (hidePanelOnAwake && panel != null)
             panel.SetActive(false);
+    }
+
+    public void SetTreasureQuantity(int quantity)
+    {
+        treasureQuantity = quantity;
     }
 
     /// <summary>
@@ -97,6 +112,11 @@ public class Scr_FishingMinigamePanel : MonoBehaviour
                 new Vector3(winChestLocation.position.x, winChestLocation.position.y, 0f),
                 Quaternion.identity
             );
+            Debug.Log(gameManager.moneyAmount);
+            SetTreasureQuantity(Random.Range(5, 16));
+            treasureQuantityText.GetComponent<TextMeshProUGUI>().text = "x" + treasureQuantity.ToString();
+            gameManager.AddMoneyAmount(treasureQuantity);
+            Debug.Log(gameManager.moneyAmount);
 
             Animator anim = winChest.GetComponentInChildren<Animator>();
 

@@ -90,8 +90,17 @@ public class Scr_Dialogue : MonoBehaviour
                     float randomPitch = Random.Range(0.35f, 0.4f);
                     gameManager.PlaySoundEffect(gameManager.SFX_TextScroll, 0.15f, randomPitch);
                 }
+
+                if (c == '.' || c == '?' || c == '!')
+                {
+                    yield return new WaitForSeconds(textSpeed * 10f); // longer pause
+                }
+                else
+                {
+                    yield return new WaitForSeconds(textSpeed);
+                }
+
                 lineIndex++;
-                yield return new WaitForSeconds(textSpeed);
             }
             else
             {

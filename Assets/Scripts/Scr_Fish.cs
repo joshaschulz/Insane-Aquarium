@@ -94,9 +94,9 @@ public class Scr_Fish : MonoBehaviour
     "Mr.", "Mrs.", "Miss", "Master", "Sir", "Lady",
     "Captain", "Prince", "Princess", "King", "Queen",
     "Lord", "Duke", "Duchess", "Dr.", "Professor",
-    "Count", "Countess","Senor", "Senora", "Monsieur",
-    "Madame", "Baby", "Little", "Tiny", "Chief", "Commander",
-    "Admiral", "Bishop", "Reverend","General", "Mayor",
+    "Count", "Countess", "Monsieur",
+    "Madame", "Baby", "Little", "Tiny", "Chief",
+    "Admiral", "Bishop","General", "Mayor",
 };
 
     string[] nameOptions = {

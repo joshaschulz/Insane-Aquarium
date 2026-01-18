@@ -14,6 +14,10 @@ public class Scr_Dialogue : MonoBehaviour
     public GameObject customer;
     public GameObject fishyGuy;
 
+    public GameObject dialogueBoxCustomer;
+    public GameObject dialogueBoxPhone;
+    public Transform stallNumbers;
+
     public TextMeshProUGUI customerName;
 
     public int index;
@@ -88,7 +92,8 @@ public class Scr_Dialogue : MonoBehaviour
                 if (char.IsLetterOrDigit(c))
                 {
                     float randomPitch = Random.Range(0.35f, 0.4f);
-                    gameManager.PlaySoundEffect(gameManager.SFX_TextScroll, 0.15f, randomPitch);
+                    if (ShouldPlayTextSound())
+                        gameManager.PlaySoundEffect(gameManager.SFX_TextScroll, 0.15f, randomPitch);
                 }
 
                 if (c == '.' || c == '?' || c == '!')
@@ -185,6 +190,8 @@ public class Scr_Dialogue : MonoBehaviour
 
         rect.localScale = targetScale;
         rect.localScale = originalScale; // reset for next time
+        StopAllCoroutines();
+        gameObject.SetActive(false);
     }
 
 
@@ -240,5 +247,17 @@ public class Scr_Dialogue : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    public bool ShouldPlayTextSound()
+    {
+        if (gameObject == dialogueBoxCustomer)
+        {
+            if (new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.y) == new Vector2(stallNumbers.position.x, stallNumbers.position.y))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
 }

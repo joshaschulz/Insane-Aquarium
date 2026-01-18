@@ -14,6 +14,8 @@ public class Scr_GameManager : MonoBehaviour
     public static Scr_GameManager GMinstance;
     private Camera _Camera;
 
+    public GameObject stallNumbers;
+
     //Scriptable Objects game settings
     public static Scr_GameSettings ActiveSettings { get; private set; }
 
@@ -3088,11 +3090,19 @@ public class Scr_GameManager : MonoBehaviour
         dialogueBoxPhone.currentContact = contact;
 
         // Open dialogue box (with your animation)
-        dialogueBoxPhone.gameObject.SetActive(true);
-        dialogueBoxPhone.StartDialogue();
+        if (new Vector2(_Camera.transform.position.x, _Camera.transform.position.y) == new Vector2(stallNumbers.transform.position.x, stallNumbers.transform.position.y))
+        {
+            dialogueBoxPhone.gameObject.SetActive(true);
+            dialogueBoxPhone.StartDialogue();
 
-        // Trigger contact-specific behavior
-        contact.OnCallAnswered(this);
+            // Trigger contact-specific behavior
+            contact.OnCallAnswered(this);
+        }
+        else
+        {
+            CancelPhoneCall();
+        }
+
     }
 
 

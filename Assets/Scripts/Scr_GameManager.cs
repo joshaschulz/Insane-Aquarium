@@ -2428,6 +2428,14 @@ public class Scr_GameManager : MonoBehaviour
         _button.interactable = false;
     }
 
+    public void EnableInputField(TMP_InputField _inputField)
+    {
+        _inputField.interactable = true;
+    }
+    public void DisableInputField(TMP_InputField _inputField)
+    {
+        _inputField.interactable = false;
+    }
 
     public void RodToDisplay()
     {

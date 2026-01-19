@@ -123,16 +123,16 @@ public class Scr_FishMinigameMovement : MonoBehaviour
     {
         CancelInvoke(nameof(IdleOrMoveFast));
 
-        float speedFactor = Random.Range(0.5f, 1.5f) * fastSpeed;
-        baseSpeedFactored = baseSpeed * speedFactor;
+        float speedFactor = Random.Range(1f, 1.5f);
+        baseSpeedFactored = fastSpeed * speedFactor;
 
         fishAnimation.sideAnimator.speed = baseSpeedFactored;
 
         if (Random.Range(0, 8) == 0)
         {
-            // chose to idle for exactly 2 seconds (no fast forward)
+            // chose to idle for exactly 0.5 seconds (no fast forward)
             SetTarget(transform.position);
-            Invoke(nameof(IdleOrMoveFast), 1f);
+            Invoke(nameof(IdleOrMoveFast), 0.2f);
         }
         else
         {

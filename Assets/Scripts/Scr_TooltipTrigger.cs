@@ -9,6 +9,7 @@ public class Scr_TooltipTrigger : MonoBehaviour
 
     private void OnMouseEnter()
     {
+        Debug.Log("HOVERED OVER " + gameObject.name);
         if (Scr_Tooltip.Instance != null)
             Scr_Tooltip.Instance.Show(tooltipText);
         else

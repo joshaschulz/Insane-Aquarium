@@ -85,6 +85,7 @@ public class Scr_FishingMinigamePanel : MonoBehaviour
         Scr_FishMinigameMovement movement = fish.GetComponentInChildren<Scr_FishMinigameMovement>();
 
         movement.fishAnimation.SetState(Scr_FishAnimation.FishState.Idle);
+        movement.CancelInvoke();
         movement.fishAnimation.frontAnimator.speed = 1;
 
         // turn off fish movement
@@ -112,11 +113,10 @@ public class Scr_FishingMinigamePanel : MonoBehaviour
                 new Vector3(winChestLocation.position.x, winChestLocation.position.y, 0f),
                 Quaternion.identity
             );
-            Debug.Log(gameManager.moneyAmount);
-            SetTreasureQuantity(Random.Range(5, 16));
+
+            SetTreasureQuantity(Random.Range(15, 31));
             treasureQuantityText.GetComponent<TextMeshProUGUI>().text = "x" + treasureQuantity.ToString();
             gameManager.AddMoneyAmount(treasureQuantity);
-            Debug.Log(gameManager.moneyAmount);
 
             Animator anim = winChest.GetComponentInChildren<Animator>();
 

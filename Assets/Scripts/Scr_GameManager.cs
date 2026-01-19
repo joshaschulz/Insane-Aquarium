@@ -15,6 +15,8 @@ public class Scr_GameManager : MonoBehaviour
     private Camera _Camera;
 
     public GameObject stallNumbers;
+    public GameObject fishingPole;
+    public Button fishingPoleClickFunctions;
 
     //Scriptable Objects game settings
     public static Scr_GameSettings ActiveSettings { get; private set; }
@@ -3377,18 +3379,49 @@ public class Scr_GameManager : MonoBehaviour
 
         foreach (GameObject instance in foodFishDictionary.Keys)
         {
-            if (instance.GetComponent<Scr_Fish>() || instance.GetComponent<Scr_Starfish>())
+            if (instance.GetComponent<Scr_Fish>())
             {
-                // Check if they are inside the tank
-                if (instance.GetComponent<Scr_Fish>().spawnTank == _tank || instance.GetComponent<Scr_Starfish>().spawnTank == _tank)
+                if (instance.GetComponent<Scr_Fish>().spawnTank == _tank)
                 {
                     fishInTank.Add(instance);
                 }
-
+            }
+            else if (instance.GetComponent<Scr_Starfish>())
+            {
+                if (instance.GetComponent<Scr_Starfish>().spawnTank == _tank)
+                {
+                    fishInTank.Add(instance);
+                }
             }
         }
 
         return fishInTank;
+    }
+
+    public void ClickFishingPole()
+    {
+        if (CheckIfFullFishBags())
+        {
+            PlaySoundEffect(SFX_Error, 0.3f);
+            Debug.Log("Out of Selected Fish Food");
+
+            // Make cursor icon, selected food button, and food amount text flash red
+            FlashColor(fishingPole, Color.red, 0.5f, 0.1f);
+        }
+        else
+        {
+            ClickButton(fishingPoleClickFunctions);
+        }
+    }
+
+    public bool CheckIfFullFishBags()
+    {
+        if (baggedFish_Button1.activeSelf && baggedFish_Button2.activeSelf && baggedFish_Button3.activeSelf)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public void QuitGame()

@@ -216,7 +216,7 @@ public class Scr_FishyGuy : MonoBehaviour
         {
             Scr_Starfish fishToBuyScr = fishToBuy.GetComponent<Scr_Starfish>();
 
-            if (gameManager.moneyAmount > fishToBuyScr.baseFishCost)
+            if (gameManager.moneyAmount > fishToBuyScr.baseFishCost && !gameManager.CheckIfFullFishBags())
             {
                 GameObject fish = gameManager.SpawnTempStarfish(fishToBuy, gameManager.fishWaitingArea);
                 if (gameManager.BagFishyGuyStarfish(fish))

@@ -7,7 +7,7 @@ public class Scr_Tooltip : MonoBehaviour
 {
     public static Scr_Tooltip Instance;
 
-    public TextMeshProUGUI text;
+    public TextMeshPro text;
     public Vector2 offset = new Vector2(20, -20);
 
     private RectTransform rect;
@@ -31,6 +31,7 @@ public class Scr_Tooltip : MonoBehaviour
     {
         if (!gameObject.activeSelf) return;
 
+        /*
         Vector2 localPoint;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             canvas.transform as RectTransform,
@@ -40,6 +41,10 @@ public class Scr_Tooltip : MonoBehaviour
         );
 
         rect.localPosition = localPoint + offset;
+        */
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        transform.position = worldPos;
     }
 
     public void Show(string message)

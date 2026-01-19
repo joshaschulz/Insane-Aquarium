@@ -73,11 +73,15 @@ public class Scr_Stress : MonoBehaviour
         foreach (GameObject otherFish in fishInTank)
         {
             // If an exotic fish ever eats a fish, add it here...
-            if (otherFish.GetComponent<Scr_Fish>().fishDiet.Contains(fishScr.thisPrefab))
+            if (otherFish.GetComponent<Scr_Fish>())
             {
-                activeStressFactors.Add(StressFactor.PredatorNearby);
-                break;
+                if (otherFish.GetComponent<Scr_Fish>().fishDiet.Contains(fishScr.thisPrefab))
+                {
+                    activeStressFactors.Add(StressFactor.PredatorNearby);
+                    break;
+                }
             }
+
         }
 
 

@@ -148,6 +148,15 @@ public class Scr_Dialogue : MonoBehaviour
         }
     }
 
+    public void AdvanceTextCustomer()
+    {
+        if (typeLine != null)
+        {
+            StopCoroutine(typeLine);
+            textComponent.text = lines[index];
+        }
+    }
+
     public IEnumerator OpenBox()
     {
         RectTransform rect = GetComponent<RectTransform>();

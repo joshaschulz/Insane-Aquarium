@@ -2515,6 +2515,14 @@ public class Scr_GameManager : MonoBehaviour
 
     }
 
+    public bool CheckIfInBathroom()
+    {
+        Vector2 cameraPos = new Vector2(_Camera.transform.position.x, _Camera.transform.position.y);
+
+        return (new Vector2(Scr_UIElementsHandler.bathroom.position.x, Scr_UIElementsHandler.bathroom.position.y) == cameraPos);
+
+    }
+
     public void MakeFishSmaller(GameObject fish)
     {
         fish.transform.localScale = new Vector3(fish.transform.localScale.x / 2, fish.transform.localScale.y / 2, fish.transform.localScale.z); //child is half size as adult

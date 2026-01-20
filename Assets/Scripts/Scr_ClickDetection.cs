@@ -44,6 +44,11 @@ public class Scr_ClickDetection : MonoBehaviour
                 }
             }
 
+            if (gameManager.dialogueBoxCustomer.isActiveAndEnabled && gameManager.CheckIfInBathroom())
+            {
+                gameManager.dialogueBoxCustomer.AdvanceTextCustomer();
+            }
+
             if (results.Count > 0)
             {
                 Debug.Log("Clicked UI element: " + results[0].gameObject.name);

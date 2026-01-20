@@ -8,15 +8,23 @@ public class Scr_Tooltip : MonoBehaviour
     public static Scr_Tooltip Instance;
 
     public TextMeshPro text;
-    public Vector2 offset = new Vector2(20, -20);
+    public Vector3 tooltipOffset = new Vector3(0.3f, -0.3f, 0f);
+    public float screenPaddingPixels = 10f;
 
-    private RectTransform rect;
-    private Canvas canvas;
+    public SpriteRenderer backgroundRenderer;
+    public Vector2 backgroundPadding = new Vector2(0.15f, 0.1f); // world units
+    public Vector3 backgroundLocalOffset = new Vector3(0f, 0f, 0.01f);
+
+    private Camera cam;
+    private Renderer textRenderer;
+
 
     private void Awake()
     {
-        rect = GetComponent<RectTransform>();
-        canvas = GetComponentInParent<Canvas>();
+        cam = Camera.main;
+
+        if (text != null)
+            textRenderer = text.GetComponent<Renderer>();
 
         if (Instance == null)
             Instance = this;
@@ -27,36 +35,86 @@ public class Scr_Tooltip : MonoBehaviour
         Instance = this;
     }
 
-    private void Update()
+
+    private void LateUpdate()
     {
-        if (!gameObject.activeSelf) return;
+        if (!gameObject.activeSelf || cam == null) return;
 
-        /*
-        Vector2 localPoint;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            canvas.transform as RectTransform,
-            Input.mousePosition,
-            canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera,
-            out localPoint
-        );
+        // 1) desired position from mouse
+        Vector3 screenPos = Input.mousePosition;
+        Vector3 desiredWorld = cam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, cam.nearClipPlane));
+        desiredWorld.z = 0f;
 
-        rect.localPosition = localPoint + offset;
-        */
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 desired = desiredWorld + tooltipOffset;
+        transform.position = desired;
 
-        transform.position = worldPos;
+        // 2) if no renderer, nothing to clamp
+        if (textRenderer == null) return;
+
+        // 3) compute tooltip bounds in screen pixels (AABB)
+        Bounds b = textRenderer.bounds;
+
+        Vector3 min = cam.WorldToScreenPoint(b.min);
+        Vector3 max = cam.WorldToScreenPoint(b.max);
+
+        float left = Mathf.Min(min.x, max.x);
+        float right = Mathf.Max(min.x, max.x);
+        float bottom = Mathf.Min(min.y, max.y);
+        float top = Mathf.Max(min.y, max.y);
+
+        // 4) shift screenPos so bounds stay inside screen (with padding)
+        float dx = 0f;
+        float dy = 0f;
+
+        if (left < screenPaddingPixels) dx = screenPaddingPixels - left;
+        else if (right > Screen.width - screenPaddingPixels) dx = (Screen.width - screenPaddingPixels) - right;
+
+        if (bottom < screenPaddingPixels) dy = screenPaddingPixels - bottom;
+        else if (top > Screen.height - screenPaddingPixels) dy = (Screen.height - screenPaddingPixels) - top;
+
+        if (dx != 0f || dy != 0f)
+        {
+            // convert that screen delta into world delta at the tooltip depth
+            Vector3 worldA = cam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, cam.nearClipPlane));
+            Vector3 worldB = cam.ScreenToWorldPoint(new Vector3(screenPos.x + dx, screenPos.y + dy, cam.nearClipPlane));
+
+            Vector3 worldDelta = worldB - worldA;
+            worldDelta.z = 0f;
+
+            transform.position += worldDelta;
+        }
     }
 
     public void Show(string message)
     {
         text.text = message;
-        text.enabled = true;
-        Debug.Log("SHOWING TOOLTIP: " + message);
+        gameObject.SetActive(true);
+
+        ResizeBackgroundToText();
     }
 
     public void Hide()
     {
-        text.enabled = false;
-        Debug.Log("HIDING TOOLTIP");
+        gameObject.SetActive(false);
+    }
+
+    private void ResizeBackgroundToText()
+    {
+        if (backgroundRenderer == null || text == null) return;
+
+        // ensure text bounds are correct this frame
+        text.ForceMeshUpdate();
+
+        // bounds are in LOCAL space for TextMeshPro
+        Bounds tb = text.bounds;
+
+        // size the sprite to text size + padding
+        backgroundRenderer.size = new Vector2(
+            tb.size.x + backgroundPadding.x,
+            tb.size.y + backgroundPadding.y
+        );
+
+        // center background on text
+        backgroundRenderer.transform.localPosition = tb.center + backgroundLocalOffset;
     }
 }

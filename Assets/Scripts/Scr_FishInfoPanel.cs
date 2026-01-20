@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Scr_FishInfoPanel : MonoBehaviour
 {
+    private Scr_GameManager gameManager;
+
     public TMPro.TMP_InputField nameInput;
     public TMPro.TMP_Text nameBorderText;
     public TMPro.TMP_Text speciesText;
@@ -28,6 +30,13 @@ public class Scr_FishInfoPanel : MonoBehaviour
     private int currentPoop;
     private int currentPrice;
 
+    public TMPro.TMP_Text tooltipTextAppeal;
+    public TMPro.TMP_Text tooltipTextFreak;
+    public TMPro.TMP_Text tooltipTextHunger;
+    public TMPro.TMP_Text tooltipTextPoop;
+    public TMPro.TMP_Text tooltipTextPrice;
+
+
     public TMPro.TMP_Text statText;
 
     public TMPro.TMP_Text[] legsNum;
@@ -43,6 +52,10 @@ public class Scr_FishInfoPanel : MonoBehaviour
 
     private float originalRectHeight;
 
+    public LayerMask legsHoverableMask;
+
+    public Scr_Tooltip tooltip;
+
     private Scr_Fish currentFish;
     //public Scr_Fish CurrentFish => currentFish; // read-only property
 
@@ -52,6 +65,7 @@ public class Scr_FishInfoPanel : MonoBehaviour
         if (cam == null)
             cam = Camera.main;
 
+        gameManager = Scr_GameManager.GMinstance;
         rectTransform = GetComponent<RectTransform>();
         parentCanvas = GetComponentInParent<Canvas>();
 
@@ -61,13 +75,35 @@ public class Scr_FishInfoPanel : MonoBehaviour
 
     }
 
-    void LateUpdate()
+    private void OnEnable()
     {
+        List<GameObject> fishList = gameManager.GetAllFishInTank(gameManager.GetTankByPosition(Camera.main.transform.position));
+
+        foreach (GameObject fish in fishList)
+        {
+            Collider2D col = fish.GetComponent<Collider2D>();
+            if (col != null)
+            {
+                col.enabled = false;
+            }
+        }
 
     }
+
     private void OnDisable()
     {
+        List<GameObject> fishList = gameManager.GetAllFishInTank(gameManager.GetTankByPosition(Camera.main.transform.position));
+
+        foreach (GameObject fish in fishList)
+        {
+            Collider2D col = fish.GetComponent<Collider2D>();
+            if (col != null)
+                col.enabled = true;
+        }
+
+        tooltip.Hide();
         Hide();
+
     }
 
     public void Follow()
@@ -372,6 +408,30 @@ public class Scr_FishInfoPanel : MonoBehaviour
                 }
 
             }
+        }
+    }
+
+    public string GetStatTooltipText(FishStatType statType)
+    {
+        switch (statType)
+        {
+            case FishStatType.Appeal:
+                return $"Appeal: {currentAppeal}/5";
+
+            case FishStatType.Freak:
+                return $"Freak: {currentFreak}/5";
+
+            case FishStatType.Hunger:
+                return $"Hunger: {currentHunger}/5";
+
+            case FishStatType.Poop:
+                return $"Poop: {currentPoop}/5";
+
+            case FishStatType.Price:
+                return $"Price: {currentPrice}/5";
+
+            default:
+                return "";
         }
     }
 }

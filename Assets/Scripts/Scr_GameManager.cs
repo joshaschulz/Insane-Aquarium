@@ -3398,6 +3398,16 @@ public class Scr_GameManager : MonoBehaviour
         return fishInTank;
     }
 
+    public Transform GetTankByPosition(Vector3 pos)
+    {
+        foreach (Transform tank in Scr_UIElementsHandler.tanks)
+        {
+            if (new Vector2(tank.position.x, tank.position.y) == new Vector2(pos.x, pos.y))
+                return tank;
+        }
+        return null;
+    }
+
     public void ClickFishingPole()
     {
         if (CheckIfFullFishBags())

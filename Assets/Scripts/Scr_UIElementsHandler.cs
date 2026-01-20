@@ -9,6 +9,7 @@ public class Scr_UIElementsHandler : MonoBehaviour
 
     public Transform foregroundTank;
     public Transform backgroundTank;
+    public Transform[] tanks;
     public Transform bathroom;
 
     public Vector2 foregroundTankPosition;

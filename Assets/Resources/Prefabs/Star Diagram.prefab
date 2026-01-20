@@ -94,7 +94,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1141176683952931287}
   - component: {fileID: 7800258631958959830}
-  - component: {fileID: 5772453386636929805}
   m_Layer: 0
   m_Name: Hunger
   m_TagString: Untagged
@@ -158,18 +157,6 @@ CircleCollider2D:
   m_Offset: {x: 1.6694092, y: -3.2963784}
   serializedVersion: 2
   m_Radius: 1.7874275
---- !u!114 &5772453386636929805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 315872224598630348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5da581d7d51d7e64285b840fa10e3836, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &867443304728109381
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,7 +419,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2683915637481482101}
   - component: {fileID: 8068450930996110175}
-  - component: {fileID: 7453692133543911218}
   m_Layer: 0
   m_Name: Appeal
   m_TagString: Untagged
@@ -496,18 +482,6 @@ CircleCollider2D:
   m_Offset: {x: 3.678363, y: -0.39613113}
   serializedVersion: 2
   m_Radius: 1.6600983
---- !u!114 &7453692133543911218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 978634885276943732}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5da581d7d51d7e64285b840fa10e3836, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &988226132101438226
 GameObject:
   m_ObjectHideFlags: 0
@@ -854,7 +828,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1511413938982680934}
   - component: {fileID: 3083724536193320533}
-  - component: {fileID: 5783051616600937387}
   m_Layer: 0
   m_Name: Price
   m_TagString: Untagged
@@ -918,18 +891,6 @@ CircleCollider2D:
   m_Offset: {x: 1.3864609, y: 2.9143963}
   serializedVersion: 2
   m_Radius: 1.7449849
---- !u!114 &5783051616600937387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1260329464197512540}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5da581d7d51d7e64285b840fa10e3836, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1430124346561124590
 GameObject:
   m_ObjectHideFlags: 0
@@ -1024,7 +985,6 @@ GameObject:
   m_Component:
   - component: {fileID: 900848496112675968}
   - component: {fileID: 4104655112318882307}
-  - component: {fileID: 5036552329901384312}
   m_Layer: 0
   m_Name: Poop
   m_TagString: Untagged
@@ -1088,18 +1048,6 @@ CircleCollider2D:
   m_Offset: {x: -2.5041168, y: 1.6977078}
   serializedVersion: 2
   m_Radius: 1.8157227
---- !u!114 &5036552329901384312
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1739185178484198450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5da581d7d51d7e64285b840fa10e3836, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1787053084425174151
 GameObject:
   m_ObjectHideFlags: 0
@@ -1904,7 +1852,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1015143306771116245}
   - component: {fileID: 6435444204299158744}
-  - component: {fileID: 6990605898609028}
   m_Layer: 0
   m_Name: Freak
   m_TagString: Untagged
@@ -1968,18 +1915,6 @@ CircleCollider2D:
   m_Offset: {x: -2.4333801, y: -2.5324128}
   serializedVersion: 2
   m_Radius: 1.8723122
---- !u!114 &6990605898609028
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4438945500206923568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5da581d7d51d7e64285b840fa10e3836, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4511487460701368615
 GameObject:
   m_ObjectHideFlags: 0

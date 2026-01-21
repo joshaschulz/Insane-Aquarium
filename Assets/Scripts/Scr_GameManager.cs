@@ -16,6 +16,9 @@ public class Scr_GameManager : MonoBehaviour
 
     private Scr_Notifications notifications;
 
+    public GameObject phoneOpen;
+    public GameObject phoneClosed;
+
     public GameObject stallNumbers;
     public GameObject fishingPole;
     public Button fishingPoleClickFunctions;
@@ -201,7 +204,7 @@ public class Scr_GameManager : MonoBehaviour
     // List of Sounds
     public AudioClip SFX_DropCoin, SFX_DropFish, SFX_DropFood, SFX_FishDeath, SFX_FishEat, SFX_MoneyPickup, SFX_Select, SFX_Error, SFX_Bubbles1, SFX_Bubbles2, SFX_BagFish, SFX_Reeling, SFX_FishHitToilet, SFX_ToiletSplash, SFX_RockHit;
     public AudioClip SFX_Bag, SFX_CashRegister, SFX_FishHooked, SFX_FlipPhoneHigh, SFX_FlipPhoneLow, SFX_Flush, SFX_GenUI1, SFX_GenUI2, SFX_GenUI3, SFX_LineSnap, SFX_MoneyCounter, SFX_Pop, SFX_Snap, SFX_TextScroll, SFX_TextScrollEnd, SFX_FishGrow, SFX_Fart1, SFX_Fart2;
-    public AudioClip SFX_Keypad1, SFX_Keypad2, SFX_Keypad3, SFX_Keypad4, SFX_Keypad5, SFX_Keypad6, SFX_Keypad7, SFX_Keypad8, SFX_Keypad9, SFX_Keypad0, SFX_KeypadDel, SFX_KeypadEnter, SFX_CallFail, SFX_CallRinging, SFX_CallHangUp, SFX_StarfishFlop, SFX_Click;
+    public AudioClip SFX_Keypad1, SFX_Keypad2, SFX_Keypad3, SFX_Keypad4, SFX_Keypad5, SFX_Keypad6, SFX_Keypad7, SFX_Keypad8, SFX_Keypad9, SFX_Keypad0, SFX_KeypadDel, SFX_KeypadEnter, SFX_CallFail, SFX_CallRinging, SFX_CallRingingUpdated, SFX_CallHangUp, SFX_StarfishFlop, SFX_Click;
 
 
     private void Awake()
@@ -214,6 +217,7 @@ public class Scr_GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
 
         GetComponent<Scr_TimeHandler>().PauseTime();
 
@@ -270,6 +274,14 @@ public class Scr_GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             SpawnFish(fishPrefabs[0]);
+        }
+        else if (Input.GetKeyDown(KeyCode.P))
+        {
+            SpawnFish(fishPrefabs[4]);
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            SpawnStarFish(exoticFishPrefabs[0]);
         }
     }
 
@@ -2725,7 +2737,7 @@ public class Scr_GameManager : MonoBehaviour
             if (contact != null)
             {
                 // Play global ringing sound
-                tempPhoneAudioSource = PlaySoundEffectDontDestroy(SFX_CallRinging, 0.1f, 1);
+                tempPhoneAudioSource = PlaySoundEffectDontDestroy(SFX_CallRingingUpdated, 0.1f, 1);
                 Destroy(tempPhoneAudioSource.gameObject, tempPhoneAudioSource.GetComponent<AudioSource>().clip.length);
 
                 // Wait for the sound to finish, then open dialogue
@@ -3243,6 +3255,7 @@ public class Scr_GameManager : MonoBehaviour
         EnableButton(payUpButton);
 
         ResetCustomer();
+        //ResetPhone();
 
         CalculateBills();
 
@@ -3313,6 +3326,7 @@ public class Scr_GameManager : MonoBehaviour
             SubtractMoneyAmount(totalBillsValue);
 
             EnableAllButtons();
+            ResetPhone();
             MoveToScene(bathroom);
             DisableUnderwaterAudio();
 
@@ -3328,41 +3342,22 @@ public class Scr_GameManager : MonoBehaviour
         {
             Debug.Log("Not enough money!");
 
-            /*
-            EnableAllButtons();
-            MoveToScene(mainMenu);
-            mainMenuCanvas.SetActive(true);
-            gameCanvas.SetActive(false);
-            hudCanvas.SetActive(false);
-
-            Scr_TimeHandler.ResetTime();
-            Scr_TimeHandler.PauseTime();
-
-            Scr_EndDay.PlayCloseEndDayUI();
-
-
-            ClearAllFish();
-            */
-
             ResetScene();
 
         }
     }
 
-    /*
-    public void StartNewGame()
-    {
-        currentDay = 1;
-
-        moneyAmount = ActiveSettings.moneyAmount;
-
-        ClearAllFish();
-    }*/
-
 
     public void ResetScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void ResetPhone()
+    {
+        if (new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.y) == new Vector2(stallNumbers.transform.position.x, stallNumbers.transform.position.y))
+            ClickButton(backButton.GetComponent<Button>());
+
     }
 
     public void ClearAllFish()

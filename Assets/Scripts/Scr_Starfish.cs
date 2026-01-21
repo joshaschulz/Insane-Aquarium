@@ -23,6 +23,11 @@ public class Scr_Starfish : MonoBehaviour
     public Transform spawnTank; //keeps track of fish's spawned tank
     public float minX, maxX, minY, maxY;
 
+    public float baseLegRegenChance = 5;
+    public float minLegRegenChance = 2;
+    private float currentLegRegenChance;
+    private bool canRegenLeg;
+
 
     public GameObject bloodEffectPrefab;
     public GameObject bloodOutlineEffectPrefab;
@@ -89,6 +94,10 @@ public class Scr_Starfish : MonoBehaviour
         SetMinAndMax();
         name = GenerateRandomName();
 
+        baseLegRegenChance *= gameManager.tickEventsPer10Min;
+        minLegRegenChance *= gameManager.tickEventsPer10Min;
+        currentLegRegenChance = baseLegRegenChance;
+
 
     }
 
@@ -101,32 +110,7 @@ public class Scr_Starfish : MonoBehaviour
 
     public void OnTickEvent()
     {
-        // 1 in 10 chance to regenerate leg
-        if (Random.Range(0, 10 * gameManager.tickEventsPer10Min) == 0)
-        {
-            // find all inactive legs
-            List<GameObject> inactiveLegs = new List<GameObject>();
-            foreach (GameObject leg in starfishLegs)
-            {
-                if (!leg.activeSelf)
-                    inactiveLegs.Add(leg);
-            }
-
-            // none to enable
-            if (inactiveLegs.Count != 0)
-            {
-                // choose random inactive leg and activate it
-                int index = Random.Range(0, inactiveLegs.Count);
-                inactiveLegs[index].SetActive(true);
-
-                gameManager.AddRegeneratedStarfishLegToFishDiets(this, inactiveLegs[index]);
-                gameManager.foodFishDictionary.Add(inactiveLegs[index], thisPrefab);
-            }
-                
-
-
-        }
-
+        //FLIP HEAD
         if (Random.Range(0, 5 * gameManager.tickEventsPer10Min) == 0) //swap faces
         {
             // swap active state
@@ -150,8 +134,54 @@ public class Scr_Starfish : MonoBehaviour
         }
 
 
+        Debug.Log(gameObject.name + " LEG SPAWN CHANCE: " + currentLegRegenChance);
+        foreach (GameObject leg in starfishLegs)
+        {
+            if (!leg.activeSelf)
+            {
+                canRegenLeg = true;
+                break;
+            }
+            else
+                canRegenLeg = false;
+        }
 
-        // Debug.Log("Leg grew back: " + inactiveLegs[index].name);
+        if (!canRegenLeg)
+            return;
+
+        // 1 in 10 chance to regenerate leg
+        if (Random.Range(0, currentLegRegenChance) == 0)
+        {
+            // find all inactive legs
+            List<GameObject> inactiveLegs = new List<GameObject>();
+            foreach (GameObject leg in starfishLegs)
+            {
+                if (!leg.activeSelf)
+                    inactiveLegs.Add(leg);
+            }
+
+            // none to enable
+            if (inactiveLegs.Count != 0)
+            {
+                // choose random inactive leg and activate it
+                int index = Random.Range(0, inactiveLegs.Count);
+                inactiveLegs[index].SetActive(true);
+
+                gameManager.AddRegeneratedStarfishLegToFishDiets(this, inactiveLegs[index]);
+                gameManager.foodFishDictionary.Add(inactiveLegs[index], thisPrefab);
+            }
+
+            currentLegRegenChance = baseLegRegenChance;
+        }
+        else
+        {
+            currentLegRegenChance = Mathf.Max(minLegRegenChance, currentLegRegenChance - 1);
+        }
+
+
+
+
+
     }
 
     // Update is called once per frame

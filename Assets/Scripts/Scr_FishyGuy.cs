@@ -26,6 +26,8 @@ public class Scr_FishyGuy : MonoBehaviour
     private bool initialSpawnDelayComplete = false;
 
     public int ticksToSpawnChance;
+    private int currentSpawnChance;
+    private int minSpawnChance = 2;
     public int ticksToExist;
 
     public bool fishyGuyExists = false;
@@ -61,9 +63,11 @@ public class Scr_FishyGuy : MonoBehaviour
         ChangeGameSettings();
 
         ticksToSpawnChance *= gameManager.tickEventsPer10Min;
+        minSpawnChance *= gameManager.tickEventsPer10Min;
         ticksToExist *= gameManager.tickEventsPer10Min;
 
         ticksToSpawnInitially = ticksToExist / 2;
+        currentSpawnChance = ticksToSpawnChance;
 
 
     }
@@ -115,6 +119,10 @@ public class Scr_FishyGuy : MonoBehaviour
 
     public void OnTickEvent()
     {
+        //fishy guy won't spawn if you have less than 500 krona
+        if (gameManager.moneyAmount < 500)
+            return;
+
         //startup delay before allowing ANY customer spawn
         if (!initialSpawnDelayComplete)
         {
@@ -138,17 +146,21 @@ public class Scr_FishyGuy : MonoBehaviour
         if (fishyGuyExists)
         {
             ticksSinceSpawned++;
-        }
 
-        //if they've existed too long, destroy them
-        if (ticksSinceSpawned >= ticksToExist)
-        {
-            FishyGuyGoAway();
+            //if they've existed too long, destroy them
+            if (ticksSinceSpawned >= ticksToExist)
+            {
+                FishyGuyGoAway();
+                return;
+            }
+
             return;
         }
 
+
+
         //spawn customer
-        int num = Random.Range(0, ticksToSpawnChance);
+        int num = Random.Range(0, currentSpawnChance);
 
         if (num == 0)
         {
@@ -156,7 +168,13 @@ public class Scr_FishyGuy : MonoBehaviour
             {
                 fishyGuyExists = true;
                 PickFishyGuyFish();
+
+                currentSpawnChance = ticksToSpawnChance;
             }
+        }
+        else
+        {
+            currentSpawnChance = Mathf.Max(minSpawnChance, currentSpawnChance - 1);
         }
 
     }

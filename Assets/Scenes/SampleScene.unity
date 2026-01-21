@@ -29900,7 +29900,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &433132933
 RectTransform:
   m_ObjectHideFlags: 0
@@ -34792,7 +34792,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &529144278
 RectTransform:
   m_ObjectHideFlags: 0
@@ -55210,7 +55210,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &836564951
 RectTransform:
   m_ObjectHideFlags: 0
@@ -69147,6 +69147,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcbfa85d6a80f1d418dda7b33d4c42e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  phoneOpen: {fileID: 1841038393}
+  phoneClosed: {fileID: 1492024530}
   stallNumbers: {fileID: 1742373887}
   fishingPole: {fileID: 574291911}
   fishingPoleClickFunctions: {fileID: 2062967857}
@@ -69219,7 +69221,7 @@ MonoBehaviour:
   - {fileID: 3024260648436506323, guid: 9a6fe53f5bad8634489c36a1113d2dc2, type: 3}
   - {fileID: 4929024843989503357, guid: 1b6025f71b44d9440b143f28f48a2896, type: 3}
   - {fileID: 5584873671986153646, guid: 323bc94d685bd9c4bb9ed482f6a4caf4, type: 3}
-  structureStartingAmounts: 010000000100000001000000
+  structureStartingAmounts: 000000000000000000000000
   structureButtons:
   - {fileID: 529144277}
   - {fileID: 836564950}
@@ -69306,6 +69308,7 @@ MonoBehaviour:
   SFX_KeypadEnter: {fileID: 8300000, guid: b3bd9872ff07d5c4080f2ce23dec3367, type: 3}
   SFX_CallFail: {fileID: 8300000, guid: 108e7c5d5bbe32742ae39142d8c6056b, type: 3}
   SFX_CallRinging: {fileID: 8300000, guid: 02898e02e0ecb3140b105f1e06bc68de, type: 3}
+  SFX_CallRingingUpdated: {fileID: 8300000, guid: 6dca7cf1f5e76204bac0fe924a1aa29a, type: 3}
   SFX_CallHangUp: {fileID: 8300000, guid: 20a44ff68c64b1d468512b67714186f2, type: 3}
   SFX_StarfishFlop: {fileID: 8300000, guid: e5601d25c4b1e56479bfbe4f9ececca0, type: 3}
   SFX_Click: {fileID: 8300000, guid: 12eb7bbdfad3d8e4d9f441790df3b6fe, type: 3}
@@ -134363,7 +134366,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1979041713
 RectTransform:
   m_ObjectHideFlags: 0

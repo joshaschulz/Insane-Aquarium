@@ -55,7 +55,8 @@ public class Scr_FoodBehavior : MonoBehaviour
             spinAmount = -spinAmount;
         InvokeRepeating("rotateFood", 0f, 1 / spinSpeed);
 
-        groundBarrier = Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height * groundBarrierPercentage));
+        groundBarrier = new Vector2(0, transform.position.y - 10);
+        //Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height * groundBarrierPercentage));
 
         if (particleEffectPrefabs.Count > 0)
         {

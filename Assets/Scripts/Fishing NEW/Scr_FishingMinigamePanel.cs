@@ -114,7 +114,7 @@ public class Scr_FishingMinigamePanel : MonoBehaviour
                 Quaternion.identity
             );
 
-            SetTreasureQuantity(Random.Range(15, 31));
+            SetTreasureQuantity(Random.Range(50, 101));
             treasureQuantityText.GetComponent<TextMeshProUGUI>().text = "x" + treasureQuantity.ToString();
             gameManager.AddMoneyAmount(treasureQuantity);
 

@@ -20,9 +20,9 @@ MonoBehaviour:
   customerTicksToSpawnChance: 3
   customerTicksToExist: 6
   secondsPerTickEvent: 4
-  startHour: 8
+  startHour: 12
   startMinute: 0
-  endHour: 24
+  endHour: 18
   endMinute: 0
   fastForwardNormal: 1
   fastForwardFast: 4
@@ -31,9 +31,9 @@ MonoBehaviour:
   fishFood1Amount: 30
   fishFood2Amount: 0
   fishFood3Amount: 0
-  rentAmount: 100
-  taxPercentage: 2
-  exoticFishTaxAmount: 20
+  rentAmount: 250
+  taxPercentage: 10
+  exoticFishTaxAmount: 100
   minutesUntilGrown_Goldfish: 60
   minutesUntilHungry_Goldfish: 90
   minutesUntilFreaky_Goldfish: 100

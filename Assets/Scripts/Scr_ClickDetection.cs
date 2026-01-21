@@ -181,6 +181,31 @@ public class Scr_ClickDetection : MonoBehaviour
                 return;
             }
 
+            // ==============================================
+            // 1) RIGHT-CLICKED NOTHING IMPORTANT:
+            //    → reset tools & hide UI (original behavior)
+            // ==============================================
+
+            // Clear selected food (original behavior)
+            if (gameManager.currentFishFoodSelected != null)
+            {
+                gameManager.ChangeFishFoodTypeToDrop(null);
+            }
+
+            // Deselect bagging
+            if (gameManager.canIBagFish)
+            {
+                gameManager.DeselectFishBag();
+            }
+            // Deselect Wrench
+            if (gameManager.canIRemoveStructures)
+            {
+                gameManager.DeselectWrench();
+            }
+
+            // Hide fish info panel
+            infoPanel.Hide();
+
             // --- CAST TO WORLD ---
             Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D[] hits = Physics2D.RaycastAll(worldPoint, Vector2.zero);
@@ -237,30 +262,7 @@ public class Scr_ClickDetection : MonoBehaviour
             }
 
 
-            // ==============================================
-            // 3) RIGHT-CLICKED NOTHING IMPORTANT:
-            //    → reset tools & hide UI (original behavior)
-            // ==============================================
 
-            // Clear selected food (original behavior)
-            if (gameManager.currentFishFoodSelected != null)
-            {
-                gameManager.ChangeFishFoodTypeToDrop(null);
-            }
-
-            // Deselect bagging
-            if (gameManager.canIBagFish)
-            {
-                gameManager.DeselectFishBag();
-            }
-            // Deselect Wrench
-            if (gameManager.canIRemoveStructures)
-            {
-                gameManager.DeselectWrench();
-            }
-
-            // Hide fish info panel
-            infoPanel.Hide();
         }
     }
 }

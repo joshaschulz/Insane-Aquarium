@@ -177,6 +177,9 @@ public class Scr_GameManager : MonoBehaviour
 
     public float customerAttractionRate = 1f;
 
+    private bool canFish = true;
+    private int canFishCounter = 0;
+
 
 
     // Click Bag button to turn cursor image to bag and allow for capturing of fish with left click.
@@ -313,6 +316,19 @@ public class Scr_GameManager : MonoBehaviour
     public void OnTickEvent()
     {
         //maybe want tick events on game manager?
+        if (canFish)
+            return;
+        else
+        {
+            canFishCounter++;
+            if (canFishCounter > tickEventsPer10Min * 6) // * 6 for fishing every 1 hour
+            {
+                canFish = true;
+                canFishCounter = 0;
+                notifications.Show("Fishing is ready!");
+            }
+        }
+
     }
 
     public void RecalculateCustomerAttractionRate()
@@ -3278,7 +3294,6 @@ public class Scr_GameManager : MonoBehaviour
         int numExoticFish = 0;
 
         //find all exotic fish in the scene (food fish dictionary + fish bags)
-
         foreach ((GameObject obj, GameObject objPrefab) in foodFishDictionary)
         {
             if (obj != null)
@@ -3422,6 +3437,7 @@ public class Scr_GameManager : MonoBehaviour
 
     public void ClickFishingPole()
     {
+
         if (CheckIfFullFishBags())
         {
             PlaySoundEffect(SFX_Error, 0.3f);
@@ -3429,10 +3445,23 @@ public class Scr_GameManager : MonoBehaviour
 
             // Make cursor icon, selected food button, and food amount text flash red
             FlashColor(fishingPole, Color.red, 0.5f, 0.1f);
+
+            notifications.Show("Your fish bags are full.", 2f);
+        }
+        else if (!canFish)
+        {
+            PlaySoundEffect(SFX_Error, 0.3f);
+            Debug.Log("Out of Selected Fish Food");
+
+            // Make cursor icon, selected food button, and food amount text flash red
+            FlashColor(fishingPole, Color.red, 0.5f, 0.1f);
+
+            notifications.Show("Fishing is on cooldown.", 2f);
         }
         else
         {
             ClickButton(fishingPoleClickFunctions);
+            canFish = false;
         }
     }
 

@@ -11,10 +11,11 @@ public class Scr_Filter : MonoBehaviour
 
     private Scr_GameManager gameManager;
     private Scr_TimeHandler timeHandler;
+    private Transform spawnTank;
+
 
     public GameObject filterBubblesPrefab;
 
-    public Vector2 myTankPos;
     private int tickCounter = 0;
 
     private void Start()
@@ -30,6 +31,8 @@ public class Scr_Filter : MonoBehaviour
         timeHandler = FindObjectOfType<Scr_TimeHandler>();
         if (timeHandler != null)
             timeHandler.tickEvent.AddListener(OnTickEvent);
+
+        GetTank();
     }
 
     private void OnDisable()
@@ -49,6 +52,22 @@ public class Scr_Filter : MonoBehaviour
         tickCounter = 0;
 
         // remove poop (negative adds cleaning)
-        gameManager.UpdatePoopLevel(myTankPos, -poopRemovedPerClean);
+        Vector2 tankPos = new Vector2(spawnTank.position.x, spawnTank.position.y);
+        gameManager.UpdatePoopLevel(tankPos, -poopRemovedPerClean);
+    }
+
+    private void GetTank()
+    {
+        // Find all tanks and pick the one whose bounds contains this sign
+        Scr_TankBounds[] tanks = FindObjectsOfType<Scr_TankBounds>();
+        foreach (var tank in tanks)
+        {
+            if (tank == null) continue;
+
+            if (tank.GetBounds().Contains(transform.position))
+            {
+                spawnTank = tank.GetComponentInParent<Transform>();
+            }
+        }
     }
 }

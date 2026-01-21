@@ -35,6 +35,8 @@ public class Scr_TimeHandler : MonoBehaviour
     [Header("UI Elements")]
     public TextMeshProUGUI timeDisplayText;
 
+    private bool shownTimeNotification = false;
+
     public bool timePaused;
 
     // Start is called before the first frame update
@@ -60,6 +62,8 @@ public class Scr_TimeHandler : MonoBehaviour
         timeScale = tickInterval / secPerTickEvent;
 
         gameSeconds = startTimeInSeconds; //clock starts at the start time
+
+        shownTimeNotification = false;
     }
 
     // Update is called once per frame
@@ -100,6 +104,7 @@ public class Scr_TimeHandler : MonoBehaviour
     public void ResetTime()
     {
         gameSeconds = startTimeInSeconds;
+        shownTimeNotification = false;
     }
 
     public void ChangeGameSettings()
@@ -128,6 +133,16 @@ public class Scr_TimeHandler : MonoBehaviour
             {
                 timeDisplayText.text = formattedTime;
             }
+        }
+
+        if (!shownTimeNotification)
+        {
+            if (gameSeconds > (endTimeInSeconds - 7200))
+            {
+                FindObjectOfType<Scr_Notifications>().Show("Two hours left until rent is due!");
+                shownTimeNotification = true;
+            }
+
         }
     }
 

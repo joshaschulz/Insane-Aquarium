@@ -267,12 +267,16 @@ public class Scr_FishyGuy : MonoBehaviour
                 }
                 else
                 {
+                    notifications.Show("Bag fish slots are full.", 2f);
+
                     UnableToCompleteTransaction();
                     return;
                 }
             }
             else
             {
+                notifications.Show("Not enough money to complete transaction.", 2f);
+
                 UnableToCompleteTransaction();
                 return;
             }
@@ -334,8 +338,5 @@ public class Scr_FishyGuy : MonoBehaviour
 
         // Make cursor icon and selected food button flash red
         gameManager.FlashColor(clickedButton, Color.red, 0.5f, 0.1f);
-
-        notifications.Show("Not enough money to complete transaction.", 2f);
-
     }
 }

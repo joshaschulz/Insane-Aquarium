@@ -20,9 +20,9 @@ MonoBehaviour:
   customerTicksToSpawnChance: 3
   customerTicksToExist: 6
   secondsPerTickEvent: 4
-  startHour: 12
+  startHour: 9
   startMinute: 0
-  endHour: 18
+  endHour: 17
   endMinute: 0
   fastForwardNormal: 1
   fastForwardFast: 4

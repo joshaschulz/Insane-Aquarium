@@ -23,8 +23,11 @@ public class Scr_Starfish : MonoBehaviour
     public Transform spawnTank; //keeps track of fish's spawned tank
     public float minX, maxX, minY, maxY;
 
-    public float baseLegRegenChance = 5;
-    public float minLegRegenChance = 2;
+    public float baseLegRegen = 4f;
+    public float minLegRegen = 1f;
+
+    private float baseLegRegenChance;
+    private float minLegRegenChance;
     private float currentLegRegenChance;
     private bool canRegenLeg;
 
@@ -94,8 +97,8 @@ public class Scr_Starfish : MonoBehaviour
         SetMinAndMax();
         name = GenerateRandomName();
 
-        baseLegRegenChance *= gameManager.tickEventsPer10Min;
-        minLegRegenChance *= gameManager.tickEventsPer10Min;
+        baseLegRegenChance = baseLegRegen * gameManager.tickEventsPer10Min;
+        minLegRegenChance *= minLegRegen * gameManager.tickEventsPer10Min;
         currentLegRegenChance = baseLegRegenChance;
 
 

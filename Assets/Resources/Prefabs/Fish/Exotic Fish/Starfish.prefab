@@ -231,8 +231,8 @@ MonoBehaviour:
   maxX: 0
   minY: 0
   maxY: 0
-  baseLegRegenChance: 6.5
-  minLegRegenChance: 1.5
+  baseLegRegen: 4
+  minLegRegen: 1
   bloodEffectPrefab: {fileID: 7699653466035250317, guid: 29a6421998a7dcd48a84d3e1c2dcec44, type: 3}
   bloodOutlineEffectPrefab: {fileID: 7699653466035250317, guid: ff820ec8f90290e45ad4f2c2e24d6b8e, type: 3}
   bubblesEffectPrefab: {fileID: 7699653466035250317, guid: 4e2ec060f025af64ba8ccc7e09d540eb, type: 3}

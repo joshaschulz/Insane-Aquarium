@@ -537,7 +537,7 @@ public class Scr_Customer : MonoBehaviour
         if (totalMoney > 0)
             gameManager.AddMoneyAmount(totalMoney);
 
-        notifications.Show($"{requiredQuantity} {matchingFish[0].tag} was sold for {matchingFish[0].fishValue} krona!");
+        notifications.Show($"{requiredQuantity} {matchingFish[0].tag} was sold for {totalMoney} krona!");
 
         gameManager.ShowHideFishBags();
 

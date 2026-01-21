@@ -204,8 +204,6 @@ public class Scr_GameManager : MonoBehaviour
     public AudioClip SFX_Keypad1, SFX_Keypad2, SFX_Keypad3, SFX_Keypad4, SFX_Keypad5, SFX_Keypad6, SFX_Keypad7, SFX_Keypad8, SFX_Keypad9, SFX_Keypad0, SFX_KeypadDel, SFX_KeypadEnter, SFX_CallFail, SFX_CallRinging, SFX_CallHangUp, SFX_StarfishFlop, SFX_Click;
 
 
-
-
     private void Awake()
     {
         if (GMinstance == null)
@@ -259,21 +257,11 @@ public class Scr_GameManager : MonoBehaviour
             structureAmountDictionary[structurePrefabs[i]] = Mathf.Max(0, amt);
         }
 
-
-        //baggedFish = new List<(GameObject, int)>(); //have to instantiate this thing for some reason
-
         /*
-        if (!tank.activeSelf)
-        {
-            tank.SetActive(true);
-
-            //UpdateText(moneyText, moneyAmount);
-            //UpdateText(fishFood_1_AmountText, fishFood_1_Amount);
-            //UpdateText(fishFood_2_AmountText, fishFood_2_Amount);
-            // Add more fish food types here...
-
-            tank.SetActive(false);
-        }
+        GameObject flopper = SpawnTempFish(fishPrefabs[3], fishWaitingArea);
+        flopper.GetComponent<Scr_Fish>().name = "Flopper";
+        flopper.name = "Flopper";
+        BagAFish(flopper);
         */
     }
 

@@ -972,7 +972,7 @@ MonoBehaviour:
   buttonThatWouldFlash: {fileID: 0}
   feedIntervalTicks: 10
   amountPerFeed: 1
-  availableFeedIntervals: 00000000050000000300000001000000
+  availableFeedIntervals: 00000000190000000f00000005000000
   foodSprites:
   - {fileID: 5878242338822232295}
   - {fileID: 3712657954604268520}

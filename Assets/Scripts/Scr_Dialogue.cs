@@ -39,6 +39,12 @@ public class Scr_Dialogue : MonoBehaviour
 
     }
 
+    private void OnDisable()
+    {
+        if (gameObject == dialogueBoxPhone)
+            gameManager.currentlyCalling = "";
+    }
+
     // Update is called once per frame
     void Update()
     {

@@ -315,6 +315,7 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
                     {
                         if (cachedFishMovement.name.Contains(button.name))
                         {
+                            Notify(prefab, button);
                             fishpedia.EnableEntryButton(buttonIndex);
                             fishpedia.entries[buttonIndex].transform.GetChild(2).Find("# Caught Numbers").GetComponent<TextMeshProUGUI>().text = prefab.GetComponent<Scr_Fish>().numberCaught.ToString();
                         }
@@ -344,6 +345,14 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
             Cursor.visible = true;
         }
 
+    }
+
+    public void Notify(GameObject fishCaught, Button fishButton)
+    {
+        if (!fishButton.gameObject.activeSelf)
+        {
+            FindObjectOfType<Scr_Notifications>().Show($"{fishCaught.name} was added to the fishpedia!");
+        }
     }
 
     public void ForceWinUIAndStop()

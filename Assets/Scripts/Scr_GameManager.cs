@@ -14,6 +14,8 @@ public class Scr_GameManager : MonoBehaviour
     public static Scr_GameManager GMinstance;
     private Camera _Camera;
 
+    private Scr_Notifications notifications;
+
     public GameObject stallNumbers;
     public GameObject fishingPole;
     public Button fishingPoleClickFunctions;
@@ -221,6 +223,8 @@ public class Scr_GameManager : MonoBehaviour
         Scr_UIElementsHandler = FindObjectOfType<Scr_UIElementsHandler>();
 
         _Camera = Camera.main;
+
+        notifications = FindObjectOfType<Scr_Notifications>();
 
         foodFishDictionary = new Dictionary<GameObject, GameObject>(); //have to instantiate a dictionary for some reason
 
@@ -633,6 +637,9 @@ public class Scr_GameManager : MonoBehaviour
 
                 releasedFish.GetComponent<CircleCollider2D>().enabled = true;
                 releasedFish.transform.localScale = new Vector3(1, 1, 1);
+
+                if (!releasedFishScript.grown)
+                    MakeFishSmaller(releasedFish);
 
                 SetSortingGroupToLayer(releasedFish, "Game Objects");
 
@@ -2766,7 +2773,7 @@ public class Scr_GameManager : MonoBehaviour
 
             string raw = phoneNumber.text;
 
-            if (string.IsNullOrWhiteSpace(raw))
+            if (string.IsNullOrWhiteSpace(raw) || raw == "")
             {
                 textNum = 0;
             }
@@ -2780,6 +2787,8 @@ public class Scr_GameManager : MonoBehaviour
             {
                 textNum = 0;
             }
+
+            Debug.Log("TEXTNUM: " + textNum);
 
             if (currentlyCalling == "The Hungry Guppy")//pressed enter - confirms choice
             {
@@ -2820,12 +2829,16 @@ public class Scr_GameManager : MonoBehaviour
                     if (textNum == 0)
                     {
                         dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnd] = $"Why bother calling if you aren't going to purchase anything???";
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnd - 1;
+                        dialogueBoxPhone.NextLine();
 
                     }
-                    if (GetMoneyAmount() >= fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum)
+                    else if (GetMoneyAmount() >= fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum)
                     {
                         SetFishFoodAmount(fishFoodToPurchase, GetFishFoodAmount(fishFoodToPurchase) + textNum);
                         SubtractMoneyAmount(fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum);
+
+                        notifications.Show($"{textNum} {((textNum > 1) ? fishFoodToPurchase.name + "s" : fishFoodToPurchase.name)} purchased for {fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum} krona!");
 
                         //dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase + 1] = $"You purchased {textNum} {fishFoodToPurchase.name}s for {fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum} Krona. Thanks for shopping with The Hungry Guppy!";
                         dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToPurchaseAgain - 1;
@@ -2838,6 +2851,8 @@ public class Scr_GameManager : MonoBehaviour
 
                         // Make money text flash red
                         FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
+
+                        notifications.Show("Not enough money to complete transaction.", 2f);
                     }
                 }
                 else if (CheckIfOnPurchaseAgain())
@@ -2898,13 +2913,17 @@ public class Scr_GameManager : MonoBehaviour
                 {
                     if (textNum == 0)
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnd] = $"Why bother calling if you aren't going to purchase anything???";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnd] = $"Don't call us if you're not buying anything!";
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnd - 1;
+                        dialogueBoxPhone.NextLine();
 
                     }
-                    if (GetMoneyAmount() >= structureToPurchase.GetComponent<Scr_StructurePlacementRules>().cost * textNum)
+                    else if (GetMoneyAmount() >= structureToPurchase.GetComponent<Scr_StructurePlacementRules>().cost * textNum)
                     {
                         SetStructureAmount(structureToPurchase, GetStructureAmount(structureToPurchase) + textNum);
                         SubtractMoneyAmount(structureToPurchase.GetComponent<Scr_StructurePlacementRules>().cost * textNum);
+
+                        notifications.Show($"{textNum} {((textNum > 1) ? structureToPurchase.name + "s" : structureToPurchase.name)} purchased for {structureToPurchase.GetComponent<Scr_StructurePlacementRules>().cost * textNum} krona!");
 
                         //dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase + 1] = $"You purchased {textNum} {fishFoodToPurchase.name}s for {fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum} Krona. Thanks for shopping with The Hungry Guppy!";
                         dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToPurchaseAgain - 1;
@@ -2917,6 +2936,8 @@ public class Scr_GameManager : MonoBehaviour
 
                         // Make money text flash red
                         FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
+
+                        notifications.Show("Not enough money to complete transaction.", 2f);
                     }
                 }
                 else if (CheckIfOnPurchaseAgain())

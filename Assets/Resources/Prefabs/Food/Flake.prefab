@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3659018138421214712}
   - component: {fileID: -8377279493207297222}
   m_Layer: 0
-  m_Name: Fish Food 1
+  m_Name: Flake
   m_TagString: FishFood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,14 +73,14 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -119188961
-  m_SortingLayer: 3
+  m_SortingLayer: 6
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 4d7303827216bad4caa0e41153c20b6a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 752b56df63358d64684f6adcf0e58a6c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.4, y: 0.4}
+  m_Size: {x: 0.652, y: 0.698}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -98,20 +98,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67060794a57b5964d9200bef1334280c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpriteOptions: []
+  SpriteOptions:
+  - {fileID: 21300000, guid: 752b56df63358d64684f6adcf0e58a6c, type: 3}
+  - {fileID: 21300000, guid: 6de8f85ffc8244142a6f5b59b85f97ce, type: 3}
+  - {fileID: 21300000, guid: 1e893aba0987ddc4c9a2da34d0b6acb5, type: 3}
   groundBarrierPercentage: 0.15
-  price: 1
+  price: 2
   radiated: 0
-  fallSpeed: 2
+  fallSpeed: 0.8
   spinSpeed: 5
   spinAmount: 30
   particleEffectPrefabs: []
   isShot: 0
-  shotSpeed: 13
+  shotSpeed: 10
   shotAngleDegrees: 45
   shotGravity: -10
-  waterDrag: 1
-  maxShotTime: 0.6
+  waterDrag: 2
+  maxShotTime: 0.3
 --- !u!58 &-8377279493207297222
 CircleCollider2D:
   m_ObjectHideFlags: 0

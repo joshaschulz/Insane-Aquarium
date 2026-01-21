@@ -12,6 +12,8 @@ public class Scr_Customer : MonoBehaviour
     private Scr_UIElementsHandler Scr_UIElementsHandler;
     private Scr_FishyGuy Scr_FishyGuy;
 
+    private Scr_Notifications notifications;
+
     private Camera _Camera;
 
     public GameObject customerImagesParent;
@@ -51,6 +53,8 @@ public class Scr_Customer : MonoBehaviour
     void Start()
     {
         gameManager = Scr_GameManager.GMinstance;
+
+        notifications = FindObjectOfType<Scr_Notifications>();
 
         _Camera = Camera.main;
         ChangeGameSettings();
@@ -533,6 +537,8 @@ public class Scr_Customer : MonoBehaviour
         if (totalMoney > 0)
             gameManager.AddMoneyAmount(totalMoney);
 
+        notifications.Show($"{requiredQuantity} {matchingFish[0].tag} was sold for {matchingFish[0].fishValue} krona!");
+
         gameManager.ShowHideFishBags();
 
         gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.4f, 1f, 1f);
@@ -570,5 +576,7 @@ public class Scr_Customer : MonoBehaviour
 
         // Make cursor icon and selected food button flash red
         gameManager.FlashColor(clickedButton, Color.red, 0.5f, 0.1f);
+
+        notifications.Show("Not enough fish in bags to complete transaction.", 2f);
     }
 }

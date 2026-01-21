@@ -13,6 +13,8 @@ public class Scr_FishyGuy : MonoBehaviour
     private Scr_UIElementsHandler Scr_UIElementsHandler;
     private Scr_Customer Scr_Customer;
 
+    private Scr_Notifications notifications;
+
     private Camera _Camera;
 
     public GameObject fishyGuyImage;
@@ -50,6 +52,9 @@ public class Scr_FishyGuy : MonoBehaviour
     void Start()
     {
         gameManager = Scr_GameManager.GMinstance;
+
+        notifications = FindObjectOfType<Scr_Notifications>();
+
 
         _Camera = Camera.main;
 
@@ -223,15 +228,10 @@ public class Scr_FishyGuy : MonoBehaviour
                 {
                     gameManager.SubtractMoneyAmount(fishToBuyScr.baseFishCost);
 
+                    notifications.Show($"{fish.tag} was purchased for {fishToBuyScr.baseFishCost} krona!");
+
                     gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.4f, 1f, 1f);
                     gameManager.PlaySoundEffect(gameManager.SFX_MoneyCounter, 0.4f, 1f, 1f);
-
-                    //HideBoughtFishBag(clickedBag);
-                    //CheckIfBothFishBought();
-
-                    //gameManager.dialogueBoxCustomer.StartCloseBoxEnum();
-
-
 
                     // NEW FISHPEDIA CODE
                     // Enabling fishpedia buttons upon buying an exotic fish
@@ -245,8 +245,6 @@ public class Scr_FishyGuy : MonoBehaviour
                         }
                         buttonIndex++;
                     }
-
-
                     FishyGuyGoAway();
                 }
                 else
@@ -261,11 +259,6 @@ public class Scr_FishyGuy : MonoBehaviour
                 return;
             }
         }
-
-        //fishToBuyScr.ChangeGameSettings();
-        //GameObject baggedFishButtonToUse;
-
-
 
 
     }
@@ -288,46 +281,6 @@ public class Scr_FishyGuy : MonoBehaviour
         fishBag.SetActive(false);
     }
 
-    /*
-    public void CheckIfBothFishBought() //if both fish are bought then the fishy guy goes away
-    {
-        if(!fishBag1.activeSelf && !fishBag2.activeSelf)
-        {
-            FishyGuyGoAway();
-        }
-    }*/
-
-    /*public void SellFish()
-    {
-        foreach (GameObject baggedFishSocket in gameManager.baggedFishSockets)
-        {
-            if (baggedFishSocket.transform.childCount != 0)
-            {
-                GameObject baggedFish = baggedFishSocket.transform.GetChild(0).gameObject;
-                Scr_Fish baggedFishScr = baggedFish.GetComponent<Scr_Fish>();
-
-                //player has the fish that the customer wants to buy
-                if (baggedFish.CompareTag(customerFishPrefab.tag))
-                {
-                    gameManager.AddMoneyAmount(baggedFishScr.fishCost);
-
-                    baggedFish.transform.SetParent(null);
-                    Destroy(baggedFish);
-                    gameManager.ShowHideFishBags();
-
-                    gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.4f, 1f, 1f);
-                    gameManager.PlaySoundEffect(gameManager.SFX_MoneyCounter, 0.4f, 1f, 1f);
-
-                    //maybe play a happy customer noise
-                    fishyGuyGoAway();
-                    return;
-                }
-            }
-        }
-
-        //if reach here, it means that the player did not have the fish to sell
-        UnableToCompleteTransaction();
-    }*/
 
     public void DenyCustomer()
     {
@@ -363,5 +316,8 @@ public class Scr_FishyGuy : MonoBehaviour
 
         // Make cursor icon and selected food button flash red
         gameManager.FlashColor(clickedButton, Color.red, 0.5f, 0.1f);
+
+        notifications.Show("Not enough money to complete transaction.", 2f);
+
     }
 }

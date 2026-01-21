@@ -103,7 +103,7 @@ public class Scr_ClickDetection : MonoBehaviour
                     // Attempt to bag a fish
                     Debug.Log(hit.collider.gameObject.name);
 
-                    if (hit.collider.gameObject.GetComponent<Scr_Fish>() || hit.collider.gameObject.GetComponent<Scr_Starfish>())
+                    if (hit.collider.gameObject.GetComponent<Scr_Fish>())
                     {
                         foreach (var fishPrefab in gameManager.fishPrefabs)
                         {
@@ -111,14 +111,20 @@ public class Scr_ClickDetection : MonoBehaviour
                             {
                                 GameObject fishToBag = hit.collider.gameObject;
 
-                                if (fishToBag.CompareTag("Starfish"))
-                                {
-                                    gameManager.BagAStarfish(fishToBag);
-                                }
-                                else
-                                {
-                                    gameManager.BagAFish(fishToBag);
-                                }
+                                gameManager.BagAFish(fishToBag);
+
+                            }
+                        }
+                    }
+                    else if (hit.collider.gameObject.GetComponent<Scr_Starfish>())
+                    {
+                        foreach (var exoticFishPrefab in gameManager.exoticFishPrefabs)
+                        {
+                            if (hit.collider.CompareTag(exoticFishPrefab.tag) && gameManager.canIBagFish)
+                            {
+                                GameObject fishToBag = hit.collider.gameObject;
+
+                                gameManager.BagAStarfish(fishToBag);
                             }
                         }
                     }
@@ -258,3 +264,4 @@ public class Scr_ClickDetection : MonoBehaviour
         }
     }
 }
+

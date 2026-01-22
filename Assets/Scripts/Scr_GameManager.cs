@@ -14,7 +14,7 @@ public class Scr_GameManager : MonoBehaviour
     public static Scr_GameManager GMinstance;
     private Camera _Camera;
 
-    private Scr_Notifications notifications;
+    public Scr_Notifications notifications;
 
     public GameObject phoneOpen;
     public GameObject phoneClosed;
@@ -285,6 +285,10 @@ public class Scr_GameManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.S))
         {
             SpawnStarFish(exoticFishPrefabs[0]);
+        }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            AddMoneyAmount(500);
         }
     }
 

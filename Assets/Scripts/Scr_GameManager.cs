@@ -12,6 +12,7 @@ using UnityEngine.SceneManagement;
 public class Scr_GameManager : MonoBehaviour
 {
     public static Scr_GameManager GMinstance;
+    public Scr_PlayerSkills skills;
     private Camera _Camera;
 
     public Scr_Notifications notifications;
@@ -175,8 +176,6 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject backButton;
 
-    public float customerAttractionRate = 1f;
-
     private bool canFish = true;
     private int canFishCounter = 0;
 
@@ -220,7 +219,7 @@ public class Scr_GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
+        skills = GetComponent<Scr_PlayerSkills>();
 
         GetComponent<Scr_TimeHandler>().PauseTime();
 
@@ -333,59 +332,6 @@ public class Scr_GameManager : MonoBehaviour
             }
         }
 
-    }
-
-    public void RecalculateCustomerAttractionRate()
-    {
-        if (foodFishDictionary == null || foodFishDictionary.Count == 0)
-        {
-            customerAttractionRate = 1f;
-            return;
-        }
-
-        HashSet<string> speciesSet = new HashSet<string>();
-        Dictionary<string, int> speciesMaxStars = new Dictionary<string, int>();
-
-        foreach (GameObject fishObj in foodFishDictionary.Keys)
-        {
-            if (fishObj == null) continue;
-
-            Scr_Fish fish = fishObj.GetComponent<Scr_Fish>();
-            if (fish == null) continue;
-
-            string speciesTag = fishObj.tag;
-            speciesSet.Add(speciesTag);
-
-            int totalStars = fish.priceModifier
-                            + fish.appeal
-                            + fish.hungerCapacity
-                            + fish.freakuency
-                            + fish.poopInterval; // max 25
-
-            if (!speciesMaxStars.TryGetValue(speciesTag, out int currentMax) || totalStars > currentMax)
-            {
-                speciesMaxStars[speciesTag] = totalStars;
-            }
-        }
-
-        // ---------------------------------------------------------
-        // NEW scaling: 1.0 to 2.0
-        // ---------------------------------------------------------
-        float rate = 1f;  // base attraction
-
-        // +0.05 for each species
-        rate += speciesSet.Count * 0.05f;
-
-        // + up to another 0.05 per species based on star level
-        foreach (var kvp in speciesMaxStars)
-        {
-            int maxStars = kvp.Value; // 0–25
-            float fraction = Mathf.Clamp01(maxStars / 25f);
-            rate += 0.05f * fraction;
-        }
-
-        // cap at 2.0 (200%)
-        customerAttractionRate = Mathf.Min(rate, 2f);
     }
 
     public bool DropStructure(GameObject structurePrefab, Vector3 worldPos, bool placingOnRight)
@@ -804,8 +750,7 @@ public class Scr_GameManager : MonoBehaviour
         Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
         newFishScript.thisPrefab = _fishToSpawn;
 
-        newFishScript.ChangeGameSettings();
-        newFishScript.GenerateRandomStats();
+        //newFishScript.ChangeGameSettings();
 
         if (!newFishScript.grown)
         {
@@ -852,9 +797,7 @@ public class Scr_GameManager : MonoBehaviour
         Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
         newFishScript.thisPrefab = _fishToSpawn;
 
-        newFishScript.ChangeGameSettings();
-        newFishScript.GenerateRandomStats();
-
+        //newFishScript.ChangeGameSettings();
 
         if (!newFishScript.grown)
         {
@@ -922,8 +865,7 @@ public class Scr_GameManager : MonoBehaviour
 
         Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
         newFishScript.thisPrefab = _fishToSpawn;
-        newFishScript.ChangeGameSettings();
-        newFishScript.GenerateRandomStats();
+        //newFishScript.ChangeGameSettings();
 
         if (!newFishScript.grown)
         {
@@ -988,6 +930,12 @@ public class Scr_GameManager : MonoBehaviour
             hueForBabyFish += sign * radiationHueShift;
         }
         newFishScript.GetComponent<Scr_FishHue>().SetHue(hueForBabyFish);
+
+        if (newFishScript.GetComponent<Scr_FishHue>().GetHue() != 1)
+        {
+            newFishScript.mutated = true;
+            newFishScript.UpdateSkills();
+        }
 
 
         AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(newFish, _fishToSpawn);
@@ -1178,19 +1126,32 @@ public class Scr_GameManager : MonoBehaviour
             baggedFishButtonToUse = baggedFish_Button1;
             baggedFishSocketToUse = baggedFish_Socket1;
         }
-        else if (baggedFish_Socket2.transform.childCount == 0)
+        else if (skills.currentFishkeepingSkills[0]) //streamlined: unlocks 3 fish bags
         {
-            baggedFishButtonToUse = baggedFish_Button2;
-            baggedFishSocketToUse = baggedFish_Socket2;
-        }
-        else if (baggedFish_Socket3.transform.childCount == 0)
-        {
-            baggedFishButtonToUse = baggedFish_Button3;
-            baggedFishSocketToUse = baggedFish_Socket3;
+            if (baggedFish_Socket2.transform.childCount == 0)
+            {
+                baggedFishButtonToUse = baggedFish_Button2;
+                baggedFishSocketToUse = baggedFish_Socket2;
+            }
+            else if (baggedFish_Socket3.transform.childCount == 0)
+            {
+                baggedFishButtonToUse = baggedFish_Button3;
+                baggedFishSocketToUse = baggedFish_Socket3;
+            }
+            else
+            {
+                Debug.Log("All fish bags were taken up!");
+                notifications.Show("Your fish bags are full.");
+                PlaySoundEffect(SFX_Error, 0.3f);
+                // Perhaps disable the button to bag more fish in this case
+                return;
+            }
         }
         else
         {
             Debug.Log("All fish bags were taken up!");
+            notifications.Show("Your fish bags are full.");
+            PlaySoundEffect(SFX_Error, 0.3f);
             // Perhaps disable the button to bag more fish in this case
             return;
         }
@@ -1256,19 +1217,32 @@ public class Scr_GameManager : MonoBehaviour
             baggedFishButtonToUse = baggedFish_Button1;
             baggedFishSocketToUse = baggedFish_Socket1;
         }
-        else if (baggedFish_Socket2.transform.childCount == 0)
+        else if (skills.currentFishkeepingSkills[0]) //streamlined: unlocks 3 fish bags
         {
-            baggedFishButtonToUse = baggedFish_Button2;
-            baggedFishSocketToUse = baggedFish_Socket2;
-        }
-        else if (baggedFish_Socket3.transform.childCount == 0)
-        {
-            baggedFishButtonToUse = baggedFish_Button3;
-            baggedFishSocketToUse = baggedFish_Socket3;
+            if (baggedFish_Socket2.transform.childCount == 0)
+            {
+                baggedFishButtonToUse = baggedFish_Button2;
+                baggedFishSocketToUse = baggedFish_Socket2;
+            }
+            else if (baggedFish_Socket3.transform.childCount == 0)
+            {
+                baggedFishButtonToUse = baggedFish_Button3;
+                baggedFishSocketToUse = baggedFish_Socket3;
+            }
+            else
+            {
+                Debug.Log("All fish bags were taken up!");
+                notifications.Show("All fish bags are taken up.");
+                PlaySoundEffect(SFX_Error, 0.3f);
+                // Perhaps disable the button to bag more fish in this case
+                return;
+            }
         }
         else
         {
             Debug.Log("All fish bags were taken up!");
+            notifications.Show("All fish bags are taken up.");
+            PlaySoundEffect(SFX_Error, 0.3f);
             // Perhaps disable the button to bag more fish in this case
             return;
         }
@@ -1329,168 +1303,6 @@ public class Scr_GameManager : MonoBehaviour
         // Figure out how to make the bagged fish render in front of the other tank fish and go back to normal upon dropping into tank
     }
 
-
-    public void BagToiletFish(GameObject _fishToBag)
-    {
-        GameObject baggedFishButtonToUse;
-        GameObject baggedFishSocketToUse;
-        // Check to see if there is at least 1 of 3 bags available
-        if (baggedFish_Socket1.transform.childCount == 0)
-        {
-            baggedFishButtonToUse = baggedFish_Button1;
-            baggedFishSocketToUse = baggedFish_Socket1;
-        }
-        else if (baggedFish_Socket2.transform.childCount == 0)
-        {
-            baggedFishButtonToUse = baggedFish_Button2;
-            baggedFishSocketToUse = baggedFish_Socket2;
-        }
-        else if (baggedFish_Socket3.transform.childCount == 0)
-        {
-            baggedFishButtonToUse = baggedFish_Button3;
-            baggedFishSocketToUse = baggedFish_Socket3;
-        }
-        else
-        {
-            Debug.Log("All fish bags were taken up!");
-            // Perhaps disable the button to bag more fish in this case
-            Destroy(_fishToBag);
-            return;
-        }
-
-        ShowHideFishBags();
-
-        Debug.Log(_fishToBag.name + " was bagged");
-        PlaySoundEffect(SFX_BagFish, 1);
-        PlaySoundEffect(SFX_Bag, 1);
-        Scr_Fish fishScript = _fishToBag.GetComponent<Scr_Fish>();
-        Scr_FishAnimation fishAnimScript = _fishToBag.GetComponent<Scr_FishAnimation>();
-        fishScript.enabled = true;
-
-
-        baggedFishButtonToUse.SetActive(true);
-        _fishToBag.transform.SetParent(baggedFishSocketToUse.transform);
-
-
-        fishScript.SetTarget(_fishToBag.transform.position);
-        fishAnimScript.SetState(Scr_FishAnimation.FishState.Idle);
-        _fishToBag.GetComponentInChildren<Animator>(true).speed = 1;
-
-        fishScript.CancelInvoke();
-
-        _fishToBag.transform.localEulerAngles = Vector3.zero;
-        var s = _fishToBag.transform.localScale;
-        _fishToBag.transform.localScale = new Vector3(Mathf.Abs(s.x), Mathf.Abs(s.y), Mathf.Abs(s.z));
-
-        //fishScript.originalScale = _fishToBag.transform.localScale;
-
-        SetSortingGroupToLayer(_fishToBag, "UI2");
-
-        fishScript.grown = true;
-
-        fishScript.ChangeGameSettings();
-        fishScript.GenerateRandomStats();
-
-        fishScript.enabled = false;
-        _fishToBag.GetComponent<CircleCollider2D>().enabled = false;
-
-
-        float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
-
-        float baggedFishButtonWidth = (baggedFishButtonToUse.GetComponent<RectTransform>().rect.width / Camera.main.pixelWidth) * screenWidthWorld;
-        _fishToBag.transform.localScale /= 2;
-
-        // Move the fish to the position where the fishbag button appears to be in the world
-        Vector3 baggedFishButtonPosition = baggedFishButtonToUse.transform.position;
-        _fishToBag.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y, _fishToBag.transform.position.z);
-
-        // Figure out how to make the bagged fish render in front of the other tank fish and go back to normal upon dropping into tank
-    }
-
-    public bool BagFishyGuyFish(GameObject _fishToBag)
-    {
-        GameObject baggedFishButtonToUse;
-        GameObject baggedFishSocketToUse;
-        // Check to see if there is at least 1 of 3 bags available
-        if (baggedFish_Socket1.transform.childCount == 0)
-        {
-            baggedFishButtonToUse = baggedFish_Button1;
-            baggedFishSocketToUse = baggedFish_Socket1;
-        }
-        else if (baggedFish_Socket2.transform.childCount == 0)
-        {
-            baggedFishButtonToUse = baggedFish_Button2;
-            baggedFishSocketToUse = baggedFish_Socket2;
-        }
-        else if (baggedFish_Socket3.transform.childCount == 0)
-        {
-            baggedFishButtonToUse = baggedFish_Button3;
-            baggedFishSocketToUse = baggedFish_Socket3;
-        }
-        else
-        {
-            Debug.Log("All fish bags were taken up!");
-            // Perhaps disable the button to bag more fish in this case
-            return false;
-        }
-
-        ShowHideFishBags();
-
-        Debug.Log(_fishToBag.name + " was bagged");
-
-        if (_fishToBag.CompareTag("Starfish"))
-        {
-            return BagFishyGuyStarfish(_fishToBag);
-
-        }
-
-        Scr_Fish fishScript = _fishToBag.GetComponent<Scr_Fish>();
-        Scr_FishAnimation fishAnimScript = _fishToBag.GetComponent<Scr_FishAnimation>();
-        fishAnimScript.frontAnimator.Rebind();
-        fishAnimScript.frontAnimator.Update(0f);
-
-        fishScript.enabled = true;
-
-
-        baggedFishButtonToUse.SetActive(true);
-        _fishToBag.transform.SetParent(baggedFishSocketToUse.transform);
-
-
-        fishScript.SetTarget(_fishToBag.transform.position);
-        fishAnimScript.SetState(Scr_FishAnimation.FishState.Idle);
-        fishScript.CancelInvoke();
-
-        _fishToBag.transform.localEulerAngles = Vector3.zero;
-        var s = _fishToBag.transform.localScale;
-        _fishToBag.transform.localScale = new Vector3(Mathf.Abs(s.x), Mathf.Abs(s.y), Mathf.Abs(s.z));
-
-        fishScript.originalScale = _fishToBag.transform.localScale;
-
-        SetSortingGroupToLayer(_fishToBag, "UI2");
-
-
-        fishScript.grown = true;
-
-        fishScript.GenerateRandomStats();
-
-
-        fishScript.enabled = false;
-        _fishToBag.GetComponent<CircleCollider2D>().enabled = false;
-
-
-        float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
-
-        float baggedFishButtonWidth = (baggedFishButtonToUse.GetComponent<RectTransform>().rect.width / Camera.main.pixelWidth) * screenWidthWorld;
-        _fishToBag.transform.localScale /= 2;
-
-        // Move the fish to the position where the fishbag button appears to be in the world
-        Vector3 baggedFishButtonPosition = baggedFishButtonToUse.transform.position;
-        _fishToBag.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y, _fishToBag.transform.position.z);
-
-        // Figure out how to make the bagged fish render in front of the other tank fish and go back to normal upon dropping into tank
-        return true;
-    }
-
     public bool BagFishyGuyStarfish(GameObject _fishToBag)
     {
         GameObject baggedFishButtonToUse;
@@ -1501,19 +1313,32 @@ public class Scr_GameManager : MonoBehaviour
             baggedFishButtonToUse = baggedFish_Button1;
             baggedFishSocketToUse = baggedFish_Socket1;
         }
-        else if (baggedFish_Socket2.transform.childCount == 0)
+        else if (skills.currentFishkeepingSkills[0]) //streamlined: unlocks 3 fish bags
         {
-            baggedFishButtonToUse = baggedFish_Button2;
-            baggedFishSocketToUse = baggedFish_Socket2;
-        }
-        else if (baggedFish_Socket3.transform.childCount == 0)
-        {
-            baggedFishButtonToUse = baggedFish_Button3;
-            baggedFishSocketToUse = baggedFish_Socket3;
+            if (baggedFish_Socket2.transform.childCount == 0)
+            {
+                baggedFishButtonToUse = baggedFish_Button2;
+                baggedFishSocketToUse = baggedFish_Socket2;
+            }
+            else if (baggedFish_Socket3.transform.childCount == 0)
+            {
+                baggedFishButtonToUse = baggedFish_Button3;
+                baggedFishSocketToUse = baggedFish_Socket3;
+            }
+            else
+            {
+                Debug.Log("All fish bags were taken up!");
+                notifications.Show("All fish bags are taken up.");
+                PlaySoundEffect(SFX_Error, 0.3f);
+                // Perhaps disable the button to bag more fish in this case
+                return false;
+            }
         }
         else
         {
             Debug.Log("All fish bags were taken up!");
+            notifications.Show("All fish bags are taken up.");
+            PlaySoundEffect(SFX_Error, 0.3f);
             // Perhaps disable the button to bag more fish in this case
             return false;
         }
@@ -1569,19 +1394,32 @@ public class Scr_GameManager : MonoBehaviour
             baggedFishButtonToUse = baggedFish_Button1;
             baggedFishSocketToUse = baggedFish_Socket1;
         }
-        else if (baggedFish_Socket2.transform.childCount == 0)
+        else if (skills.currentFishkeepingSkills[0]) //streamlined: unlocks 3 fish bags
         {
-            baggedFishButtonToUse = baggedFish_Button2;
-            baggedFishSocketToUse = baggedFish_Socket2;
-        }
-        else if (baggedFish_Socket3.transform.childCount == 0)
-        {
-            baggedFishButtonToUse = baggedFish_Button3;
-            baggedFishSocketToUse = baggedFish_Socket3;
+            if (baggedFish_Socket2.transform.childCount == 0)
+            {
+                baggedFishButtonToUse = baggedFish_Button2;
+                baggedFishSocketToUse = baggedFish_Socket2;
+            }
+            else if (baggedFish_Socket3.transform.childCount == 0)
+            {
+                baggedFishButtonToUse = baggedFish_Button3;
+                baggedFishSocketToUse = baggedFish_Socket3;
+            }
+            else
+            {
+                Debug.Log("All fish bags were taken up!");
+                notifications.Show("All fish bags are taken up.");
+                PlaySoundEffect(SFX_Error, 0.3f);
+                // Perhaps disable the button to bag more fish in this case
+                return false;
+            }
         }
         else
         {
             Debug.Log("All fish bags were taken up!");
+            notifications.Show("All fish bags are taken up.");
+            PlaySoundEffect(SFX_Error, 0.3f);
             // Perhaps disable the button to bag more fish in this case
             return false;
         }
@@ -1611,6 +1449,8 @@ public class Scr_GameManager : MonoBehaviour
 
         fishScript.enabled = true;
 
+        fishScript.wild = true;
+
 
         baggedFishButtonToUse.SetActive(true);
         fish.transform.SetParent(baggedFishSocketToUse.transform);
@@ -1630,9 +1470,6 @@ public class Scr_GameManager : MonoBehaviour
 
 
         fishScript.grown = true;
-
-        fishScript.GenerateRandomStats();
-
 
         fishScript.enabled = false;
         fish.GetComponent<CircleCollider2D>().enabled = false;
@@ -2853,27 +2690,43 @@ public class Scr_GameManager : MonoBehaviour
                         dialogueBoxPhone.NextLine();
 
                     }
-                    else if (GetMoneyAmount() >= fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum)
+                    else
                     {
-                        SetFishFoodAmount(fishFoodToPurchase, GetFishFoodAmount(fishFoodToPurchase) + textNum);
-                        SubtractMoneyAmount(fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum);
+                        int totalPrice;
 
-                        notifications.Show($"{textNum} {((textNum > 1) ? fishFoodToPurchase.name + "s" : fishFoodToPurchase.name)} purchased for {fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum} krona!");
+                        if (textNum > 99 && skills.currentAccountingSkils[1])
+                        {
+                            totalPrice = fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum / 2;
+                        }
+                        else
+                        {
+                            totalPrice = fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum;
+                        }
 
-                        //dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase + 1] = $"You purchased {textNum} {fishFoodToPurchase.name}s for {fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum} Krona. Thanks for shopping with The Hungry Guppy!";
-                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToPurchaseAgain - 1;
-                        dialogueBoxPhone.NextLine();
+                        if (GetMoneyAmount() >= totalPrice)
+                        {
+                            SetFishFoodAmount(fishFoodToPurchase, GetFishFoodAmount(fishFoodToPurchase) + textNum);
+                            SubtractMoneyAmount(totalPrice);
+
+                            notifications.Show($"{textNum} {((textNum > 1) ? fishFoodToPurchase.name + "s" : fishFoodToPurchase.name)} purchased for {totalPrice} krona!");
+
+                            //dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase + 1] = $"You purchased {textNum} {fishFoodToPurchase.name}s for {fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum} Krona. Thanks for shopping with The Hungry Guppy!";
+                            dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToPurchaseAgain - 1;
+                            dialogueBoxPhone.NextLine();
+                        }
+                        else // Not enough money for purchase
+                        {
+                            PlaySoundEffect(SFX_Error, 0.3f);
+                            Debug.Log("Not enough money!");
+
+                            // Make money text flash red
+                            FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
+
+                            notifications.Show("Not enough money to complete transaction.", 2f);
+                        }
+
                     }
-                    else // Not enough money for purchase
-                    {
-                        PlaySoundEffect(SFX_Error, 0.3f);
-                        Debug.Log("Not enough money!");
 
-                        // Make money text flash red
-                        FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
-
-                        notifications.Show("Not enough money to complete transaction.", 2f);
-                    }
                 }
                 else if (CheckIfOnPurchaseAgain())
                 {
@@ -2902,7 +2755,7 @@ public class Scr_GameManager : MonoBehaviour
                 {
                     if (textNum == 1)
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Filters are {structurePrefabs[0].GetComponent<Scr_StructurePlacementRules>().cost} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Filters are {(skills.currentAccountingSkils[0] ? (int) (structurePrefabs[0].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[0].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
 
                         structureToPurchase = structurePrefabs[0];
                         dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
@@ -2911,7 +2764,7 @@ public class Scr_GameManager : MonoBehaviour
                     }
                     if (textNum == 2)
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Feeders are {structurePrefabs[1].GetComponent<Scr_StructurePlacementRules>().cost} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Feeders are {(skills.currentAccountingSkils[0] ? (int)(structurePrefabs[1].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[1].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
 
                         structureToPurchase = structurePrefabs[1];
                         dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
@@ -2921,7 +2774,7 @@ public class Scr_GameManager : MonoBehaviour
 
                     else if (textNum == 3)
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Sale Signs are {structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Sale Signs are {(skills.currentAccountingSkils[0] ? (int)(structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
 
                         structureToPurchase = structurePrefabs[2];
                         dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
@@ -2938,27 +2791,43 @@ public class Scr_GameManager : MonoBehaviour
                         dialogueBoxPhone.NextLine();
 
                     }
-                    else if (GetMoneyAmount() >= structureToPurchase.GetComponent<Scr_StructurePlacementRules>().cost * textNum)
+                    else
                     {
-                        SetStructureAmount(structureToPurchase, GetStructureAmount(structureToPurchase) + textNum);
-                        SubtractMoneyAmount(structureToPurchase.GetComponent<Scr_StructurePlacementRules>().cost * textNum);
+                        int totalPrice;
 
-                        notifications.Show($"{textNum} {((textNum > 1) ? structureToPurchase.name + "s" : structureToPurchase.name)} purchased for {structureToPurchase.GetComponent<Scr_StructurePlacementRules>().cost * textNum} krona!");
+                        if (skills.currentAccountingSkils[0])
+                        {
+                            totalPrice = (int) (structureToPurchase.GetComponent<Scr_StructurePlacementRules>().cost * textNum * 0.8);
+                        }
+                        else
+                        {
+                            totalPrice = fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum;
+                        }
 
-                        //dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase + 1] = $"You purchased {textNum} {fishFoodToPurchase.name}s for {fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum} Krona. Thanks for shopping with The Hungry Guppy!";
-                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToPurchaseAgain - 1;
-                        dialogueBoxPhone.NextLine();
+                        if (GetMoneyAmount() >= totalPrice)
+                        {
+                            SetStructureAmount(structureToPurchase, GetStructureAmount(structureToPurchase) + textNum);
+                            SubtractMoneyAmount(totalPrice);
+
+                            notifications.Show($"{textNum} {((textNum > 1) ? structureToPurchase.name + "s" : structureToPurchase.name)} purchased for {totalPrice} krona!");
+
+                            //dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase + 1] = $"You purchased {textNum} {fishFoodToPurchase.name}s for {fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum} Krona. Thanks for shopping with The Hungry Guppy!";
+                            dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToPurchaseAgain - 1;
+                            dialogueBoxPhone.NextLine();
+                        }
+                        else // Not enough money for purchase
+                        {
+                            PlaySoundEffect(SFX_Error, 0.3f);
+                            Debug.Log("Not enough money!");
+
+                            // Make money text flash red
+                            FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
+
+                            notifications.Show("Not enough money to complete transaction.", 2f);
+                        }
+
                     }
-                    else // Not enough money for purchase
-                    {
-                        PlaySoundEffect(SFX_Error, 0.3f);
-                        Debug.Log("Not enough money!");
 
-                        // Make money text flash red
-                        FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
-
-                        notifications.Show("Not enough money to complete transaction.", 2f);
-                    }
                 }
                 else if (CheckIfOnPurchaseAgain())
                 {
@@ -3292,7 +3161,7 @@ public class Scr_GameManager : MonoBehaviour
         int rent = ActiveSettings.rentAmount;
         rentText.text = rent.ToString();
 
-        int incomeTax = moneyAmount * ActiveSettings.taxPercentage / 100;
+        int incomeTax = (skills.currentAccountingSkils[4]) ? 0 : moneyAmount * ActiveSettings.taxPercentage / 100;
         incomeTaxText.text = incomeTax.ToString();
 
         int numExoticFish = 0;
@@ -3330,7 +3199,7 @@ public class Scr_GameManager : MonoBehaviour
             }
         }
 
-        int exoticFishTax = ActiveSettings.exoticFishTaxAmount * numExoticFish;
+        int exoticFishTax = (skills.currentAccountingSkils[3]) ? 0 : ActiveSettings.exoticFishTaxAmount * numExoticFish;
         exoticFishTaxText.text = exoticFishTax.ToString();
 
         totalBills = rent + incomeTax + exoticFishTax;
@@ -3460,7 +3329,7 @@ public class Scr_GameManager : MonoBehaviour
             // Make cursor icon, selected food button, and food amount text flash red
             FlashColor(fishingPole, Color.red, 0.5f, 0.1f);
 
-            notifications.Show("Fishing is on cooldown.", 2f);
+            notifications.Show("No nibbles yet.", 2f);
         }
         else
         {
@@ -3471,10 +3340,21 @@ public class Scr_GameManager : MonoBehaviour
 
     public bool CheckIfFullFishBags()
     {
-        if (baggedFish_Button1.activeSelf && baggedFish_Button2.activeSelf && baggedFish_Button3.activeSelf)
+        if (skills.currentFishkeepingSkills[0])
         {
-            return true;
+            if (baggedFish_Button1.activeSelf && baggedFish_Button2.activeSelf && baggedFish_Button3.activeSelf)
+            {
+                return true;
+            }
         }
+        else
+        {
+            if (baggedFish_Button1.activeSelf)
+            {
+                return true;
+            }
+        }
+
 
         return false;
     }

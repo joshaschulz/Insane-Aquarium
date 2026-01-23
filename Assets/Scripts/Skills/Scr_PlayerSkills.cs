@@ -10,6 +10,7 @@ public class Scr_PlayerSkills : MonoBehaviour
 
 
     public GameObject skillsObj;
+    public GameObject buySkillsButton;
 
     public GameObject skillInfoPanel;
     public TextMeshPro skillNameText;
@@ -43,11 +44,31 @@ public class Scr_PlayerSkills : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             skillsObj.SetActive(true);
+            buySkillsButton.SetActive(true);
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             skillsObj.SetActive(false);
+            buySkillsButton.SetActive(false);
         }
+    }
+    public void BuyAllSkills()
+    {
+        foreach (KeyValuePair<GameObject, bool[]> kvp in skillMap)
+        {
+            GameObject parent = kvp.Key;
+
+            for (int i = 0; i < parent.transform.childCount; i++)
+            {
+                Transform child = parent.transform.GetChild(i);
+                GameObject childObj = child.gameObject;
+
+                kvp.Value[i] = true;
+                childObj.GetComponent<Scr_SkillsHover>().correspondingSkill.SetActive(true);
+            }
+        }
+
+        SendFishUpdate();
     }
 
     public void BuySkill(GameObject legObj)
@@ -69,11 +90,16 @@ public class Scr_PlayerSkills : MonoBehaviour
                         gameManager.SubtractMoneyAmount(skillCosts[i]);
 
                         legObj.GetComponent<Scr_SkillsHover>().correspondingSkill.SetActive(true);
+
+                        SendFishUpdate();
+
                         return;
                     }
                 }
             }
         }
+
+
     }
 
     private bool CheckCanBuySkill(bool[] skills, int index)
@@ -128,5 +154,33 @@ public class Scr_PlayerSkills : MonoBehaviour
         { researchSkilsLeg, currentResearchSkils },
         { accountingSkilsLeg, currentAccountingSkils }
         };
+    }
+
+    private void SendFishUpdate()
+    {
+        //UPDATE EXISTING FISH'S SKILLS
+        //ALL FISH IN SCENE
+        foreach (var kvp in gameManager.foodFishDictionary)
+        {
+            if (kvp.Key.GetComponent<Scr_Fish>() != null)
+                kvp.Key.GetComponent<Scr_Fish>().UpdateSkills();
+            else if (kvp.Key.GetComponent<Scr_ExoticFish>() != null)
+                kvp.Key.GetComponent<Scr_ExoticFish>().UpdateSkills();
+        }
+
+        //ALL FISH IN BAGS
+        foreach (GameObject socket in gameManager.baggedFishSockets)
+        {
+            if (socket.transform.childCount == 0)
+                continue;
+
+            GameObject baggedFishObj = socket.transform.GetChild(0).gameObject;
+
+            if (baggedFishObj.GetComponent<Scr_Fish>())
+                baggedFishObj.GetComponent<Scr_Fish>().UpdateSkills();
+            else if (baggedFishObj.GetComponent<Scr_ExoticFish>())
+                baggedFishObj.GetComponent<Scr_ExoticFish>().UpdateSkills();
+
+        }
     }
 }

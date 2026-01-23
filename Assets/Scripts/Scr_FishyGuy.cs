@@ -239,31 +239,41 @@ public class Scr_FishyGuy : MonoBehaviour
         {
             Scr_Starfish fishToBuyScr = fishToBuy.GetComponent<Scr_Starfish>();
 
-            if (gameManager.moneyAmount > fishToBuyScr.baseFishCost && !gameManager.CheckIfFullFishBags())
+            if (gameManager.moneyAmount > fishToBuyScr.baseFishCost)
             {
-                GameObject fish = gameManager.SpawnTempStarfish(fishToBuy, gameManager.fishWaitingArea);
-                if (gameManager.BagFishyGuyStarfish(fish))
+                if (!gameManager.CheckIfFullFishBags())
                 {
-                    gameManager.SubtractMoneyAmount(fishToBuyScr.baseFishCost);
-
-                    notifications.Show($"{fish.tag} was purchased for {fishToBuyScr.baseFishCost} krona!");
-
-                    gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.4f, 1f, 1f);
-                    gameManager.PlaySoundEffect(gameManager.SFX_MoneyCounter, 0.4f, 1f, 1f);
-
-                    // NEW FISHPEDIA CODE
-                    // Enabling fishpedia buttons upon buying an exotic fish
-                    int buttonIndex = 0;
-                    foreach (Button button in fishpedia.buttons)
+                    GameObject fish = gameManager.SpawnTempStarfish(fishToBuy, gameManager.fishWaitingArea);
+                    if (gameManager.BagFishyGuyStarfish(fish))
                     {
-                        if (fishToBuy.name.Contains(button.name))
+                        gameManager.SubtractMoneyAmount(fishToBuyScr.baseFishCost);
+
+                        notifications.Show($"{fish.tag} was purchased for {fishToBuyScr.baseFishCost} krona!");
+
+                        gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.4f, 1f, 1f);
+                        gameManager.PlaySoundEffect(gameManager.SFX_MoneyCounter, 0.4f, 1f, 1f);
+
+                        // NEW FISHPEDIA CODE
+                        // Enabling fishpedia buttons upon buying an exotic fish
+                        int buttonIndex = 0;
+                        foreach (Button button in fishpedia.buttons)
                         {
-                            Debug.Log("FOUND THE " + button.name + " BUTTON");
-                            fishpedia.EnableEntryButton(buttonIndex);
+                            if (fishToBuy.name.Contains(button.name))
+                            {
+                                Debug.Log("FOUND THE " + button.name + " BUTTON");
+                                fishpedia.EnableEntryButton(buttonIndex);
+                            }
+                            buttonIndex++;
                         }
-                        buttonIndex++;
+                        FishyGuyGoAway();
                     }
-                    FishyGuyGoAway();
+                    else
+                    {
+                        notifications.Show("Bag fish slots are full.", 2f);
+
+                        UnableToCompleteTransaction();
+                        return;
+                    }
                 }
                 else
                 {
@@ -272,6 +282,7 @@ public class Scr_FishyGuy : MonoBehaviour
                     UnableToCompleteTransaction();
                     return;
                 }
+
             }
             else
             {

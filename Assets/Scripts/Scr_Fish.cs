@@ -15,6 +15,11 @@ public class Scr_Fish : MonoBehaviour
 
     private Scr_GameManager gameManager;
     private Scr_Stress stressScr;
+    private int maxCapacityOriginal;
+
+
+    public bool wild;
+    public bool mutated;
 
     public float hungerCount = 0;
     public bool isHungry = false;
@@ -80,14 +85,6 @@ public class Scr_Fish : MonoBehaviour
     public int numberCaught;
 
     public int generation = 1;
-    public int totalMutations = 0;
-
-    //fish stats (0-5)
-    public int priceModifier;
-    public int appeal;
-    public int hungerCapacity;
-    public int freakuency;
-    public int poopInterval;
 
     public string name;
     string[] prefixes = {
@@ -122,6 +119,14 @@ public class Scr_Fish : MonoBehaviour
     "Cricket", "Echo", "Flora", "Zeppelin", "Nova"
 };
 
+    private void Awake()
+    {
+        gameManager = Scr_GameManager.GMinstance;
+        stressScr = GetComponent<Scr_Stress>();
+        maxCapacityOriginal = stressScr.maxComfortableTankPopulation;
+
+        ChangeGameSettings();
+    }
     private void OnEnable()
     {
         // Optionally, get a reference to the TickHandler (assuming there's only one or it’s a singleton)
@@ -135,6 +140,7 @@ public class Scr_Fish : MonoBehaviour
         {
             Scr_TimeHandler.tickEvent.AddListener(OnTickEvent);
         }
+        UpdateSkills();
     }
 
     private void OnDisable()
@@ -150,9 +156,10 @@ public class Scr_Fish : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
-        gameManager = Scr_GameManager.GMinstance;
-        stressScr = GetComponent<Scr_Stress>();
+
+
         //ChangeGameSettings();
+        name = GenerateRandomName();
 
         originalScale = gameObject.transform.localScale;
         hungrySpeed = baseSpeed * 1.5f;
@@ -174,104 +181,74 @@ public class Scr_Fish : MonoBehaviour
 
     }
 
-    public void GenerateRandomStats()
+    public void UpdateSkills()
     {
-        name = GenerateRandomName();
-        // reset everything to 0
-        priceModifier = 0;
-        appeal = 0;
-        hungerCapacity = 0;
-        freakuency = 0;
-        poopInterval = 0;
+        /*
+        freakuency; gamesettings
+        purebred; gamesettings
+        schoolSpirit;
+        freeRange; gamesettings*/
 
-        // put the 5 points into a random stat each time
-        for (int i = 0; i < 5; i++)
+        Scr_GameSettings settings = Scr_GameManager.ActiveSettings;
+        Scr_PlayerSkills skills = gameManager.skills;
+
+        switch (gameObject.tag)
         {
-            int roll = Random.Range(0, 5); // 0 to 4
+            case "Goldfish":
+                minutesUntilFreaky = (skills.currentFishkeepingSkills[1]) ? (int)(0.75 * settings.minutesUntilFreaky_Goldfish) : settings.minutesUntilFreaky_Goldfish;
+                fishValue = settings.fishValue_Goldfish;
+                break;
 
-            switch (roll)
-            {
-                case 0: priceModifier++; break;
-                case 1: appeal++; break;
-                case 2: hungerCapacity++; break;
-                case 3: freakuency++; break;
-                case 4: poopInterval++; break;
-            }
+            case "Betta Fish":
+                minutesUntilFreaky = (skills.currentFishkeepingSkills[1]) ? (int)(0.75 * settings.minutesUntilFreaky_BettaFish) : settings.minutesUntilFreaky_BettaFish;
+                fishValue = settings.fishValue_BettaFish;
+                break;
+
+            case "Piranha":
+                minutesUntilFreaky = (skills.currentFishkeepingSkills[1]) ? (int)(0.75 * settings.minutesUntilFreaky_Piranha) : settings.minutesUntilFreaky_Piranha;
+                fishValue = settings.fishValue_Piranha;
+                break;
+
+            case "Clownfish":
+                minutesUntilFreaky = (skills.currentFishkeepingSkills[1]) ? (int)(0.75 * settings.minutesUntilFreaky_Clownfish) : settings.minutesUntilFreaky_Clownfish;
+                fishValue = settings.fishValue_Clownfish;
+                break;
+
+            case "Blue Tang":
+                minutesUntilFreaky = (skills.currentFishkeepingSkills[1]) ? (int)(0.75 * settings.minutesUntilFreaky_BlueTang) : settings.minutesUntilFreaky_BlueTang;
+                fishValue = settings.fishValue_BlueTang;
+                break;
+
+            case "Tetra":
+                minutesUntilFreaky = (skills.currentFishkeepingSkills[1]) ? (int)(0.75 * settings.minutesUntilFreaky_Tetra) : settings.minutesUntilFreaky_Tetra;
+                fishValue = settings.fishValue_Tetra;
+                break;
+
+            default:
+                Debug.LogWarning("Unknown tag on fish! Game settings set to default stats of goldfish (find me in Scr_Fish.ChangeGameSettings())");
+                minutesUntilFreaky = (skills.currentFishkeepingSkills[1]) ? (int)(0.75 * settings.minutesUntilFreaky_Goldfish) : settings.minutesUntilFreaky_Goldfish;
+                fishValue = settings.fishValue_Goldfish;
+                break;
         }
 
-        ApplyStatEffects();
-    }
+        if (skills.currentFishkeepingSkills[2] && !wild) //purebred
+            fishValue *= 2;
 
-    public void GenerateStatsFromParents(Scr_Fish parent1, Scr_Fish parent2)
-    {
-        name = GenerateRandomName();
-        //name = GenerateRandomName();
-        priceModifier = Random.Range(0, 2) == 0 ? parent1.priceModifier : parent2.priceModifier;
-        appeal = Random.Range(0, 2) == 0 ? parent1.appeal : parent2.appeal;
-        hungerCapacity = Random.Range(0, 2) == 0 ? parent1.hungerCapacity : parent2.hungerCapacity;
-        freakuency = Random.Range(0, 2) == 0 ? parent1.freakuency : parent2.freakuency;
-        poopInterval = Random.Range(0, 2) == 0 ? parent1.poopInterval : parent2.poopInterval;
 
-        // Determine mutation chance
-        float mutationChance = 0f;
+        if (wild && skills.currentFishingSkils[3]) //free range
+            fishValue *= 5;
 
-        if (parent1.radiated) mutationChance += 0.5f;
-        if (parent2.radiated) mutationChance += 0.5f;
 
-        // Clamp so 2 radiated parents = 100% chance
-        mutationChance = Mathf.Min(mutationChance, 1f);
+        if (mutated)
+            fishValue = (int)(1.5 * fishValue);
 
-        // Roll mutation
-        if (Random.value < mutationChance)
+        if (skills.currentFishkeepingSkills[4])
         {
-            ApplyMutation();
-            totalMutations = Mathf.Max(parent1.totalMutations, parent2.totalMutations) + 1;
+            stressScr.maxComfortableTankPopulation = (int)(maxCapacityOriginal * 1.5);
         }
 
-        generation = Mathf.Max(parent1.generation, parent2.generation) + 1;
-
-        ApplyStatEffects();
     }
 
-    public void ApplyStatEffects()
-    {
-        float priceMultiplier = 1f + (priceModifier * 0.20f);
-        fishValue = Mathf.RoundToInt(fishValue * priceMultiplier);
-
-        float hungerMultiplier = 1f + (hungerCapacity * 0.20f);
-        minutesUntilHungry = Mathf.RoundToInt(minutesUntilHungry * hungerMultiplier);
-
-        float poopMultiplier = 1f + (poopInterval * 0.20f);
-        minutesUntilPoop = Mathf.RoundToInt(minutesUntilPoop * poopMultiplier);
-
-        float freakMultiplier = 1f - (freakuency * 0.10f);
-        minutesUntilFreaky = Mathf.RoundToInt(minutesUntilFreaky * freakMultiplier);
-    }
-
-    public void ApplyMutation()
-    {
-        int[] stats = { priceModifier, appeal, hungerCapacity, freakuency, poopInterval };
-        int roll = Random.Range(0, 5);
-
-        if (stats[roll] < 5)
-        {
-            stats[roll]++;
-        }
-
-        // write back the mutated value
-        priceModifier = stats[0];
-        appeal = stats[1];
-        hungerCapacity = stats[2];
-        freakuency = stats[3];
-        poopInterval = stats[4];
-    }
-
-    public string GenerateRandomName()
-    {
-        string prefix = prefixes[Random.Range(0, prefixes.Length)];
-        string nameOption = nameOptions[Random.Range(0, nameOptions.Length)];
-        return prefix + " " + nameOption;
-    }
     public void ChangeGameSettings()
     {
         Scr_GameSettings settings = Scr_GameManager.ActiveSettings;
@@ -348,7 +325,7 @@ public class Scr_Fish : MonoBehaviour
                 Debug.LogWarning("Unknown tag on fish! Game settings set to default stats of goldfish (find me in Scr_Fish.ChangeGameSettings())");
                 minutesUntilGrown = settings.minutesUntilGrown_Goldfish;
                 minutesUntilHungry = settings.minutesUntilHungry_Goldfish;
-                minutesUntilHungry = settings.minutesUntilFreaky_Goldfish;
+                minutesUntilFreaky = settings.minutesUntilFreaky_Goldfish;
                 minutesUntilPoop = settings.minutesUntilPoop_Goldfish;
                 minutesUntilDead = settings.minutesUntilDead_Goldfish;
                 baseSpeed = settings.baseSpeed_Goldfish;
@@ -359,6 +336,12 @@ public class Scr_Fish : MonoBehaviour
 
     }
 
+    public string GenerateRandomName()
+    {
+        string prefix = prefixes[Random.Range(0, prefixes.Length)];
+        string nameOption = nameOptions[Random.Range(0, nameOptions.Length)];
+        return prefix + " " + nameOption;
+    }
     public void OnTickEvent()
     {
         //Debug.Log($"{gameObject.name} received a tick event!");
@@ -444,43 +427,57 @@ public class Scr_Fish : MonoBehaviour
                 return;
             else
             {
-                if (!collisionObj.CompareTag(gameObject.tag))
-                    return;
-                else
+                if (!radiated || gameManager.skills.currentResearchSkils[3]) //radiated fish can't breed, they can if have Designer Guppies skill
                 {
-                    if (!collisionObj.GetComponent<Scr_Fish>().isFreaky)
+                    if (!collisionObj.CompareTag(gameObject.tag))
                         return;
                     else
                     {
-                        Scr_Fish collisionObjScr = collisionObj.GetComponent<Scr_Fish>();
-
-                        if (isFreaky && collisionObjScr.isFreaky)
-                        {
-
-                            freakCount = 0;
-                            isFreaky = false;
-                            collisionObjScr.isFreaky = false;
-                            collisionObjScr.freakCount = 0;
-
-                            heartIcon.SetActive(false);
-                            collisionObjScr.heartIcon.SetActive(false);
-
-                            gameManager.FreakyFishReset(gameObject);
-                            IdleOrMove();
-                            collisionObjScr.IdleOrMove();
-
-                            if (gameObject.GetInstanceID() < collisionObj.GetInstanceID()) //only the smaller ordered fish in the scene runs this
-                            {
-                                GameObject babyFish = gameManager.SpawnBabyFish(thisPrefab, gameObject);
-                                Scr_Fish babyFishScr = babyFish.GetComponent<Scr_Fish>();
-                                babyFishScr.ChangeGameSettings();
-                                babyFishScr.GenerateStatsFromParents(this, collisionObjScr);
-                            }
+                        if (!collisionObj.GetComponent<Scr_Fish>().isFreaky)
                             return;
+                        else
+                        {
+                            Scr_Fish collisionObjScr = collisionObj.GetComponent<Scr_Fish>();
+
+                            if (isFreaky && collisionObjScr.isFreaky)
+                            {
+
+                                freakCount = 0;
+                                isFreaky = false;
+                                collisionObjScr.isFreaky = false;
+                                collisionObjScr.freakCount = 0;
+
+                                heartIcon.SetActive(false);
+                                collisionObjScr.heartIcon.SetActive(false);
+
+                                gameManager.FreakyFishReset(gameObject);
+                                IdleOrMove();
+                                collisionObjScr.IdleOrMove();
+
+                                if (gameObject.GetInstanceID() < collisionObj.GetInstanceID()) //only the smaller ordered fish in the scene runs this
+                                {
+                                    gameManager.SpawnBabyFish(thisPrefab, gameObject);
+
+                                    if (gameManager.skills.currentResearchSkils[4] && radiated)
+                                    {
+                                        if (Random.Range(0, 4) == 0)
+                                        {
+                                            gameManager.SpawnBabyFish(thisPrefab, gameObject);
+
+                                            if (Random.Range(0, 4) == 0)
+                                            {
+                                                gameManager.SpawnBabyFish(thisPrefab, gameObject);
+
+                                            }
+                                        }
+                                    }
+
+                                }
+                                return;
+                            }
                         }
                     }
                 }
-
             }
         }
         else
@@ -553,6 +550,7 @@ public class Scr_Fish : MonoBehaviour
                     if (collisionObj.GetComponent<Scr_Fish>().radiated && !radiated)
                     {
                         radiated = true;
+
                         gameManager.SpawnParticles(radiationOutlineEffectPrefab, transform.position, transform.rotation, transform);
                         gameManager.SpawnParticles(radiationEffectPrefab, transform.position, transform.rotation, transform);
                     }

@@ -15,4 +15,9 @@ public class Scr_ExoticFish : MonoBehaviour
     {
         
     }
+
+    public void UpdateSkills()
+    {
+
+    }
 }

@@ -107,7 +107,6 @@ public class Scr_Fishing : MonoBehaviour
         RodFollowCursorX();
         CheckToFlipRod();
         PullFishLaterally();
-        CheckForFishHeight();
 
 
 
@@ -138,73 +137,6 @@ public class Scr_Fishing : MonoBehaviour
         lateralPullStrength = settings.toiletFishLateralPullStrength;
     }
 
-    private void CheckForFishHeight()
-    {
-        if (!toiletFish)
-            return;
-
-        EdgeCollider2D fishEdgeCollider = toiletFish.GetComponent<EdgeCollider2D>();
-        float mouthToFinLength = Vector2.Distance(fishEdgeCollider.points[0], fishEdgeCollider.points[1]);
-        if (lineConnector.pointB.position.y >= toiletWinLine.position.y + mouthToFinLength * toiletFish.transform.localScale.x)
-        {
-            //Debug.Log("FISH CAUGHT");
-            FishCaught();
-        }
-
-        if (lineConnector.pointB.position.y <= fishEscapeHeight)
-        {
-            FishEscapeNoSound();
-        }
-    }
-
-    private void FishCaught()
-    {
-        caughtToiletFish = toiletFish;
-
-        // Enabling fishpedia buttons upon catching a fish
-        foreach (var prefab in gameManager.fishPrefabs)
-        {
-            if (prefab.CompareTag(caughtToiletFish.tag))
-            {
-                prefab.GetComponent<Scr_Fish>().numberCaught++;
-                int buttonIndex = 0;
-                foreach (Button button in fishpedia.buttons)
-                {
-                    if (caughtToiletFish.name.Contains(button.name))
-                    {
-                        fishpedia.EnableEntryButton(buttonIndex);
-                        //fishpedia.SetImages(buttonIndex, prefab.GetComponent<Scr_FishAnimation>().sideSprite, prefab.GetComponent<Scr_FishAnimation>().frontSprite);
-                        //fishpedia.SetName(buttonIndex, prefab.name);
-                        //fishpedia.SetDescription(buttonIndex, prefab.GetComponent<Scr_Fish>().fishDescription);
-                        //fishpedia.SetStat(buttonIndex, 0, prefab.GetComponent<Scr_Fish>().baseFishCost);
-                        //fishpedia.SetStat(buttonIndex, 2, prefab.GetComponent<Scr_Fish>().minutesUntilHungry);
-                        //fishpedia.SetStat(buttonIndex, 4, prefab.GetComponent<Scr_ToiletFish>().difficultyMultiplier);
-                        //fishpedia.SetStat(buttonIndex, 5, prefab.GetComponent<Scr_Fish>().numberCaught);
-                    }
-                    buttonIndex++;
-                }
-            }
-        }
-
-
-        toiletFish.GetComponent<Scr_ToiletFish>().enabled = false;
-        if (isReeling)
-        {
-            isReeling = false;
-            ReelingAudioSource.Stop();
-        }
-        toiletFish.transform.localScale = originalFishScale;
-        gameManager.BagToiletFish(toiletFish);
-
-        //Scr_SpawnToiletFish.toiletFishExist = false;
-        toiletFish = null;
-
-        Invoke("GoToBathroom", 1f);
-
-        Invoke("DestroyPipes", 1f);
-
-        //FishDestroy();
-    }
     public void FishEscape()
     {
         //Debug.Log("Fish has escaped");

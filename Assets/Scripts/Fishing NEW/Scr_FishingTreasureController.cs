@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class Scr_FishingMinigameChestController : MonoBehaviour
 {
+    private Scr_GameManager gameManager;
+
     [Header("hover grace")]
     [Tooltip("covers the brief gap when colliders flicker")]
     public float hoverGraceSeconds = 0.12f;
@@ -80,10 +82,12 @@ public class Scr_FishingMinigameChestController : MonoBehaviour
     private bool chestHovering = false;
 
     private bool chestRolledThisRun = false;
+    public GameObject lastChest;
 
 
     private void Awake()
     {
+        gameManager = FindObjectOfType<Scr_GameManager>();
         cam = Camera.main;
 
         fishController = GetComponent<Scr_FishingMinigameFishController>();
@@ -185,7 +189,10 @@ public class Scr_FishingMinigameChestController : MonoBehaviour
 
         float x = Random.Range(minX, maxX);
 
-        GameObject prefab = treasureChestPrefabs[Random.Range(0, treasureChestPrefabs.Length)];
+        GameObject prefab = (gameManager.skills.currentFishingSkils[2]) ? treasureChestPrefabs[1] : treasureChestPrefabs[0];
+
+        lastChest = prefab;
+
         activeChest = Instantiate(prefab, new Vector3(x, spawnY, 0f), Quaternion.identity);
 
         if (chestProgressRoot != null)
@@ -283,6 +290,8 @@ public class Scr_FishingMinigameChestController : MonoBehaviour
                     minCursorFollowSpeed,
                     fishingLine.cursorFollowSpeed - cursorLagIncreasePerChest
                 );
+
+                hookedCrateImage.GetComponent<SpriteRenderer>().sprite = treasureChestPrefabs[lastChest.name.Contains("Golden") ? 1 : 0].GetComponentInChildren<SpriteRenderer>().sprite;
 
                 hookedCrateImage.SetActive(true);
             }

@@ -168,8 +168,14 @@ public class Scr_Customer : MonoBehaviour
         //spawn customer
         if (!customerExists && !Scr_FishyGuy.fishyGuyExists)
         {
+            int spawnChanceToUse = ticksToSpawnChance;
+            if (gameManager.skills.currentCustomerServiceSkils[2])
+            {
+                spawnChanceToUse = ticksToSpawnChance / 2;
+            }
 
-            if (Random.Range(0, ticksToSpawnChance) == 0)
+
+            if (Random.Range(0, spawnChanceToUse) == 0)
             {
                 customerExists = true;
                 PickCustomer();

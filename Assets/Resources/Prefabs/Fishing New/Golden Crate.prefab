@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8855668893513168084}
   - component: {fileID: -4190105880246751932}
   m_Layer: 0
-  m_Name: Treasure Chest
+  m_Name: Golden Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -199,7 +199,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f4892e915cae0d24ab3e8daae4ad69bb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7a2b376f87d1633429eab33efb10f429, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

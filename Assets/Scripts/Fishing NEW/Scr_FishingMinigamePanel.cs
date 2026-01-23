@@ -104,17 +104,17 @@ public class Scr_FishingMinigamePanel : MonoBehaviour
         // spawn win chest if any were collected
         if (chestController != null && chestController.chestCount > 0)
         {
-            GameObject prefab = chestController.treasureChestPrefabs[
-                Random.Range(0, chestController.treasureChestPrefabs.Length)
-            ];
-
             winChest = Instantiate(
-                prefab,
+                chestController.lastChest,
                 new Vector3(winChestLocation.position.x, winChestLocation.position.y, 0f),
                 Quaternion.identity
             );
 
-            SetTreasureQuantity(Random.Range(50, 101));
+            if (chestController.lastChest.name.Contains("Golden"))
+                SetTreasureQuantity(Random.Range(200, 301));
+            else
+                SetTreasureQuantity(Random.Range(50, 101));
+
             treasureQuantityText.GetComponent<TextMeshProUGUI>().text = "x" + treasureQuantity.ToString();
             gameManager.AddMoneyAmount(treasureQuantity);
 

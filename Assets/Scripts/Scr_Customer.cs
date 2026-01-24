@@ -169,7 +169,7 @@ public class Scr_Customer : MonoBehaviour
         if (!customerExists && !Scr_FishyGuy.fishyGuyExists)
         {
             int spawnChanceToUse = ticksToSpawnChance;
-            if (gameManager.skills.currentCustomerServiceSkils[2])
+            if (gameManager.skills.currentCustomerServiceSkills[2])
             {
                 spawnChanceToUse = ticksToSpawnChance / 2;
             }
@@ -201,7 +201,7 @@ public class Scr_Customer : MonoBehaviour
 
     private void TryAutoPurchaseFromForSaleTank()
     {
-        if (!gameManager.skills.currentCustomerServiceSkils[4]) //if no oscar, don't auto purchase
+        if (!gameManager.skills.currentCustomerServiceSkills[4]) //if no oscar, don't auto purchase
             return;
 
         if (forSaleTanks == null || forSaleTanks.Length == 0)
@@ -280,7 +280,7 @@ public class Scr_Customer : MonoBehaviour
 
         if (sold)
         {
-            if (gameManager.skills.currentCustomerServiceSkils[1]) //customer tip skill
+            if (gameManager.skills.currentCustomerServiceSkills[1]) //customer tip skill
                 money = (int)(money * 1.1);
 
             gameManager.AddMoneyAmount(money);
@@ -472,7 +472,6 @@ public class Scr_Customer : MonoBehaviour
 
     public void SellFish()
     {
-
         int requiredQuantity = Mathf.Max(1, customerFishQuantity); // always at least 1
 
         // collect all bagged fish that match the requested species
@@ -504,16 +503,21 @@ public class Scr_Customer : MonoBehaviour
         // sell exactly requiredQuantity fish
         int totalMoney = 0;
 
+        bool hasLegendary = CheckIfLegendaryFishPresent();
+
         foreach (Scr_Fish fish in fishToSell)
         {
-            totalMoney += fish.fishValue;
+            if (hasLegendary)
+                totalMoney += (int)(fish.fishValue * 1.2); //legendary fish boosts sell price of all fish of same species by 20%
+            else
+                totalMoney += fish.fishValue;
 
             Transform t = fish.transform;
             t.SetParent(null);
             Destroy(t.gameObject);
         }
 
-        if (gameManager.skills.currentCustomerServiceSkils[1]) //customer tip skill
+        if (gameManager.skills.currentCustomerServiceSkills[1]) //customer tip skill
             totalMoney = (int) (totalMoney * 1.1);
 
         gameManager.AddMoneyAmount(totalMoney);
@@ -559,5 +563,23 @@ public class Scr_Customer : MonoBehaviour
         gameManager.FlashColor(clickedButton, Color.red, 0.5f, 0.1f);
 
         notifications.Show("Not enough fish in bags to complete transaction.", 2f);
+    }
+
+    private bool CheckIfLegendaryFishPresent() //return true if there is a legendary fish of the same species in a tank
+    {
+        foreach (var obj in gameManager.foodFishDictionary)
+        {
+            if (obj.Key.GetComponent<Scr_Fish>() != null)
+            {
+                if (obj.Key.CompareTag(customerFishPrefab.tag))
+                {
+                    if (obj.Key.GetComponent<Scr_Fish>().legendary)
+                        return true;
+                }
+
+            }
+        }
+
+        return false;
     }
 }

@@ -189,7 +189,7 @@ public class Scr_FishingMinigameChestController : MonoBehaviour
 
         float x = Random.Range(minX, maxX);
 
-        GameObject prefab = (gameManager.skills.currentFishingSkils[2]) ? treasureChestPrefabs[1] : treasureChestPrefabs[0];
+        GameObject prefab = (gameManager.skills.currentFishingSkills[2]) ? treasureChestPrefabs[1] : treasureChestPrefabs[0];
 
         lastChest = prefab;
 

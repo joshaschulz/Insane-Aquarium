@@ -23,10 +23,10 @@ public class Scr_PlayerSkills : MonoBehaviour
     public GameObject accountingSkilsLeg;
 
     public bool[] currentFishkeepingSkills = new bool[5];
-    public bool[] currentFishingSkils = new bool[5];
-    public bool[] currentCustomerServiceSkils = new bool[5];
-    public bool[] currentResearchSkils = new bool[5];
-    public bool[] currentAccountingSkils = new bool[5];
+    public bool[] currentFishingSkills = new bool[5];
+    public bool[] currentCustomerServiceSkills = new bool[5];
+    public bool[] currentResearchSkills = new bool[5];
+    public bool[] currentAccountingSkills = new bool[5];
 
     public int[] skillCosts = new int[5] { 200, 300, 500, 800, 1300 };
 
@@ -149,10 +149,10 @@ public class Scr_PlayerSkills : MonoBehaviour
     {
         skillMap = new Dictionary<GameObject, bool[]> {
         { fishkeepingSkilsLeg, currentFishkeepingSkills },
-        { fishingSkilsLeg, currentFishingSkils },
-        { customerServiceSkilsLeg, currentCustomerServiceSkils },
-        { researchSkilsLeg, currentResearchSkils },
-        { accountingSkilsLeg, currentAccountingSkils }
+        { fishingSkilsLeg, currentFishingSkills },
+        { customerServiceSkilsLeg, currentCustomerServiceSkills },
+        { researchSkilsLeg, currentResearchSkills },
+        { accountingSkilsLeg, currentAccountingSkills }
         };
     }
 

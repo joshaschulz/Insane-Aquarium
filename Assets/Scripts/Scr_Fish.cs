@@ -17,7 +17,10 @@ public class Scr_Fish : MonoBehaviour
     private Scr_Stress stressScr;
     private int maxCapacityOriginal;
 
+    public GameObject sideCrown;
+    public GameObject frontCrown;
 
+    public bool legendary;
     public bool wild;
     public bool mutated;
 
@@ -234,13 +237,21 @@ public class Scr_Fish : MonoBehaviour
         if (skills.currentFishkeepingSkills[2] && !wild) //purebred
             fishValue *= 2;
 
+        Debug.Log("normal: " + fishValue);
 
-        if (wild && skills.currentFishingSkils[3]) //free range
+        if (wild && skills.currentFishingSkills[3]) //free range
             fishValue *= 5;
 
+        Debug.Log("wild: " + fishValue);
 
         if (mutated)
             fishValue = (int)(1.5 * fishValue);
+
+        if (legendary)
+            fishValue *= 5;
+
+        Debug.Log("legendary: " + fishValue);
+
 
         if (skills.currentFishkeepingSkills[4])
         {
@@ -427,7 +438,7 @@ public class Scr_Fish : MonoBehaviour
                 return;
             else
             {
-                if (!radiated || gameManager.skills.currentResearchSkils[3]) //radiated fish can't breed, they can if have Designer Guppies skill
+                if (!radiated || gameManager.skills.currentResearchSkills[3]) //radiated fish can't breed, they can if have Designer Guppies skill
                 {
                     if (!collisionObj.CompareTag(gameObject.tag))
                         return;
@@ -458,7 +469,7 @@ public class Scr_Fish : MonoBehaviour
                                 {
                                     gameManager.SpawnBabyFish(thisPrefab, gameObject);
 
-                                    if (gameManager.skills.currentResearchSkils[4] && radiated)
+                                    if (gameManager.skills.currentResearchSkills[4] && radiated)
                                     {
                                         if (Random.Range(0, 4) == 0)
                                         {

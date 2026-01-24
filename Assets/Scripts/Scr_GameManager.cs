@@ -160,6 +160,7 @@ public class Scr_GameManager : MonoBehaviour
 
     public GameObject[] fishPrefabs;
     public GameObject[] exoticFishPrefabs;
+    public GameObject[] legendaryFishPrefabs;
     public Sprite[] fishSprites;
     public Sprite[] sideFishSprites;
     public Sprite[] exoticFishSprites;
@@ -234,6 +235,8 @@ public class Scr_GameManager : MonoBehaviour
 
         fishPrefabs = Resources.LoadAll<GameObject>("Prefabs/Fish/Normal Fish");
         exoticFishPrefabs = Resources.LoadAll<GameObject>("Prefabs/Fish/Exotic Fish");
+        legendaryFishPrefabs = Resources.LoadAll<GameObject>("Prefabs/Fish/Legendary Fish");
+
 
 
 
@@ -1384,7 +1387,7 @@ public class Scr_GameManager : MonoBehaviour
         return true;
     }
 
-    public bool BagFishingFish(GameObject _fishToBag)
+    public bool BagFishingFish(GameObject _fishToBag, bool legendary)
     {
         GameObject baggedFishButtonToUse;
         GameObject baggedFishSocketToUse;
@@ -1439,6 +1442,8 @@ public class Scr_GameManager : MonoBehaviour
                 caughtFish = fishPrefab;
         }
 
+
+
         GameObject fish = SpawnTempFish(caughtFish, fishWaitingArea);
 
 
@@ -1448,6 +1453,9 @@ public class Scr_GameManager : MonoBehaviour
         fishAnimScript.frontAnimator.Update(0f);
 
         fishScript.enabled = true;
+
+        if (legendary)
+            fishScript.legendary = true;
 
         fishScript.wild = true;
 
@@ -1462,7 +1470,23 @@ public class Scr_GameManager : MonoBehaviour
 
         fish.transform.localEulerAngles = Vector3.zero;
         var s = fish.transform.localScale;
+
         fish.transform.localScale = new Vector3(Mathf.Abs(s.x), Mathf.Abs(s.y), Mathf.Abs(s.z));
+
+        if (legendary)
+        {
+            var sideScale = fish.transform.GetChild(0).transform.localScale;
+            var frontScale = fish.transform.GetChild(1).transform.localScale;
+
+            sideScale = new Vector3(Mathf.Abs(sideScale.x * 1.4f), Mathf.Abs(sideScale.y * 1.4f), Mathf.Abs(sideScale.z));
+            frontScale = new Vector3(Mathf.Abs(frontScale.x * 1.4f), Mathf.Abs(frontScale.y * 1.4f), Mathf.Abs(frontScale.z));
+
+            fish.transform.GetChild(0).transform.localScale = sideScale;
+            fish.transform.GetChild(1).transform.localScale = frontScale;
+
+            fishScript.sideCrown.SetActive(true);
+            fishScript.frontCrown.SetActive(true);
+        }
 
         fishScript.originalScale = _fishToBag.transform.localScale;
 
@@ -2669,17 +2693,18 @@ public class Scr_GameManager : MonoBehaviour
                         dialogueBoxPhone.NextLine();
 
                     }
-                    else if (textNum == 3)
+                    else if (skills.currentResearchSkills[1]) //have unlocked radiation drops
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Radiation Drops are {fishFood_3_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
+                        if (textNum == 3)
+                        {
+                            dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Radiation Drops are {fishFood_3_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
 
-                        fishFoodToPurchase = fishFood_3_Prefab;
-                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
-                        dialogueBoxPhone.NextLine();
+                            fishFoodToPurchase = fishFood_3_Prefab;
+                            dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
+                            dialogueBoxPhone.NextLine();
 
+                        }
                     }
-
-
                 }
                 else if (CheckIfOnFinalPurchaseDialogue())
                 {
@@ -2694,7 +2719,7 @@ public class Scr_GameManager : MonoBehaviour
                     {
                         int totalPrice;
 
-                        if (textNum > 99 && skills.currentAccountingSkils[1])
+                        if (textNum > 99 && skills.currentAccountingSkills[1])
                         {
                             totalPrice = fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum / 2;
                         }
@@ -2750,21 +2775,61 @@ public class Scr_GameManager : MonoBehaviour
             }
             else if (currentlyCalling == "The Aquarium Emporium")
             {
+                /*
+             if (skills.currentCustomerServiceSkills[0]) //have for sale
+            {
+                if (skills.currentResearchSkills[2]) //and adv feeder
+                {
+                    dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Filters, 2 for Feeders, 3 for Sale Signs, or 4 for Advanced Feeders and press enter.";
+                }
+                else if (skills.currentResearchSkills[0]) //and feeder filter
+                {
+                    dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Filters, 2 for Feeders, or 3 for Sale Signs and press enter.";
+                }
+                else //and none
+                {
+                    dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Sale Signs and press enter.";
+                }
+            }
+            else //
+            {
+                if (skills.currentResearchSkills[2])
+                {
+                    dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Filters, 2 for Feeders, or 3 for Advanced Feeders and press enter.";
+                }
+                else if (skills.currentResearchSkills[0])
+                {
+                    dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Filters, or 2 for Feeders and press enter.";
+                }
+                else
+                {
+                    dialogueBoxPhone.lines[contact.indexToEnd] = "Sorry, we're all out of stock for now. Come back another time!";
+                }
+            }
+                */
 
                 if (CheckIfOnSelectionDialogue1())
                 {
-                    if (textNum == 1)
+                    if (textNum == 1 && skills.currentResearchSkills[0])
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Filters are {(skills.currentAccountingSkils[0] ? (int) (structurePrefabs[0].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[0].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Filters are {(skills.currentAccountingSkills[0] ? (int) (structurePrefabs[0].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[0].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
 
                         structureToPurchase = structurePrefabs[0];
                         dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
                         dialogueBoxPhone.NextLine();
-
                     }
-                    if (textNum == 2)
+                    else if (textNum == 1 && skills.currentCustomerServiceSkills[0])
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Feeders are {(skills.currentAccountingSkils[0] ? (int)(structurePrefabs[1].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[1].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Sale Signs are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
+
+                        structureToPurchase = structurePrefabs[2];
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBoxPhone.NextLine();
+                    }
+
+                    if (textNum == 2 && skills.currentResearchSkills[0])
+                    {
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Feeders are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[1].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[1].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
 
                         structureToPurchase = structurePrefabs[1];
                         dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
@@ -2772,14 +2837,31 @@ public class Scr_GameManager : MonoBehaviour
 
                     }
 
-                    else if (textNum == 3)
+                    if (textNum == 3 && skills.currentCustomerServiceSkills[0] && skills.currentResearchSkills[0])
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Sale Signs are {(skills.currentAccountingSkils[0] ? (int)(structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Sale Signs are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
 
                         structureToPurchase = structurePrefabs[2];
                         dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
                         dialogueBoxPhone.NextLine();
 
+                    }
+                    else if (textNum == 3 && !skills.currentCustomerServiceSkills[0] && skills.currentResearchSkills[2])
+                    {
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Advanced Feeders are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[3].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[3].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
+
+                        structureToPurchase = structurePrefabs[3];
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBoxPhone.NextLine();
+                    }
+
+                    if (textNum == 4 && skills.currentResearchSkills[2] && skills.currentCustomerServiceSkills[0])
+                    {
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Advanced Feeders are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[3].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[3].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
+
+                        structureToPurchase = structurePrefabs[3];
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBoxPhone.NextLine();
                     }
                 }
                 else if (CheckIfOnFinalPurchaseDialogue())
@@ -2795,13 +2877,13 @@ public class Scr_GameManager : MonoBehaviour
                     {
                         int totalPrice;
 
-                        if (skills.currentAccountingSkils[0])
+                        if (skills.currentAccountingSkills[0])
                         {
                             totalPrice = (int) (structureToPurchase.GetComponent<Scr_StructurePlacementRules>().cost * textNum * 0.8);
                         }
                         else
                         {
-                            totalPrice = fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum;
+                            totalPrice = structureToPurchase.GetComponent<Scr_StructurePlacementRules>().cost * textNum;
                         }
 
                         if (GetMoneyAmount() >= totalPrice)
@@ -3009,6 +3091,49 @@ public class Scr_GameManager : MonoBehaviour
         //dialogueBoxPhone.lines = contact.dialogueLines;
         dialogueBoxPhone.currentContact = contact;
 
+        //change dialogue based on skills
+        if (contact.contactName == "The Hungry Guppy")
+        {
+            if (!skills.currentResearchSkills[1])
+            {
+                dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Pellets, or 2 for Flakes and press enter.";
+            }
+        }
+        if (contact.contactName == "The Aquarium Emporium")
+        {
+            if (skills.currentCustomerServiceSkills[0]) //have for sale
+            {
+                if (skills.currentResearchSkills[2]) //and adv feeder
+                {
+                    dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Filters, 2 for Feeders, 3 for Sale Signs, or 4 for Advanced Feeders and press enter.";
+                }
+                else if (skills.currentResearchSkills[0]) //and feeder filter
+                {
+                    dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Filters, 2 for Feeders, or 3 for Sale Signs and press enter.";
+                }
+                else //and none
+                {
+                    dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Sale Signs and press enter.";
+                }
+            }
+            else //
+            {
+                if (skills.currentResearchSkills[2])
+                {
+                    dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Filters, 2 for Feeders, or 3 for Advanced Feeders and press enter.";
+                }
+                else if (skills.currentResearchSkills[0])
+                {
+                    dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Filters, or 2 for Feeders and press enter.";
+                }
+                else
+                {
+                    dialogueBoxPhone.skipToEnd = true;
+                    dialogueBoxPhone.lines[contact.indexToEnd] = "Sorry, we're all out of stock for now. Come back another time!";
+                }
+            }
+        }
+
         // Open dialogue box (with your animation)
         if (new Vector2(_Camera.transform.position.x, _Camera.transform.position.y) == new Vector2(stallNumbers.transform.position.x, stallNumbers.transform.position.y))
         {
@@ -3161,7 +3286,7 @@ public class Scr_GameManager : MonoBehaviour
         int rent = ActiveSettings.rentAmount;
         rentText.text = rent.ToString();
 
-        int incomeTax = (skills.currentAccountingSkils[4]) ? 0 : moneyAmount * ActiveSettings.taxPercentage / 100;
+        int incomeTax = (skills.currentAccountingSkills[4]) ? 0 : moneyAmount * ActiveSettings.taxPercentage / 100;
         incomeTaxText.text = incomeTax.ToString();
 
         int numExoticFish = 0;
@@ -3199,7 +3324,7 @@ public class Scr_GameManager : MonoBehaviour
             }
         }
 
-        int exoticFishTax = (skills.currentAccountingSkils[3]) ? 0 : ActiveSettings.exoticFishTaxAmount * numExoticFish;
+        int exoticFishTax = (skills.currentAccountingSkills[3]) ? 0 : ActiveSettings.exoticFishTaxAmount * numExoticFish;
         exoticFishTaxText.text = exoticFishTax.ToString();
 
         totalBills = rent + incomeTax + exoticFishTax;

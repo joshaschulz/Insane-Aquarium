@@ -79,7 +79,7 @@ public class Scr_FishMinigameMovement : MonoBehaviour
         float speedFactor = Random.Range(0.5f, 1.5f);
         baseSpeedFactored = baseSpeed * speedFactor;
 
-        fishAnimation.sideAnimator.speed = baseSpeedFactored;
+        //fishAnimation.sideAnimator.speed = baseSpeedFactored;
 
         //first time spawned
 

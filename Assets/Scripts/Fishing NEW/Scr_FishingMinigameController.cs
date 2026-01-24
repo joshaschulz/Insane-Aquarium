@@ -13,6 +13,11 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
     [Tooltip("set this to your MinigameFish layer (both front + side colliders)")]
     public LayerMask fishLayerMask;
 
+    public float legendaryFishChance;
+    private bool isLegendary;
+
+    public GameObject[] legendaryFishPrefabs;
+
     [Header("fish spawning")]
     [Tooltip("add multiple fish prefabs here. one will be instantiated for this minigame.")]
     public GameObject[] fishPrefabs;
@@ -217,6 +222,23 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
 
         float r = Random.value * total;
 
+        if (gameManager.skills.currentFishingSkills[4] && Random.value < legendaryFishChance / 100f) //has legendary fish skill and rolled a legendary fish
+        {
+            isLegendary = true;
+
+            float cumulativeLegendary = 0f;
+            for (int i = 0; i < fishSpawnWeights.Length; i++)
+            {
+                cumulativeLegendary += Mathf.Max(0f, fishSpawnWeights[i]);
+                if (r <= cumulativeLegendary)
+                    return legendaryFishPrefabs[i];
+            }
+
+            return legendaryFishPrefabs[legendaryFishPrefabs.Length - 1];
+        }
+
+        isLegendary = false;
+
         float cumulative = 0f;
         for (int i = 0; i < fishSpawnWeights.Length; i++)
         {
@@ -391,7 +413,7 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
 
     public void BagFish()
     {
-        gameManager.BagFishingFish(spawnedFishInstance);
+        gameManager.BagFishingFish(spawnedFishInstance, isLegendary);
         ResetFishingMinigame();
         DespawnFishingMinigame();
     }

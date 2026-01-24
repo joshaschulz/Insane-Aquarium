@@ -24,6 +24,8 @@ public class Scr_Dialogue : MonoBehaviour
 
     private Coroutine typeLine;
 
+    public bool skipToEnd;
+
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +43,7 @@ public class Scr_Dialogue : MonoBehaviour
 
     private void OnDisable()
     {
+        skipToEnd = false;
         if (gameObject == dialogueBoxPhone)
             gameManager.currentlyCalling = "";
     }
@@ -141,6 +144,11 @@ public class Scr_Dialogue : MonoBehaviour
     {
         if (textComponent.text == lines[index])
         {
+            if (skipToEnd && index != currentContact.indexToEnd)
+            {
+                index = currentContact.indexToEnd - 1;
+            }
+
             NextLine();
         }
         else

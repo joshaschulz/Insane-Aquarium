@@ -17,6 +17,8 @@ public class Scr_Customer : MonoBehaviour
 
     private Camera _Camera;
 
+    public GameObject oscar;
+
     public GameObject customerImagesParent;
     private GameObject[] customerImages;
 
@@ -503,26 +505,26 @@ public class Scr_Customer : MonoBehaviour
         // sell exactly requiredQuantity fish
         int totalMoney = 0;
 
-        bool hasLegendary = CheckIfLegendaryFishPresent();
-
         foreach (Scr_Fish fish in fishToSell)
         {
-            if (hasLegendary)
-                totalMoney += (int)(fish.fishValue * 1.2); //legendary fish boosts sell price of all fish of same species by 20%
-            else
-                totalMoney += fish.fishValue;
+
+            totalMoney += fish.fishValue;
 
             Transform t = fish.transform;
             t.SetParent(null);
             Destroy(t.gameObject);
         }
 
+        bool tipped = false;
         if (gameManager.skills.currentCustomerServiceSkills[1]) //customer tip skill
-            totalMoney = (int) (totalMoney * 1.1);
+        {
+            totalMoney = (int)(totalMoney * 1.1);
+            tipped = true;
+        }
 
         gameManager.AddMoneyAmount(totalMoney);
 
-        notifications.Show($"{fishToSell.Count} {fishToSell[0].tag} was sold for {totalMoney} krona!");
+        notifications.Show($"{(tipped ? "Customer tipped 10%! " : "")}{fishToSell.Count} {fishToSell[0].tag} was sold for {totalMoney} krona!");
 
         gameManager.ShowHideFishBags();
 

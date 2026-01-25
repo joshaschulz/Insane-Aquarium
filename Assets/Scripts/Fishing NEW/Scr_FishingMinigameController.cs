@@ -175,6 +175,9 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
         GameObject prefab = PickWeightedFishPrefab();
         spawnedFishInstance = Instantiate(prefab, spawnPos, Quaternion.identity);
 
+        if (isLegendary)
+            spawnedFishInstance.transform.localScale = new Vector3(spawnedFishInstance.transform.localScale.x * 1.3f, spawnedFishInstance.transform.localScale.y * 1.3f, spawnedFishInstance.transform.localScale.z);
+
         cachedFishMovement = spawnedFishInstance.GetComponentInChildren<Scr_FishMinigameMovement>();
         if (cachedFishMovement != null && minigameBoundsCollider != null)
         {

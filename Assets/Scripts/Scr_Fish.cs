@@ -9,7 +9,7 @@ public class Scr_Fish : MonoBehaviour
 
     public Scr_FishAnimation fishAnimation;
 
-    [HideInInspector]
+    //[HideInInspector]
     public GameObject thisPrefab;
     public string fishDescription;
 
@@ -58,6 +58,7 @@ public class Scr_Fish : MonoBehaviour
 
     public int baseFishCost; //amount to buy from fishy guy
     public int fishValue; //amount the fish sells for
+    public int originalfishValue;
     public Vector3 originalScale;
 
     //public sizeWhenBagged;
@@ -126,9 +127,12 @@ public class Scr_Fish : MonoBehaviour
     {
         gameManager = Scr_GameManager.GMinstance;
         stressScr = GetComponent<Scr_Stress>();
+
         maxCapacityOriginal = stressScr.maxComfortableTankPopulation;
 
         ChangeGameSettings();
+
+        originalfishValue = fishValue;
     }
     private void OnEnable()
     {
@@ -143,6 +147,18 @@ public class Scr_Fish : MonoBehaviour
         {
             Scr_TimeHandler.tickEvent.AddListener(OnTickEvent);
         }
+
+        Debug.Log(legendary);
+        Debug.Log(thisPrefab);
+
+        if (legendary)
+        {
+            gameManager.legendaryCountBySpecies[gameObject.tag] += 1;
+            UpdateLegendaryAura();
+        }
+
+        Debug.Log(gameManager.legendaryCountBySpecies[gameObject.tag]);
+
         UpdateSkills();
     }
 
@@ -152,6 +168,12 @@ public class Scr_Fish : MonoBehaviour
         if (Scr_TimeHandler != null)
         {
             Scr_TimeHandler.tickEvent.RemoveListener(OnTickEvent);
+        }
+
+        if (legendary)
+        {
+            gameManager.legendaryCountBySpecies[gameObject.tag] -= 1;
+            UpdateLegendaryAura();
         }
     }
 
@@ -253,11 +275,29 @@ public class Scr_Fish : MonoBehaviour
         Debug.Log("legendary: " + fishValue);
 
 
+        if (!legendary && gameManager.legendaryCountBySpecies[gameObject.tag] > 0) //boost price if legendary fish exists
+            fishValue = (int)(fishValue * (1f + 0.2f * gameManager.legendaryCountBySpecies[gameObject.tag]));
+
+        Debug.Log("legendary aura: " + fishValue);
+
+
         if (skills.currentFishkeepingSkills[4])
         {
             stressScr.maxComfortableTankPopulation = (int)(maxCapacityOriginal * 1.5);
         }
 
+    }
+
+    public void UpdateLegendaryAura()
+    {
+        foreach (var kvp in gameManager.foodFishDictionary)
+        {
+            if (kvp.Key.GetComponent<Scr_Fish>() != null)
+            {
+                if (kvp.Key.CompareTag(gameObject.tag))
+                    kvp.Key.GetComponent<Scr_Fish>().UpdateSkills();
+            }
+        }
     }
 
     public void ChangeGameSettings()
@@ -385,6 +425,8 @@ public class Scr_Fish : MonoBehaviour
     {
         if (gameManager.GetComponent<Scr_TimeHandler>().timePaused)
             return;
+
+
 
         currentSpeed = baseSpeedFactored * gameManager.GetFastForwardSettingFactor();
 

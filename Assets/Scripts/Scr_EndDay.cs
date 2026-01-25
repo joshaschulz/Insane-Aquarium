@@ -1,14 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Scr_EndDay : MonoBehaviour
 {
+    private Scr_GameManager gameManager;
+
     [Header("refs")]
     public CanvasGroup blackScreenCanvasGroup;   // CanvasGroup on BlackScreen image
     public RectTransform endOfDayPaper;          // RectTransform of the paper panel
+    public GameObject skillsStarfish;
 
     public Canvas endOfDayCanvas;
+
+    public TextMeshProUGUI endDayClockText;
+    public TextMeshProUGUI endDayMoneyText;
+
+    public Scr_Dialogue dialogueBox;
+    public Scr_CustomerContact fishyGuyDialogue;
+
+    public RectTransform nextDayButton;
 
     [Header("timing")]
     public float fadeInSeconds = 0.6f;
@@ -18,12 +30,27 @@ public class Scr_EndDay : MonoBehaviour
     [Tooltip("how far below its final position the paper starts (in UI pixels)")]
     public float paperStartOffsetY = 900f;
 
+    private float starfishUnitsUp = 11;
+
     private Vector2 paperOnScreenPos;
     private Vector2 paperOffScreenPos;
+
+    private Vector2 nextDayButtonOnScreenPos;
+    private Vector2 nextDayButtonOffScreenPos;
     private Coroutine routine;
+
+    private Vector3 starfishOriginalPos;
 
     void Awake()
     {
+        gameManager = FindObjectOfType<Scr_GameManager>();
+
+        starfishOriginalPos = skillsStarfish.transform.position;
+
+        endDayClockText.text = string.Format("{0:00}:{1:00}", gameManager.GetComponent<Scr_TimeHandler>().endHour, gameManager.GetComponent<Scr_TimeHandler>().endMinute);
+        gameManager.UpdateText(endDayMoneyText, gameManager.moneyAmount);
+
+
         // cache final position as the 'on screen' target
         if (endOfDayPaper != null)
         {
@@ -31,17 +58,25 @@ public class Scr_EndDay : MonoBehaviour
             paperOffScreenPos = paperOnScreenPos + new Vector2(0f, -paperStartOffsetY);
         }
 
+        if (nextDayButton != null)
+        {
+            nextDayButtonOnScreenPos = nextDayButton.anchoredPosition;
+            nextDayButtonOffScreenPos = nextDayButtonOnScreenPos + new Vector2(400, 0);
+        }
+
         // start hidden (optional safety)
         if (blackScreenCanvasGroup != null) blackScreenCanvasGroup.alpha = 0f;
         if (endOfDayPaper != null) endOfDayPaper.anchoredPosition = paperOffScreenPos;
 
-        endOfDayCanvas.gameObject.SetActive(false); ; // if you want this whole canvas hidden until EndDay
+        endOfDayCanvas.gameObject.SetActive(false);// if you want this whole canvas hidden until EndDay
     }
 
     public void PlayEndDayUI()
     {
         if (routine != null) StopCoroutine(routine);
         routine = StartCoroutine(EndDaySequence());
+        gameManager.UpdateText(endDayMoneyText, gameManager.moneyAmount);
+
     }
 
     public void PlayCloseEndDayUI()
@@ -50,6 +85,52 @@ public class Scr_EndDay : MonoBehaviour
         routine = StartCoroutine(CloseEndDaySequence());
     }
 
+    public void PlayOpenDialogue()
+    {
+        if (routine != null) StopCoroutine(routine);
+        routine = StartCoroutine(OpenDialogueSequence());
+    }
+
+    public void PlayOpenSkills()
+    {
+        if (routine != null) StopCoroutine(routine);
+        routine = StartCoroutine(OpenSkillsSequence());
+    }
+
+    private IEnumerator OpenSkillsSequence()
+    {
+        if (skillsStarfish != null)
+        {
+            skillsStarfish.gameObject.SetActive(true);
+        }
+
+        skillsStarfish.GetComponent<BoxCollider2D>().enabled = false;
+
+        // 2) slide paper up
+        if (skillsStarfish != null)
+            yield return SlideTransform(skillsStarfish.transform, skillsStarfish.transform.position, Vector3.zero, paperSlideSeconds);
+
+        if (nextDayButton != null)
+        {
+            nextDayButton.gameObject.SetActive(true);
+        }
+
+        if (nextDayButton != null)
+            yield return SlideRect(nextDayButton, nextDayButtonOffScreenPos, nextDayButtonOnScreenPos, paperSlideSeconds);
+    }
+
+    private IEnumerator OpenDialogueSequence()
+    {
+        // slide paper back down
+        if (endOfDayPaper != null)
+            yield return SlideRect(endOfDayPaper, paperOnScreenPos, paperOffScreenPos, paperSlideSeconds);
+
+        // Set dialogue lines
+        dialogueBox.lines = (string[])fishyGuyDialogue.dialogueLines.Clone();
+
+        dialogueBox.gameObject.SetActive(true);
+        dialogueBox.StartDialogue();
+    }
 
     private IEnumerator EndDaySequence()
     {
@@ -79,17 +160,28 @@ public class Scr_EndDay : MonoBehaviour
 
     private IEnumerator CloseEndDaySequence()
     {
-        // slide paper back down
-        if (endOfDayPaper != null)
-            yield return SlideRect(endOfDayPaper, paperOnScreenPos, paperOffScreenPos, paperSlideSeconds);
+        skillsStarfish.GetComponent<BoxCollider2D>().enabled = false;
 
+        // slide paper back down
+        if (nextDayButton != null)
+            yield return SlideRect(nextDayButton, nextDayButtonOnScreenPos, nextDayButtonOffScreenPos, paperSlideSeconds);
+
+        nextDayButton.gameObject.SetActive(false);
+
+        if (skillsStarfish != null)
+            yield return SlideTransform(skillsStarfish.transform, skillsStarfish.transform.position, starfishOriginalPos, paperSlideSeconds);
+
+        skillsStarfish.SetActive(false);
         // fade black screen out
+
         if (blackScreenCanvasGroup != null)
             yield return FadeCanvasGroup(blackScreenCanvasGroup, 1f, 0f, fadeInSeconds);
 
         // disable canvas
         if (endOfDayCanvas != null)
             endOfDayCanvas.gameObject.SetActive(false);
+
+        gameManager.FinishBuyingSKills();
     }
 
     private IEnumerator FadeCanvasGroup(CanvasGroup cg, float from, float to, float seconds)
@@ -142,6 +234,32 @@ public class Scr_EndDay : MonoBehaviour
         }
 
         rt.anchoredPosition = to;
+    }
+
+    private IEnumerator SlideTransform(Transform tr, Vector3 from, Vector3 to, float seconds)
+    {
+        tr.position = from;
+
+        if (seconds <= 0f)
+        {
+            tr.position = to;
+            yield break;
+        }
+
+        float t = 0f;
+        while (t < seconds)
+        {
+            t += Time.unscaledDeltaTime;
+            float u = Mathf.Clamp01(t / seconds);
+
+            // smoothstep easing
+            float eased = u * u * (3f - 2f * u);
+            tr.position = Vector3.Lerp(from, to, eased);
+
+            yield return null;
+        }
+
+        tr.position = to;
     }
 
 

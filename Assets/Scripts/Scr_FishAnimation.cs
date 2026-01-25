@@ -12,9 +12,10 @@ public class Scr_FishAnimation : MonoBehaviour
     public Sprite frontSprite;
     public Sprite sideSprite;
 
-
     private GameObject sideContainer;
     private GameObject frontContainer;
+    private GameObject sideContainerChild;
+    private GameObject frontContainerChild;
     public Animator frontAnimator;
     public Animator sideAnimator;
 
@@ -22,6 +23,13 @@ public class Scr_FishAnimation : MonoBehaviour
     public void Awake()
     {
         // These are the gameobjects that hold the front and side images of the fish and their animators. The side one also has the mouth collision circle
+        /*
+        sideContainer = transform.GetChild(0).gameObject;
+        frontContainer = transform.GetChild(1).gameObject;
+        sideContainerChild = transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
+        frontContainerChild = transform.GetChild(1).gameObject.transform.GetChild(0).gameObject;
+        */
+
         sideContainer = transform.GetChild(0).gameObject;
         frontContainer = transform.GetChild(1).gameObject;
 
@@ -31,10 +39,9 @@ public class Scr_FishAnimation : MonoBehaviour
             Debug.Log(gameObject.name + "'s second child's name does not contain 'Front Container'.");
 
 
-        
 
-        frontAnimator = frontContainer.GetComponent<Animator>();
         sideAnimator = sideContainer.GetComponent<Animator>();
+        frontAnimator = frontContainer.GetComponent<Animator>();
 
         if (gameObject.GetComponent<Scr_FishMinigameMovement>() == null && gameObject.GetComponent<Scr_FishIntroMovement>() == null)
             frontAnimator.Play("Fish Spawn");

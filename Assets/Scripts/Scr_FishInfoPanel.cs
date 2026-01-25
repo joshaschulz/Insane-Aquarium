@@ -34,7 +34,7 @@ public class Scr_FishInfoPanel : MonoBehaviour
 
     private float originalRectHeight;
 
-    private Scr_Fish currentFish;
+    public Scr_Fish currentFish;
     //public Scr_Fish CurrentFish => currentFish; // read-only property
 
 

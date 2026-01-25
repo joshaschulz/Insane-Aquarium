@@ -49,6 +49,14 @@ public class Scr_ClickDetection : MonoBehaviour
                 gameManager.dialogueBoxCustomer.AdvanceTextCustomer();
             }
 
+            if (gameManager.dialogueBoxEndDay.isActiveAndEnabled)
+            {
+                if (gameManager.dialogueBoxEndDay.textComponent.text == gameManager.dialogueBoxEndDay.lines[gameManager.dialogueBoxEndDay.index])
+                    gameManager.Scr_EndDay.PlayOpenSkills();
+
+                gameManager.dialogueBoxEndDay.AdvanceText();
+            }
+
             if (results.Count > 0)
             {
                 Debug.Log("Clicked UI element: " + results[0].gameObject.name);

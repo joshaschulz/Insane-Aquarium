@@ -81,6 +81,9 @@ TagManager:
   - name: UI2
     uniqueID: 311041923
     locked: 0
+  - name: Skills Panel
+    uniqueID: 4188173143
+    locked: 0
   - name: Scene Transition
     uniqueID: 1864783893
     locked: 0

@@ -7,6 +7,9 @@ public class Scr_FishHue : MonoBehaviour
     public float defaultHueValue = 1f;
     public float thisFishHue;
 
+    private float legendaryHueSpeed = 0.1f;
+    private float currentHue;
+
     private SpriteRenderer[] spriteRenderers;
     private MaterialPropertyBlock mpb;
 
@@ -17,6 +20,21 @@ public class Scr_FishHue : MonoBehaviour
         mpb = new MaterialPropertyBlock();
 
         thisFishHue = defaultHueValue;
+
+        currentHue = GetComponent<Scr_FishHue>().GetHue();
+
+    }
+
+    private void Update()
+    {
+        /*
+        if (GetComponent<Scr_Fish>().legendary)
+        {
+            currentHue += legendaryHueSpeed * Time.deltaTime;
+            currentHue %= 1f; // wrap 0–1
+
+            SetHue(currentHue);
+        }*/
     }
 
     void Start()

@@ -6,6 +6,7 @@ using UnityEngine;
 public class Scr_PlayerSkills : MonoBehaviour
 {
     private Scr_GameManager gameManager;
+    private Scr_EndDay endDay;
     public Scr_Tooltip tooltip;
 
 
@@ -35,6 +36,7 @@ public class Scr_PlayerSkills : MonoBehaviour
     private void Awake()
     {
         gameManager = GetComponent<Scr_GameManager>();
+        endDay = FindObjectOfType<Scr_EndDay>();
         InitializeSkillMap();
     }
 
@@ -88,6 +90,10 @@ public class Scr_PlayerSkills : MonoBehaviour
                     {
                         kvp.Value[i] = true;
                         gameManager.SubtractMoneyAmount(skillCosts[i]);
+                        gameManager.UpdateText(endDay.endDayMoneyText, gameManager.moneyAmount);
+
+                        gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.4f, 1f, 1f);
+                        gameManager.PlaySoundEffect(gameManager.SFX_MoneyCounter, 0.4f, 1f, 1f);
 
                         legObj.GetComponent<Scr_SkillsHover>().correspondingSkill.SetActive(true);
 

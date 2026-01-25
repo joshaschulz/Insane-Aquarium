@@ -24,6 +24,8 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject fishingPole;
     public Button fishingPoleClickFunctions;
 
+    public Dictionary<string, int> legendaryCountBySpecies = new Dictionary<string, int>();
+    
     //Scriptable Objects game settings
     public static Scr_GameSettings ActiveSettings { get; private set; }
 
@@ -85,6 +87,7 @@ public class Scr_GameManager : MonoBehaviour
     private Coroutine calling;
     public Scr_Dialogue dialogueBoxPhone;
     public Scr_Dialogue dialogueBoxCustomer;
+    public Scr_Dialogue dialogueBoxEndDay;
     private GameObject fishFoodToPurchase;
     private GameObject structureToPurchase;
 
@@ -237,7 +240,10 @@ public class Scr_GameManager : MonoBehaviour
         exoticFishPrefabs = Resources.LoadAll<GameObject>("Prefabs/Fish/Exotic Fish");
         legendaryFishPrefabs = Resources.LoadAll<GameObject>("Prefabs/Fish/Legendary Fish");
 
-
+        foreach (GameObject fishPrefab in fishPrefabs)
+        {
+            legendaryCountBySpecies.Add(fishPrefab.tag, 0);
+        }
 
 
         fishSprites = Resources.LoadAll<Sprite>("Fish/Fish Front");
@@ -276,15 +282,31 @@ public class Scr_GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Keypad1))
         {
             SpawnFish(fishPrefabs[0]);
         }
-        else if (Input.GetKeyDown(KeyCode.P))
+        else if (Input.GetKeyDown(KeyCode.Keypad2))
+        {
+            SpawnFish(fishPrefabs[1]);
+        }
+        else if (Input.GetKeyDown(KeyCode.Keypad3))
+        {
+            SpawnFish(fishPrefabs[2]);
+        }
+        else if (Input.GetKeyDown(KeyCode.Keypad4))
+        {
+            SpawnFish(fishPrefabs[3]);
+        }
+        else if (Input.GetKeyDown(KeyCode.Keypad5))
         {
             SpawnFish(fishPrefabs[4]);
         }
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.Keypad6))
+        {
+            SpawnFish(fishPrefabs[5]);
+        }
+        else if (Input.GetKeyDown(KeyCode.Keypad7))
         {
             SpawnStarFish(exoticFishPrefabs[0]);
         }
@@ -292,6 +314,7 @@ public class Scr_GameManager : MonoBehaviour
         {
             AddMoneyAmount(500);
         }
+
     }
 
     public void ChangeGameSettings()
@@ -551,11 +574,31 @@ public class Scr_GameManager : MonoBehaviour
         }
 
 
+
         if (baggedFishButton != null && baggedFishSocketToUse.transform.childCount != 0)
         {
             if (CheckIfInTank()) //only release fish if in a tank
             {
                 GameObject releasedFish = baggedFishSocketToUse.transform.GetChild(0).gameObject;
+
+                //STRANGE WATERS SKILL - only 1 exotic fish at a time
+                List<GameObject> fishInTank = GetAllFishInTank(GetTankByPosition(_Camera.transform.position));
+
+                if (releasedFish.GetComponent<Scr_ExoticFish>() != null && !skills.currentFishkeepingSkills[4])
+                {
+                    foreach (GameObject fish in fishInTank)
+                    {
+                        if (fish.GetComponent<Scr_ExoticFish>() != null)
+                            if (releasedFish.CompareTag(fish.tag))
+                            {
+                                notifications.Show("Only 1 exotic fish of that species can inhabit this tank.", 2f);
+                                PlaySoundEffect(SFX_Error, 0.3f);
+                                // Perhaps disable the button to bag more fish in this case
+                                return;
+                            }
+
+                    }
+                }
 
                 if (releasedFish.CompareTag("Starfish"))
                 {
@@ -793,8 +836,6 @@ public class Scr_GameManager : MonoBehaviour
         spawnPosition.x = randPosX;
 
         GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
-
-
 
         foodFishDictionary.Add(newFish, _fishToSpawn);
         Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
@@ -1455,7 +1496,10 @@ public class Scr_GameManager : MonoBehaviour
         fishScript.enabled = true;
 
         if (legendary)
+        {
             fishScript.legendary = true;
+            legendaryCountBySpecies[fish.tag] += 1;
+        }
 
         fishScript.wild = true;
 
@@ -1478,8 +1522,8 @@ public class Scr_GameManager : MonoBehaviour
             var sideScale = fish.transform.GetChild(0).transform.localScale;
             var frontScale = fish.transform.GetChild(1).transform.localScale;
 
-            sideScale = new Vector3(Mathf.Abs(sideScale.x * 1.4f), Mathf.Abs(sideScale.y * 1.4f), Mathf.Abs(sideScale.z));
-            frontScale = new Vector3(Mathf.Abs(frontScale.x * 1.4f), Mathf.Abs(frontScale.y * 1.4f), Mathf.Abs(frontScale.z));
+            sideScale = new Vector3(Mathf.Abs(sideScale.x * 1.3f), Mathf.Abs(sideScale.y * 1.3f), Mathf.Abs(sideScale.z));
+            frontScale = new Vector3(Mathf.Abs(frontScale.x * 1.3f), Mathf.Abs(frontScale.y * 1.3f), Mathf.Abs(frontScale.z));
 
             fish.transform.GetChild(0).transform.localScale = sideScale;
             fish.transform.GetChild(1).transform.localScale = frontScale;
@@ -3343,13 +3387,13 @@ public class Scr_GameManager : MonoBehaviour
             MoveToScene(bathroom);
             DisableUnderwaterAudio();
 
-            Scr_EndDay.PlayCloseEndDayUI();
+            UpdateText(Scr_EndDay.endDayMoneyText, moneyAmount);
+            PlaySoundEffect(SFX_CashRegister, 0.4f, 1f, 1f);
+            PlaySoundEffect(SFX_MoneyCounter, 0.4f, 1f, 1f);
 
-            Scr_TimeHandler.ResetTime();
-            GetComponent<Scr_TimeHandler>().UnpauseTime();
+            //Scr_EndDay.PlayCloseEndDayUI();
+            Scr_EndDay.PlayOpenDialogue();
 
-
-            currentDay++;
         }
         else
         {
@@ -3358,6 +3402,15 @@ public class Scr_GameManager : MonoBehaviour
             ResetScene();
 
         }
+    }
+    
+    public void FinishBuyingSKills()
+    {
+        Scr_TimeHandler.ResetTime();
+        GetComponent<Scr_TimeHandler>().UnpauseTime();
+
+
+        currentDay++;
     }
 
 

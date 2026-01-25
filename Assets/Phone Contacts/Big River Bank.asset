@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed06819329252df4eabcad43b6959053, type: 3}
+  m_Name: Big River Bank
+  m_EditorClassIdentifier: 
+  contactName: Big River Bank
+  phoneNumber: 5106327188
+  dialogueLines:
+  - You've reached Big River Bank.
+  - Please enter your password.
+  - Welcome. We offer loans in amounts of 2500, 5000, and 7500 krona. Please enter
+    one of these amounts and press enter.
+  - PURHCASE TEXT
+  - 
+  - 
+  - That password was incorrect.
+  - We appreciate your business here at Big River Bank, have a great day!
+  indexToEnableSelection: 1
+  indexToEnableSelection2: 2
+  indexToEnableSelection3: 999
+  indexToPurchaseAgain: 999
+  indexToEnableFinalPurchase: 3
+  indexToEnd: 7

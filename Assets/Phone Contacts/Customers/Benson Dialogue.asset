@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e75c6d8df4549344b5728c761399965, type: 3}
-  m_Name: Bensen Dialogue
+  m_Name: Benson Dialogue
   m_EditorClassIdentifier: 
-  contactName: Bensen
+  contactName: Benson
   dialogueLines:
-  - Hello. Nice to meet you. My name is Bensen. It smells like a pet store in- oh.
+  - Hello. Nice to meet you. My name is Benson. It smells like a pet store in- oh.
   - "I forgot to feed my son\u2019s fish, and I need a replacement, quickly!"
   - Where did you say you get these fish?
   - "Just give me anything. My boss will have my hide if I\u2019m not back to work
@@ -22,4 +22,5 @@ MonoBehaviour:
   - If you need a sales expert, I might be looking for work soon.
   - "I need a pick me up. I\u2019ve got a 10,000 cell spreadsheet with my name on
     it when I get back to the office."
+  - I fell for a phishing scam yesterday. It's all gone... Know any good banks?
   indexToEnableSelection: 0

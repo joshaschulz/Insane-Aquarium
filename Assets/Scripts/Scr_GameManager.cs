@@ -24,6 +24,9 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject fishingPole;
     public Button fishingPoleClickFunctions;
 
+    private int loanAmount = 0;
+    private int tempLoanAmount = 0;
+
     public Dictionary<string, int> legendaryCountBySpecies = new Dictionary<string, int>();
     
     //Scriptable Objects game settings
@@ -182,6 +185,8 @@ public class Scr_GameManager : MonoBehaviour
 
     private bool canFish = true;
     private int canFishCounter = 0;
+
+    private bool bensenOneTimeDialogue;
 
 
 
@@ -2643,6 +2648,11 @@ public class Scr_GameManager : MonoBehaviour
                 }
             }
 
+            if (contact != null && contact.contactName == "Big River Bank" && !skills.currentAccountingSkills[2])
+            {
+                contact = null;
+            }
+
             Debug.Log($"Entered Number: {phoneNumber.text}");
 
             //if phone calling sound already playing, destroy it before playing again
@@ -2656,8 +2666,6 @@ public class Scr_GameManager : MonoBehaviour
                 }
 
             }
-
-
 
             if (contact != null)
             {
@@ -2819,39 +2827,6 @@ public class Scr_GameManager : MonoBehaviour
             }
             else if (currentlyCalling == "The Aquarium Emporium")
             {
-                /*
-             if (skills.currentCustomerServiceSkills[0]) //have for sale
-            {
-                if (skills.currentResearchSkills[2]) //and adv feeder
-                {
-                    dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Filters, 2 for Feeders, 3 for Sale Signs, or 4 for Advanced Feeders and press enter.";
-                }
-                else if (skills.currentResearchSkills[0]) //and feeder filter
-                {
-                    dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Filters, 2 for Feeders, or 3 for Sale Signs and press enter.";
-                }
-                else //and none
-                {
-                    dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Sale Signs and press enter.";
-                }
-            }
-            else //
-            {
-                if (skills.currentResearchSkills[2])
-                {
-                    dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Filters, 2 for Feeders, or 3 for Advanced Feeders and press enter.";
-                }
-                else if (skills.currentResearchSkills[0])
-                {
-                    dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Filters, or 2 for Feeders and press enter.";
-                }
-                else
-                {
-                    dialogueBoxPhone.lines[contact.indexToEnd] = "Sorry, we're all out of stock for now. Come back another time!";
-                }
-            }
-                */
-
                 if (CheckIfOnSelectionDialogue1())
                 {
                     if (textNum == 1 && skills.currentResearchSkills[0])
@@ -2975,6 +2950,70 @@ public class Scr_GameManager : MonoBehaviour
                     dialogueBoxPhone.AdvanceText();
                 }
             }
+            else if (currentlyCalling == "Big River Bank")
+            {
+                if (CheckIfOnSelectionDialogue1())
+                {
+                    if (textNum == 837507)
+                    {
+                        dialogueBoxPhone.NextLine();
+
+                    }
+                    else
+                    {
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnd - 2;
+                        dialogueBoxPhone.NextLine();
+                    }
+                }
+                else if (CheckIfOnSelectionDialogue2())
+                {
+                    if (textNum == 2500)
+                    {
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"You've selected a loan in the amount of 2500 krona. Enter 1 to confirm your selection.";
+                        tempLoanAmount = 2500;
+                        dialogueBoxPhone.NextLine();
+                    }
+                    else if (textNum == 5000)
+                    {
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"You've selected a loan in the amount of 5000 krona. Enter 1 to confirm your selection.";
+                        tempLoanAmount = 5000;
+                        dialogueBoxPhone.NextLine();
+                    }
+                    else if (textNum == 7500)
+                    {
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"You've selected a loan in the amount of 7500 krona. Enter 1 to confirm your selection.";
+                        tempLoanAmount = 7500;
+                        dialogueBoxPhone.NextLine();
+                    }
+                }
+                else if (CheckIfOnFinalPurchaseDialogue())
+                {
+                    if (textNum == 1)
+                    {
+                        loanAmount = tempLoanAmount;
+
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase + 1] = $"{tempLoanAmount} krona has been deposited into your account.";
+                        dialogueBoxPhone.NextLine();
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnd;
+
+                        AddMoneyAmount(tempLoanAmount);
+
+                        PlaySoundEffect(SFX_CashRegister, 0.4f, 1f, 1f);
+                        PlaySoundEffect(SFX_MoneyCounter, 0.4f, 1f, 1f);
+                    }
+                    else
+                    {
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnd] = $"You've not selected any loans today. Please reconsider next time.";
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnd - 1;
+                        dialogueBoxPhone.NextLine();
+
+
+
+                    }
+
+                }
+            }
+
             /*
             else if (currentlyCalling == "St. Ray's Realty")
             {
@@ -3143,7 +3182,7 @@ public class Scr_GameManager : MonoBehaviour
                 dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Pellets, or 2 for Flakes and press enter.";
             }
         }
-        if (contact.contactName == "The Aquarium Emporium")
+        else if (contact.contactName == "The Aquarium Emporium")
         {
             if (skills.currentCustomerServiceSkills[0]) //have for sale
             {
@@ -3197,8 +3236,16 @@ public class Scr_GameManager : MonoBehaviour
 
     public void StartCustomerDialogue(Scr_CustomerContact contact, GameObject element)
     {
+        int index;
+
         //pick a random customer dialogue line
-        int index = Random.Range(1, contact.dialogueLines.Length);
+        if (skills.currentAccountingSkills[2] && contact.contactName == "Benson" && !bensenOneTimeDialogue)
+        {
+            index = 6;
+            bensenOneTimeDialogue = true;
+        }
+        else
+            index = Random.Range(1, contact.dialogueLines.Length);
 
         if (GetVisits(contact) > 1)
             dialogueBoxCustomer.lines = new string[] { contact.dialogueLines[index] };
@@ -3403,7 +3450,7 @@ public class Scr_GameManager : MonoBehaviour
 
         }
     }
-    
+
     public void FinishBuyingSKills()
     {
         Scr_TimeHandler.ResetTime();

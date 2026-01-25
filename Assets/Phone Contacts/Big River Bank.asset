@@ -17,16 +17,20 @@ MonoBehaviour:
   dialogueLines:
   - You've reached Big River Bank.
   - Please enter your password.
-  - Welcome. We offer loans in amounts of 2500, 5000, and 7500 krona. Please enter
-    one of these amounts and press enter.
+  - Welcome! When taking out a loan, please understand that 5% interest will be charged
+    daily, until you pay back the loan in full!
+  - We offer loans in amounts of 2500, 5000, and 7500 krona. Please enter one of
+    these amounts and press enter.
   - PURHCASE TEXT
-  - 
-  - 
+  - LOAN AMOUNT
+  - PAY OFF LOAN
+  - Your loan has been payed off! Would you like to take out another loan? Enter
+    1 for yes or 2 or no and press enter.
   - That password was incorrect.
   - We appreciate your business here at Big River Bank, have a great day!
   indexToEnableSelection: 1
-  indexToEnableSelection2: 2
-  indexToEnableSelection3: 999
-  indexToPurchaseAgain: 999
-  indexToEnableFinalPurchase: 3
-  indexToEnd: 7
+  indexToEnableSelection2: 3
+  indexToEnableSelection3: 5
+  indexToPurchaseAgain: 7
+  indexToEnableFinalPurchase: 4
+  indexToEnd: 9

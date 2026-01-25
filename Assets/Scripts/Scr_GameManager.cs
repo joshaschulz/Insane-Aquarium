@@ -24,6 +24,8 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject fishingPole;
     public Button fishingPoleClickFunctions;
 
+    public GameObject oscar;
+
     private int loanAmount = 0;
     private int tempLoanAmount = 0;
 
@@ -49,6 +51,7 @@ public class Scr_GameManager : MonoBehaviour
     public TextMeshProUGUI rentText;
     public TextMeshProUGUI incomeTaxText;
     public TextMeshProUGUI exoticFishTaxText;
+    public TextMeshProUGUI loanInterestText;
     public TextMeshProUGUI totalBillsText;
     public TextMeshProUGUI currentDayText;
 
@@ -2956,7 +2959,15 @@ public class Scr_GameManager : MonoBehaviour
                 {
                     if (textNum == 837507)
                     {
+                        if (loanAmount > 0)
+                        {
+                            dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase;
+                            dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase + 1] = $"Your current loan amount is {loanAmount} krona. Press and enter 1 to pay off your loan.";
+
+                        }
+
                         dialogueBoxPhone.NextLine();
+
 
                     }
                     else
@@ -2986,6 +2997,33 @@ public class Scr_GameManager : MonoBehaviour
                         dialogueBoxPhone.NextLine();
                     }
                 }
+                else if (CheckIfOnSelectionDialogue3())
+                {
+                    if (textNum == 1)
+                    {
+                        if (moneyAmount > loanAmount)
+                        {
+                            SubtractMoneyAmount(loanAmount);
+                            loanAmount = 0;
+                            tempLoanAmount = 0;
+
+                            PlaySoundEffect(SFX_CashRegister, 0.4f, 1f, 1f);
+                            PlaySoundEffect(SFX_MoneyCounter, 0.4f, 1f, 1f);
+
+                            dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnd- 1;
+                            dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnd] = $"Your loan has been payed off! We deeply value your business with Big River Bank, have a good day!";
+                            dialogueBoxPhone.NextLine();
+                        }
+                        else
+                        {
+                            //PlaySoundEffect(SFX_Error, 0.3f);
+
+                            dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnd] = $"You currently do not have enough moeny to pay back your loan. Have a good day.";
+                            dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnd - 1;
+                            dialogueBoxPhone.NextLine();
+                        }
+                    }
+                }
                 else if (CheckIfOnFinalPurchaseDialogue())
                 {
                     if (textNum == 1)
@@ -3001,6 +3039,7 @@ public class Scr_GameManager : MonoBehaviour
                         PlaySoundEffect(SFX_CashRegister, 0.4f, 1f, 1f);
                         PlaySoundEffect(SFX_MoneyCounter, 0.4f, 1f, 1f);
                     }
+                    /*
                     else
                     {
                         dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnd] = $"You've not selected any loans today. Please reconsider next time.";
@@ -3009,8 +3048,23 @@ public class Scr_GameManager : MonoBehaviour
 
 
 
-                    }
+                    }*/
 
+                }
+                else if (CheckIfOnPurchaseAgain())
+                {
+                    if (textNum == 1)
+                    {
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableSelection2 - 1;
+                        dialogueBoxPhone.NextLine();
+
+                    }
+                    else if (textNum == 2)
+                    {
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnd - 1;
+                        dialogueBoxPhone.NextLine();
+
+                    }
                 }
             }
 
@@ -3380,6 +3434,9 @@ public class Scr_GameManager : MonoBehaviour
         int incomeTax = (skills.currentAccountingSkills[4]) ? 0 : moneyAmount * ActiveSettings.taxPercentage / 100;
         incomeTaxText.text = incomeTax.ToString();
 
+        int loanInterest = (loanAmount != 0) ? (int)(loanAmount * 0.05f) : 0;
+        loanInterestText.text = loanInterest.ToString();
+
         int numExoticFish = 0;
 
         //find all exotic fish in the scene (food fish dictionary + fish bags)
@@ -3418,7 +3475,7 @@ public class Scr_GameManager : MonoBehaviour
         int exoticFishTax = (skills.currentAccountingSkills[3]) ? 0 : ActiveSettings.exoticFishTaxAmount * numExoticFish;
         exoticFishTaxText.text = exoticFishTax.ToString();
 
-        totalBills = rent + incomeTax + exoticFishTax;
+        totalBills = rent + incomeTax + exoticFishTax + loanInterest;
         totalBillsValue = totalBills;
         totalBillsText.text = totalBills.ToString();
     }
@@ -3460,6 +3517,15 @@ public class Scr_GameManager : MonoBehaviour
         currentDay++;
     }
 
+    public void CheckIfOscar()
+    {
+        if (skills.currentCustomerServiceSkills[4])
+        {
+            oscar.SetActive(true);
+            //oscar.transform.GetChild(0).gameObject.SetActive(true); //set him to be in the working state
+            //oscar.transform.GetChild(1).gameObject.SetActive(false);
+        }
+    }
 
     public void ResetScene()
     {

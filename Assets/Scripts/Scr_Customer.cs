@@ -206,6 +206,9 @@ public class Scr_Customer : MonoBehaviour
         if (!gameManager.skills.currentCustomerServiceSkills[4]) //if no oscar, don't auto purchase
             return;
 
+        if (!gameManager.oscar.transform.GetChild(0).gameObject.activeSelf) //if he's not in his working state
+            return;
+
         if (forSaleTanks == null || forSaleTanks.Length == 0)
             return;
 
@@ -282,15 +285,19 @@ public class Scr_Customer : MonoBehaviour
 
         if (sold)
         {
-            if (gameManager.skills.currentCustomerServiceSkills[1]) //customer tip skill
-                money = (int)(money * 1.1);
+            bool tipped = false;
 
+            if (gameManager.skills.currentCustomerServiceSkills[1]) //customer tip skill
+            {
+                money = (int)(money * 1.1);
+                tipped = true;
+            }
+
+            notifications.Show($"{(tipped ? "Customer tipped 10%! " : "")} {numSold} {customerFishPrefab.tag} was sold for {money} krona!");
             gameManager.AddMoneyAmount(money);
 
             gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.4f, 1f, 1f);
             gameManager.PlaySoundEffect(gameManager.SFX_MoneyCounter, 0.4f, 1f, 1f);
-
-            notifications.Show($"{numSold} {customerFishPrefab.tag} was sold for {money} krona!");
 
             CustomerGoAway();
 
@@ -522,9 +529,11 @@ public class Scr_Customer : MonoBehaviour
             tipped = true;
         }
 
+        notifications.Show($"{(tipped ? "Customer tipped 10%! " : "")}{fishToSell.Count} {fishToSell[0].tag} was sold for {totalMoney} krona!");
+
+
         gameManager.AddMoneyAmount(totalMoney);
 
-        notifications.Show($"{(tipped ? "Customer tipped 10%! " : "")}{fishToSell.Count} {fishToSell[0].tag} was sold for {totalMoney} krona!");
 
         gameManager.ShowHideFishBags();
 

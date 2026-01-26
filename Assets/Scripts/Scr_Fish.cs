@@ -154,6 +154,7 @@ public class Scr_Fish : MonoBehaviour
         if (legendary)
         {
             gameManager.legendaryCountBySpecies[gameObject.tag] += 1;
+            frontCrown.SetActive(true);
             UpdateLegendaryAura();
         }
 

@@ -258,7 +258,8 @@ public class Scr_GameManager : MonoBehaviour
         sideFishSprites = Resources.LoadAll<Sprite>("Fish/Fish Side");
         exoticFishSprites = Resources.LoadAll<Sprite>("Fish/Exotic Fish");
 
-
+        if (skills.currentCustomerServiceSkills[4])
+            oscar.SetActive(true);
 
 
         //Debug.Log("THIS NUMBER OF FISH IMAGES: " + fishSprites.Length);
@@ -323,6 +324,20 @@ public class Scr_GameManager : MonoBehaviour
             AddMoneyAmount(500);
         }
 
+    }
+
+    public void ResetFishStates()
+    {
+        foreach (var kvp in foodFishDictionary)
+        {
+            if (kvp.Key.GetComponent<Scr_Fish>() != null)
+            {
+                Scr_Fish fishScript = kvp.Key.GetComponent<Scr_Fish>();
+                fishScript.hungerCount = 0;
+                fishScript.freakCount = 0;
+                fishScript.poopCount = 0;
+            }
+        }
     }
 
     public void ChangeGameSettings()
@@ -3414,6 +3429,8 @@ public class Scr_GameManager : MonoBehaviour
         EnableButton(payUpButton);
 
         ResetCustomer();
+        canFish = true;
+        canFishCounter = 0;
         //ResetPhone();
 
         CalculateBills();

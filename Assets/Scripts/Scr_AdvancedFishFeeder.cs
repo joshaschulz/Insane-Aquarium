@@ -49,6 +49,7 @@ public class Scr_AdvancedFishFeeder : MonoBehaviour
         }
 
     }
+    /*
     private void OnEnable()
     {
         // Optionally, get a reference to the TickHandler (assuming there's only one or it’s a singleton)
@@ -69,7 +70,6 @@ public class Scr_AdvancedFishFeeder : MonoBehaviour
         }
 
     }
-
     // =========================
     // TICK EVENT HANDLER
     // =========================
@@ -83,8 +83,8 @@ public class Scr_AdvancedFishFeeder : MonoBehaviour
 
         SpawnFoodBurst();
     }
-
-    private void SpawnFoodBurst()
+    */
+    public void SpawnFoodBurst()
     {
         for (int i = 0; i < amountPerFeed; i++)
         {

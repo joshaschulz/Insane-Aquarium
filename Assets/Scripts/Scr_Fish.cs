@@ -722,6 +722,13 @@ public class Scr_Fish : MonoBehaviour
     {
         isHungry = true;
         hungerIcon.SetActive(true);
+
+        Scr_AdvancedFishFeeder[] advFeeders = FindObjectsOfType<Scr_AdvancedFishFeeder>();
+
+        foreach (Scr_AdvancedFishFeeder advFeeder in advFeeders)
+        {
+            advFeeder.SpawnFoodBurst();
+        }
     }
     public void SetNotHungry()
     {

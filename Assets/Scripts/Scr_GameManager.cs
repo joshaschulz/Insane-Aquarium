@@ -86,6 +86,7 @@ public class Scr_GameManager : MonoBehaviour
     public Scr_Customer Scr_Customer;
 
     public GameObject fishpedia;
+    public GameObject baitAndTackleScreen;
 
     public GameObject rodIdle, rodHooked;
 
@@ -2512,10 +2513,11 @@ public class Scr_GameManager : MonoBehaviour
 
     public void MoveToSceneOrPause(Transform transform)
     {
-        if (pauseMenu.activeSelf || fishpedia.activeSelf)
+        if (pauseMenu.activeSelf || fishpedia.activeSelf || baitAndTackleScreen.activeSelf)
         {
             pauseMenu.SetActive(false);
             fishpedia.SetActive(false);
+            baitAndTackleScreen.SetActive(false);
             EnableAllButtons();
 
             gameObject.GetComponent<Scr_TimeHandler>().UnpauseTime();
@@ -2561,6 +2563,18 @@ public class Scr_GameManager : MonoBehaviour
         ClickButton(backButton.GetComponent<Button>());
 
     }
+    public void OpenCloseTackleBox()
+    {
+        if (!baitAndTackleScreen.activeSelf)
+        {
+            baitAndTackleScreen.SetActive(true);
+            return;
+        }
+
+        ClickButton(backButton.GetComponent<Button>());
+
+    }
+
 
     public void DisableAllButtons()
     {

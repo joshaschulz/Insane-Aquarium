@@ -31,7 +31,7 @@ public class Scr_PlayerSkills : MonoBehaviour
 
     public int[] skillCosts = new int[5] { 200, 300, 500, 800, 1300 };
 
-    private Dictionary<GameObject, bool[]> skillMap;
+    public Dictionary<GameObject, bool[]> skillMap;
 
     private void Awake()
     {

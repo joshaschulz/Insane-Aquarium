@@ -15,6 +15,8 @@ public class Scr_GameManager : MonoBehaviour
     public Scr_PlayerSkills skills;
     private Camera _Camera;
 
+    public string businessName = "FishyBusinessSaveTest";
+
     public Scr_Notifications notifications;
 
     public GameObject phoneOpen;
@@ -26,7 +28,17 @@ public class Scr_GameManager : MonoBehaviour
 
     public GameObject oscar;
 
-    private int loanAmount = 0;
+    //FOR SAVING/LOADING
+    public List<Transform> allTanks;
+    public List<GameObject> allFishPrefabs;
+    public List<GameObject> allExoticFishPrefabs;
+    public List<GameObject> allFishFoodPrefabs;
+    public List<GameObject> allStructurePrefabs;
+    public List<GameObject> allBagButtons;
+
+    public List<GameObject> structuresInScene;
+
+    public int loanAmount = 0;
     private int tempLoanAmount = 0;
 
     public Dictionary<string, int> legendaryCountBySpecies = new Dictionary<string, int>();
@@ -389,6 +401,8 @@ public class Scr_GameManager : MonoBehaviour
         {
             GameObject placed = Instantiate(structurePrefab, worldPos, Quaternion.identity);
 
+            placed.GetComponent<Scr_StructurePlacementRules>().thisPrefab = structurePrefab;
+            placed.GetComponent<Scr_StructurePlacementRules>().placedOnRight = placingOnRight;
 
             var filter = placed.GetComponentInChildren<Scr_Filter>();
             var feeder = placed.GetComponentInChildren<Scr_FishFeeder>();
@@ -421,6 +435,8 @@ public class Scr_GameManager : MonoBehaviour
             // consume 1
             SetStructureAmount(structurePrefab, GetStructureAmount(structurePrefab) - 1);
 
+            structuresInScene.Add(placed);
+
             // (optional) play a “place” sound if you want
             // PlaySoundEffect(SFX_Select, 0.6f);
 
@@ -447,6 +463,50 @@ public class Scr_GameManager : MonoBehaviour
             return false;
         }
     }
+    public bool DropStructure(GameObject structurePrefab, Vector3 worldPos, bool placingOnRight, bool loaded)
+    {
+
+        GameObject placed = Instantiate(structurePrefab, worldPos, Quaternion.identity);
+
+        placed.GetComponent<Scr_StructurePlacementRules>().thisPrefab = structurePrefab;
+        placed.GetComponent<Scr_StructurePlacementRules>().placedOnRight = placingOnRight;
+
+        var filter = placed.GetComponentInChildren<Scr_Filter>();
+        var feeder = placed.GetComponentInChildren<Scr_FishFeeder>();
+        var saleSticker = placed.GetComponentInChildren<Scr_ForSaleSticker>();
+
+        if (filter != null)
+        {
+            filter.enabled = true;
+        }
+        else if (feeder != null)
+        {
+            feeder.enabled = true;
+        }
+        else if (saleSticker != null)
+        {
+            saleSticker.enabled = true;
+        }
+
+
+
+        // Apply wall flip if needed (same logic you already had)
+        var rules = structurePrefab.GetComponent<Scr_StructurePlacementRules>();
+        if (rules != null && rules.anchorMode == Scr_StructurePlacementRules.AnchorMode.LockToCameraSide && rules.flipOnSideSwitch)
+        {
+            Vector3 s = placed.transform.localScale;
+            s.x = Mathf.Abs(s.x) * (placingOnRight ? 1f : -1f);
+            placed.transform.localScale = s;
+        }
+
+        structuresInScene.Add(placed);
+
+        // (optional) play a “place” sound if you want
+        // PlaySoundEffect(SFX_Select, 0.6f);
+
+        return true;
+    }
+
     public void DropFood(GameObject _foodToDrop)
     {
         if (_foodToDrop != null && GetFishFoodAmount(currentFishFoodSelected) > 0)
@@ -835,7 +895,7 @@ public class Scr_GameManager : MonoBehaviour
     }
 
 
-    public void SpawnFish(GameObject _fishToSpawn, Transform _pos)
+    public GameObject SpawnFish(GameObject _fishToSpawn, Transform _pos)
     {
         //spawn fish at random x coordinate at same designated y coordinate
         //set the x bounds of where the fish can spawn based on screen size
@@ -877,9 +937,11 @@ public class Scr_GameManager : MonoBehaviour
 
         //Scr_UIElementsHandler.UpdateTankWater();
 
+        return newFish;
+
     }
 
-    public void SpawnStarFish(GameObject _fishToSpawn)
+    public GameObject SpawnStarFish(GameObject _fishToSpawn)
     {
         //spawn fish at random x coordinate at same designated y coordinate
         //set the x bounds of where the fish can spawn based on screen size
@@ -917,6 +979,52 @@ public class Scr_GameManager : MonoBehaviour
 
         PlaySoundEffect(SFX_DropFish, 1, 0.5f, 1.5f);
 
+        return newFish;
+
+        //Scr_UIElementsHandler.UpdateTankWater();
+
+    }
+
+    public GameObject SpawnStarFish(GameObject _fishToSpawn, Transform _pos)
+    {
+        //spawn fish at random x coordinate at same designated y coordinate
+        //set the x bounds of where the fish can spawn based on screen size
+
+        Vector2 spawnPosition = new Vector2(_pos.position.x, _pos.position.y);
+
+
+        float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
+        float screenHeightWorld = Camera.main.orthographicSize * 2;
+
+        float randomSpawnHeight = Random.Range(0.4f, 1.2f);
+
+        spawnPosition.y = (spawnPosition.y + screenHeightWorld / 2) - (screenHeightWorld / 2) * randomSpawnHeight;
+
+        Vector2 randomSpawnBounds = new Vector2(spawnPosition.x - (screenWidthWorld / 2) * 0.9f, spawnPosition.x + (screenWidthWorld / 2) * 0.9f);
+
+
+        float randPosX = Random.Range(randomSpawnBounds.x, randomSpawnBounds.y);
+
+        spawnPosition.x = randPosX;
+
+        GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
+
+
+        foodFishDictionary.Add(newFish, _fishToSpawn);
+        Scr_Starfish newFishScript = newFish.GetComponent<Scr_Starfish>();
+        newFishScript.thisPrefab = _fishToSpawn;
+
+        foreach (GameObject leg in newFishScript.starfishLegs)
+        {
+            AddSpawnedImmobileFishToExistingFishDiets(leg, _fishToSpawn);
+            foodFishDictionary.Add(leg, _fishToSpawn);
+
+        }
+
+        PlaySoundEffect(SFX_DropFish, 1, 0.5f, 1.5f);
+
+        return newFish;
+
         //Scr_UIElementsHandler.UpdateTankWater();
 
     }
@@ -940,6 +1048,104 @@ public class Scr_GameManager : MonoBehaviour
         }
 
         return newFish;
+    }
+
+    public GameObject BagLoadingFish(GameObject _fishToSpawn, Transform _pos, bool grown, bool legendary)
+    {
+        GameObject baggedFishButtonToUse = null;
+        GameObject baggedFishSocketToUse = null;
+        // Check to see if there is at least 1 of 3 bags available
+        if (baggedFish_Socket1.transform.childCount == 0)
+        {
+            baggedFishButtonToUse = baggedFish_Button1;
+            baggedFishSocketToUse = baggedFish_Socket1;
+        }
+        else if (skills.currentFishkeepingSkills[0]) //streamlined: unlocks 3 fish bags
+        {
+            if (baggedFish_Socket2.transform.childCount == 0)
+            {
+                baggedFishButtonToUse = baggedFish_Button2;
+                baggedFishSocketToUse = baggedFish_Socket2;
+            }
+            else if (baggedFish_Socket3.transform.childCount == 0)
+            {
+                baggedFishButtonToUse = baggedFish_Button3;
+                baggedFishSocketToUse = baggedFish_Socket3;
+            }
+        }
+
+        ShowHideFishBags();
+
+        Vector2 spawnPosition = new Vector2(_pos.position.x, _pos.position.y);
+
+        GameObject fish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
+
+        Scr_Fish newFishScript = fish.GetComponent<Scr_Fish>();
+        newFishScript.thisPrefab = _fishToSpawn;
+        //newFishScript.ChangeGameSettings();
+
+        if (!grown)
+        {
+            MakeFishSmaller(fish); //want to spawn fish as child and then have it grow over time
+        }
+
+        Scr_Fish fishScript = fish.GetComponent<Scr_Fish>();
+        Scr_FishAnimation fishAnimScript = fish.GetComponent<Scr_FishAnimation>();
+        fishAnimScript.frontAnimator.Rebind();
+        fishAnimScript.frontAnimator.Update(0f);
+
+        fishScript.enabled = true;
+
+        if (legendary)
+        {
+            fishScript.legendary = true;
+            legendaryCountBySpecies[fish.tag] += 1;
+        }
+
+        baggedFishButtonToUse.SetActive(true);
+        fish.transform.SetParent(baggedFishSocketToUse.transform);
+
+
+        fishScript.SetTarget(fish.transform.position);
+        fishAnimScript.SetState(Scr_FishAnimation.FishState.Idle);
+        fishScript.CancelInvoke();
+
+        fish.transform.localEulerAngles = Vector3.zero;
+        var s = fish.transform.localScale;
+
+        //fish.transform.localScale = new Vector3(Mathf.Abs(s.x), Mathf.Abs(s.y), Mathf.Abs(s.z));
+        fish.transform.localScale = Vector3.one;
+
+        if (legendary)
+        {
+            var sideScale = fish.transform.GetChild(0).transform.localScale;
+            var frontScale = fish.transform.GetChild(1).transform.localScale;
+
+            sideScale = new Vector3(Mathf.Abs(sideScale.x * 1.3f), Mathf.Abs(sideScale.y * 1.3f), Mathf.Abs(sideScale.z));
+            frontScale = new Vector3(Mathf.Abs(frontScale.x * 1.3f), Mathf.Abs(frontScale.y * 1.3f), Mathf.Abs(frontScale.z));
+
+            fish.transform.GetChild(0).transform.localScale = sideScale;
+            fish.transform.GetChild(1).transform.localScale = frontScale;
+
+            fishScript.sideCrown.SetActive(true);
+            fishScript.frontCrown.SetActive(true);
+        }
+
+        fishScript.originalScale = _fishToSpawn.transform.localScale;
+
+        SetSortingGroupToLayer(fish, "UI2");
+
+
+        fishScript.grown = true;
+
+        fishScript.enabled = false;
+        fish.GetComponent<CircleCollider2D>().enabled = false;
+
+        // Move the fish to the position where the fishbag button appears to be in the world
+        Vector3 baggedFishButtonPosition = baggedFishButtonToUse.transform.position;
+        fish.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y, fish.transform.position.z);
+
+        return fish;
     }
 
     public GameObject SpawnTempStarfish(GameObject _fishToSpawn, Transform _pos)
@@ -1178,6 +1384,7 @@ public class Scr_GameManager : MonoBehaviour
             }
         }
         SetStructureAmount(structToRemove, structureAmountDictionary[structToRemove] + 1);
+        structuresInScene.Remove(structToRemove);
         Destroy(_structureToRemove);
     }
 
@@ -1506,8 +1713,6 @@ public class Scr_GameManager : MonoBehaviour
                 caughtFish = fishPrefab;
         }
 
-
-
         GameObject fish = SpawnTempFish(caughtFish, fishWaitingArea);
 
 
@@ -1574,6 +1779,7 @@ public class Scr_GameManager : MonoBehaviour
         // Figure out how to make the bagged fish render in front of the other tank fish and go back to normal upon dropping into tank
         return true;
     }
+
 
     public void SelectStructureToPlace(GameObject structurePrefab, GameObject structureButton)
     {

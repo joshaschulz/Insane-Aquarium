@@ -48021,6 +48021,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 655531290}
   m_CullTransparentMesh: 1
+--- !u!1 &656363233
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 656363235}
+  - component: {fileID: 656363234}
+  m_Layer: 0
+  m_Name: SaveLoad System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &656363234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656363233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b19b989d2c2ed344793012bd2b1667bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 1031440123}
+--- !u!4 &656363235
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 656363233}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &657204595
 GameObject:
   m_ObjectHideFlags: 0
@@ -74269,6 +74314,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 656363234}
+        m_TargetAssemblyTypeName: Scr_SaveLoad, Assembly-CSharp
+        m_MethodName: SaveBusiness
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &995325459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77819,6 +77876,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skills: {fileID: 0}
+  businessName: 
   notifications: {fileID: 0}
   phoneOpen: {fileID: 1841038393}
   phoneClosed: {fileID: 1492024530}
@@ -77826,6 +77884,33 @@ MonoBehaviour:
   fishingPole: {fileID: 574291911}
   fishingPoleClickFunctions: {fileID: 2062967857}
   oscar: {fileID: 1369835754}
+  allTanks:
+  - {fileID: 352481008}
+  - {fileID: 823700867}
+  allFishPrefabs:
+  - {fileID: 1863455049823253984, guid: e5a1f7f46bf4022458352e81b301f5c8, type: 3}
+  - {fileID: 1863455049823253984, guid: 5cff2fd6fc091ad4a94e279edf86fc22, type: 3}
+  - {fileID: 1863455049823253984, guid: 4f3948a255fd0ae42b534001f5471e7d, type: 3}
+  - {fileID: 8672692834543181141, guid: 1e8f852235a4ef746860883a25c3714f, type: 3}
+  - {fileID: 1863455049823253984, guid: 82f3879b396ccd543b22ca1c1f15a66a, type: 3}
+  - {fileID: 1863455049823253984, guid: 3a77be43267d6f84398daeaab0ac8a37, type: 3}
+  allExoticFishPrefabs:
+  - {fileID: 1863455049823253984, guid: a818baef8e21de54e9c553496567b12e, type: 3}
+  allFishFoodPrefabs:
+  - {fileID: 5447806642486513699, guid: ef302d57c9a62814f8e8425e495c442f, type: 3}
+  - {fileID: 5447806642486513699, guid: 81deed014d0d31c43902697f2bc0e3d8, type: 3}
+  - {fileID: 5447806642486513699, guid: 1ab43b254f256dd4a802af59dd57dfdd, type: 3}
+  allStructurePrefabs:
+  - {fileID: 4929024843989503357, guid: cd2346ccfe32b5147a77ccdd4381805e, type: 3}
+  - {fileID: 3024260648436506323, guid: 9a6fe53f5bad8634489c36a1113d2dc2, type: 3}
+  - {fileID: 4929024843989503357, guid: 1b6025f71b44d9440b143f28f48a2896, type: 3}
+  - {fileID: 5584873671986153646, guid: 323bc94d685bd9c4bb9ed482f6a4caf4, type: 3}
+  allBagButtons:
+  - {fileID: 1646324634}
+  - {fileID: 74389725}
+  - {fileID: 1987215200}
+  structuresInScene: []
+  loanAmount: 0
   tickEventsPer10Min: 0
   useTestSettings: 1
   buildSettings: {fileID: 11400000, guid: be4f36254a417374595025d5aec304a8, type: 2}
@@ -108688,42 +108773,6 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1031440123}
         m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
-        m_MethodName: DisableButton
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1031440123}
-        m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
-        m_MethodName: DisableButton
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1031440123}
-        m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
-        m_MethodName: DisableButton
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1031440123}
-        m_TargetAssemblyTypeName: Scr_GameManager, Assembly-CSharp
         m_MethodName: DisableInputField
         m_Mode: 2
         m_Arguments:
@@ -108741,6 +108790,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 1434861371}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 656363234}
+        m_TargetAssemblyTypeName: Scr_SaveLoad, Assembly-CSharp
+        m_MethodName: LoadBusiness
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -166912,3 +166973,4 @@ SceneRoots:
   - {fileID: 1407368670}
   - {fileID: 1570505656}
   - {fileID: 1859655602}
+  - {fileID: 656363235}

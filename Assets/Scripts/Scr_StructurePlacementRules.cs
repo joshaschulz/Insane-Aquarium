@@ -7,6 +7,8 @@ public class Scr_StructurePlacementRules : MonoBehaviour
     public Button structureButton;
     public GameObject thisPrefab;
 
+    public bool placedOnRight;
+
     public enum AnchorMode
     {
         Free,

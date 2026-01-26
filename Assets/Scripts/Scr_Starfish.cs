@@ -95,7 +95,8 @@ public class Scr_Starfish : MonoBehaviour
 
         // Each fish has a different max range they can travel, based on their size
         SetMinAndMax();
-        name = GenerateRandomName();
+        if (name.Length < 2)
+            name = GenerateRandomName();
 
         baseLegRegenChance = baseLegRegen * gameManager.tickEventsPer10Min;
         minLegRegenChance *= minLegRegen * gameManager.tickEventsPer10Min;

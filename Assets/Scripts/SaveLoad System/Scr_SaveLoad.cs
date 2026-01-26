@@ -11,6 +11,7 @@ public class Scr_SaveLoad : MonoBehaviour
 
     public void SaveBusiness()
     {
+        gameManager.notifications.Show("Game Saved!");
         Scr_SaveSystem.SaveBusiness(gameManager, gameManager.businessName);
     }
 
@@ -23,6 +24,9 @@ public class Scr_SaveLoad : MonoBehaviour
         gameManager.loanAmount = progress.loanAmount;
         //gameManager.baitEquipped PLACEHOLDER
         //gameManager.tackleEquipped PLACEHOLDER
+        gameManager.SetOscarState(progress.oscarState);
+
+        gameManager.UpdateSceneTexts();
 
         for (int i = 0; i < progress.fishSpecies.Length; i++)
         {
@@ -35,10 +39,15 @@ public class Scr_SaveLoad : MonoBehaviour
             newFishScript.radiated = progress.fishIsRadiated[i] == 1 ? true : false;
             newFishScript.mutated = progress.fishIsMutated[i] == 1 ? true : false;
             newFishScript.grown = progress.fishIsGrown[i] == 1 ? true : false;
+            newFishScript.generation = progress.fishGenerations[i];
             newFishScript.growCount = progress.fishGrowCounts[i];
             newFishScript.freakCount = progress.fishFreakCounts[i];
+            newFishScript.hungerCount = progress.fishHungerCounts[i];
+            newFishScript.poopCount = progress.fishPoopCounts[i];
             newFishScript.GetComponent<Scr_FishHue>().SetHue(progress.fishHues[i]);
             //fishpediaNumCaughtAmounts PALCEHOLDER
+
+            gameManager.UpdateSpawnedLoadingFish(newFish);
 
         }
 
@@ -93,9 +102,12 @@ public class Scr_SaveLoad : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < progress.fishpediaEntries.Length; i++)
+        gameManager.skills.UpdateSkillsOnLoad();
+        gameManager.UpdateSkillObjects();
+
+        for (int i = 0; i < progress.fishpediaButtons.Length; i++)
         {
-            gameManager.fishpedia.GetComponent<Scr_Fishpedia>().entries[i].SetActive(progress.fishpediaEntries[i] == 1);
+            gameManager.fishpedia.GetComponent<Scr_Fishpedia>().buttons[i].gameObject.SetActive(progress.fishpediaButtons[i] == 1);
         }
 
         for (int i = 0; i < progress.structuresInScene.Length; i++)
@@ -110,7 +122,7 @@ public class Scr_SaveLoad : MonoBehaviour
         {
             if (progress.fishBagsSpecies[i] != -1) //fish in that bag slot is not exotic
             {
-                GameObject newFish = gameManager.BagLoadingFish(gameManager.allFishPrefabs[progress.fishBagsSpecies[i]], gameManager.fishWaitingArea, progress.fishBagsIsGrown[i] == 1, progress.fishBagsIsLegendary[i] == 1);
+                GameObject newFish = gameManager.SpawnLoadingFish(gameManager.allFishPrefabs[progress.fishBagsSpecies[i]], gameManager.fishWaitingArea);
                 Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
 
                 newFishScript.name = progress.fishBagsNames[i];
@@ -119,9 +131,14 @@ public class Scr_SaveLoad : MonoBehaviour
                 newFishScript.radiated = progress.fishBagsIsRadiated[i] == 1;
                 newFishScript.mutated = progress.fishBagsIsMutated[i] == 1;
                 newFishScript.grown = progress.fishBagsIsGrown[i] == 1;
+                newFishScript.generation = progress.fishBagsGenerations[i];
                 newFishScript.growCount = progress.fishGrowCounts[i];
                 newFishScript.freakCount = progress.fishBagsFreakCounts[i];
+                newFishScript.hungerCount = progress.fishHungerCounts[i];
+                newFishScript.poopCount = progress.fishBagsPoopCounts[i];
                 newFishScript.GetComponent<Scr_FishHue>().SetHue(progress.fishBagsHues[i]);
+
+                gameManager.BagLoadingFish(newFish);
 
                 //gameManager.BagAFish(newFish);
             }

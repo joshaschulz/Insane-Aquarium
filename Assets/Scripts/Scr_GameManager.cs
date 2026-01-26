@@ -271,9 +271,6 @@ public class Scr_GameManager : MonoBehaviour
         sideFishSprites = Resources.LoadAll<Sprite>("Fish/Fish Side");
         exoticFishSprites = Resources.LoadAll<Sprite>("Fish/Exotic Fish");
 
-        if (skills.currentCustomerServiceSkills[4])
-            oscar.SetActive(true);
-
 
         //Debug.Log("THIS NUMBER OF FISH IMAGES: " + fishSprites.Length);
 
@@ -350,6 +347,40 @@ public class Scr_GameManager : MonoBehaviour
                 fishScript.freakCount = 0;
                 fishScript.poopCount = 0;
             }
+        }
+    }
+
+    public void UpdateSkillObjects()
+    {
+        if (skills.currentCustomerServiceSkills[4])
+            oscar.SetActive(true);
+    }
+
+    public int GetOscarState()
+    {
+        if (!skills.currentCustomerServiceSkills[4])
+            return -1;
+
+        if (oscar.transform.GetChild(0).gameObject.activeSelf)
+            return 0;
+
+        return 1;
+    }
+
+    public void SetOscarState(int state)
+    {
+        if (state < 0)
+            return;
+
+        if (state == 0)
+        {
+            oscar.transform.GetChild(0).gameObject.SetActive(true);
+            oscar.transform.GetChild(1).gameObject.SetActive(false);
+        }
+        else
+        {
+            oscar.transform.GetChild(0).gameObject.SetActive(false);
+            oscar.transform.GetChild(1).gameObject.SetActive(true);
         }
     }
 
@@ -932,23 +963,64 @@ public class Scr_GameManager : MonoBehaviour
         GameObject newFish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
 
         foodFishDictionary.Add(newFish, _fishToSpawn);
+
         Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
         newFishScript.thisPrefab = _fishToSpawn;
 
-        //newFishScript.ChangeGameSettings();
-
-        if (!newFishScript.grown)
-        {
-            MakeFishSmaller(newFish); //want to spawn fish as child and then have it grow over time
-        }
-
-        AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(newFish, _fishToSpawn);
-
-        PlaySoundEffect(SFX_DropFish, 1, 0.5f, 1.5f);
-
-        //Scr_UIElementsHandler.UpdateTankWater();
 
         return newFish;
+
+    }
+
+    public void UpdateSpawnedLoadingFish(GameObject fish)
+    {
+        Scr_Fish fishScript = fish.GetComponent<Scr_Fish>();
+
+        if (!fishScript.grown)
+        {
+            MakeFishSmaller(fish); //want to spawn fish as child and then have it grow over time
+        }
+
+        AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(fish, fishScript.thisPrefab);
+
+        //Scr_FishAnimation fishAnimScript = fish.GetComponent<Scr_FishAnimation>();
+        //fishAnimScript.frontAnimator.Rebind();
+        //fishAnimScript.frontAnimator.Update(0f);
+
+        fishScript.enabled = true;
+
+        fish.transform.localScale = Vector3.one;
+
+        if (!fishScript.grown)
+        {
+            MakeFishSmaller(fish); //want to spawn fish as child and then have it grow over time
+        }
+
+        fishScript.originalScale = fish.transform.localScale;
+
+
+        if (fishScript.legendary)
+        {
+            legendaryCountBySpecies[fish.tag] += 1;
+        }
+
+        fish.transform.localEulerAngles = Vector3.zero;
+
+        if (fishScript.legendary)
+        {
+            var sideScale = fish.transform.GetChild(0).transform.localScale;
+            var frontScale = fish.transform.GetChild(1).transform.localScale;
+
+            sideScale = new Vector3(Mathf.Abs(sideScale.x * 1.3f), Mathf.Abs(sideScale.y * 1.3f), Mathf.Abs(sideScale.z));
+            frontScale = new Vector3(Mathf.Abs(frontScale.x * 1.3f), Mathf.Abs(frontScale.y * 1.3f), Mathf.Abs(frontScale.z));
+
+            fish.transform.GetChild(0).transform.localScale = sideScale;
+            fish.transform.GetChild(1).transform.localScale = frontScale;
+
+            fishScript.sideCrown.SetActive(true);
+            fishScript.frontCrown.SetActive(true);
+        }
+        fishScript.IdleOrMove();
 
     }
 
@@ -1061,7 +1133,19 @@ public class Scr_GameManager : MonoBehaviour
         return newFish;
     }
 
-    public GameObject BagLoadingFish(GameObject _fishToSpawn, Transform _pos, bool grown, bool legendary)
+    public GameObject SpawnLoadingFish(GameObject _fishToSpawn, Transform _pos)
+    {
+        Vector2 spawnPosition = new Vector2(_pos.position.x, _pos.position.y);
+
+        GameObject fish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
+
+        Scr_Fish newFishScript = fish.GetComponent<Scr_Fish>();
+        newFishScript.thisPrefab = _fishToSpawn;
+
+        return fish;
+    }
+
+    public void BagLoadingFish(GameObject fish)
     {
         GameObject baggedFishButtonToUse = null;
         GameObject baggedFishSocketToUse = null;
@@ -1087,18 +1171,6 @@ public class Scr_GameManager : MonoBehaviour
 
         ShowHideFishBags();
 
-        Vector2 spawnPosition = new Vector2(_pos.position.x, _pos.position.y);
-
-        GameObject fish = Instantiate(_fishToSpawn, spawnPosition, Quaternion.identity);
-
-        Scr_Fish newFishScript = fish.GetComponent<Scr_Fish>();
-        newFishScript.thisPrefab = _fishToSpawn;
-        //newFishScript.ChangeGameSettings();
-
-        if (!grown)
-        {
-            MakeFishSmaller(fish); //want to spawn fish as child and then have it grow over time
-        }
 
         Scr_Fish fishScript = fish.GetComponent<Scr_Fish>();
         Scr_FishAnimation fishAnimScript = fish.GetComponent<Scr_FishAnimation>();
@@ -1107,14 +1179,23 @@ public class Scr_GameManager : MonoBehaviour
 
         fishScript.enabled = true;
 
-        if (legendary)
+        fish.transform.localScale = Vector3.one;
+
+        if (!fishScript.grown)
+        {
+            MakeFishSmaller(fish); //want to spawn fish as child and then have it grow over time
+        }
+
+        fishScript.originalScale = fish.transform.localScale;
+
+
+        if (fishScript.legendary)
         {
             fishScript.legendary = true;
             legendaryCountBySpecies[fish.tag] += 1;
         }
 
         baggedFishButtonToUse.SetActive(true);
-        fish.transform.SetParent(baggedFishSocketToUse.transform);
 
 
         fishScript.SetTarget(fish.transform.position);
@@ -1125,9 +1206,8 @@ public class Scr_GameManager : MonoBehaviour
         var s = fish.transform.localScale;
 
         //fish.transform.localScale = new Vector3(Mathf.Abs(s.x), Mathf.Abs(s.y), Mathf.Abs(s.z));
-        fish.transform.localScale = Vector3.one;
 
-        if (legendary)
+        if (fishScript.legendary)
         {
             var sideScale = fish.transform.GetChild(0).transform.localScale;
             var frontScale = fish.transform.GetChild(1).transform.localScale;
@@ -1142,21 +1222,21 @@ public class Scr_GameManager : MonoBehaviour
             fishScript.frontCrown.SetActive(true);
         }
 
-        fishScript.originalScale = _fishToSpawn.transform.localScale;
 
         SetSortingGroupToLayer(fish, "UI2");
 
 
-        fishScript.grown = true;
-
         fishScript.enabled = false;
         fish.GetComponent<CircleCollider2D>().enabled = false;
+
+        fish.transform.SetParent(baggedFishSocketToUse.transform);
+
+        fish.transform.localScale /= 2;
+
 
         // Move the fish to the position where the fishbag button appears to be in the world
         Vector3 baggedFishButtonPosition = baggedFishButtonToUse.transform.position;
         fish.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y, fish.transform.position.z);
-
-        return fish;
     }
 
     public GameObject SpawnTempStarfish(GameObject _fishToSpawn, Transform _pos)

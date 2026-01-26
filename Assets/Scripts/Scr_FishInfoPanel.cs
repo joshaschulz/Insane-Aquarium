@@ -34,6 +34,8 @@ public class Scr_FishInfoPanel : MonoBehaviour
 
     private float originalRectHeight;
 
+    private string prevFishName;
+
     public Scr_Fish currentFish;
     //public Scr_Fish CurrentFish => currentFish; // read-only property
 
@@ -118,12 +120,19 @@ public class Scr_FishInfoPanel : MonoBehaviour
     {
         if (currentFish == null) return;
 
+        prevFishName = nameInput.text;
+
         nameInput.readOnly = false;
         nameInput.ActivateInputField();
     }
     public void FinishRename()
     {
         if (currentFish == null) return;
+
+        if (nameInput.text == "")
+        {
+            nameInput.text = prevFishName;
+        }
 
         currentFish.name = nameInput.text;
         nameBorderText.text = nameInput.text;

@@ -184,10 +184,9 @@ public class Scr_Fish : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
-
-
         //ChangeGameSettings();
-        name = GenerateRandomName();
+        if (name == "")
+            name = GenerateRandomName();
 
         originalScale = gameObject.transform.localScale;
         hungrySpeed = baseSpeed * 1.5f;
@@ -205,6 +204,53 @@ public class Scr_Fish : MonoBehaviour
         {
             gameManager.SpawnParticles(radiationOutlineEffectPrefab, transform.position, transform.rotation, transform);
             gameManager.SpawnParticles(radiationEffectPrefab, transform.position, transform.rotation, transform);
+        }
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (gameManager.GetComponent<Scr_TimeHandler>().timePaused)
+            return;
+
+        currentSpeed = baseSpeedFactored * gameManager.GetFastForwardSettingFactor();
+
+        //don't do anything if fish is still in spawn animation
+        if (fishAnimation.IsAnimationPlaying(fishAnimation.frontAnimator, "Fish Spawn"))
+        {
+            return;
+        }
+
+
+        // 3 possibilities: Fish is hungry. Fish is idle. Fish is moving.
+        if (isHungry)
+        {
+            // Find a food to eat
+            closestFood = FindClosestFood();
+
+            if (closestFood != null)
+            {
+                currentSpeed = hungrySpeed * gameManager.GetFastForwardSettingFactor();
+                SetTarget(closestFood.transform.position);
+            }
+        }
+        else if (isFreaky)//go freakmode
+        {
+            // Find a fish to freak
+            GameObject mate = FindClosestMate();
+
+            if (mate != null)
+            {
+                SetTarget(mate.transform.position);
+            }
+        }
+        transform.position = Vector2.MoveTowards(transform.position, target, currentSpeed * Time.deltaTime);
+
+        // If fish has reached its target...
+        if (target == new Vector2(transform.position.x, transform.position.y) && fishAnimation.GetState() == Scr_FishAnimation.FishState.Move)
+        {
+            IdleOrMove();
         }
 
     }
@@ -423,56 +469,7 @@ public class Scr_Fish : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (gameManager.GetComponent<Scr_TimeHandler>().timePaused)
-            return;
-
-
-
-        currentSpeed = baseSpeedFactored * gameManager.GetFastForwardSettingFactor();
-
-        //don't do anything if fish is still in spawn animation
-        if (fishAnimation.IsAnimationPlaying(fishAnimation.frontAnimator, "Fish Spawn"))
-        {
-            return;
-        }
-
-
-        // 3 possibilities: Fish is hungry. Fish is idle. Fish is moving.
-        if (isHungry)
-        {
-            // Find a food to eat
-            closestFood = FindClosestFood();
-
-            if (closestFood != null)
-            {
-                currentSpeed = hungrySpeed * gameManager.GetFastForwardSettingFactor();
-                SetTarget(closestFood.transform.position);
-            }
-        }
-        else if (isFreaky)//go freakmode
-        {
-            // Find a fish to freak
-            GameObject mate = FindClosestMate();
-
-            if (mate != null)
-            {
-                SetTarget(mate.transform.position);
-            }
-        }
-        transform.position = Vector2.MoveTowards(transform.position, target, currentSpeed * Time.deltaTime);
-
-        // If fish has reached its target...
-        if (target == new Vector2(transform.position.x, transform.position.y) && fishAnimation.GetState() == Scr_FishAnimation.FishState.Move)
-        {
-            IdleOrMove();
-        }
-
-    }
-
-
+   
     private void OnTriggerStay2D(Collider2D collision)
     {
         GameObject collisionObj = collision.gameObject;

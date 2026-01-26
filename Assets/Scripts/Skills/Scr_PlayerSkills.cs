@@ -104,8 +104,25 @@ public class Scr_PlayerSkills : MonoBehaviour
                 }
             }
         }
+    }
 
+    public void UpdateSkillsOnLoad()
+    {
+        foreach (KeyValuePair<GameObject, bool[]> kvp in skillMap)
+        {
+            GameObject parent = kvp.Key;
 
+            for (int i = 0; i < parent.transform.childCount; i++)
+            {
+                Transform child = parent.transform.GetChild(i);
+                GameObject childObj = child.gameObject;
+
+                if (kvp.Value[i])
+                {
+                    childObj.GetComponent<Scr_SkillsHover>().correspondingSkill.SetActive(true);
+                }
+            }
+        }
     }
 
     private bool CheckCanBuySkill(bool[] skills, int index)

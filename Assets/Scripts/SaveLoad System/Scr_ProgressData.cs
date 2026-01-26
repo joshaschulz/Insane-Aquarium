@@ -10,6 +10,7 @@ public class Scr_ProgressData
     public int loanAmount;
     public int baitEquipped; //index in bait list
     public int tackleEquipped; //index in tackle list
+    public int oscarState;
 
     public string[] fishNames;
     public int[] fishTanks; //[1, 0, 0, 1, 1, 1, ...] 0 for foreground tank, 1 for background tank 
@@ -18,8 +19,11 @@ public class Scr_ProgressData
     public int[] fishIsRadiated;
     public int[] fishIsMutated;
     public int[] fishIsGrown;
+    public int[] fishGenerations;
     public float[] fishGrowCounts;
     public float[] fishFreakCounts;
+    public float[] fishHungerCounts;
+    public float[] fishPoopCounts;
     public int[] fishSpecies; //[1, 3, 5, 4, ...] index of game manager fish prefabs
     public float[] fishHues;
 
@@ -35,8 +39,11 @@ public class Scr_ProgressData
     public int[] fishBagsIsRadiated;
     public int[] fishBagsIsMutated;
     public int[] fishBagsIsGrown;
+    public int[] fishBagsGenerations;
     public float[] fishBagsGrowCounts;
     public float[] fishBagsFreakCounts;
+    public float[] fishBagsHungerCounts;
+    public float[] fishBagsPoopCounts;
     public int[] fishBagsSpecies; //[1, 3, 5, 4, ...] index of game manager fish prefabs
     public float[] fishBagsHues;
 
@@ -54,7 +61,7 @@ public class Scr_ProgressData
     public int[] baitAmounts;
     public int[] tackleAmounts;
     public int[] skills; //*bools [1, 0, 0, 1, 0, 0, ...]
-    public int[] fishpediaEntries; //*bools [1, 0, 0, 1, 0 ,0 ,1]
+    public int[] fishpediaButtons; //*bools [1, 0, 0, 1, 0 ,0 ,1]
     public int[] fishpediaNumCaughtAmounts;
 
     public float[] structurePositions; //*vector3 [x0, y0, z0, x1, y1, z1, ...]
@@ -67,6 +74,7 @@ public class Scr_ProgressData
         loanAmount = gameManager.loanAmount;
         baitEquipped = 0; //PLACEHOLDER
         tackleEquipped = 0; //PLACEHOLDER
+        oscarState = gameManager.GetOscarState();
 
         int numFish = 0;
         int numExoticFish = 0;
@@ -102,8 +110,11 @@ public class Scr_ProgressData
         fishIsRadiated = new int[numFish];
         fishIsMutated = new int[numFish];
         fishIsGrown = new int[numFish];
+        fishGenerations = new int[numFish];
         fishGrowCounts = new float[numFish];
         fishFreakCounts = new float[numFish];
+        fishHungerCounts = new float[numFish];
+        fishPoopCounts = new float[numFish];
         fishSpecies = new int[numFish];
         fishHues = new float[numFish];
         fishpediaNumCaughtAmounts = new int[numFish];
@@ -123,8 +134,11 @@ public class Scr_ProgressData
             fishIsRadiated[i] = fishList[i].radiated ? 1 : 0;
             fishIsMutated[i] = fishList[i].mutated ? 1 : 0;
             fishIsGrown[i] = fishList[i].grown ? 1 : 0;
+            fishGenerations[i] = fishList[i].generation;
             fishGrowCounts[i] = fishList[i].growCount;
             fishFreakCounts[i] = fishList[i].freakCount;
+            fishHungerCounts[i] = fishList[i].hungerCount;
+            fishPoopCounts[i] = fishList[i].poopCount;
             fishSpecies[i] = gameManager.allFishPrefabs.IndexOf(fishList[i].thisPrefab);
             fishHues[i] = fishList[i].GetComponent<Scr_FishHue>().GetHue();
             fishpediaNumCaughtAmounts[i] = fishList[i].numberCaught;
@@ -178,11 +192,11 @@ public class Scr_ProgressData
             }
         }
 
-        fishpediaEntries = new int[gameManager.fishpedia.GetComponent<Scr_Fishpedia>().entries.Length];
+        fishpediaButtons = new int[gameManager.fishpedia.GetComponent<Scr_Fishpedia>().entries.Length];
 
         for (int i = 0; i < gameManager.fishpedia.GetComponent<Scr_Fishpedia>().entries.Length; i++)
         {
-            fishpediaEntries[i] = gameManager.fishpedia.GetComponent<Scr_Fishpedia>().entries[i].activeSelf ? 1 : 0;
+            fishpediaButtons[i] = gameManager.fishpedia.GetComponent<Scr_Fishpedia>().buttons[i].gameObject.activeSelf ? 1 : 0;
         }
 
         structuresInScene = new int[gameManager.structuresInScene.Count];
@@ -212,32 +226,17 @@ public class Scr_ProgressData
                 bagsActive++;
         }
 
-        /*
-    public string[] fishBagsNames;
-    public int[] fishBagsIsLegendary;
-    public int[] fishBagsIsWild;
-    public int[] fishBagsIsRadiated;
-    public int[] fishBagsIsMutated;
-    public int[] fishBagsIsGrown;
-    public float[] fishBagsGrowCounts;
-    public float[] fishBagsFreakCounts;
-    public int[] fishBagsSpecies; //[1, 3, 5, 4, ...] index of game manager fish prefabs
-    public float[] fishBagsHues;
-
-    public string[] fishBagsExoticFishNames;
-    public int[] fishBagsExoticFishSpecies;
-
-    public int[] fishBagsStarfishLegCounts; //[4, 6, 1, ...] number of legs active in each starfish
-         */
-
         fishBagsNames = new string[bagsActive];
         fishBagsIsLegendary = new int[bagsActive];
         fishBagsIsWild = new int[bagsActive];
         fishBagsIsRadiated = new int[bagsActive];
         fishBagsIsMutated = new int[bagsActive];
         fishBagsIsGrown = new int[bagsActive];
+        fishBagsGenerations = new int[bagsActive];
         fishBagsGrowCounts = new float[bagsActive];
         fishBagsFreakCounts = new float[bagsActive];
+        fishBagsHungerCounts = new float[bagsActive];
+        fishBagsPoopCounts = new float[bagsActive];
         fishBagsSpecies = new int[bagsActive];
         fishBagsHues = new float[bagsActive];
 
@@ -255,8 +254,11 @@ public class Scr_ProgressData
                 fishBagsIsRadiated[i] = gameManager.allBagButtons[i].transform.GetChild(0).gameObject.GetComponent<Scr_Fish>().radiated ? 1 : 0;
                 fishBagsIsMutated[i] = gameManager.allBagButtons[i].transform.GetChild(0).gameObject.GetComponent<Scr_Fish>().mutated ? 1 : 0;
                 fishBagsIsGrown[i] = gameManager.allBagButtons[i].transform.GetChild(0).gameObject.GetComponent<Scr_Fish>().grown ? 1 : 0;
+                fishBagsGenerations[i] = gameManager.allBagButtons[i].transform.GetChild(0).gameObject.GetComponent<Scr_Fish>().generation;
                 fishBagsGrowCounts[i] = gameManager.allBagButtons[i].transform.GetChild(0).gameObject.GetComponent<Scr_Fish>().growCount;
                 fishBagsFreakCounts[i] = gameManager.allBagButtons[i].transform.GetChild(0).gameObject.GetComponent<Scr_Fish>().freakCount;
+                fishBagsHungerCounts[i] = gameManager.allBagButtons[i].transform.GetChild(0).gameObject.GetComponent<Scr_Fish>().hungerCount;
+                fishBagsPoopCounts[i] = gameManager.allBagButtons[i].transform.GetChild(0).gameObject.GetComponent<Scr_Fish>().poopCount;
                 fishBagsSpecies[i] = gameManager.allFishPrefabs.IndexOf(gameManager.allBagButtons[i].transform.GetChild(0).gameObject.GetComponent<Scr_Fish>().thisPrefab);
                 fishBagsHues[i] = gameManager.allBagButtons[i].transform.GetChild(0).gameObject.GetComponent<Scr_FishHue>().GetHue();
                 fishBagsExoticFishSpecies[i] = -1;

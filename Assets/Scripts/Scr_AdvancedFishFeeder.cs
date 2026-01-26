@@ -2,12 +2,10 @@ using TMPro;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Scr_FishFeeder : MonoBehaviour
+public class Scr_AdvancedFishFeeder : MonoBehaviour
 {
     [Header("UI")]
-    public GameObject speedLight1;
-    public GameObject speedLight2;
-    public GameObject speedLight3;
+    public GameObject onLight;
 
     [Header("references")]
     public Scr_GameManager gameManager;   // assign in inspector
@@ -20,29 +18,20 @@ public class Scr_FishFeeder : MonoBehaviour
     public GameObject currentFoodToDrop;
     public GameObject buttonThatWouldFlash; //______________________________________________________________________________________________________________________________________________DO THIS
 
-    [Tooltip("How many ticks between feeding events.")]
-    public int feedIntervalTicks = 30;
-
     [Tooltip("How many pellets to drop each time it feeds.")]
     public int amountPerFeed = 1;
-
-    [Tooltip("Preset speeds in ticks. Right-click with empty hand cycles these.")]
-    public int[] availableFeedIntervals = new int[] { 1, 2, 3, 5, 10 };
-
-    private int currentSpeedIndex = 2; // default index into availableFeedIntervals (e.g., 3 ticks)
-    private int tickCounter = 0;
 
     [Header("Tank visuals")]
     public GameObject[] foodSprites;   // assign all 20 sprite holders in inspector
 
     private bool pausedBecauseEmpty = false;
-    public int startSpeedIndex = 0; // 0 = paused by default
+    private bool feederOn = false;
 
 
     private void Start()
     {
         gameManager = Scr_GameManager.GMinstance;
-        UpdateSpeedLightButtons();
+        UpdateOnOffButton();
     }
 
     private void Awake()
@@ -59,14 +48,7 @@ public class Scr_FishFeeder : MonoBehaviour
             Debug.LogWarning($"{name} (FishFeeder): no Scr_TankBounds assigned/found.");
         }
 
-        ApplyStartSpeed();
     }
-    /*
-    private void LateUpdate()
-    {
-        KeepSpeedTextUpright();
-    }
-    */
     private void OnEnable()
     {
         // Optionally, get a reference to the TickHandler (assuming there's only one or it’s a singleton)
@@ -93,17 +75,13 @@ public class Scr_FishFeeder : MonoBehaviour
     // =========================
     public void OnTickEvent()
     {
-        if (feedIntervalTicks <= 0) return; // 0 = paused
+        if (feederOn == false) return;
         if (currentFoodToDrop == null) return;
         if (pausedBecauseEmpty) return;
 
-        tickCounter++;
+        // Here, check if anyone is hungry...
 
-        if (tickCounter >= feedIntervalTicks)
-        {
-            tickCounter = 0;
-            SpawnFoodBurst();
-        }
+        SpawnFoodBurst();
     }
 
     private void SpawnFoodBurst()
@@ -196,41 +174,6 @@ public class Scr_FishFeeder : MonoBehaviour
         Debug.Log($"{name} (FishFeeder): set food type to {(foodPrefab != null ? foodPrefab.name : "NONE")}");
     }
 
-    public void CycleSpeed()
-    {
-        if (availableFeedIntervals == null || availableFeedIntervals.Length == 0)
-        {
-            Debug.LogWarning($"{name} (FishFeeder): no availableFeedIntervals configured.");
-            return;
-        }
-
-        currentSpeedIndex = (currentSpeedIndex + 1) % availableFeedIntervals.Length;
-        feedIntervalTicks = availableFeedIntervals[currentSpeedIndex];
-        tickCounter = 0;
-
-        UpdateSpeedLightButtons();
-
-
-        if (feedIntervalTicks == 0)
-        {
-            Debug.Log($"{name} (FishFeeder): speed set to PAUSED.");
-        }
-        else
-        {
-            Debug.Log($"{name} (FishFeeder): speed set to every {feedIntervalTicks} ticks.");
-        }
-    }
-
-    private void ApplyStartSpeed()
-    {
-        if (availableFeedIntervals == null || availableFeedIntervals.Length == 0) return;
-
-        currentSpeedIndex = Mathf.Clamp(startSpeedIndex, 0, availableFeedIntervals.Length - 1);
-        feedIntervalTicks = availableFeedIntervals[currentSpeedIndex];
-        tickCounter = 0;
-
-        UpdateSpeedLightButtons();
-    }
 
     public void UpdateFeederFillVisual(int amount)
     {
@@ -302,64 +245,32 @@ public class Scr_FishFeeder : MonoBehaviour
             go.transform.localEulerAngles = new Vector3(0f, 0f, Random.Range(0f, 360f));
         }
     }
-    private void UpdateSpeedLightButtons()
+    public void CycleState()
     {
-        int displaySpeed = GetDisplaySpeedLevel();
-        if (displaySpeed == 0)
+        feederOn = !feederOn;
+        UpdateOnOffButton();
+
+
+        if (!feederOn)
         {
-            speedLight1.SetActive(false);
-            speedLight2.SetActive(false);
-            speedLight3.SetActive(false);
+            Debug.Log($"{name} (FishFeeder): set to PAUSED.");
         }
-        else if (displaySpeed == 1)
+        else
         {
-            speedLight1.SetActive(true);
-            speedLight2.SetActive(false);
-            speedLight3.SetActive(false);
-        }
-        else if (displaySpeed == 2)
-        {
-            speedLight1.SetActive(true);
-            speedLight2.SetActive(true);
-            speedLight3.SetActive(false);
-        }
-        else if (displaySpeed == 3)
-        {
-            speedLight1.SetActive(true);
-            speedLight2.SetActive(true);
-            speedLight3.SetActive(true);
+            Debug.Log($"{name} (FishFeeder): set to ON.");
         }
     }
 
-    private int GetDisplaySpeedLevel()
+    private void UpdateOnOffButton()
     {
-        // paused always shows 0
-        if (feedIntervalTicks == 0)
-            return 0;
-
-        // count how many non-zero speeds are "up to" our currentSpeedIndex
-        // so it displays 1,2,3,... even if actual tick intervals skip numbers
-        int level = 0;
-
-        for (int i = 0; i <= currentSpeedIndex && i < availableFeedIntervals.Length; i++)
+        if (feederOn == false)
         {
-            if (availableFeedIntervals[i] != 0)
-                level++;
+            onLight.SetActive(false);
         }
-
-        // level is now 1..N for non-zero entries
-        return level;
+        else if (feederOn == true)
+        {
+            onLight.SetActive(true);
+        }
     }
-    /*
-    private void KeepSpeedTextUpright()
-    {
-        if (speedText == null) return;
 
-        float parentX = transform.localScale.x;
-
-        Vector3 s = speedText.transform.localScale;
-        s.x = Mathf.Abs(s.x) * Mathf.Sign(parentX);
-        speedText.transform.localScale = s;
-    }
-    */
 }

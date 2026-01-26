@@ -158,6 +158,16 @@ public class Scr_ClickDetection : MonoBehaviour
 
                         return; // handled
                     }
+                    Scr_AdvancedFishFeeder advancedFeeder = structHit.collider.GetComponentInParent<Scr_AdvancedFishFeeder>();
+                    if (advancedFeeder != null)
+                    {
+                        if (gameManager.currentFishFoodSelected != null)
+                            advancedFeeder.SetFoodType(gameManager.currentFishFoodSelected, gameManager.currentFishFoodButtonSelected);
+                        else
+                            advancedFeeder.CycleState();
+
+                        return; // handled
+                    }
                 }
 
                 // Drop food if selected

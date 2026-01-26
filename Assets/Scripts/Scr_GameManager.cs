@@ -406,11 +406,16 @@ public class Scr_GameManager : MonoBehaviour
 
             var filter = placed.GetComponentInChildren<Scr_Filter>();
             var feeder = placed.GetComponentInChildren<Scr_FishFeeder>();
+            var advancedFeeder = placed.GetComponentInChildren<Scr_AdvancedFishFeeder>();
             var saleSticker = placed.GetComponentInChildren<Scr_ForSaleSticker>();
 
             if (filter != null)
             {
                 filter.enabled = true;
+            }
+            else if (advancedFeeder != null)
+            {
+                advancedFeeder.enabled = true;
             }
             else if (feeder != null)
             {
@@ -473,11 +478,16 @@ public class Scr_GameManager : MonoBehaviour
 
         var filter = placed.GetComponentInChildren<Scr_Filter>();
         var feeder = placed.GetComponentInChildren<Scr_FishFeeder>();
+        var advancedFeeder = placed.GetComponentInChildren<Scr_AdvancedFishFeeder>();
         var saleSticker = placed.GetComponentInChildren<Scr_ForSaleSticker>();
 
         if (filter != null)
         {
             filter.enabled = true;
+        }
+        else if (advancedFeeder != null)
+        {
+            advancedFeeder.enabled = true;
         }
         else if (feeder != null)
         {

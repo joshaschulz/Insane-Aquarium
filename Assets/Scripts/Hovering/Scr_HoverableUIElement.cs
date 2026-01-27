@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class Scr_HoverableUIElement : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    private Scr_GameManager gameManager;
+
     private Vector3 originalScale;
     private bool isHovering = false;
     private Coroutine pulseRoutine;
@@ -13,6 +15,12 @@ public class Scr_HoverableUIElement : MonoBehaviour, IPointerEnterHandler, IPoin
     public float scaleAmount = 1.05f;  // Maximum size multiplier
     public float pulseSpeed = 1.1f;   // Speed of pulsing
 
+
+
+    private void Start()
+    {
+        gameManager = Scr_GameManager.GMinstance;
+    }
 
     void OnEnable()
     {
@@ -35,20 +43,27 @@ public class Scr_HoverableUIElement : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (FindObjectOfType<Scr_GameManager>().Scr_TimeHandler.timePaused)
+        // If time is paused...
+        if (gameManager.Scr_TimeHandler.timePaused)
         {
-            if (gameObject.name != "Notepad")
+            // If you are hovering over an object whose panel is active...
+            if (gameObject.name == "Notepad" && gameManager.fishpedia.activeSelf)
+            {
+                StartHoverPulse();
+                return;
+            }
+            else if (gameObject.name == "Tackle Box" && gameManager.baitAndTackleScreen.activeSelf)
+            {
+                StartHoverPulse();
+                return;
+            }
+            else
             {
                 return;
             }
         }
-            
 
-        isHovering = true;
-        if (pulseRoutine == null) // Start the coroutine only if it's not already running
-        {
-            pulseRoutine = StartCoroutine(PulseEffect());
-        }
+        StartHoverPulse();
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -61,7 +76,14 @@ public class Scr_HoverableUIElement : MonoBehaviour, IPointerEnterHandler, IPoin
         }
         transform.localScale = originalScale; // Reset scale when exiting
     }
-
+    void StartHoverPulse()
+    {
+        isHovering = true;
+        if (pulseRoutine == null)
+        {
+            pulseRoutine = StartCoroutine(PulseEffect());
+        }
+    }
     IEnumerator PulseEffect()
     {
         while (isHovering)

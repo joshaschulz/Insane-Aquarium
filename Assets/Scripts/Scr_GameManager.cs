@@ -18,6 +18,7 @@ public class Scr_GameManager : MonoBehaviour
     public string businessName = "FishyBusinessSaveTest";
 
     public Scr_Notifications notifications;
+    public Scr_BaitTackle baitAndTackle;
 
     public GameObject phoneOpen;
     public GameObject phoneClosed;
@@ -38,8 +39,10 @@ public class Scr_GameManager : MonoBehaviour
 
     public List<GameObject> structuresInScene;
 
+
     public int loanAmount = 0;
     private int tempLoanAmount = 0;
+
 
     public Dictionary<string, int> legendaryCountBySpecies = new Dictionary<string, int>();
     
@@ -2976,7 +2979,12 @@ public class Scr_GameManager : MonoBehaviour
                 }
             }
 
-            if (contact != null && contact.contactName == "Big River Bank" && !skills.currentAccountingSkills[2])
+            if (contact != null && contact.contactName == "Big River Bank" && !skills.currentAccountingSkills[2]) //bank
+            {
+                contact = null;
+            }
+
+            if (contact != null && contact.contactName == "Bait Shop" && !skills.currentFishingSkills[0]) //bait and tackle shop
             {
                 contact = null;
             }
@@ -3392,7 +3400,131 @@ public class Scr_GameManager : MonoBehaviour
                     }
                 }
             }
+            else if (currentlyCalling == "Bait Shop")
+            {
+                if (CheckIfOnSelectionDialogue1())
+                {
+                    if (textNum == 1 && skills.currentResearchSkills[0])
+                    {
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Filters are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[0].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[0].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
 
+                        structureToPurchase = structurePrefabs[0];
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBoxPhone.NextLine();
+                    }
+                    else if (textNum == 1 && skills.currentCustomerServiceSkills[0])
+                    {
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Sale Signs are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
+
+                        structureToPurchase = structurePrefabs[2];
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBoxPhone.NextLine();
+                    }
+
+                    if (textNum == 2 && skills.currentResearchSkills[0])
+                    {
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Feeders are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[1].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[1].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
+
+                        structureToPurchase = structurePrefabs[1];
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBoxPhone.NextLine();
+
+                    }
+
+                    if (textNum == 3 && skills.currentCustomerServiceSkills[0] && skills.currentResearchSkills[0])
+                    {
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Sale Signs are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
+
+                        structureToPurchase = structurePrefabs[2];
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBoxPhone.NextLine();
+
+                    }
+                    else if (textNum == 3 && !skills.currentCustomerServiceSkills[0] && skills.currentResearchSkills[2])
+                    {
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Advanced Feeders are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[3].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[3].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
+
+                        structureToPurchase = structurePrefabs[3];
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBoxPhone.NextLine();
+                    }
+
+                    if (textNum == 4 && skills.currentResearchSkills[2] && skills.currentCustomerServiceSkills[0])
+                    {
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Advanced Feeders are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[3].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[3].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
+
+                        structureToPurchase = structurePrefabs[3];
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBoxPhone.NextLine();
+                    }
+                }
+                else if (CheckIfOnFinalPurchaseDialogue())
+                {
+                    if (textNum == 0)
+                    {
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnd] = $"Don't call us if you're not buying anything!";
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnd - 1;
+                        dialogueBoxPhone.NextLine();
+
+                    }
+                    else
+                    {
+                        int totalPrice;
+
+                        if (skills.currentAccountingSkills[0])
+                        {
+                            totalPrice = (int)(structureToPurchase.GetComponent<Scr_StructurePlacementRules>().cost * textNum * 0.8);
+                        }
+                        else
+                        {
+                            totalPrice = structureToPurchase.GetComponent<Scr_StructurePlacementRules>().cost * textNum;
+                        }
+
+                        if (GetMoneyAmount() >= totalPrice)
+                        {
+                            SetStructureAmount(structureToPurchase, GetStructureAmount(structureToPurchase) + textNum);
+                            SubtractMoneyAmount(totalPrice);
+
+                            notifications.Show($"{textNum} {((textNum > 1) ? structureToPurchase.name + "s" : structureToPurchase.name)} purchased for {totalPrice} krona!");
+
+                            //dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase + 1] = $"You purchased {textNum} {fishFoodToPurchase.name}s for {fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum} Krona. Thanks for shopping with The Hungry Guppy!";
+                            dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToPurchaseAgain - 1;
+                            dialogueBoxPhone.NextLine();
+                        }
+                        else // Not enough money for purchase
+                        {
+                            PlaySoundEffect(SFX_Error, 0.3f);
+                            Debug.Log("Not enough money!");
+
+                            // Make money text flash red
+                            FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
+
+                            notifications.Show("Not enough money to complete transaction.", 2f);
+                        }
+
+                    }
+
+                }
+                else if (CheckIfOnPurchaseAgain())
+                {
+                    if (textNum == 1)
+                    {
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableSelection - 1;
+                        dialogueBoxPhone.NextLine();
+
+                    }
+                    else if (textNum == 2)
+                    {
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnd - 1;
+                        dialogueBoxPhone.NextLine();
+
+                    }
+                }
+                else
+                {
+                    dialogueBoxPhone.AdvanceText();
+                }
+            }
             /*
             else if (currentlyCalling == "St. Ray's Realty")
             {
@@ -3593,6 +3725,20 @@ public class Scr_GameManager : MonoBehaviour
                     dialogueBoxPhone.skipToEnd = true;
                     dialogueBoxPhone.lines[contact.indexToEnd] = "Sorry, we're all out of stock for now. Come back another time!";
                 }
+            }
+        }
+        else if (contact.contactName == "Bait Shop")
+        {
+            if (skills.currentFishingSkills[1]) //have tackle unlocked
+            {
+                dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Baits or 2 for Tackles and press enter";
+
+            }
+            else //
+            {
+                dialogueBoxPhone.lines[contact.indexToEnableSelection - 1] = "We've only the finest baits! Tackles coming soon!";
+                dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Filters, 2 for Feeders, 3 for Sale Signs, or 4 for Advanced Feeders and press enter.";
+
             }
         }
 

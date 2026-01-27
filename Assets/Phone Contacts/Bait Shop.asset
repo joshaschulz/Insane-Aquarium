@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed06819329252df4eabcad43b6959053, type: 3}
+  m_Name: Bait Shop
+  m_EditorClassIdentifier: 
+  contactName: Bait Shop
+  phoneNumber: 5104237244
+  dialogueLines:
+  - Welcome to Bait Shop!
+  - We've only the finest baits and tackles!
+  - Enter 1 for Baits, or 2 for Tackles and press enter.
+  - Enter 1 for Earthworms, or 2 for Peanut Butter and press enter.
+  - Enter 1 for a Lead Bobber, or 2 for a Ducky Bobber and press enter.
+  - PURCHASE TEXT
+  - Would you like to purchase anything else? Enter 1 for yes, or 2 for no and press
+    enter.
+  - Thanks for shopping at the Hungry Guppy!
+  indexToEnableSelection: 3
+  indexToEnableSelection2: 999
+  indexToEnableSelection3: 999
+  indexToPurchaseAgain: 4
+  indexToEnableFinalPurchase: 5
+  indexToEnd: 6

@@ -11282,7 +11282,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 600, y: 0}
+  m_AnchoredPosition: {x: 600.00006, y: 0}
   m_SizeDelta: {x: 415, y: 315}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!95 &150198980
@@ -83030,6 +83030,7 @@ GameObject:
   - component: {fileID: 1031440126}
   - component: {fileID: 1031440127}
   - component: {fileID: 1031440128}
+  - component: {fileID: 1031440129}
   - component: {fileID: 1031440125}
   m_Layer: 0
   m_Name: GameManager
@@ -83068,6 +83069,7 @@ MonoBehaviour:
   skills: {fileID: 0}
   businessName: 
   notifications: {fileID: 0}
+  baitAndTackle: {fileID: 0}
   phoneOpen: {fileID: 1841038393}
   phoneClosed: {fileID: 1492024530}
   stallNumbers: {fileID: 1742373887}
@@ -83461,6 +83463,44 @@ MonoBehaviour:
   currentResearchSkills: 0000000000
   currentAccountingSkills: 0000000000
   skillCosts: c80000002c010000f40100002003000014050000
+--- !u!114 &1031440129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031440119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77279cfc5df70e4ebf833439813a0e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baitSprites:
+  - {fileID: 21300000, guid: 4ba2a51ff79d88d4d93bd1d916a69ae7, type: 3}
+  - {fileID: 21300000, guid: 82780f680ac78ef4db5a2a23a021eb44, type: 3}
+  - {fileID: 21300000, guid: df4fe86056a20c24391e02c750c6b4e4, type: 3}
+  - {fileID: 21300000, guid: 8b9767e9821663d4587872312ecb762a, type: 3}
+  - {fileID: 21300000, guid: a3e12b968f1b3714c9ced30060ed5369, type: 3}
+  - {fileID: 21300000, guid: 77c2eb948305e1c4dafcd5beb841879c, type: 3}
+  - {fileID: 21300000, guid: 2ebb3fd34f2fa7f4f8ed1f2c6b838987, type: 3}
+  - {fileID: 21300000, guid: 0fdc392ac9f91584ba049094dfdea44a, type: 3}
+  - {fileID: 21300000, guid: da4f9e4b87871c94daa5259a4ff74f0d, type: 3}
+  - {fileID: 21300000, guid: 1d1b1a54b6ee0654f9f2e505a5e51e6d, type: 3}
+  tackleSprites:
+  - {fileID: 21300000, guid: e79dec8791c44c9438701183d26d4117, type: 3}
+  - {fileID: 21300000, guid: a2df3bbe34f1d2849ba8f672e3cbb267, type: 3}
+  - {fileID: 21300000, guid: 0c6a129e39e78df4cbf207ff2e986ac6, type: 3}
+  - {fileID: 21300000, guid: c5e6faea2d40eb2499f4fbe91e17ba89, type: 3}
+  - {fileID: 21300000, guid: 49f1a5fd435814340b544bd30bef482b, type: 3}
+  - {fileID: 21300000, guid: 7bf94e12f3027b241bca1ec6c1cdff7b, type: 3}
+  - {fileID: 21300000, guid: aec224d021df1ec449bb4a167c2da070, type: 3}
+  - {fileID: 21300000, guid: 4e01bd7564f660c4dba659f0258ebb88, type: 3}
+  - {fileID: 21300000, guid: 58a022a794116824ab824b7b30ccf607, type: 3}
+  - {fileID: 21300000, guid: 7e53fe7c99181594596014f4d5dde81b, type: 3}
+  currentBaitEquipped: 0
+  currentTackleEquipped: 0
+  baitList: 
+  tackleList: 
 --- !u!1 &1031494837
 GameObject:
   m_ObjectHideFlags: 0
@@ -109009,7 +109049,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 600, y: 0}
+  m_AnchoredPosition: {x: 600.00006, y: 0}
   m_SizeDelta: {x: 415, y: 315}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!95 &1330364511
@@ -123002,7 +123042,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 600, y: 0}
+  m_AnchoredPosition: {x: 600.00006, y: 0}
   m_SizeDelta: {x: 415, y: 315}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1514173906

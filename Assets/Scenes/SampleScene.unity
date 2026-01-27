@@ -3713,7 +3713,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &42130144
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3785,12 +3785,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f77279cfc5df70e4ebf833439813a0e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baitSprites: []
-  tackleSprites: []
+  baitList:
+  - {fileID: 1836787053}
+  - {fileID: 1186411625}
+  - {fileID: 1285317263}
+  - {fileID: 1648844653}
+  - {fileID: 521575980}
+  - {fileID: 51455499}
+  - {fileID: 458667118}
+  - {fileID: 689608413}
+  - {fileID: 1006896118}
+  - {fileID: 1391023825}
+  tackleList:
+  - {fileID: 88213810}
+  - {fileID: 1508306086}
+  - {fileID: 515591242}
+  - {fileID: 1699663214}
+  - {fileID: 869131966}
+  - {fileID: 1381153042}
+  - {fileID: 1284961038}
+  - {fileID: 1834446929}
+  - {fileID: 1206174541}
+  - {fileID: 265429271}
+  baitCosts: 14000000280000000000000000000000000000000000000000000000000000000000000000000000
+  tackleCosts: 58020000c20100000000000000000000000000000000000000000000000000000000000000000000
+  baitListAmount: 
+  tackleListAmount: 
   currentBaitEquipped: 0
   currentTackleEquipped: 0
-  baitList: 
-  tackleList: 
 --- !u!1 &42870450
 GameObject:
   m_ObjectHideFlags: 0
@@ -11470,7 +11492,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 600, y: 0}
+  m_AnchoredPosition: {x: 600.00006, y: 0}
   m_SizeDelta: {x: 415, y: 315}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!95 &150198980
@@ -85400,7 +85422,7 @@ MonoBehaviour:
   skills: {fileID: 0}
   businessName: 
   notifications: {fileID: 0}
-  baitAndTackle: {fileID: 0}
+  baitAndTackle: {fileID: 42130147}
   phoneOpen: {fileID: 1841038393}
   phoneClosed: {fileID: 1492024530}
   stallNumbers: {fileID: 1742373887}
@@ -85475,6 +85497,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0435abacdbab6524ab16cdac94400c08, type: 2}
   - {fileID: 11400000, guid: 91818659177ae0d42b448888fa6545bd, type: 2}
   - {fileID: 11400000, guid: 80a8927e85c34c147b503b36ff8365cd, type: 2}
+  - {fileID: 11400000, guid: 1c95916505eef4b4b84b86453f37acd6, type: 2}
   currentlyCalling: 
   dialogueBoxPhone: {fileID: 666694429}
   dialogueBoxCustomer: {fileID: 770952736}
@@ -85806,32 +85829,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f77279cfc5df70e4ebf833439813a0e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baitSprites:
-  - {fileID: 21300000, guid: 4ba2a51ff79d88d4d93bd1d916a69ae7, type: 3}
-  - {fileID: 21300000, guid: 82780f680ac78ef4db5a2a23a021eb44, type: 3}
-  - {fileID: 21300000, guid: df4fe86056a20c24391e02c750c6b4e4, type: 3}
-  - {fileID: 21300000, guid: 8b9767e9821663d4587872312ecb762a, type: 3}
-  - {fileID: 21300000, guid: a3e12b968f1b3714c9ced30060ed5369, type: 3}
-  - {fileID: 21300000, guid: 77c2eb948305e1c4dafcd5beb841879c, type: 3}
-  - {fileID: 21300000, guid: 2ebb3fd34f2fa7f4f8ed1f2c6b838987, type: 3}
-  - {fileID: 21300000, guid: 0fdc392ac9f91584ba049094dfdea44a, type: 3}
-  - {fileID: 21300000, guid: da4f9e4b87871c94daa5259a4ff74f0d, type: 3}
-  - {fileID: 21300000, guid: 1d1b1a54b6ee0654f9f2e505a5e51e6d, type: 3}
-  tackleSprites:
-  - {fileID: 21300000, guid: e79dec8791c44c9438701183d26d4117, type: 3}
-  - {fileID: 21300000, guid: a2df3bbe34f1d2849ba8f672e3cbb267, type: 3}
-  - {fileID: 21300000, guid: 0c6a129e39e78df4cbf207ff2e986ac6, type: 3}
-  - {fileID: 21300000, guid: c5e6faea2d40eb2499f4fbe91e17ba89, type: 3}
-  - {fileID: 21300000, guid: 49f1a5fd435814340b544bd30bef482b, type: 3}
-  - {fileID: 21300000, guid: 7bf94e12f3027b241bca1ec6c1cdff7b, type: 3}
-  - {fileID: 21300000, guid: aec224d021df1ec449bb4a167c2da070, type: 3}
-  - {fileID: 21300000, guid: 4e01bd7564f660c4dba659f0258ebb88, type: 3}
-  - {fileID: 21300000, guid: 58a022a794116824ab824b7b30ccf607, type: 3}
-  - {fileID: 21300000, guid: 7e53fe7c99181594596014f4d5dde81b, type: 3}
+  baitList: []
+  tackleList: []
+  baitCosts: 
+  tackleCosts: 
+  baitListAmount: 
+  tackleListAmount: 
   currentBaitEquipped: 0
   currentTackleEquipped: 0
-  baitList: 
-  tackleList: 
 --- !u!1 &1031494837
 GameObject:
   m_ObjectHideFlags: 0
@@ -99467,6 +99472,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1186411626}
   - component: {fileID: 1186411628}
+  - component: {fileID: 1186411629}
   m_Layer: 5
   m_Name: Peanut Butter
   m_TagString: Untagged
@@ -99502,6 +99508,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1186411625}
   m_CullTransparentMesh: 1
+--- !u!114 &1186411629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186411625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 0}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1187413961
 GameObject:
   m_ObjectHideFlags: 0
@@ -111936,7 +111986,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 600, y: 0}
+  m_AnchoredPosition: {x: 600.00006, y: 0}
   m_SizeDelta: {x: 415, y: 315}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!95 &1330364511
@@ -126448,7 +126498,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 600, y: 0}
+  m_AnchoredPosition: {x: 600.00006, y: 0}
   m_SizeDelta: {x: 415, y: 315}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1514173906
@@ -127374,7 +127424,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -102.70456}
+  m_AnchoredPosition: {x: 0, y: -102.70453}
   m_SizeDelta: {x: -0.0000027120113, y: -202.76901}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1524155911

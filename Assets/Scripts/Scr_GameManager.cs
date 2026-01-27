@@ -112,6 +112,8 @@ public class Scr_GameManager : MonoBehaviour
     public Scr_Dialogue dialogueBoxEndDay;
     private GameObject fishFoodToPurchase;
     private GameObject structureToPurchase;
+    private int baitToPurchase = -1;
+    private int tackleToPurchase = -1;
 
     public GameObject customerTradePanel;
     public GameObject fishyGuyTradePanel;
@@ -293,6 +295,8 @@ public class Scr_GameManager : MonoBehaviour
             if (i < structureStartingAmounts.Count) amt = structureStartingAmounts[i];
             structureAmountDictionary[structurePrefabs[i]] = Mathf.Max(0, amt);
         }
+
+        baitAndTackle.InitializeBaitsAndTackles();
 
         /*
         GameObject flopper = SpawnTempFish(fishPrefabs[3], fishWaitingArea);
@@ -3404,88 +3408,151 @@ public class Scr_GameManager : MonoBehaviour
             {
                 if (CheckIfOnSelectionDialogue1())
                 {
-                    if (textNum == 1 && skills.currentResearchSkills[0])
+                    if (textNum == 1 && skills.currentFishingSkills[1])
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Filters are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[0].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[0].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
-
-                        structureToPurchase = structurePrefabs[0];
-                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
                         dialogueBoxPhone.NextLine();
                     }
-                    else if (textNum == 1 && skills.currentCustomerServiceSkills[0])
+                    else if (textNum == 1)
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Sale Signs are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Earthworms are { baitAndTackle.baitCosts[0] } Krona each. Enter the amount you wish to purchase and press enter.";
 
-                        structureToPurchase = structurePrefabs[2];
+                        baitToPurchase = 0;
+                        tackleToPurchase = -1;
                         dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
                         dialogueBoxPhone.NextLine();
                     }
 
-                    if (textNum == 2 && skills.currentResearchSkills[0])
+                    if (textNum == 2 && skills.currentFishingSkills[1])
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Feeders are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[1].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[1].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
-
-                        structureToPurchase = structurePrefabs[1];
-                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableSelection + 1;
                         dialogueBoxPhone.NextLine();
-
                     }
-
-                    if (textNum == 3 && skills.currentCustomerServiceSkills[0] && skills.currentResearchSkills[0])
+                    else if (textNum == 2)
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Sale Signs are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Peanut Butter is { baitAndTackle.baitCosts[1] } Krona each. Enter the amount you wish to purchase and press enter.";
 
-                        structureToPurchase = structurePrefabs[2];
-                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
-                        dialogueBoxPhone.NextLine();
-
-                    }
-                    else if (textNum == 3 && !skills.currentCustomerServiceSkills[0] && skills.currentResearchSkills[2])
-                    {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Advanced Feeders are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[3].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[3].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
-
-                        structureToPurchase = structurePrefabs[3];
+                        baitToPurchase = 1;
+                        tackleToPurchase = -1;
                         dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
                         dialogueBoxPhone.NextLine();
                     }
-
-                    if (textNum == 4 && skills.currentResearchSkills[2] && skills.currentCustomerServiceSkills[0])
+                }
+                else if (CheckIfOnSelectionDialogue2())
+                {
+                    if (textNum == 1)
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Advanced Feeders are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[3].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[3].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Earthworms are { baitAndTackle.baitCosts[0] } Krona each. Enter the amount you wish to purchase and press enter.";
 
-                        structureToPurchase = structurePrefabs[3];
+                        baitToPurchase = 0;
+                        tackleToPurchase = -1;
                         dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
                         dialogueBoxPhone.NextLine();
+                    }
+                    else if (textNum == 2)
+                    {
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Peanut Butter is { baitAndTackle.baitCosts[1] } Krona each. Enter the amount you wish to purchase and press enter.";
+
+                        baitToPurchase = 1;
+                        tackleToPurchase = -1;
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
+                        dialogueBoxPhone.NextLine();
+                    }
+                }
+                else if (CheckIfOnSelectionDialogue3())
+                {
+                    if (textNum == 1)
+                    {
+                        if (baitAndTackle.tackleListAmount[0] != -1)
+                        {
+                            dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToPurchaseAgain - 1] = $"You have already unlocked the Lead Bobber!";
+
+                            tackleToPurchase = -1;
+                            baitToPurchase = -1;
+                            dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToPurchaseAgain - 2;
+                            dialogueBoxPhone.NextLine();
+                        }
+                        else
+                        {
+                            dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"A Lead bobber is { baitAndTackle.tackleCosts[0] } Krona. If you would like to purchase it, press 1 and hit enter.";
+
+                            tackleToPurchase = 0;
+                            baitToPurchase = -1;
+                            dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
+                            dialogueBoxPhone.NextLine();
+                        }
+                    }
+                    else if (textNum == 2)
+                    {
+                        if (baitAndTackle.tackleListAmount[1] != -1)
+                        {
+                            dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToPurchaseAgain - 1] = $"You have already unlocked the Ducky Bobber!";
+
+                            tackleToPurchase = -1;
+                            baitToPurchase = -1;
+                            dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToPurchaseAgain - 2;
+                            dialogueBoxPhone.NextLine();
+                        }
+                        else
+                        {
+                            dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"A Ducky bobber is { baitAndTackle.tackleCosts[1] } Krona. If you would like to purchase it, press 1 and hit enter.";
+
+                            tackleToPurchase = 1;
+                            baitToPurchase = -1;
+                            dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
+                            dialogueBoxPhone.NextLine();
+                        }
                     }
                 }
                 else if (CheckIfOnFinalPurchaseDialogue())
                 {
                     if (textNum == 0)
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnd] = $"Don't call us if you're not buying anything!";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnd] = $"Not buying anything?? Well go on, scram!";
                         dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnd - 1;
                         dialogueBoxPhone.NextLine();
 
                     }
-                    else
+                    else if (textNum == 1 && tackleToPurchase != -1)
+                    {
+                        int totalPrice = baitAndTackle.tackleCosts[tackleToPurchase];
+
+                        if (GetMoneyAmount() >= totalPrice)
+                        {
+                                
+                            SubtractMoneyAmount(totalPrice);
+
+                            notifications.Show($"1 {baitAndTackle.tackleList[tackleToPurchase].name} purchased for {totalPrice} krona!");
+
+                            baitAndTackle.AddTackle(tackleToPurchase);
+
+                            dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToPurchaseAgain - 1;
+                            dialogueBoxPhone.NextLine();
+                        }
+                        else // Not enough money for purchase
+                        {
+                            PlaySoundEffect(SFX_Error, 0.3f);
+                            Debug.Log("Not enough money!");
+
+                            // Make money text flash red
+                            FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
+
+                            notifications.Show("Not enough money to complete transaction.", 2f);
+                        }
+                    }
+                    else if (baitToPurchase != -1) //purchased bait
                     {
                         int totalPrice;
 
-                        if (skills.currentAccountingSkills[0])
-                        {
-                            totalPrice = (int)(structureToPurchase.GetComponent<Scr_StructurePlacementRules>().cost * textNum * 0.8);
-                        }
-                        else
-                        {
-                            totalPrice = structureToPurchase.GetComponent<Scr_StructurePlacementRules>().cost * textNum;
-                        }
+                        totalPrice = baitAndTackle.baitCosts[baitToPurchase] * textNum;
 
                         if (GetMoneyAmount() >= totalPrice)
                         {
                             SetStructureAmount(structureToPurchase, GetStructureAmount(structureToPurchase) + textNum);
                             SubtractMoneyAmount(totalPrice);
 
-                            notifications.Show($"{textNum} {((textNum > 1) ? structureToPurchase.name + "s" : structureToPurchase.name)} purchased for {totalPrice} krona!");
+                            notifications.Show($"{textNum} {((textNum > 1) ? baitAndTackle.baitList[baitToPurchase].name + "s" : baitAndTackle.baitList[baitToPurchase].name)} purchased for {totalPrice} krona!");
+
+                            baitAndTackle.AddBait(baitToPurchase, textNum);
 
                             //dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase + 1] = $"You purchased {textNum} {fishFoodToPurchase.name}s for {fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum} Krona. Thanks for shopping with The Hungry Guppy!";
                             dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToPurchaseAgain - 1;
@@ -3501,7 +3568,6 @@ public class Scr_GameManager : MonoBehaviour
 
                             notifications.Show("Not enough money to complete transaction.", 2f);
                         }
-
                     }
 
                 }
@@ -3737,8 +3803,7 @@ public class Scr_GameManager : MonoBehaviour
             else //
             {
                 dialogueBoxPhone.lines[contact.indexToEnableSelection - 1] = "We've only the finest baits! Tackles coming soon!";
-                dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Filters, 2 for Feeders, 3 for Sale Signs, or 4 for Advanced Feeders and press enter.";
-
+                dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Earthworms, or 2 for Peanut Butter and press enter.";
             }
         }
 

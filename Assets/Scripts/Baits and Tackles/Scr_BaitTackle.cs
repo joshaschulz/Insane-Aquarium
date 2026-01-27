@@ -5,14 +5,17 @@ using UnityEngine.UI;
 
 public class Scr_BaitTackle : MonoBehaviour
 {
-    public List<Sprite> baitSprites;
-    public List<Sprite> tackleSprites;
+    public List<GameObject> baitList;
+    public List<GameObject> tackleList;
+
+    public List<int> baitCosts;
+    public List<int> tackleCosts;
+
+    public List<int> baitListAmount;
+    public List<int> tackleListAmount;
 
     public int currentBaitEquipped;
     public int currentTackleEquipped;
-
-    public List<int> baitList;
-    public List<int> tackleList;
 
     private void OnEnable()
     {
@@ -20,35 +23,67 @@ public class Scr_BaitTackle : MonoBehaviour
     }
     public void AddBait(int index, int amount)
     {
-        if (baitList[index] != -1)
-            baitList[index] += amount;
+        if (baitListAmount[index] != -1)
+            baitListAmount[index] += amount;
         else
-            baitList[index] += amount + 1; //it was -1 (represents locked) so have to add another 1
+            baitListAmount[index] += amount + 1; //it was -1 (represents locked) so have to add another 1
+    }
+
+    public void SubtractBait(int index, int amount)
+    {
+        baitListAmount[index] -= amount;
+
+        baitListAmount[index] = Mathf.Max(baitListAmount[index], 0);
     }
 
     public void AddTackle(int index)
     {
-        tackleList[index] = 1;
+        tackleListAmount[index] = 1;
     }
 
-    public void RefreshBaitAndTackleVisuals()
+    public void InitializeBaitsAndTackles()
     {
+        baitListAmount = new List<int> { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+        tackleListAmount = new List<int> { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+
         Image[] baitImages = transform.GetChild(0).GetComponentsInChildren<Image>(true);
         Image[] tackleImages = transform.GetChild(1).GetComponentsInChildren<Image>(true);
 
         foreach (Image img in baitImages)
         {
-            // Decide here if the bait should be unlocked...
-            bool unlocked = false;
-
-            img.color = unlocked ? Color.white : Color.black;
+            img.color = Color.black;
         }
         foreach (Image img in tackleImages)
         {
-            // Decide here if the tackle should be unlocked...
-            bool unlocked = false;
+            img.color = Color.black;
+        }
+    }
 
-            img.color = unlocked ? Color.white : Color.black;
+    public void RefreshBaitAndTackleVisuals()
+    {
+        GameObject baits = transform.GetChild(0).gameObject;
+        GameObject tackles = transform.GetChild(1).gameObject;
+
+        for (int i = 0; i < baitListAmount.Count; i++)
+        {
+            if (baitListAmount[i] != -1)
+            {
+                foreach (Image img in baits.transform.GetChild(i).GetComponentsInChildren<Image>(true))
+                {
+                    img.color = Color.white;
+                }
+            }
+        }
+
+        for (int i = 0; i < tackleListAmount.Count; i++)
+        {
+            if (tackleListAmount[i] != -1)
+            {
+                foreach (Image img in tackles.transform.GetChild(i).GetComponentsInChildren<Image>(true))
+                {
+                    img.color = Color.white;
+                }
+            }
         }
     }
 }

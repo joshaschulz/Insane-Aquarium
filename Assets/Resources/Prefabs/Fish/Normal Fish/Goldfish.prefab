@@ -807,7 +807,7 @@ Transform:
   m_GameObject: {fileID: 5540887078754641901}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.41, y: -1.16, z: 0}
+  m_LocalPosition: {x: -0.384, y: -0.986, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -891,7 +891,7 @@ Transform:
   m_GameObject: {fileID: 5545726938247239295}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.48, y: -0.01000005, z: 0}
+  m_LocalPosition: {x: -1.252, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -975,7 +975,7 @@ Transform:
   m_GameObject: {fileID: 5609882666831780885}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.57, y: -1.15, z: -0.48817846}
+  m_LocalPosition: {x: -0.49, y: -0.956, z: -0.4881785}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1090,7 +1090,7 @@ Transform:
   m_GameObject: {fileID: 6951910347024186045}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.38, y: -1.17, z: -0.48817846}
+  m_LocalPosition: {x: 0.29, y: -1.045, z: -0.48817846}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1292,7 +1292,7 @@ Transform:
   m_GameObject: {fileID: 8472196592162866069}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.12, y: -1.07, z: 0}
+  m_LocalPosition: {x: -0.007, y: -0.975, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1500,6 +1500,7 @@ MonoBehaviour:
   baseSpeed: 1
   baseFishCost: 0
   fishValue: 0
+  originalfishValue: 0
   originalScale: {x: 0, y: 0, z: 0}
   spawnTank: {fileID: 0}
   minX: 0

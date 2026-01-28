@@ -61,6 +61,7 @@ public class Scr_BaitTackle : MonoBehaviour
 
             if (currentBaitEquipped == index)
             {
+                baitList[currentBaitEquipped].transform.Find("Selected Border").gameObject.SetActive(false);
                 currentBaitEquipped = -1;
             }
         }
@@ -72,9 +73,13 @@ public class Scr_BaitTackle : MonoBehaviour
     }
     public void EquipBait(int index)
     {
-        if (currentBaitEquipped == index)
+        if (currentBaitEquipped != -1)
         {
             baitList[currentBaitEquipped].transform.Find("Selected Border").gameObject.SetActive(false);
+        }
+
+        if (currentBaitEquipped == index)
+        {
             Debug.Log(baitList[currentBaitEquipped].name + " bait unequipped!");
 
             currentBaitEquipped = -1;
@@ -93,9 +98,13 @@ public class Scr_BaitTackle : MonoBehaviour
 
     public void EquipTackle(int index)
     {
-        if (currentTackleEquipped == index)
+        if (currentTackleEquipped != -1)
         {
             tackleList[currentTackleEquipped].transform.Find("Selected Border").gameObject.SetActive(false);
+        }
+
+        if (currentTackleEquipped == index)
+        {
             Debug.Log(tackleList[currentTackleEquipped].name + " tackle unequipped!");
 
             currentTackleEquipped = -1;
@@ -151,6 +160,11 @@ public class Scr_BaitTackle : MonoBehaviour
 
         for (int i = 0; i < baitListAmount.Count; i++)
         {
+            if (currentBaitEquipped == i)
+            {
+                baits.transform.GetChild(i).transform.Find("Selected Border").gameObject.SetActive(true);
+            }
+
             if (baitListAmount[i] != -1)
             {
                 baitAmountTexts[i].text = baitListAmount[i].ToString();
@@ -164,6 +178,11 @@ public class Scr_BaitTackle : MonoBehaviour
 
         for (int i = 0; i < tackleListAmount.Count; i++)
         {
+            if (currentTackleEquipped == i)
+            {
+                tackles.transform.GetChild(i).transform.Find("Selected Border").gameObject.SetActive(true);
+            }
+
             if (tackleListAmount[i] != -1)
             {
                 foreach (Image img in tackles.transform.GetChild(i).GetComponentsInChildren<Image>(true))

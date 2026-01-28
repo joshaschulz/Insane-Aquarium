@@ -515,6 +515,7 @@ MonoBehaviour:
   baseSpeed: 1
   baseFishCost: 0
   fishValue: 0
+  originalfishValue: 0
   originalScale: {x: 0, y: 0, z: 0}
   spawnTank: {fileID: 0}
   minX: 0
@@ -701,7 +702,7 @@ MonoBehaviour:
   maxComfortableTankPopulation: 10
   maxIsInfinite: 1
   comfortableWithPredators: 1
-  comfortablePoopLevel: 75
+  comfortablePoopLevel: 65
 --- !u!1 &2482288659465150058
 GameObject:
   m_ObjectHideFlags: 0

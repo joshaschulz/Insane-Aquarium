@@ -149678,7 +149678,7 @@ MonoBehaviour:
   fishLayerMask:
     serializedVersion: 2
     m_Bits: 4194304
-  legendaryFishChance: 100
+  legendaryFishChance: 10
   legendaryFishPrefabs:
   - {fileID: 8672692834543181141, guid: 0f2b8a46e6ee43640bf31e0d373cd50b, type: 3}
   - {fileID: 1863455049823253984, guid: b08d0f766cd9cec4f9c7cb6aa3475ab1, type: 3}
@@ -149695,10 +149695,10 @@ MonoBehaviour:
   - {fileID: 1863455049823253984, guid: 4274e77a7d59b934491fba235e37cb2e, type: 3}
   fishSpawnWeights:
   - 10
-  - 9
+  - 7
   - 5
-  - 7
-  - 7
+  - 8
+  - 8
   - 9
   fishSpawnBoundsCollider: {fileID: 0}
   fishSpawnPoint: {fileID: 1953274416}

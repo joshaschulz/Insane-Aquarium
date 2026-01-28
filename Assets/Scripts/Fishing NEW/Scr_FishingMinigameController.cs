@@ -278,7 +278,9 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
             if (mover != null)
             {
                 if (!mover.hooked)
+                {
                     mover.GoFast();
+                }
 
                 currentFishRoot = mover.transform;
                 lastFishHoverHitTime = Time.time;
@@ -298,15 +300,33 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
 
         if (hoveringFish)
         {
+            Debug.Log("HOVERING FISH");
             float fillRate = 1f / Mathf.Max(0.01f, secondsToFill);
             fishT01 += fillRate * Time.deltaTime;
+
+            if (gameManager.baitAndTackle.currentBaitEquipped == 1)
+                cachedFishMovement.peanutButterMoveSlower = true;
         }
         else
         {
             if (minigameStarted)
             {
-                float drainRate = 1f / Mathf.Max(0.01f, secondsToDrain);
-                fishT01 -= drainRate * Time.deltaTime;
+                Debug.Log("XXXXXXXXXXXXXXXXXX");
+
+                if (gameManager.baitAndTackle.currentBaitEquipped == 1)
+                    cachedFishMovement.peanutButterMoveSlower = false;
+
+                if (gameManager.baitAndTackle.currentTackleEquipped == 0) //if lead bobber equipped, drain slower
+                {
+                    float drainRate = 1f / Mathf.Max(0.01f, secondsToDrain);
+                    fishT01 -= (drainRate * gameManager.baitAndTackle.leadBobberDrainFactor) * Time.deltaTime;
+                }
+                else
+                {
+                    float drainRate = 1f / Mathf.Max(0.01f, secondsToDrain);
+                    fishT01 -= drainRate * Time.deltaTime;
+                }
+
             }
         }
 
@@ -434,6 +454,16 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
         winPanel.lineConnectorRoot.SetActive(true);
         Cursor.visible = true;
         winPanel.treasureQuantityText.SetActive(false);
+
+        UpdateBaitAmount();
+    }
+
+    public void UpdateBaitAmount()
+    {
+        if (gameManager.baitAndTackle.currentBaitEquipped != -1)
+        {
+            gameManager.baitAndTackle.SubtractBait(gameManager.baitAndTackle.currentBaitEquipped, 1);
+        }
     }
 
     public void DespawnFishingMinigame()

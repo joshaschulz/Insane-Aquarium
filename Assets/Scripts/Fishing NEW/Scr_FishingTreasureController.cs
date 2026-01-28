@@ -286,10 +286,15 @@ public class Scr_FishingMinigameChestController : MonoBehaviour
 
             if (fishingLine != null && fishingLine.useCursorLag)
             {
-                fishingLine.cursorFollowSpeed = Mathf.Max(
-                    minCursorFollowSpeed,
-                    fishingLine.cursorFollowSpeed - cursorLagIncreasePerChest
-                );
+                if (gameManager.baitAndTackle.currentTackleEquipped == 1) //if ducky bobber is equipped, no weight for the crates
+                {
+                    fishingLine.cursorFollowSpeed = Mathf.Max(minCursorFollowSpeed, fishingLine.cursorFollowSpeed);
+                }
+                else
+                {
+                    fishingLine.cursorFollowSpeed = Mathf.Max(minCursorFollowSpeed, fishingLine.cursorFollowSpeed - cursorLagIncreasePerChest);
+                }
+
 
                 hookedCrateImage.GetComponent<SpriteRenderer>().sprite = treasureChestPrefabs[lastChest.name.Contains("Golden") ? 1 : 0].GetComponentInChildren<SpriteRenderer>().sprite;
 

@@ -16,6 +16,8 @@ public class Scr_FishMinigameMovement : MonoBehaviour
     private float currentSpeed;
     private Vector2 target;
 
+    public bool peanutButterMoveSlower;
+
     [Header("minigame bounds")]
     [Tooltip("set this from your minigame controller (collider bounds is easiest)")]
     public Bounds movementBounds;
@@ -55,6 +57,11 @@ public class Scr_FishMinigameMovement : MonoBehaviour
         }
 
         currentSpeed = baseSpeedFactored;
+
+        if (peanutButterMoveSlower) //if fish is hooked while peanut butter is active
+            currentSpeed *= gameManager.baitAndTackle.peanutButterSlowFactor;
+
+        fishAnimation.sideAnimator.speed = currentSpeed * (peanutButterMoveSlower ? gameManager.baitAndTackle.peanutButterSlowFactor : 1);
 
         transform.position = Vector2.MoveTowards(transform.position, target, currentSpeed * Time.deltaTime);
 
@@ -126,7 +133,7 @@ public class Scr_FishMinigameMovement : MonoBehaviour
         float speedFactor = Random.Range(1f, 1.5f);
         baseSpeedFactored = fastSpeed * speedFactor;
 
-        fishAnimation.sideAnimator.speed = baseSpeedFactored;
+        fishAnimation.sideAnimator.speed = baseSpeedFactored * (peanutButterMoveSlower ? gameManager.baitAndTackle.peanutButterSlowFactor : 1);
 
         if (Random.Range(0, 8) == 0)
         {

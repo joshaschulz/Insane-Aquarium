@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Scr_BaitTackle : MonoBehaviour
 {
+    private Scr_GameManager gameManager;
+
     public List<GameObject> baitList;
     public List<GameObject> tackleList;
+
+    public List<TextMeshProUGUI> baitAmountTexts;
 
     public List<int> baitCosts;
     public List<int> tackleCosts;
@@ -16,6 +21,19 @@ public class Scr_BaitTackle : MonoBehaviour
 
     public int currentBaitEquipped;
     public int currentTackleEquipped;
+
+
+    [Header("Bait Factors")]
+    public int earthwormNumOf10Minutes = 1;
+    public float peanutButterSlowFactor = 0.8f;
+
+    [Header("Tackle Factors")]
+    public float leadBobberDrainFactor = 0.5f;
+
+    private void Awake()
+    {
+        gameManager = FindObjectOfType<Scr_GameManager>();
+    }
 
     private void OnEnable()
     {
@@ -34,6 +52,18 @@ public class Scr_BaitTackle : MonoBehaviour
         baitListAmount[index] -= amount;
 
         baitListAmount[index] = Mathf.Max(baitListAmount[index], 0);
+
+        Debug.Log("New " + baitList[currentBaitEquipped].name + " bait amount: " + baitListAmount[currentBaitEquipped]);
+
+        if (baitListAmount[index] == 0)
+        {
+            gameManager.notifications.Show("You're all out of " + baitList[currentBaitEquipped].name + " bait.");
+
+            if (currentBaitEquipped == index)
+            {
+                currentBaitEquipped = -1;
+            }
+        }
     }
 
     public void AddTackle(int index)
@@ -41,8 +71,50 @@ public class Scr_BaitTackle : MonoBehaviour
         tackleListAmount[index] = 1;
     }
 
+    public void EquipBait(int index)
+    {
+        if (currentBaitEquipped == index)
+        {
+            Debug.Log(baitList[currentBaitEquipped].name + " bait unequipped!");
+
+            currentBaitEquipped = -1;
+            return;
+        }
+
+        if (baitListAmount[index] > 0)
+        {
+            currentBaitEquipped = index;
+
+            Debug.Log(baitList[currentBaitEquipped].name + " bait equipped!");
+        }
+
+    }
+
+    public void EquipTackle(int index)
+    {
+        if (currentTackleEquipped == index)
+        {
+            Debug.Log(tackleList[currentTackleEquipped].name + " tackle unequipped!");
+
+            currentTackleEquipped = -1;
+            return;
+        }
+
+        if (tackleListAmount[index] > 0)
+        {
+            currentTackleEquipped = index;
+
+            Debug.Log(tackleList[currentTackleEquipped].name + " tackle equipped!");
+        }
+
+
+    }
+
     public void InitializeBaitsAndTackles()
     {
+        currentBaitEquipped = -1;
+        currentTackleEquipped = -1;
+
         baitListAmount = new List<int> { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
         tackleListAmount = new List<int> { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
@@ -57,6 +129,11 @@ public class Scr_BaitTackle : MonoBehaviour
         {
             img.color = Color.black;
         }
+
+        foreach (TextMeshProUGUI baitAmount in baitAmountTexts)
+        {
+            baitAmount.text = "";
+        }
     }
 
     public void RefreshBaitAndTackleVisuals()
@@ -68,6 +145,8 @@ public class Scr_BaitTackle : MonoBehaviour
         {
             if (baitListAmount[i] != -1)
             {
+                baitAmountTexts[i].text = baitListAmount[i].ToString();
+
                 foreach (Image img in baits.transform.GetChild(i).GetComponentsInChildren<Image>(true))
                 {
                     img.color = Color.white;
@@ -85,5 +164,14 @@ public class Scr_BaitTackle : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void BuyAllBaitsAndTackles()
+    {
+        AddBait(0, 10);
+        AddBait(1, 1);
+
+        AddTackle(0);
+        AddTackle(1);
     }
 }

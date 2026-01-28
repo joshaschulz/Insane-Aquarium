@@ -340,6 +340,10 @@ public class Scr_GameManager : MonoBehaviour
         {
             AddMoneyAmount(500);
         }
+        else if (Input.GetKeyDown(KeyCode.Semicolon))
+        {
+            baitAndTackle.BuyAllBaitsAndTackles();
+        }
 
     }
 
@@ -424,12 +428,25 @@ public class Scr_GameManager : MonoBehaviour
         else
         {
             canFishCounter++;
-            if (canFishCounter > tickEventsPer10Min * 6) // * 6 for fishing every 1 hour
+            if (baitAndTackle.currentBaitEquipped == 0)
             {
-                canFish = true;
-                canFishCounter = 0;
-                notifications.Show("Fishing is ready!");
+                if (canFishCounter > tickEventsPer10Min * (6 - baitAndTackle.earthwormNumOf10Minutes)) // * 6 for fishing every 1 hour
+                {
+                    canFish = true;
+                    canFishCounter = 0;
+                    notifications.Show("Fishing is ready!");
+                }
             }
+            else
+            {
+                if (canFishCounter > tickEventsPer10Min * 6) // * 6 for fishing every 1 hour
+                {
+                    canFish = true;
+                    canFishCounter = 0;
+                    notifications.Show("Fishing is ready!");
+                }
+            }
+
         }
 
     }
@@ -3473,7 +3490,7 @@ public class Scr_GameManager : MonoBehaviour
                         }
                         else
                         {
-                            dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"A Lead bobber is { baitAndTackle.tackleCosts[0] } Krona. If you would like to purchase it, press 1 and hit enter.";
+                            dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"A Lead Bobber is { baitAndTackle.tackleCosts[0] } Krona. If you would like to purchase it, press 1 and hit enter.";
 
                             tackleToPurchase = 0;
                             baitToPurchase = -1;
@@ -3494,7 +3511,7 @@ public class Scr_GameManager : MonoBehaviour
                         }
                         else
                         {
-                            dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"A Ducky bobber is { baitAndTackle.tackleCosts[1] } Krona. If you would like to purchase it, press 1 and hit enter.";
+                            dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"A Ducky Bobber is { baitAndTackle.tackleCosts[1] } Krona. If you would like to purchase it, press 1 and hit enter.";
 
                             tackleToPurchase = 1;
                             baitToPurchase = -1;

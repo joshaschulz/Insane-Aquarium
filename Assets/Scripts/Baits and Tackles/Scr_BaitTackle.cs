@@ -57,7 +57,7 @@ public class Scr_BaitTackle : MonoBehaviour
 
         if (baitListAmount[index] == 0)
         {
-            gameManager.notifications.Show("You're all out of " + baitList[currentBaitEquipped].name + " bait.");
+            gameManager.notifications.Show("You're all out of " + baitList[currentBaitEquipped].name + " bait.", true);
 
             if (currentBaitEquipped == index)
             {
@@ -70,11 +70,11 @@ public class Scr_BaitTackle : MonoBehaviour
     {
         tackleListAmount[index] = 1;
     }
-
     public void EquipBait(int index)
     {
         if (currentBaitEquipped == index)
         {
+            baitList[currentBaitEquipped].transform.Find("Selected Border").gameObject.SetActive(false);
             Debug.Log(baitList[currentBaitEquipped].name + " bait unequipped!");
 
             currentBaitEquipped = -1;
@@ -85,6 +85,7 @@ public class Scr_BaitTackle : MonoBehaviour
         {
             currentBaitEquipped = index;
 
+            baitList[currentBaitEquipped].transform.Find("Selected Border").gameObject.SetActive(true);
             Debug.Log(baitList[currentBaitEquipped].name + " bait equipped!");
         }
 
@@ -94,6 +95,7 @@ public class Scr_BaitTackle : MonoBehaviour
     {
         if (currentTackleEquipped == index)
         {
+            tackleList[currentTackleEquipped].transform.Find("Selected Border").gameObject.SetActive(false);
             Debug.Log(tackleList[currentTackleEquipped].name + " tackle unequipped!");
 
             currentTackleEquipped = -1;
@@ -103,7 +105,7 @@ public class Scr_BaitTackle : MonoBehaviour
         if (tackleListAmount[index] > 0)
         {
             currentTackleEquipped = index;
-
+            tackleList[currentTackleEquipped].transform.Find("Selected Border").gameObject.SetActive(true);
             Debug.Log(tackleList[currentTackleEquipped].name + " tackle equipped!");
         }
 
@@ -123,10 +125,16 @@ public class Scr_BaitTackle : MonoBehaviour
 
         foreach (Image img in baitImages)
         {
+            Debug.Log(img.name);
+            if (img.name.Contains("White Border"))
+                continue;
             img.color = Color.black;
         }
         foreach (Image img in tackleImages)
         {
+            Debug.Log(img.name);
+            if (img.name.Contains("White Border"))
+                continue;
             img.color = Color.black;
         }
 

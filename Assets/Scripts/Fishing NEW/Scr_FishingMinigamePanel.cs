@@ -75,7 +75,7 @@ public class Scr_FishingMinigamePanel : MonoBehaviour
         if (fishController != null)
             fishController.ForceWinUIAndStop();
 
-
+        gameManager.PlaySoundEffect(gameManager.SFX_winner, 0.5f);
 
         if (moveRoutine != null)
             StopCoroutine(moveRoutine);
@@ -121,7 +121,6 @@ public class Scr_FishingMinigamePanel : MonoBehaviour
             Animator anim = winChest.GetComponentInChildren<Animator>();
 
             anim.Play("Crate Opening");
-
             SetSortingGroupLayer(winChest, "UI2", 5);
         }
     }

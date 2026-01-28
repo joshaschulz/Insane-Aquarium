@@ -183,6 +183,8 @@ public class Scr_ClickDetection : MonoBehaviour
         // ============================
         if (Input.GetMouseButtonDown(1))
         {
+            gameManager.PlaySelectSound(0.8f);
+
             gameManager.EnableElement(hudButtonPanel.GetChild(1).gameObject);
             gameManager.DisableElement(hudButtonPanel.GetChild(2).gameObject);
             gameManager.EnableElement(hudButtonPanel.GetChild(3).gameObject);

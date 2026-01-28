@@ -234,7 +234,7 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject bubblesEffectPrefab;
 
     // List of Sounds
-    public AudioClip SFX_DropCoin, SFX_DropFish, SFX_DropFood, SFX_FishDeath, SFX_FishEat, SFX_MoneyPickup, SFX_Select, SFX_Error, SFX_Bubbles1, SFX_Bubbles2, SFX_BagFish, SFX_Reeling, SFX_FishHitToilet, SFX_ToiletSplash, SFX_RockHit;
+    public AudioClip SFX_DropCoin, SFX_DropFish, SFX_DropFood, SFX_FishDeath, SFX_FishEat, SFX_MoneyPickup, SFX_Select, SFX_Error, SFX_Bubbles1, SFX_Bubbles2, SFX_BagFish, SFX_Reeling, SFX_FishHitToilet, SFX_StructureSplash, SFX_RockHit, SFX_buyingSkill, SFX_skillHoverPop, SFX_warningNotif, SFX_notif, SFX_mainMenuButtons, SFX_nonRockUI, SFX_intoTank, SFX_intoToilet, SFX_footStep, SFX_turnPage, SFX_footStepPlusGrab, SFX_tackleBox, SFX_moveInWater, SFX_winner, SFX_crateOpen, SFX_catchCrate, SFX_bubblesPopping;
     public AudioClip SFX_Bag, SFX_CashRegister, SFX_FishHooked, SFX_FlipPhoneHigh, SFX_FlipPhoneLow, SFX_Flush, SFX_GenUI1, SFX_GenUI2, SFX_GenUI3, SFX_LineSnap, SFX_MoneyCounter, SFX_Pop, SFX_Snap, SFX_TextScroll, SFX_TextScrollEnd, SFX_FishGrow, SFX_Fart1, SFX_Fart2;
     public AudioClip SFX_Keypad1, SFX_Keypad2, SFX_Keypad3, SFX_Keypad4, SFX_Keypad5, SFX_Keypad6, SFX_Keypad7, SFX_Keypad8, SFX_Keypad9, SFX_Keypad0, SFX_KeypadDel, SFX_KeypadEnter, SFX_CallFail, SFX_CallRinging, SFX_CallRingingUpdated, SFX_CallHangUp, SFX_StarfishFlop, SFX_Click;
 
@@ -434,7 +434,7 @@ public class Scr_GameManager : MonoBehaviour
                 {
                     canFish = true;
                     canFishCounter = 0;
-                    notifications.Show("Fishing is ready!");
+                    notifications.Show("Fishing is ready!", false);
                 }
             }
             else
@@ -443,7 +443,7 @@ public class Scr_GameManager : MonoBehaviour
                 {
                     canFish = true;
                     canFishCounter = 0;
-                    notifications.Show("Fishing is ready!");
+                    notifications.Show("Fishing is ready!", false);
                 }
             }
 
@@ -455,6 +455,8 @@ public class Scr_GameManager : MonoBehaviour
     {
         if (structurePrefab != null && GetStructureAmount(structurePrefab) > 0)
         {
+            PlaySoundEffect(SFX_StructureSplash, 0.5f);
+
             GameObject placed = Instantiate(structurePrefab, worldPos, Quaternion.identity);
 
             placed.GetComponent<Scr_StructurePlacementRules>().thisPrefab = structurePrefab;
@@ -499,13 +501,13 @@ public class Scr_GameManager : MonoBehaviour
             structuresInScene.Add(placed);
 
             // (optional) play a “place” sound if you want
-            // PlaySoundEffect(SFX_Select, 0.6f);
+            // PlaySelectSound();
 
             return true;
         }
         else
         {
-            PlaySoundEffect(SFX_Error, 0.3f);
+            //PlaySoundEffect(SFX_Error, 0.3f);
             Debug.Log("Out of Selected Structure");
 
             // Flash the structure button red (and optionally your cursor follower ghost too)
@@ -568,7 +570,7 @@ public class Scr_GameManager : MonoBehaviour
         structuresInScene.Add(placed);
 
         // (optional) play a “place” sound if you want
-        // PlaySoundEffect(SFX_Select, 0.6f);
+        // PlaySelectSound(0.7f);
 
         return true;
     }
@@ -616,7 +618,7 @@ public class Scr_GameManager : MonoBehaviour
         }
         else // Out of selected food
         {
-            PlaySoundEffect(SFX_Error, 0.3f);
+            //PlaySoundEffect(SFX_Error, 0.3f);
             Debug.Log("Out of Selected Fish Food");
 
             // Make cursor icon, selected food button, and food amount text flash red
@@ -645,7 +647,7 @@ public class Scr_GameManager : MonoBehaviour
         }
         else // Out of selected food
         {
-            PlaySoundEffect(SFX_Error, 0.3f);
+            //PlaySoundEffect(SFX_Error, 0.3f);
             Debug.Log("Out of Selected Fish Food");
 
             // Make cursor icon, selected food button, and food amount text flash red
@@ -678,7 +680,7 @@ public class Scr_GameManager : MonoBehaviour
         }
         else // Out of selected food
         {
-            PlaySoundEffect(SFX_Error, 0.3f);
+            //PlaySoundEffect(SFX_Error, 0.3f);
             Debug.Log("Out of Selected Fish Food");
 
             // Make cursor icon, selected food button, and food amount text flash red
@@ -740,8 +742,8 @@ public class Scr_GameManager : MonoBehaviour
                         if (fish.GetComponent<Scr_ExoticFish>() != null)
                             if (releasedFish.CompareTag(fish.tag))
                             {
-                                notifications.Show("Only 1 exotic fish of that species can inhabit this tank.", 2f);
-                                PlaySoundEffect(SFX_Error, 0.3f);
+                                notifications.Show("Only 1 exotic fish of that species can inhabit this tank.", 2f, true);
+                                //PlaySoundEffect(SFX_Error, 0.3f);
                                 // Perhaps disable the button to bag more fish in this case
                                 return;
                             }
@@ -1530,8 +1532,8 @@ public class Scr_GameManager : MonoBehaviour
             else
             {
                 Debug.Log("All fish bags were taken up!");
-                notifications.Show("Your fish bags are full.");
-                PlaySoundEffect(SFX_Error, 0.3f);
+                notifications.Show("Your fish bags are full.", true);
+                //PlaySoundEffect(SFX_Error, 0.3f);
                 // Perhaps disable the button to bag more fish in this case
                 return;
             }
@@ -1539,8 +1541,8 @@ public class Scr_GameManager : MonoBehaviour
         else
         {
             Debug.Log("All fish bags were taken up!");
-            notifications.Show("Your fish bags are full.");
-            PlaySoundEffect(SFX_Error, 0.3f);
+            notifications.Show("Your fish bags are full.", true);
+            //PlaySoundEffect(SFX_Error, 0.3f);
             // Perhaps disable the button to bag more fish in this case
             return;
         }
@@ -1621,8 +1623,8 @@ public class Scr_GameManager : MonoBehaviour
             else
             {
                 Debug.Log("All fish bags were taken up!");
-                notifications.Show("All fish bags are taken up.");
-                PlaySoundEffect(SFX_Error, 0.3f);
+                notifications.Show("All fish bags are taken up.", true);
+                //PlaySoundEffect(SFX_Error, 0.3f);
                 // Perhaps disable the button to bag more fish in this case
                 return;
             }
@@ -1630,8 +1632,8 @@ public class Scr_GameManager : MonoBehaviour
         else
         {
             Debug.Log("All fish bags were taken up!");
-            notifications.Show("All fish bags are taken up.");
-            PlaySoundEffect(SFX_Error, 0.3f);
+            notifications.Show("All fish bags are taken up.", true);
+            //PlaySoundEffect(SFX_Error, 0.3f);
             // Perhaps disable the button to bag more fish in this case
             return;
         }
@@ -1717,8 +1719,8 @@ public class Scr_GameManager : MonoBehaviour
             else
             {
                 Debug.Log("All fish bags were taken up!");
-                notifications.Show("All fish bags are taken up.");
-                PlaySoundEffect(SFX_Error, 0.3f);
+                notifications.Show("All fish bags are taken up.", true);
+                //PlaySoundEffect(SFX_Error, 0.3f);
                 // Perhaps disable the button to bag more fish in this case
                 return false;
             }
@@ -1726,8 +1728,8 @@ public class Scr_GameManager : MonoBehaviour
         else
         {
             Debug.Log("All fish bags were taken up!");
-            notifications.Show("All fish bags are taken up.");
-            PlaySoundEffect(SFX_Error, 0.3f);
+            notifications.Show("All fish bags are taken up.", true);
+            //PlaySoundEffect(SFX_Error, 0.3f);
             // Perhaps disable the button to bag more fish in this case
             return false;
         }
@@ -1798,8 +1800,8 @@ public class Scr_GameManager : MonoBehaviour
             else
             {
                 Debug.Log("All fish bags were taken up!");
-                notifications.Show("All fish bags are taken up.");
-                PlaySoundEffect(SFX_Error, 0.3f);
+                notifications.Show("All fish bags are taken up.", true);
+                //PlaySoundEffect(SFX_Error, 0.3f);
                 // Perhaps disable the button to bag more fish in this case
                 return false;
             }
@@ -1807,8 +1809,8 @@ public class Scr_GameManager : MonoBehaviour
         else
         {
             Debug.Log("All fish bags were taken up!");
-            notifications.Show("All fish bags are taken up.");
-            PlaySoundEffect(SFX_Error, 0.3f);
+            notifications.Show("All fish bags are taken up.", true);
+            //PlaySoundEffect(SFX_Error, 0.3f);
             // Perhaps disable the button to bag more fish in this case
             return false;
         }
@@ -1907,11 +1909,13 @@ public class Scr_GameManager : MonoBehaviour
         currentStructurePrefabSelected = structurePrefab;
         currentStructureButtonSelected = structureButton;
 
+        PlaySelectSound(1);
+
         // if out of stock, error + flash and do not start ghost placement
         if (structurePrefab == null || GetStructureAmount(structurePrefab) <= 0)
         {
             currentStructureButtonSelected = structureButton;
-            PlaySoundEffect(SFX_Error, 0.3f);
+            //PlaySoundEffect(SFX_Error, 0.3f);
 
             if (structureButton != null)
             {
@@ -2237,8 +2241,6 @@ public class Scr_GameManager : MonoBehaviour
         tempAudioSource.Play();
 
         Destroy(tempAudioObject, _soundEffect.length);
-
-        AS.PlayOneShot(_soundEffect, _volumeScale);
     }
 
     public void PlayRandomSoundEffect(List<AudioClip> _soundEffectsList, List<float> _volumeScalesList)
@@ -2371,28 +2373,28 @@ public class Scr_GameManager : MonoBehaviour
         if (_fishFoodType == null)
         {
             currentFishFoodSelected = null;
-            PlaySoundEffect(SFX_Select, 0.7f, 0.8f);
+            PlaySelectSound(0.8f);
             ChangeCursorFollower(null);
             currentFishFoodButtonSelected = null;
         }
         else if (_fishFoodType == fishFood_1_Prefab)
         {
             currentFishFoodSelected = fishFood_1_Prefab;
-            PlaySoundEffect(SFX_Select, 0.7f);
+            PlaySelectSound(1);
             ChangeCursorFollower(fishFood_1_Button.GetComponent<Image>().sprite);
             currentFishFoodButtonSelected = fishFood_1_Button;
         }
         else if (_fishFoodType == fishFood_2_Prefab)
         {
             currentFishFoodSelected = fishFood_2_Prefab;
-            PlaySoundEffect(SFX_Select, 0.7f);
+            PlaySelectSound(1);
             ChangeCursorFollower(fishFood_2_Button.GetComponent<Image>().sprite);
             currentFishFoodButtonSelected = fishFood_2_Button;
         }
         else if (_fishFoodType == fishFood_3_Prefab)
         {
             currentFishFoodSelected = fishFood_3_Prefab;
-            PlaySoundEffect(SFX_Select, 0.7f);
+            PlaySelectSound(1);
             ChangeCursorFollower(fishFood_3_Button.GetComponent<Image>().sprite);
             currentFishFoodButtonSelected = fishFood_3_Button;
         }
@@ -2417,7 +2419,7 @@ public class Scr_GameManager : MonoBehaviour
 
         // Change the cursor image to a fish bag image and play a sound effect
         ChangeCursorFollower(fishBag_Button.GetComponent<Image>().sprite);
-        PlaySoundEffect(SFX_Select, 0.7f);
+        PlaySelectSound(1);
 
         // Set a state where clicking on a fish will remove it from the scene and add it to baggedFish
         canIBagFish = true;
@@ -2426,7 +2428,6 @@ public class Scr_GameManager : MonoBehaviour
     {
         // Change the cursor image to nothing and play a sound effect
         ChangeCursorFollower(null);
-        PlaySoundEffect(SFX_Select, 0.7f, 0.8f);
 
         // Set a state where clicking on a fish will NOT remove it from the scene and add it to baggedFish
         canIBagFish = false;
@@ -2450,7 +2451,7 @@ public class Scr_GameManager : MonoBehaviour
 
         // Change the cursor image to a wrench image and play a sound effect
         ChangeCursorFollower(wrench_Button.GetComponent<Image>().sprite);
-        PlaySoundEffect(SFX_Select, 0.7f);
+        PlaySelectSound(1);
 
         // Set a state where clicking on a structure will remove it from the scene and add it to structures list
         canIRemoveStructures = true;
@@ -2459,7 +2460,6 @@ public class Scr_GameManager : MonoBehaviour
     {
         // Change the cursor image to nothing and play a sound effect
         ChangeCursorFollower(null);
-        PlaySoundEffect(SFX_Select, 0.7f, 0.8f);
 
         // Set a state where clicking on a structure will remove it from the scene and add it to structures list
         canIRemoveStructures = false;
@@ -3142,7 +3142,7 @@ public class Scr_GameManager : MonoBehaviour
                             SetFishFoodAmount(fishFoodToPurchase, GetFishFoodAmount(fishFoodToPurchase) + textNum);
                             SubtractMoneyAmount(totalPrice);
 
-                            notifications.Show($"{textNum} {((textNum > 1) ? fishFoodToPurchase.name + "s" : fishFoodToPurchase.name)} purchased for {totalPrice} krona!");
+                            notifications.Show($"{textNum} {((textNum > 1) ? fishFoodToPurchase.name + "s" : fishFoodToPurchase.name)} purchased for {totalPrice} krona!", false);
 
                             //dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase + 1] = $"You purchased {textNum} {fishFoodToPurchase.name}s for {fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum} Krona. Thanks for shopping with The Hungry Guppy!";
                             dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToPurchaseAgain - 1;
@@ -3150,13 +3150,13 @@ public class Scr_GameManager : MonoBehaviour
                         }
                         else // Not enough money for purchase
                         {
-                            PlaySoundEffect(SFX_Error, 0.3f);
+                            //PlaySoundEffect(SFX_Error, 0.3f);
                             Debug.Log("Not enough money!");
 
                             // Make money text flash red
                             FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
 
-                            notifications.Show("Not enough money to complete transaction.", 2f);
+                            notifications.Show("Not enough money to complete transaction.", 2f, true);
                         }
 
                     }
@@ -3267,7 +3267,7 @@ public class Scr_GameManager : MonoBehaviour
                             SetStructureAmount(structureToPurchase, GetStructureAmount(structureToPurchase) + textNum);
                             SubtractMoneyAmount(totalPrice);
 
-                            notifications.Show($"{textNum} {((textNum > 1) ? structureToPurchase.name + "s" : structureToPurchase.name)} purchased for {totalPrice} krona!");
+                            notifications.Show($"{textNum} {((textNum > 1) ? structureToPurchase.name + "s" : structureToPurchase.name)} purchased for {totalPrice} krona!", false);
 
                             //dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase + 1] = $"You purchased {textNum} {fishFoodToPurchase.name}s for {fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum} Krona. Thanks for shopping with The Hungry Guppy!";
                             dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToPurchaseAgain - 1;
@@ -3275,13 +3275,13 @@ public class Scr_GameManager : MonoBehaviour
                         }
                         else // Not enough money for purchase
                         {
-                            PlaySoundEffect(SFX_Error, 0.3f);
+                            //PlaySoundEffect(SFX_Error, 0.3f);
                             Debug.Log("Not enough money!");
 
                             // Make money text flash red
                             FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
 
-                            notifications.Show("Not enough money to complete transaction.", 2f);
+                            notifications.Show("Not enough money to complete transaction.", 2f, true);
                         }
 
                     }
@@ -3538,7 +3538,7 @@ public class Scr_GameManager : MonoBehaviour
                                 
                             SubtractMoneyAmount(totalPrice);
 
-                            notifications.Show($"1 {baitAndTackle.tackleList[tackleToPurchase].name} purchased for {totalPrice} krona!");
+                            notifications.Show($"1 {baitAndTackle.tackleList[tackleToPurchase].name} purchased for {totalPrice} krona!", false);
 
                             baitAndTackle.AddTackle(tackleToPurchase);
 
@@ -3547,13 +3547,13 @@ public class Scr_GameManager : MonoBehaviour
                         }
                         else // Not enough money for purchase
                         {
-                            PlaySoundEffect(SFX_Error, 0.3f);
+                            //PlaySoundEffect(SFX_Error, 0.3f);
                             Debug.Log("Not enough money!");
 
                             // Make money text flash red
                             FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
 
-                            notifications.Show("Not enough money to complete transaction.", 2f);
+                            notifications.Show("Not enough money to complete transaction.", 2f, true);
                         }
                     }
                     else if (baitToPurchase != -1) //purchased bait
@@ -3567,7 +3567,7 @@ public class Scr_GameManager : MonoBehaviour
                             SetStructureAmount(structureToPurchase, GetStructureAmount(structureToPurchase) + textNum);
                             SubtractMoneyAmount(totalPrice);
 
-                            notifications.Show($"{textNum} {((textNum > 1) ? baitAndTackle.baitList[baitToPurchase].name + "s" : baitAndTackle.baitList[baitToPurchase].name)} purchased for {totalPrice} krona!");
+                            notifications.Show($"{textNum} {((textNum > 1) ? baitAndTackle.baitList[baitToPurchase].name + "s" : baitAndTackle.baitList[baitToPurchase].name)} purchased for {totalPrice} krona!", false);
 
                             baitAndTackle.AddBait(baitToPurchase, textNum);
 
@@ -3577,13 +3577,13 @@ public class Scr_GameManager : MonoBehaviour
                         }
                         else // Not enough money for purchase
                         {
-                            PlaySoundEffect(SFX_Error, 0.3f);
+                            //PlaySoundEffect(SFX_Error, 0.3f);
                             Debug.Log("Not enough money!");
 
                             // Make money text flash red
                             FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
 
-                            notifications.Show("Not enough money to complete transaction.", 2f);
+                            notifications.Show("Not enough money to complete transaction.", 2f, true);
                         }
                     }
 
@@ -4159,23 +4159,19 @@ public class Scr_GameManager : MonoBehaviour
 
         if (CheckIfFullFishBags())
         {
-            PlaySoundEffect(SFX_Error, 0.3f);
-            Debug.Log("Out of Selected Fish Food");
+            //PlaySoundEffect(SFX_Error, 0.3f);
 
-            // Make cursor icon, selected food button, and food amount text flash red
             FlashColor(fishingPole, Color.red, 0.5f, 0.1f);
 
-            notifications.Show("Your fish bags are full.", 2f);
+            notifications.Show("Your fish bags are full.", 2f, true);
         }
         else if (!canFish)
         {
-            PlaySoundEffect(SFX_Error, 0.3f);
-            Debug.Log("Out of Selected Fish Food");
+            //PlaySoundEffect(SFX_Error, 0.3f);
 
-            // Make cursor icon, selected food button, and food amount text flash red
             FlashColor(fishingPole, Color.red, 0.5f, 0.1f);
 
-            notifications.Show("No nibbles yet.", 2f);
+            notifications.Show("No nibbles yet.", 2f, true);
         }
         else
         {
@@ -4204,7 +4200,10 @@ public class Scr_GameManager : MonoBehaviour
 
         return false;
     }
-
+    public void PlaySelectSound(float pitch)
+    {
+        PlaySoundEffect(SFX_Select, 0.7f, pitch);
+    }
     public void QuitGame()
     {
         Application.Quit();

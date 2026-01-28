@@ -100,9 +100,9 @@ public class Scr_Dialogue : MonoBehaviour
                 // Play the blip sound — skip silent characters so it doesn't sound messy
                 if (char.IsLetterOrDigit(c))
                 {
-                    float randomPitch = Random.Range(0.35f, 0.4f);
+                    float randomPitch = Random.Range(0.65f, 0.7f);
                     if (ShouldPlayTextSound())
-                        gameManager.PlaySoundEffect(gameManager.SFX_TextScroll, 0.15f, randomPitch);
+                        gameManager.PlaySoundEffect(gameManager.SFX_TextScroll, 0.2f, randomPitch);
                 }
 
                 if (c == '.' || c == '?' || c == '!')
@@ -120,7 +120,7 @@ public class Scr_Dialogue : MonoBehaviour
             {
                 // End the Blip sounds with a higher pitched one
                 yield return new WaitForSeconds(textSpeed);
-                gameManager.PlaySoundEffect(gameManager.SFX_TextScrollEnd, 0.15f, 1.4f);
+                gameManager.PlaySoundEffect(gameManager.SFX_TextScrollEnd, 0.2f, 1f);
             }
         }
     }

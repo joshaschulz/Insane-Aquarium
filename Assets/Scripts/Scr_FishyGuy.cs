@@ -248,7 +248,7 @@ public class Scr_FishyGuy : MonoBehaviour
                     {
                         gameManager.SubtractMoneyAmount(fishToBuyScr.baseFishCost);
 
-                        notifications.Show($"{fish.tag} was purchased for {fishToBuyScr.baseFishCost} krona!");
+                        notifications.Show($"{fish.tag} was purchased for {fishToBuyScr.baseFishCost} krona!", false);
 
                         gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.4f, 1f, 1f);
                         gameManager.PlaySoundEffect(gameManager.SFX_MoneyCounter, 0.4f, 1f, 1f);
@@ -269,7 +269,7 @@ public class Scr_FishyGuy : MonoBehaviour
                     }
                     else
                     {
-                        notifications.Show("Bag fish slots are full.", 2f);
+                        notifications.Show("Bag fish slots are full.", 2f, true);
 
                         UnableToCompleteTransaction();
                         return;
@@ -277,7 +277,7 @@ public class Scr_FishyGuy : MonoBehaviour
                 }
                 else
                 {
-                    notifications.Show("Bag fish slots are full.", 2f);
+                    notifications.Show("Bag fish slots are full.", 2f, true);
 
                     UnableToCompleteTransaction();
                     return;
@@ -286,7 +286,7 @@ public class Scr_FishyGuy : MonoBehaviour
             }
             else
             {
-                notifications.Show("Not enough money to complete transaction.", 2f);
+                notifications.Show("Not enough money to complete transaction.", 2f, true);
 
                 UnableToCompleteTransaction();
                 return;

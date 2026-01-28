@@ -29,26 +29,12 @@ public class Scr_Notifications : MonoBehaviour
         textRect = text.GetComponent<RectTransform>();
     }
 
-    public void Show(string message)
+    public void Show(string message, bool isWarning)
     {
-        if (container.activeSelf)
-        {
-            StopAllCoroutines();
-            HideQuick();
-        }
-
-
-        container.SetActive(true);
-        text.text = message;
-
-        ResizeBackgroundToText();
-
-        StartCoroutine(OpenBox(container));
-
-        StartCoroutine(AutoHideAfterDelay(autoHideSecondsDefault));
+        Show(message, autoHideSecondsDefault, isWarning);
     }
 
-    public void Show(string message, float hideSeconds)
+    public void Show(string message, float hideSeconds, bool isWarning)
     {
         if (container.activeSelf)
         {
@@ -56,6 +42,10 @@ public class Scr_Notifications : MonoBehaviour
             HideQuick();
         }
 
+        if (isWarning)
+            gameManager.PlaySoundEffect(gameManager.SFX_warningNotif, 0.05f);
+        else
+            gameManager.PlaySoundEffect(gameManager.SFX_notif, 0.05f, 1.2f);
 
         container.SetActive(true);
         text.text = message;

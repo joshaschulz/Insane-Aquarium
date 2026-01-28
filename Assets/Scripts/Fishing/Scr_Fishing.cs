@@ -144,7 +144,7 @@ public class Scr_Fishing : MonoBehaviour
         toiletFish.GetComponent<Scr_ToiletFish>().escapeFactor = 20;
 
         gameManager.PlaySoundEffect(gameManager.SFX_FishHitToilet, 1f);
-        gameManager.PlaySoundEffect(gameManager.SFX_ToiletSplash, 0.3f);
+        //gameManager.PlaySoundEffect(gameManager.SFX_ToiletSplash, 0.3f);
         gameManager.PlaySoundEffect(gameManager.SFX_Flush, 0.3f);
 
         if (isReeling)

@@ -381,7 +381,7 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
                 gameManager.Scr_TimeHandler.UnpauseTime();
                 gameManager.DisableUnderwaterAudio();
 
-                gameManager.PlaySoundEffect(gameManager.SFX_Flush, 0.3f);
+                gameManager.PlaySoundEffect(gameManager.SFX_Flush, 0.1f);
                 gameManager.ClickButton(winPanel.flushFishButton);
             }
             hookedCrateImage.SetActive(false);
@@ -396,7 +396,7 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
     {
         if (!fishButton.gameObject.activeSelf)
         {
-            FindObjectOfType<Scr_Notifications>().Show($"{fishCaught.name} was added to the fishpedia!");
+            FindObjectOfType<Scr_Notifications>().Show($"{fishCaught.name} was added to the fishpedia!", false);
         }
     }
 
@@ -443,7 +443,7 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
 
     public void FlushFish()
     {
-        gameManager.PlaySoundEffect(gameManager.SFX_Flush, 0.3f);
+        gameManager.PlaySoundEffect(gameManager.SFX_Flush, 0.1f);
         ResetFishingMinigame();
         DespawnFishingMinigame();
     }
@@ -479,9 +479,9 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
             
     }
 
-    public void PlayReelDropSound()
+    public void PlayFishingGameStartSound()
     {
-        gameManager.PlaySoundEffect(gameManager.SFX_Click, 1);
+        gameManager.PlaySoundEffect(gameManager.SFX_intoToilet, 0.3f);
     }
 
 }

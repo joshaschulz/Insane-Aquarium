@@ -11,7 +11,7 @@ public class Scr_SaveLoad : MonoBehaviour
 
     public void SaveBusiness()
     {
-        gameManager.notifications.Show("Game Saved!");
+        gameManager.notifications.Show("Game Saved!", false);
         Scr_SaveSystem.SaveBusiness(gameManager, gameManager.businessName);
     }
 

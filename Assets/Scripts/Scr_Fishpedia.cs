@@ -110,4 +110,8 @@ public class Scr_Fishpedia : MonoBehaviour
     {
         gameManager = Scr_GameManager.GMinstance;
     }
+    public void PlayPageTurnSound()
+    {
+        gameManager.PlaySoundEffect(gameManager.SFX_turnPage, 1f);
+    }
 }

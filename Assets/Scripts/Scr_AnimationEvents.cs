@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Scr_AnimationEvents : MonoBehaviour
 {
+    private Scr_GameManager gameManager;
+
     Scr_FishingMinigameChestController chestControllerScr;
     Scr_FishingMinigamePanel fishingPanelScr;
 
@@ -12,6 +14,8 @@ public class Scr_AnimationEvents : MonoBehaviour
 
     public void Awake()
     {
+        gameManager = FindObjectOfType<Scr_GameManager>();
+
         chestControllerScr = FindObjectOfType<Scr_FishingMinigameChestController>();
         fishingPanelScr = FindObjectOfType<Scr_FishingMinigamePanel>();
     }
@@ -59,5 +63,7 @@ public class Scr_AnimationEvents : MonoBehaviour
         fishingPanelScr.bagFishButton.gameObject.SetActive(true);
         fishingPanelScr.flushFishButton.gameObject.SetActive(true);
         fishingPanelScr.treasureQuantityText.SetActive(true);
+
+        gameManager.PlaySoundEffect(gameManager.SFX_crateOpen, 0.8f);
     }
 }

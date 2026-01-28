@@ -293,7 +293,7 @@ public class Scr_Customer : MonoBehaviour
                 tipped = true;
             }
 
-            notifications.Show($"{(tipped ? "Customer tipped 10%! " : "")} {numSold} {customerFishPrefab.tag} was sold for {money} krona!");
+            notifications.Show($"{(tipped ? "Customer tipped 10%! " : "")} {numSold} {customerFishPrefab.tag} was sold for {money} krona!", false);
             gameManager.AddMoneyAmount(money);
 
             gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.4f, 1f, 1f);
@@ -529,7 +529,7 @@ public class Scr_Customer : MonoBehaviour
             tipped = true;
         }
 
-        notifications.Show($"{(tipped ? "Customer tipped 10%! " : "")}{fishToSell.Count} {fishToSell[0].tag} was sold for {totalMoney} krona!");
+        notifications.Show($"{(tipped ? "Customer tipped 10%! " : "")}{fishToSell.Count} {fishToSell[0].tag} was sold for {totalMoney} krona!", false);
 
 
         gameManager.AddMoneyAmount(totalMoney);
@@ -573,7 +573,7 @@ public class Scr_Customer : MonoBehaviour
         // Make cursor icon and selected food button flash red
         gameManager.FlashColor(clickedButton, Color.red, 0.5f, 0.1f);
 
-        notifications.Show("Not enough fish in bags to complete transaction.", 2f);
+        notifications.Show("Not enough fish in bags to complete transaction.", 2f, true);
     }
 
     private bool CheckIfLegendaryFishPresent() //return true if there is a legendary fish of the same species in a tank

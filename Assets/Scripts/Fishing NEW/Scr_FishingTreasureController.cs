@@ -299,6 +299,7 @@ public class Scr_FishingMinigameChestController : MonoBehaviour
                 hookedCrateImage.GetComponent<SpriteRenderer>().sprite = treasureChestPrefabs[lastChest.name.Contains("Golden") ? 1 : 0].GetComponentInChildren<SpriteRenderer>().sprite;
 
                 hookedCrateImage.SetActive(true);
+                gameManager.PlaySoundEffect(gameManager.SFX_catchCrate, 0.8f);
             }
 
             if (!chestBarAlwaysVisible && chestProgressRoot != null)

@@ -92,8 +92,9 @@ public class Scr_PlayerSkills : MonoBehaviour
                         gameManager.SubtractMoneyAmount(skillCosts[i]);
                         gameManager.UpdateText(endDay.endDayMoneyText, gameManager.moneyAmount);
 
-                        gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.4f, 1f, 1f);
-                        gameManager.PlaySoundEffect(gameManager.SFX_MoneyCounter, 0.4f, 1f, 1f);
+                        gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.1f);
+                        gameManager.PlaySoundEffect(gameManager.SFX_MoneyCounter, 0.3f);
+                        gameManager.PlaySoundEffect(gameManager.SFX_buyingSkill, 0.5f);
 
                         legObj.GetComponent<Scr_SkillsHover>().correspondingSkill.SetActive(true);
 
@@ -136,14 +137,14 @@ public class Scr_PlayerSkills : MonoBehaviour
             else
             {
                 gameManager.PlaySoundEffect(gameManager.SFX_Error, 0.3f);
-                gameManager.notifications.Show("You do not have enough money to purchase that skill.");
+                gameManager.notifications.Show("You do not have enough money to purchase that skill.", true);
                 return false;
             }
         }
         else
         {
             gameManager.PlaySoundEffect(gameManager.SFX_Error, 0.3f);
-            gameManager.notifications.Show("You must buy the previous skill first.");
+            gameManager.notifications.Show("You must buy the previous skill first.", true);
             return false;
         }
     }
@@ -155,6 +156,7 @@ public class Scr_PlayerSkills : MonoBehaviour
         skillNameText.text = skillName;
         skillDescriptionText.text = skillDescription;
 
+        gameManager.PlaySoundEffect(gameManager.SFX_skillHoverPop, 0.05f, 0.7f);
 
         //tooltip.Show("Buy skill");
     }

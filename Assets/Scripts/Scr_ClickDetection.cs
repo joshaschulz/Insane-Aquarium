@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine.UI;
 
 public class Scr_ClickDetection : MonoBehaviour
 {
@@ -57,9 +58,11 @@ public class Scr_ClickDetection : MonoBehaviour
                 gameManager.dialogueBoxEndDay.AdvanceText();
             }
 
+
             if (results.Count > 0)
             {
                 Debug.Log("Clicked UI element: " + results[0].gameObject.name);
+
 
                 // -----------------------------------------
                 // NEW: cancel structure placement if clicking any UI

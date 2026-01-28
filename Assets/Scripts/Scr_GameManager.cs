@@ -27,6 +27,9 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject fishingPole;
     public Button fishingPoleClickFunctions;
 
+    public TMP_InputField newGameBusinessName;
+    public Button newGameClickFunctions;
+
     public GameObject oscar;
 
     //FOR SAVING/LOADING
@@ -3851,6 +3854,10 @@ public class Scr_GameManager : MonoBehaviour
             index = 6;
             bensenOneTimeDialogue = true;
         }
+        else if (contact.contactName == "Benson")
+        {
+            index = Random.Range(1, contact.dialogueLines.Length - 1);
+        }
         else
             index = Random.Range(1, contact.dialogueLines.Length);
 
@@ -4178,6 +4185,21 @@ public class Scr_GameManager : MonoBehaviour
             ClickButton(fishingPoleClickFunctions);
             canFish = false;
         }
+    }
+
+    public void ClickBeginGame()
+    {
+        if (string.IsNullOrWhiteSpace(newGameBusinessName.text))
+            return;
+
+        businessName = newGameBusinessName.text;
+        ClickButton(newGameClickFunctions);
+
+    }
+
+    public void ClickNewGame()
+    {
+        businessName = "";
     }
 
     public bool CheckIfFullFishBags()

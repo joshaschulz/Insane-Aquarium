@@ -56,8 +56,6 @@ public class Scr_ProgressData
     public int[] structureAmounts; //[4, 1, 0, 6]
     public int[] structuresInScene; //[1, 2, 1, 3, ...] index of game manager structure prefabs
     public int[] structuresPlacedOnRight;
-    public int[] baitsUnlocked; //[1, 0, 0, 1, ...] 1 if unlocked
-    public int[] tacklesUnlocked;
     public int[] baitAmounts;
     public int[] tackleAmounts;
     public int[] skills; //*bools [1, 0, 0, 1, 0, 0, ...]
@@ -72,8 +70,8 @@ public class Scr_ProgressData
         day = gameManager.currentDay;
         moneyAmount = gameManager.moneyAmount;
         loanAmount = gameManager.loanAmount;
-        baitEquipped = 0; //PLACEHOLDER
-        tackleEquipped = 0; //PLACEHOLDER
+        baitEquipped = gameManager.baitAndTackle.currentBaitEquipped;
+        tackleEquipped = gameManager.baitAndTackle.currentTackleEquipped;
         oscarState = gameManager.GetOscarState();
 
         int numFish = 0;
@@ -175,10 +173,14 @@ public class Scr_ProgressData
             structureAmounts[i] = gameManager.GetStructureAmount(gameManager.allStructurePrefabs[i]);
         }
 
-        baitsUnlocked = new int[0]; //PLACEHOLDER
-        tacklesUnlocked = new int[0]; //PLACEHOLDER
-        baitAmounts = new int[0]; //PLACEHOLDER
-        tackleAmounts = new int[0]; //PLACEHOLDER
+        baitAmounts = new int[gameManager.baitAndTackle.baitListAmount.Count];
+        tackleAmounts = new int[gameManager.baitAndTackle.tackleListAmount.Count];
+
+        for (int i = 0; i < gameManager.baitAndTackle.baitListAmount.Count; i++)
+        {
+            baitAmounts[i] = gameManager.baitAndTackle.baitListAmount[i];
+            tackleAmounts[i] = gameManager.baitAndTackle.tackleListAmount[i];
+        }
 
         skills = new int[25];
 

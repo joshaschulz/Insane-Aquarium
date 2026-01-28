@@ -98,7 +98,7 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
     {
         Cursor.visible = false;
         fishingLine.cursorFollowSpeed = fishingLine.baseCursorFollowSpeed;
-        fishHookImage.SetActive(true);
+        SetActiveBaitAndTackle();
         gameManager.Scr_TimeHandler.PauseTime();
 
 
@@ -112,6 +112,7 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
         }
 
     }
+
 
     private void LateUpdate()
     {
@@ -390,6 +391,71 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
             Cursor.visible = true;
         }
 
+    }
+    public void SetActiveBaitAndTackle()
+    {
+        GameObject fishHook = transform.Find("Fishing Hook").gameObject;
+        fishHook.SetActive(true);
+
+        bool altHookEquipped = false;
+
+        //BAITS
+        if (gameManager.baitAndTackle.currentBaitEquipped != -1)
+        {
+            foreach (Transform bait in fishHook.transform.GetChild(1))
+            {
+                if (bait.name == gameManager.baitAndTackle.baitList[gameManager.baitAndTackle.currentBaitEquipped].name)
+                {
+                    bait.gameObject.SetActive(true);
+                }
+                else
+                {
+                    bait.gameObject.SetActive(false);
+                }
+            }
+        }
+        else
+        {
+            foreach (Transform bait in fishHook.transform.GetChild(1))
+            {
+                bait.gameObject.SetActive(false);
+            }
+        }
+
+        //TACKLES
+        if (gameManager.baitAndTackle.currentTackleEquipped != -1)
+        {
+            foreach (Transform tackle in fishHook.transform.GetChild(2))
+            {
+                if (tackle.name == gameManager.baitAndTackle.tackleList[gameManager.baitAndTackle.currentTackleEquipped].name)
+                {
+                    tackle.gameObject.SetActive(true);
+
+                    if (tackle.name == "Barbed Hook" || tackle.name == "Gilded Hook" || tackle.name == "Treble Hook")
+                        altHookEquipped = true;
+                }
+                else
+                {
+                    tackle.gameObject.SetActive(false);
+                }
+            }
+        }
+        else
+        {
+            foreach (Transform tackle in fishHook.transform.GetChild(2))
+            {
+                tackle.gameObject.SetActive(false);
+            }
+        }
+
+        if (altHookEquipped)
+        {
+            fishHook.GetComponent<SpriteRenderer>().enabled = false;
+        }
+        else
+        {
+            fishHook.GetComponent<SpriteRenderer>().enabled = true;
+        }
     }
 
     public void Notify(GameObject fishCaught, Button fishButton)

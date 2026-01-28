@@ -1,13 +1,26 @@
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Linq;
 
 public static class Scr_SaveSystem
 {
+    private const string ext = ".fishy";
+
+    public static string[] GetAllBusinessSaves()
+    {
+        string dir = Application.persistentDataPath;
+        if (!Directory.Exists(dir)) return new string[0];
+
+        return Directory.GetFiles(dir, "*" + ext)
+                        .Select(Path.GetFileNameWithoutExtension) // businessName
+                        .OrderBy(n => n)
+                        .ToArray();
+    }
     public static void SaveBusiness(Scr_GameManager gameManager, string businessName)
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + "/" + businessName + ".fishy";
+        string path = Application.persistentDataPath + "/" + businessName + ext;
         FileStream stream = new FileStream(path, FileMode.Create);
 
         Scr_ProgressData progress = new Scr_ProgressData(gameManager);
@@ -18,7 +31,7 @@ public static class Scr_SaveSystem
 
     public static Scr_ProgressData LoadBusiness(string businessName)
     {
-        string path = Application.persistentDataPath + "/" + businessName + ".fishy";
+        string path = Application.persistentDataPath + "/" + businessName + ext;
         if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();

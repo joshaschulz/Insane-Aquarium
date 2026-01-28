@@ -73,7 +73,7 @@ public class Scr_BaitTackle : MonoBehaviour
     }
     public void EquipBait(int index)
     {
-        if (currentBaitEquipped != -1)
+        if (currentBaitEquipped != -1 && baitListAmount[index] > 0)
         {
             baitList[currentBaitEquipped].transform.Find("Selected Border").gameObject.SetActive(false);
         }
@@ -129,8 +129,8 @@ public class Scr_BaitTackle : MonoBehaviour
         baitListAmount = new List<int> { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
         tackleListAmount = new List<int> { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 
-        Image[] baitImages = transform.GetChild(0).GetComponentsInChildren<Image>(true);
-        Image[] tackleImages = transform.GetChild(1).GetComponentsInChildren<Image>(true);
+        Image[] baitImages = transform.Find("Baits").GetComponentsInChildren<Image>(true);
+        Image[] tackleImages = transform.Find("Tackles").GetComponentsInChildren<Image>(true);
 
         foreach (Image img in baitImages)
         {
@@ -155,8 +155,8 @@ public class Scr_BaitTackle : MonoBehaviour
 
     public void RefreshBaitAndTackleVisuals()
     {
-        GameObject baits = transform.GetChild(0).gameObject;
-        GameObject tackles = transform.GetChild(1).gameObject;
+        GameObject baits = transform.Find("Baits").gameObject;
+        GameObject tackles = transform.Find("Tackles").gameObject;
 
         for (int i = 0; i < baitListAmount.Count; i++)
         {

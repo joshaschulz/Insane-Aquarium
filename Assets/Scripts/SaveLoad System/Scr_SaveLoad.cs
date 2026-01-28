@@ -22,8 +22,8 @@ public class Scr_SaveLoad : MonoBehaviour
         gameManager.currentDay = progress.day;
         gameManager.moneyAmount = progress.moneyAmount;
         gameManager.loanAmount = progress.loanAmount;
-        //gameManager.baitEquipped PLACEHOLDER
-        //gameManager.tackleEquipped PLACEHOLDER
+        gameManager.baitAndTackle.currentBaitEquipped = progress.baitEquipped;
+        gameManager.baitAndTackle.currentTackleEquipped = progress.tackleEquipped;
         gameManager.SetOscarState(progress.oscarState);
 
         gameManager.UpdateSceneTexts();
@@ -84,10 +84,11 @@ public class Scr_SaveLoad : MonoBehaviour
             gameManager.SetStructureAmount(gameManager.allStructurePrefabs[i], progress.structureAmounts[i]);
         }
 
-        //baitsUnlocked PLACEHOLDER
-        //tacklesUnlocked PLACEHOLDER
-        //baitsAmounts PLACEHOLDER
-        //tacklesAmounts PLACEHOLDER
+        for (int i = 0; i < progress.baitAmounts.Length; i++)
+        {
+            gameManager.baitAndTackle.baitListAmount[i] = progress.baitAmounts[i];
+            gameManager.baitAndTackle.tackleListAmount[i] = progress.tackleAmounts[i];
+        }
 
         int index = 0;
 

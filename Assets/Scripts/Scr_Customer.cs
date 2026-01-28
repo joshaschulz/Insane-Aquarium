@@ -457,7 +457,12 @@ public class Scr_Customer : MonoBehaviour
 
 
         customerFishPrefab = chosenPrefab;
-        customerFishQuantity = (chosenQuantity > 15) ? 3 : (chosenQuantity > 10) ? 2 : 1;
+
+        if (gameManager.skills.currentCustomerServiceSkills[3]) //Reel deal skill customers can buy multiple fish at once
+            customerFishQuantity = (chosenQuantity > 15) ? 3 : (chosenQuantity > 10) ? 2 : 1;
+        else
+            customerFishQuantity = 1;
+
         quantityText.text = "x" + customerFishQuantity;
 
         SetFishImage(chosenPrefab);

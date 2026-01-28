@@ -42,6 +42,11 @@ public class Scr_GameManager : MonoBehaviour
 
     public List<GameObject> structuresInScene;
 
+    public GameObject stickyNoteBaitBathroom;
+    public GameObject stickyNoteBaitStallNumbers;
+    public GameObject stickyNoteBankBathroom;
+    public GameObject stickyNoteBankStallNumbers;
+
 
     public int loanAmount = 0;
     private int tempLoanAmount = 0;
@@ -366,8 +371,8 @@ public class Scr_GameManager : MonoBehaviour
 
     public void UpdateSkillObjects()
     {
-        if (skills.currentCustomerServiceSkills[4])
-            oscar.SetActive(true);
+        CheckOscar();
+        CheckStickyNotes();
     }
 
     public int GetOscarState()
@@ -4079,13 +4084,28 @@ public class Scr_GameManager : MonoBehaviour
         currentDay++;
     }
 
-    public void CheckIfOscar()
+    public void CheckOscar()
     {
         if (skills.currentCustomerServiceSkills[4])
         {
             oscar.SetActive(true);
             //oscar.transform.GetChild(0).gameObject.SetActive(true); //set him to be in the working state
             //oscar.transform.GetChild(1).gameObject.SetActive(false);
+        }
+    }
+
+    public void CheckStickyNotes()
+    {
+        if (skills.currentFishingSkills[0])
+        {
+            stickyNoteBaitBathroom.SetActive(true);
+            stickyNoteBaitStallNumbers.SetActive(true);
+        }
+
+        if (skills.currentAccountingSkills[2])
+        {
+            stickyNoteBankBathroom.SetActive(true);
+            stickyNoteBankStallNumbers.SetActive(true);
         }
     }
 

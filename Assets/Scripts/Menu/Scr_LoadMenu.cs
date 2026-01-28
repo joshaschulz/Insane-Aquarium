@@ -33,7 +33,7 @@ public class Scr_LoadMenu : MonoBehaviour
             btn.onClick.AddListener(() =>
             {
                 gameManager.businessName = businessName;
-                FindObjectOfType<Scr_SaveLoad>().LoadBusiness();
+                //FindObjectOfType<Scr_SaveLoad>().LoadBusiness();
             });
         }
     }

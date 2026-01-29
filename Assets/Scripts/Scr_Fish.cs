@@ -769,7 +769,7 @@ public class Scr_Fish : MonoBehaviour
 
     public void ToggleHungryColor()
     {
-        Color hungryColor = new Color(0.70f, 1f, 0.70f); // subtle green tint
+        Color hungryColor = new Color(0.2f, 1f, 0.2f); // subtle green tint
 
         SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>(true);
 

@@ -1497,6 +1497,7 @@ MonoBehaviour:
   minutesUntilFreaky: 0
   heartIcon: {fileID: 2859162326584406625}
   hungerIcon: {fileID: 3961908895211311168}
+  hungryHexColor: '#FF6A6A'
   baseSpeed: 1
   baseFishCost: 0
   fishValue: 0

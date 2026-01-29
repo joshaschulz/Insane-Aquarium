@@ -13,7 +13,6 @@ public class Scr_FishInfoPanel : MonoBehaviour
     public TMPro.TMP_Text radiatedText;
     public TMPro.TMP_Text wildText;
     public TMPro.TMP_Text valueText;
-    public TMPro.TMP_Text skillsTestText;
     public TMPro.TMP_Text fishStateText;
     public GameObject stressFactorTextPrefab;
 
@@ -76,7 +75,6 @@ public class Scr_FishInfoPanel : MonoBehaviour
         radiatedText.text = fish.radiated ? "Yes" : "No";
         wildText.text = fish.wild ? "Yes" : "No";
         valueText.text = fish.fishValue.ToString();
-        skillsTestText.text = fish.minutesUntilFreaky.ToString();
         DetermineFishState();
         
 

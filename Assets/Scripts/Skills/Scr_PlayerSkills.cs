@@ -16,6 +16,7 @@ public class Scr_PlayerSkills : MonoBehaviour
     public GameObject skillInfoPanel;
     public TextMeshPro skillNameText;
     public TextMeshPro skillDescriptionText;
+    public TextMeshPro skillPriceText;
 
     public GameObject fishkeepingSkilsLeg;
     public GameObject fishingSkilsLeg;
@@ -149,12 +150,13 @@ public class Scr_PlayerSkills : MonoBehaviour
         }
     }
 
-    public void ShowSkill(string skillName, string skillDescription)
+    public void ShowSkill(GameObject leg, string skillName, string skillDescription)
     {
         //display panel in the center of starfish and tooltip to say purchase, if available for purchase
         skillInfoPanel.SetActive(true);
         skillNameText.text = skillName;
         skillDescriptionText.text = skillDescription;
+        skillPriceText.text = skillCosts[leg.transform.GetSiblingIndex()].ToString();
 
         gameManager.PlaySoundEffect(gameManager.SFX_skillHoverPop, 0.05f, 0.7f);
 

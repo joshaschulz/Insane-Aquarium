@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Scr_MenuStarfishSpawner : MonoBehaviour
 {
@@ -120,6 +121,13 @@ public class Scr_MenuStarfishSpawner : MonoBehaviour
         GameObject s = Instantiate(starfishPrefab);
         s.transform.position = new Vector3(x, spawnY, 0f);
         s.tag = "Menu Starfish";
+
+        //Fish appear in front and behind of fish sometimes because of same order in layer
+        GameObject starfishContainer = s.transform.GetChild(0).gameObject;
+
+        starfishContainer.GetComponent<SortingGroup>().sortingOrder = gameObject.GetComponent<Scr_MenuFishSpawner>().currentOrderInLayer % 10;
+
+        gameObject.GetComponent<Scr_MenuFishSpawner>().currentOrderInLayer++;
 
         var script = s.GetComponent<Scr_MenuStarfish>();
         if (script != null)

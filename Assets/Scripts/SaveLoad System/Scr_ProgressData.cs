@@ -11,6 +11,7 @@ public class Scr_ProgressData
     public int baitEquipped; //index in bait list
     public int tackleEquipped; //index in tackle list
     public int oscarState;
+    public int currentDifficulty;
 
     public string[] fishNames;
     public int[] fishTanks; //[1, 0, 0, 1, 1, 1, ...] 0 for foreground tank, 1 for background tank 
@@ -73,6 +74,7 @@ public class Scr_ProgressData
         baitEquipped = gameManager.baitAndTackle.currentBaitEquipped;
         tackleEquipped = gameManager.baitAndTackle.currentTackleEquipped;
         oscarState = gameManager.GetOscarState();
+        currentDifficulty = gameManager.currentDifficulty;
 
         int numFish = 0;
         int numExoticFish = 0;

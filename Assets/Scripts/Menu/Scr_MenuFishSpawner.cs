@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Scr_MenuFishSpawner : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class Scr_MenuFishSpawner : MonoBehaviour
     private float startTime;
 
     private bool spawningEnabled = true;
+    public int currentOrderInLayer;
 
 
     private readonly List<GameObject> activeFish = new List<GameObject>();
@@ -108,6 +110,20 @@ public class Scr_MenuFishSpawner : MonoBehaviour
 
         GameObject prefab = fishPrefabs[Random.Range(0, fishPrefabs.Length)];
         GameObject fish = Instantiate(prefab);
+
+        //Fish appear in front and behind of fish sometimes because of same order in layer
+        GameObject fishSideContainer = fish.transform.GetChild(0).gameObject;
+        GameObject fishFrontContainer = null;
+
+        if (fish.transform.childCount > 1)
+            fishFrontContainer = fish.transform.GetChild(1).gameObject;
+
+        fishSideContainer.GetComponent<SortingGroup>().sortingOrder = currentOrderInLayer % 10;
+
+        if (fishFrontContainer != null)
+            fishFrontContainer.GetComponent<SortingGroup>().sortingOrder = currentOrderInLayer % 10;
+
+        currentOrderInLayer++;
 
         fish.tag = "Menu Fish";
         fish.transform.position = new Vector3(b.min.x - edgePadding, y, 0f);

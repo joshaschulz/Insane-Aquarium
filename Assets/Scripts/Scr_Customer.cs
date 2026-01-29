@@ -47,9 +47,9 @@ public class Scr_Customer : MonoBehaviour
     public Scr_TankBounds[] forSaleTanks;
     private int ticksSinceOrderCreated = 0;
 
-    public int cooldownIn10MinUnits = 1; // e.g. 1 = 10 minutes, 2 = 20 minutes
+    public int cooldownIn10MinUnits = 2; // e.g. 1 = 10 minutes, 2 = 20 minutes
 
-    private int customerCooldownTicksRemaining = 0;
+    public int npcCooldownTicksRemaining = 0;
 
 
     // Start is called before the first frame update
@@ -82,23 +82,6 @@ public class Scr_Customer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if the camera is not in the bathroom, hide the customer
-        Vector2 cameraPos = new Vector2(_Camera.transform.position.x, _Camera.transform.position.y);
-
-        if (cameraPos == Scr_UIElementsHandler.bathroomPosition)
-            isCameraInBathroom = true;
-        else
-            isCameraInBathroom = false;
-
-
-        if (isCameraInBathroom && customerExists)
-        {
-            customer.SetActive(true);
-        }
-        else
-        {
-            customer.SetActive(false);
-        }
 
     }
 
@@ -158,9 +141,9 @@ public class Scr_Customer : MonoBehaviour
             }
         }
 
-        if (customerCooldownTicksRemaining > 0)
+        if (npcCooldownTicksRemaining > 0)
         {
-            customerCooldownTicksRemaining--;
+            npcCooldownTicksRemaining--;
             return;
         }
 
@@ -180,6 +163,7 @@ public class Scr_Customer : MonoBehaviour
             if (Random.Range(0, spawnChanceToUse) == 0)
             {
                 customerExists = true;
+                customer.SetActive(true);
                 PickCustomer();
                 PickCustomerFishAndQuantity();
             }
@@ -563,10 +547,11 @@ public class Scr_Customer : MonoBehaviour
         customerExists = false;
         ticksSinceSpawned = 0;
         //DestroyCustomerFish();
+        customer.SetActive(false);
 
         ticksSinceOrderCreated = 0;
 
-        customerCooldownTicksRemaining = cooldownIn10MinUnits * gameManager.tickEventsPer10Min;
+        npcCooldownTicksRemaining = cooldownIn10MinUnits * gameManager.tickEventsPer10Min;
     }
 
     private void UnableToCompleteTransaction()

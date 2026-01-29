@@ -237,13 +237,17 @@ public class Scr_Fish : MonoBehaviour
         }
         else if (isFreaky)//go freakmode
         {
-            // Find a fish to freak
-            GameObject mate = FindClosestMate();
-
-            if (mate != null)
+            if (!radiated || gameManager.skills.currentResearchSkills[3]) //radiated fish can't breed unless have designer guppies skill
             {
-                SetTarget(mate.transform.position);
+                // Find a fish to freak
+                GameObject mate = FindClosestMate();
+
+                if (mate != null)
+                {
+                    SetTarget(mate.transform.position);
+                }
             }
+
         }
         transform.position = Vector2.MoveTowards(transform.position, target, currentSpeed * Time.deltaTime);
 
@@ -456,9 +460,17 @@ public class Scr_Fish : MonoBehaviour
 
         PoopCounter();
 
-        if ((isHungry && FindClosestFood() != null) || (isFreaky && FindClosestMate() != null))
+        if ((isHungry && FindClosestFood() != null))
         {
             CancelInvoke("IdleOrMove");
+        }
+
+        if (!radiated || gameManager.skills.currentResearchSkills[3]) //radiated fish can't breed unless have designer guppies skill
+        {
+            if ((isFreaky && FindClosestMate() != null))
+            {
+                CancelInvoke("IdleOrMove");
+            }
         }
 
         // Your fish behavior here, e.g., update hunger status.
@@ -500,8 +512,8 @@ public class Scr_Fish : MonoBehaviour
                                 collisionObjScr.isFreaky = false;
                                 collisionObjScr.freakCount = 0;
 
-                                heartIcon.SetActive(false);
-                                collisionObjScr.heartIcon.SetActive(false);
+                                //heartIcon.SetActive(false);
+                                //collisionObjScr.heartIcon.SetActive(false);
 
                                 gameManager.FreakyFishReset(gameObject);
                                 IdleOrMove();
@@ -590,6 +602,7 @@ public class Scr_Fish : MonoBehaviour
                 if (collisionObj.GetComponent<Scr_FoodBehavior>().radiated && !radiated)
                 {
                     radiated = true;
+                    SetRadiatedHue();
                     gameManager.SpawnParticles(radiationOutlineEffectPrefab, transform.position, transform.rotation, transform);
                     gameManager.SpawnParticles(radiationEffectPrefab, transform.position, transform.rotation, transform);
                 }
@@ -603,7 +616,7 @@ public class Scr_Fish : MonoBehaviour
                     if (collisionObj.GetComponent<Scr_Fish>().radiated && !radiated)
                     {
                         radiated = true;
-
+                        SetRadiatedHue();
                         gameManager.SpawnParticles(radiationOutlineEffectPrefab, transform.position, transform.rotation, transform);
                         gameManager.SpawnParticles(radiationEffectPrefab, transform.position, transform.rotation, transform);
                     }
@@ -701,7 +714,7 @@ public class Scr_Fish : MonoBehaviour
                     freakCount = Mathf.Max(0, freakCount - tickIntervalInMinutes);
                 }
                 isFreaky = (freakCount == minutesUntilFreaky);
-                heartIcon.SetActive(isFreaky);
+                //heartIcon.SetActive(isFreaky);
             }
         }
 
@@ -718,7 +731,8 @@ public class Scr_Fish : MonoBehaviour
     public void SetHungry()
     {
         isHungry = true;
-        hungerIcon.SetActive(true);
+        ToggleHungryColor();
+        //hungerIcon.SetActive(true);
 
         Scr_AdvancedFishFeeder[] advFeeders = FindObjectsOfType<Scr_AdvancedFishFeeder>();
 
@@ -731,8 +745,40 @@ public class Scr_Fish : MonoBehaviour
     {
         isHungry = false;
         hungerCount = 0;
-        hungerIcon.SetActive(false);
+        ToggleHungryColor();
+        //hungerIcon.SetActive(false);
     }
+
+    public void SetRadiatedHue()
+    {
+        Scr_FishHue fishHue = GetComponent<Scr_FishHue>();
+
+        float hue = fishHue.GetHue();
+
+        int sign = (Random.Range(0, 2) == 0) ? -1 : 1;
+        hue += sign * gameManager.radiationHueShift;
+
+        fishHue.SetHue(hue);
+
+        if (fishHue.GetHue() != 1)
+        {
+            mutated = true;
+            UpdateSkills();
+        }
+    }
+
+    public void ToggleHungryColor()
+    {
+        Color hungryColor = new Color(0.70f, 1f, 0.70f); // subtle green tint
+
+        SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>(true);
+
+        foreach (SpriteRenderer sr in renderers)
+        {
+            sr.color = isHungry ? hungryColor : Color.white;
+        }
+    }
+
     public void Die()
     {
         Debug.Log(gameObject.name + " died!");

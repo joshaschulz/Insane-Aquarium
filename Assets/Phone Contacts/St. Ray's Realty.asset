@@ -16,10 +16,17 @@ MonoBehaviour:
   phoneNumber: 5737082243
   dialogueLines:
   - You've reached St. Ray's Realty!
-  - Are you sure you want to pull the trigger on the new property?
-  indexToEnableSelection: 999
+  - You won't find a better estate at a more affordable price anywhere else!
+  - You're in luck! A new property just opened up and I know it's what you're looking
+    for.
+  - How's 5000 krona sound? Enter 1 for yes or 2 for no and press enter.
+  - '*If you purchase the next property, you will immediately pack up and move!*'
+  - Are you sure you want to pull the trigger? Enter 1 for yes or 2 for no and press
+    enter
+  - Well, why don't you sleep on it? I'm sure you'll reconsider soon.
+  indexToEnableSelection: 3
   indexToEnableSelection2: 999
   indexToEnableSelection3: 999
   indexToPurchaseAgain: 999
-  indexToEnableFinalPurchase: 999
-  indexToEnd: 999
+  indexToEnableFinalPurchase: 5
+  indexToEnd: 6

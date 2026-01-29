@@ -16,6 +16,7 @@ public class Scr_GameManager : MonoBehaviour
     private Camera _Camera;
 
     public string businessName = "FishyBusinessSaveTest";
+    public int currentDifficulty = -1; //0, 1, 2. -1 to check if no difficulty selected
 
     public Scr_Notifications notifications;
     public Scr_BaitTackle baitAndTackle;
@@ -29,6 +30,8 @@ public class Scr_GameManager : MonoBehaviour
 
     public TMP_InputField newGameBusinessName;
     public Button newGameClickFunctions;
+
+    public int scene2Cost;
 
     public GameObject oscar;
 
@@ -1320,8 +1323,9 @@ public class Scr_GameManager : MonoBehaviour
 
         newFishScript.grown = false;
 
-
+        /*
         float hueForBabyFish = parentFishScr.GetComponent<Scr_FishHue>().GetHue();
+        
         if (parentFishScr.radiated)
         {
             int sign = (Random.Range(0, 2) == 0) ? -1 : 1;
@@ -1334,7 +1338,7 @@ public class Scr_GameManager : MonoBehaviour
             newFishScript.mutated = true;
             newFishScript.UpdateSkills();
         }
-
+        */
 
         AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(newFish, _fishToSpawn);
 
@@ -2645,6 +2649,7 @@ public class Scr_GameManager : MonoBehaviour
         }
         else
         {
+            gameObject.GetComponent<Scr_TimeHandler>().UnpauseTime();
             _Camera.transform.position = new Vector3(transform.position.x, transform.position.y, _Camera.transform.position.z);
 
             // Deselect any currently selected fish food or bagging state
@@ -2662,6 +2667,14 @@ public class Scr_GameManager : MonoBehaviour
     public void MoveToScene(Transform transform)
     {
         _Camera.transform.position = new Vector3(transform.position.x, transform.position.y, _Camera.transform.position.z);
+    }
+
+    public void CheckPauseTime()
+    {
+        if (currentDifficulty == 2)
+            return;
+
+        Scr_TimeHandler.PauseTime();
     }
 
     public void OpenCloseFishpedia()
@@ -3616,61 +3629,47 @@ public class Scr_GameManager : MonoBehaviour
                     dialogueBoxPhone.AdvanceText();
                 }
             }
-            /*
             else if (currentlyCalling == "St. Ray's Realty")
             {
                 if (CheckIfOnSelectionDialogue1())
                 {
                     if (textNum == 1)
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Pellets are {fishFood_1_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
-
-                        fishFoodToPurchase = fishFood_1_Prefab;
-                        dialogueBoxPhone.AdvanceText();
+                        dialogueBoxPhone.NextLine();
 
                     }
                     else if (textNum == 2)
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Flakes are {fishFood_2_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
-
-                        fishFoodToPurchase = fishFood_2_Prefab;
-                        dialogueBoxPhone.AdvanceText();
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnd - 1;
+                        dialogueBoxPhone.NextLine();
 
                     }
-                    else if (textNum == 3)
-                    {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Radiation Drops are {fishFood_3_Prefab.GetComponent<Scr_FoodBehavior>().price} Krona each. Enter the amount you wish to purchase and press enter.";
-
-                        fishFoodToPurchase = fishFood_3_Prefab;
-                        dialogueBoxPhone.AdvanceText();
-
-                    }
-
-
                 }
                 else if (CheckIfOnFinalPurchaseDialogue())
                 {
-                    if (textNum == 0)
+                    if (textNum == 1)
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase + 1] = $"Why bother calling if you aren't going to purchase anything???";
+                        if (GetMoneyAmount() >= scene2Cost)
+                        {
+                            SubtractMoneyAmount(scene2Cost);
 
+                            NextScene();
+
+                        }
+                        else // Not enough money for purchase
+                        {
+                            PlaySoundEffect(SFX_Error, 0.3f);
+                            Debug.Log("Not enough money!");
+
+                            // Make money text flash red
+                            FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
+                            notifications.Show("Not enough money to complete transaction.", 2f, true);
+                        }
                     }
-                    if (GetMoneyAmount() >= fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum)
+                    else if (textNum == 2)
                     {
-                        SetFishFoodAmount(fishFoodToPurchase, GetFishFoodAmount(fishFoodToPurchase) + textNum);
-                        SubtractMoneyAmount(fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum);
-
-                        //dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase + 1] = $"You purchased {textNum} {fishFoodToPurchase.name}s for {fishFoodToPurchase.GetComponent<Scr_FoodBehavior>().price * textNum} Krona. Thanks for shopping with The Hungry Guppy!";
-                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnd;
-                        dialogueBoxPhone.AdvanceText();
-                    }
-                    else // Not enough money for purchase
-                    {
-                        PlaySoundEffect(SFX_Error, 0.3f);
-                        Debug.Log("Not enough money!");
-
-                        // Make money text flash red
-                        FlashTextColor(moneyText, Color.red, 0.5f, 0.1f);
+                        dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnd - 1;
+                        dialogueBoxPhone.NextLine();
                     }
                 }
                 else
@@ -3679,7 +3678,6 @@ public class Scr_GameManager : MonoBehaviour
                 }
             
             }
-            */
         }
     }
     public bool CheckIfOnPurchaseAgain()
@@ -3830,6 +3828,11 @@ public class Scr_GameManager : MonoBehaviour
                 dialogueBoxPhone.lines[contact.indexToEnableSelection - 1] = "We've only the finest baits! Tackles coming soon!";
                 dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Earthworms, or 2 for Peanut Butter and press enter.";
             }
+        }
+        else if (contact.contactName == "St. Ray's Realty")
+        {
+            dialogueBoxPhone.lines[contact.indexToEnableSelection] = $"How's {scene2Cost} krona sound? Enter 1 for yes or 2 for no and press enter.";
+
         }
 
         // Open dialogue box (with your animation)
@@ -3991,6 +3994,15 @@ public class Scr_GameManager : MonoBehaviour
 
     }
 
+    public void NextScene()
+    {
+        GetComponent<Scr_TimeHandler>().PauseTime();
+
+        currentDay++;
+
+        FindObjectOfType<Scr_NextScene>().PlayNextSceneUI();
+    }
+
     public void CalculateBills()
     {
         int totalBills;
@@ -4057,7 +4069,7 @@ public class Scr_GameManager : MonoBehaviour
             ResetPhone();
             MoveToScene(bathroom);
             DisableUnderwaterAudio();
-
+            
             UpdateText(Scr_EndDay.endDayMoneyText, moneyAmount);
             PlaySoundEffect(SFX_CashRegister, 0.4f, 1f, 1f);
             PlaySoundEffect(SFX_MoneyCounter, 0.4f, 1f, 1f);
@@ -4210,16 +4222,86 @@ public class Scr_GameManager : MonoBehaviour
     public void ClickBeginGame()
     {
         if (string.IsNullOrWhiteSpace(newGameBusinessName.text))
+        {
+            notifications.Show("What will you call your fishy business?", 2f, true);
             return;
+        }
+
+        if (currentDifficulty == -1)
+        {
+            notifications.Show("Which difficulty will you pick?", 2f, true);
+            return;
+        }
 
         businessName = newGameBusinessName.text;
+        //update difficulty
         ClickButton(newGameClickFunctions);
 
+    }
+
+    public void ClickDifficulty(int difficulty)
+    {
+        currentDifficulty = difficulty;
     }
 
     public void ClickNewGame()
     {
         businessName = "";
+    }
+
+    public void UpdateGameSettingsFromDifficulty()
+    {
+        float currentDifficultyMultiplier = (currentDifficulty == 0 ? 1.25f : (currentDifficulty == 1) ? 1f : 0.8f); //25% easier, normal, 25% harder
+
+
+        ActiveSettings.rentAmount = (int)(300 / currentDifficultyMultiplier);
+        ActiveSettings.taxPercentage = (int)(6 / currentDifficultyMultiplier);
+        ActiveSettings.exoticFishTaxAmount = (int)(75/ currentDifficultyMultiplier);
+
+        //FISH
+        ActiveSettings.minutesUntilHungry_Goldfish = (int)(120 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilFreaky_Goldfish = (int)(130 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilPoop_Goldfish = (int)(90 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilDead_Goldfish = (int)(90 * currentDifficultyMultiplier);
+        ActiveSettings.fishValue_Goldfish = (int)(50 * currentDifficultyMultiplier);
+        ActiveSettings.baseFishCost_Goldfish = ActiveSettings.fishValue_Goldfish * 2;
+
+        ActiveSettings.minutesUntilHungry_BettaFish = (int)(120 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilFreaky_BettaFish = (int)(130 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilPoop_BettaFish = (int)(90 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilDead_BettaFish = (int)(90 * currentDifficultyMultiplier);
+        ActiveSettings.fishValue_BettaFish = (int)(150 * currentDifficultyMultiplier);
+        ActiveSettings.baseFishCost_BettaFish = ActiveSettings.fishValue_BettaFish * 2;
+
+        ActiveSettings.minutesUntilHungry_Piranha = (int)(120 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilFreaky_Piranha = (int)(130 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilPoop_Piranha = (int)(90 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilDead_Piranha = (int)(90 * currentDifficultyMultiplier);
+        ActiveSettings.fishValue_Piranha = (int)(150 * currentDifficultyMultiplier);
+        ActiveSettings.baseFishCost_Piranha = ActiveSettings.fishValue_Piranha * 2;
+
+        ActiveSettings.minutesUntilHungry_Clownfish = (int)(120 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilFreaky_Clownfish = (int)(130 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilPoop_Clownfish = (int)(90 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilDead_Clownfish = (int)(90 * currentDifficultyMultiplier);
+        ActiveSettings.fishValue_Clownfish = (int)(100 * currentDifficultyMultiplier);
+        ActiveSettings.baseFishCost_Clownfish = ActiveSettings.fishValue_Clownfish * 2;
+
+        ActiveSettings.minutesUntilHungry_BlueTang = (int)(120 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilFreaky_BlueTang = (int)(130 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilPoop_BlueTang = (int)(90 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilDead_BlueTang = (int)(90 * currentDifficultyMultiplier);
+        ActiveSettings.fishValue_BlueTang = (int)(80 * currentDifficultyMultiplier);
+        ActiveSettings.baseFishCost_BlueTang = ActiveSettings.fishValue_BlueTang * 2;
+
+        ActiveSettings.minutesUntilHungry_Tetra = (int)(120 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilFreaky_Tetra = (int)(130 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilPoop_Tetra = (int)(90 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilDead_Tetra = (int)(90 * currentDifficultyMultiplier);
+        ActiveSettings.fishValue_Tetra = (int)(30 * currentDifficultyMultiplier);
+        ActiveSettings.baseFishCost_Tetra = ActiveSettings.fishValue_Tetra * 2;
+
+
     }
 
     public bool CheckIfFullFishBags()

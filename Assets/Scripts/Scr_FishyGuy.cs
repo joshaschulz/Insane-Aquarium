@@ -41,14 +41,7 @@ public class Scr_FishyGuy : MonoBehaviour
 
     public TextMeshProUGUI priceText;
 
-    public GameObject fishBag1;
     //public GameObject fishBag2;
-
-    public int cooldownIn10MinUnits = 1; // e.g. 1 = 10 minutes, 2 = 20 minutes
-
-    private int fishyGuyCooldownTicksRemaining = 0;
-
-
 
     // Start is called before the first frame update
     void Start()
@@ -82,23 +75,7 @@ public class Scr_FishyGuy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if the camera is not in the bathroom, hide the customer
-        Vector2 cameraPos = new Vector2(_Camera.transform.position.x, _Camera.transform.position.y);
 
-        if (cameraPos == Scr_UIElementsHandler.bathroomPosition)
-            isCameraInBathroom = true;
-        else
-            isCameraInBathroom = false;
-
-
-        if (isCameraInBathroom && fishyGuyExists)
-        {
-            fishyGuyImage.SetActive(true);
-        }
-        else
-        {
-            fishyGuyImage.SetActive(false);
-        }
 
     }
 
@@ -136,9 +113,9 @@ public class Scr_FishyGuy : MonoBehaviour
             initialSpawnDelayComplete = true; //from now on spawning is allowed
         }
 
-        if (fishyGuyCooldownTicksRemaining > 0)
+        if (Scr_Customer.npcCooldownTicksRemaining > 0)
         {
-            fishyGuyCooldownTicksRemaining--;
+            //Scr_Customer.npcCooldownTicksRemaining--; dont need to decrement since customer is decrementing
             return;
         }
 
@@ -167,6 +144,7 @@ public class Scr_FishyGuy : MonoBehaviour
             if (!fishyGuyExists && !Scr_Customer.customerExists)
             {
                 fishyGuyExists = true;
+                fishyGuyImage.SetActive(true);
                 PickFishyGuyFish();
 
                 currentSpawnChance = ticksToSpawnChance;
@@ -296,24 +274,6 @@ public class Scr_FishyGuy : MonoBehaviour
 
     }
 
-    private string NormalizeName(string name)
-    {
-        string[] suffixes = { " Front", " Back", " Left", " Right", " Top", " Bottom" };
-        foreach (var s in suffixes)
-        {
-            if (name.EndsWith(s, System.StringComparison.OrdinalIgnoreCase))
-                return name.Substring(0, name.Length - s.Length).Trim();
-        }
-        // fallback: drop anything after first space/underscore/dash
-        int cut = name.IndexOfAny(new[] { ' ', '_', '-' });
-        return cut >= 0 ? name.Substring(0, cut).Trim() : name.Trim();
-    }
-
-    public void HideBoughtFishBag(GameObject fishBag)
-    {
-        fishBag.SetActive(false);
-    }
-
 
     public void DenyCustomer()
     {
@@ -332,12 +292,10 @@ public class Scr_FishyGuy : MonoBehaviour
         fishyGuyExists = false;
         ticksSinceSpawned = 0;
 
-        fishBag1.SetActive(true);
-        //fishBag2.SetActive(true);
+        fishyGuyImage.SetActive(false);
 
-        fishyGuyCooldownTicksRemaining = cooldownIn10MinUnits * gameManager.tickEventsPer10Min;
+        Scr_Customer.npcCooldownTicksRemaining = Scr_Customer.cooldownIn10MinUnits * gameManager.tickEventsPer10Min;
 
-        //DestroyCustomerFish();
 
     }
 

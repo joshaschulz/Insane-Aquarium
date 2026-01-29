@@ -25,8 +25,10 @@ public class Scr_SaveLoad : MonoBehaviour
         gameManager.baitAndTackle.currentBaitEquipped = progress.baitEquipped;
         gameManager.baitAndTackle.currentTackleEquipped = progress.tackleEquipped;
         gameManager.SetOscarState(progress.oscarState);
+        gameManager.currentDifficulty = progress.currentDifficulty;
 
         gameManager.UpdateSceneTexts();
+        gameManager.UpdateGameSettingsFromDifficulty();
 
         for (int i = 0; i < progress.fishSpecies.Length; i++)
         {

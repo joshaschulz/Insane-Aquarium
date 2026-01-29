@@ -35,7 +35,7 @@ public class Scr_SkillsHover : MonoBehaviour
 
         Highlight();
 
-        playerSkills.ShowSkill(skillName, skillDescription);
+        playerSkills.ShowSkill(gameObject, skillName, skillDescription);
     }
     private void OnMouseExit()
     {

@@ -99,7 +99,7 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
         Cursor.visible = false;
         fishingLine.cursorFollowSpeed = fishingLine.baseCursorFollowSpeed;
         SetActiveBaitAndTackle();
-        gameManager.Scr_TimeHandler.PauseTime();
+        gameManager.CheckPauseTime();
 
 
         if (spawnOnEnable)

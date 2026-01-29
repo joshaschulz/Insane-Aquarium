@@ -151,7 +151,7 @@ public class Scr_EndDay : MonoBehaviour
 
         // 1) fade black in
         if (blackScreenCanvasGroup != null)
-            yield return FadeCanvasGroup(blackScreenCanvasGroup, 0f, 1f, fadeInSeconds);
+            yield return FadeCanvasGroup(blackScreenCanvasGroup, 0f, 0.92f, fadeInSeconds);
 
         // 2) slide paper up
         if (endOfDayPaper != null)

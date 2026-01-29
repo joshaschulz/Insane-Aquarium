@@ -45,9 +45,7 @@ public class Scr_GameManager : MonoBehaviour
 
     public List<GameObject> structuresInScene;
 
-    public GameObject stickyNoteBaitBathroom;
     public GameObject stickyNoteBaitStallNumbers;
-    public GameObject stickyNoteBankBathroom;
     public GameObject stickyNoteBankStallNumbers;
 
 
@@ -4054,6 +4052,8 @@ public class Scr_GameManager : MonoBehaviour
 
         CalculateBills();
 
+        MoveToScene(bathroom);
+
         currentDayText.text = currentDay.ToString();
 
         Scr_EndDay.PlayEndDayUI();
@@ -4133,7 +4133,6 @@ public class Scr_GameManager : MonoBehaviour
 
             EnableAllButtons();
             ResetPhone();
-            MoveToScene(bathroom);
             DisableUnderwaterAudio();
             
             UpdateText(Scr_EndDay.endDayMoneyText, moneyAmount);
@@ -4176,13 +4175,11 @@ public class Scr_GameManager : MonoBehaviour
     {
         if (skills.currentFishingSkills[0])
         {
-            stickyNoteBaitBathroom.SetActive(true);
             stickyNoteBaitStallNumbers.SetActive(true);
         }
 
         if (skills.currentAccountingSkills[2])
         {
-            stickyNoteBankBathroom.SetActive(true);
             stickyNoteBankStallNumbers.SetActive(true);
         }
     }
@@ -4289,13 +4286,13 @@ public class Scr_GameManager : MonoBehaviour
     {
         if (string.IsNullOrWhiteSpace(newGameBusinessName.text))
         {
-            notifications.Show("What will you call your fishy business?", 2f, true);
+            notifications.Show("What will you call your fishy business?", 4f, true);
             return;
         }
 
         if (currentDifficulty == -1)
         {
-            notifications.Show("Which difficulty will you pick?", 2f, true);
+            notifications.Show("Which difficulty will you pick?", 4f, true);
             return;
         }
 

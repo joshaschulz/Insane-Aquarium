@@ -489,6 +489,12 @@ public class Scr_Customer : MonoBehaviour
                 matchingFish.Add(fishScr);
         }
 
+        if (matchingFish.Count == 0)
+        {
+            notifications.Show("You have no fish in your bags to sell.", false);
+            return;
+        }
+
         List<Scr_Fish> fishToSell = new List<Scr_Fish>();
 
         int amountToTake = Mathf.Min(requiredQuantity, matchingFish.Count);

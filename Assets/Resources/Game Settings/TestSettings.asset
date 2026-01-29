@@ -27,11 +27,11 @@ MonoBehaviour:
   fastForwardNormal: 1
   fastForwardFast: 4
   fastForwardFastest: 50
-  moneyAmount: 50
+  moneyAmount: 500
   fishFood1Amount: 30
   fishFood2Amount: 0
   fishFood3Amount: 0
-  rentAmount: 250
+  rentAmount: 300
   taxPercentage: 6
   exoticFishTaxAmount: 75
   minutesUntilGrown_Goldfish: 120

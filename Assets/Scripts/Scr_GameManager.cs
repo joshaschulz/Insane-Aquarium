@@ -54,6 +54,9 @@ public class Scr_GameManager : MonoBehaviour
     public int loanAmount = 0;
     private int tempLoanAmount = 0;
 
+    [SerializeField] private AudioSource musicSource;
+    private AudioClip currentSong;
+    public AudioClip mainMenuSong, bathroomSong;
 
     public Dictionary<string, int> legendaryCountBySpecies = new Dictionary<string, int>();
     
@@ -2305,7 +2308,70 @@ public class Scr_GameManager : MonoBehaviour
         yield return new WaitForSeconds(_delay);
         AS.pitch = 1.0f;
     }
+    public void PlaySong(AudioClip song, float volume = 1f)
+    {
+        if (song == null)
+            return;
 
+        // Don't restart the same song
+        if (currentSong == song)
+            return;
+
+        currentSong = song;
+
+        musicSource.clip = song;
+        musicSource.volume = volume;
+        musicSource.pitch = 1f;
+        musicSource.Play();
+    }
+    public void StopSong()
+    {
+        musicSource.Stop();
+        currentSong = null;
+    }
+    public void PauseSong()
+    {
+        musicSource.Pause();
+    }
+    public void ResumeSong()
+    {
+        musicSource.UnPause();
+    }
+    public void PlaySongWithFade(AudioClip song, float volume = 1f, float fadeTime = 1f)
+    {
+        if (currentSong == song)
+            return;
+
+        StartCoroutine(FadeAndSwitch(song, volume, fadeTime));
+    }
+
+    private IEnumerator FadeAndSwitch(AudioClip newSong, float volume, float fadeTime)
+    {
+        // Fade out
+        float startVolume = musicSource.volume;
+        while (musicSource.volume > 0)
+        {
+            musicSource.volume -= startVolume * Time.deltaTime / fadeTime;
+            yield return null;
+        }
+
+        musicSource.Stop();
+
+        // Switch
+        currentSong = newSong;
+        musicSource.clip = newSong;
+        musicSource.volume = 0;
+        musicSource.Play();
+
+        // Fade in
+        while (musicSource.volume < volume)
+        {
+            musicSource.volume += Time.deltaTime / fadeTime;
+            yield return null;
+        }
+
+        musicSource.volume = volume;
+    }
 
     public void EnableUnderwaterAudio()
     {
@@ -4236,6 +4302,8 @@ public class Scr_GameManager : MonoBehaviour
         businessName = newGameBusinessName.text;
         //update difficulty
         ClickButton(newGameClickFunctions);
+
+        PlaySongWithFade(bathroomSong, 1f, 2f);
 
     }
 

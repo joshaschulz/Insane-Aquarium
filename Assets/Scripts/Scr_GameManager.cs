@@ -48,6 +48,7 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject stickyNoteBaitStallNumbers;
     public GameObject stickyNoteBankStallNumbers;
 
+    public bool fishedYet;
 
     public int loanAmount = 0;
     private int tempLoanAmount = 0;
@@ -4302,6 +4303,53 @@ public class Scr_GameManager : MonoBehaviour
 
         PlaySongWithFade(bathroomSong, 1f, 2f);
 
+    }
+
+    public void SpawnFlopperAfterDelay()
+    {
+        StartCoroutine(SpawnFlopperRoutine());
+    }
+
+    private IEnumerator SpawnFlopperRoutine()
+    {
+        yield return new WaitForSeconds(2f);
+        SpawnFlopper();
+    }
+
+    public void SpawnFlopper()
+    {
+        GameObject flopperPrefab = allFishPrefabs[3];
+
+        Vector2 spawnPosition = new Vector2(allTanks[0].position.x, allTanks[0].position.y);
+
+        float screenHeightWorld = Camera.main.orthographicSize * 2;
+        float randomSpawnHeight = Random.Range(0.2f, 0.9f);
+        spawnPosition.y = (spawnPosition.y + screenHeightWorld / 2) - (screenHeightWorld / 2) * randomSpawnHeight;
+
+
+        GameObject newFish = Instantiate(flopperPrefab, spawnPosition, Quaternion.identity);
+        foodFishDictionary.Add(newFish, flopperPrefab);
+
+        Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
+        newFishScript.thisPrefab = flopperPrefab;
+
+
+        PlaySoundEffect(SFX_DropFish, 1, 0.5f, 1.5f);
+
+        newFishScript.name = "Flopper";
+        newFishScript.legendary = false;
+        newFishScript.wild = false;
+        newFishScript.radiated = false;
+        newFishScript.mutated = false;
+        newFishScript.grown = true;
+        newFishScript.generation = 1;
+
+        UpdateSpawnedLoadingFish(newFish);
+
+        Scr_FishAnimation newFishAnimScript = newFishScript.GetComponent<Scr_FishAnimation>();
+
+        newFishScript.Start();
+        newFishAnimScript.Awake();
     }
 
     public void ClickDifficulty(int difficulty)

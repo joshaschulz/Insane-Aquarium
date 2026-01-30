@@ -35,6 +35,32 @@ public class Scr_LoadMenu : MonoBehaviour
                 gameManager.businessName = businessName;
                 //FindObjectOfType<Scr_SaveLoad>().LoadBusiness();
             });
+
+            // DELETE BUTTON (child button inside the prefab)
+            Button deleteBtn = btn.transform.Find("Delete Button").GetComponent<Button>();
+
+            deleteBtn.onClick.AddListener(() =>
+            {
+                DeleteSave(businessName);
+            });
         }
+    }
+
+    public void DeleteSave(string businessName)
+    {
+        string path = Application.persistentDataPath + "/" + businessName + ".fishy";
+
+        if (System.IO.File.Exists(path))
+        {
+            System.IO.File.Delete(path);
+            Debug.Log("Deleted save: " + businessName);
+        }
+        else
+        {
+            Debug.LogWarning("Tried to delete save but file not found: " + path);
+        }
+
+        // refresh list after deletion
+        PopulateList();
     }
 }

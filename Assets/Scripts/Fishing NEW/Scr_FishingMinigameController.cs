@@ -217,6 +217,12 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
 
     private GameObject PickWeightedFishPrefab()
     {
+        if (!gameManager.fishedYet)//CHANGE THIS TO BOOL ISTUTORIAL
+        {
+            gameManager.fishedYet = true;
+            return fishPrefabs[0];
+        }
+
         if (!HasValidWeights())
             return fishPrefabs[Random.Range(0, fishPrefabs.Length)];
 

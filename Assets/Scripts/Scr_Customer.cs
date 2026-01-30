@@ -429,13 +429,36 @@ public class Scr_Customer : MonoBehaviour
                 chosenQuantity = 1;
             }
         }
-        else //there are for sale tanks
+        else // there are for sale tanks
         {
-            var randomFishAndQuantity = forSaleFishAndQuantity.ElementAt(Random.Range(0, forSaleFishAndQuantity.Count));
+            // STEP 1: get total number of fish across all prefabs
+            int totalFish = 0;
+            foreach (var kvp in forSaleFishAndQuantity)
+                totalFish += kvp.Value;
 
-            chosenPrefab = randomFishAndQuantity.Key;
-            chosenQuantity = randomFishAndQuantity.Value;
+            // safety check
+            if (totalFish == 0)
+                return;
 
+            chosenPrefab = null;
+            chosenQuantity = 0;
+
+            // STEP 2: pick a random "fish slot"
+            int roll = Random.Range(0, totalFish);
+
+            // STEP 3: walk through cumulative counts
+            int runningTotal = 0;
+            foreach (var kvp in forSaleFishAndQuantity)
+            {
+                runningTotal += kvp.Value;
+
+                if (roll < runningTotal)
+                {
+                    chosenPrefab = kvp.Key;
+                    chosenQuantity = kvp.Value;
+                    break;
+                }
+            }
         }
 
 

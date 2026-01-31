@@ -1328,22 +1328,16 @@ public class Scr_GameManager : MonoBehaviour
 
         newFishScript.grown = false;
 
-        /*
-        float hueForBabyFish = parentFishScr.GetComponent<Scr_FishHue>().GetHue();
-        
-        if (parentFishScr.radiated)
+        if (!tutorials.tutorialCompleted)
         {
-            int sign = (Random.Range(0, 2) == 0) ? -1 : 1;
-            hueForBabyFish += sign * radiationHueShift;
-        }
-        newFishScript.GetComponent<Scr_FishHue>().SetHue(hueForBabyFish);
+            newFishScript.minutesUntilHungry = 1000000;
+            newFishScript.hungerCount = 0;
 
-        if (newFishScript.GetComponent<Scr_FishHue>().GetHue() != 1)
-        {
-            newFishScript.mutated = true;
-            newFishScript.UpdateSkills();
+            newFishScript.minutesUntilFreaky = 1000000;
+            newFishScript.minutesUntilPoop = 1000000;
+            newFishScript.minutesUntilGrown = 1000000;
+            newFishScript.minutesUntilDead = 1000000;
         }
-        */
 
         AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(newFish, _fishToSpawn);
 
@@ -1609,6 +1603,9 @@ public class Scr_GameManager : MonoBehaviour
         // Move the fish to the position where the fishbag button appears to be in the world
         Vector3 baggedFishButtonPosition = baggedFishButtonToUse.transform.position;
         _fishToBag.transform.position = new Vector3(baggedFishButtonPosition.x, baggedFishButtonPosition.y, _fishToBag.transform.position.z);
+
+        if (!tutorials.tutorialCompleted && tutorials.tutorialsShown[14] && !tutorials.tutorialsShown[15])
+            tutorials.HideTutorialBox();
 
         // Figure out how to make the bagged fish render in front of the other tank fish and go back to normal upon dropping into tank
     }
@@ -4309,24 +4306,42 @@ public class Scr_GameManager : MonoBehaviour
     {
         if (!tutorials.tutorialCompleted && !tutorials.tutorialsShown[10])
         {
-            Debug.Log("CLICKED TUTORIAL STALL NUMBERS!!!!");
             tutorials.ShowNextTutorialBox();
 
-            Button[] buttonsPhoneClosed = phoneClosed.GetComponentsInChildren<Button>(true); // true = include inactive
-            Button[] buttonsPhoneOpen = phoneOpen.GetComponentsInChildren<Button>(true); // true = include inactive
+
+            Button[] buttonsPhoneClosed = phoneClosed.GetComponentsInChildren<Button>(true);
+            Button[] buttonsPhoneOpen = phoneOpen.GetComponentsInChildren<Button>(true);
 
             foreach (Button btn in buttonsPhoneClosed)
             {
-                EnableButton(btn);
+                if (btn != null)
+                    EnableButton(btn);
             }
 
             foreach (Button btn in buttonsPhoneOpen)
             {
-                EnableButton(btn);
+                if (btn != null)
+                    EnableButton(btn);
             }
 
-            EnableButton(phoneClosed.GetComponent<Button>());
-            EnableButton(phoneOpen.GetComponent<Button>());
+            // check parent objects too
+            Button closedBtn = phoneClosed.transform.GetChild(0).GetComponent<Button>();
+            if (closedBtn != null)
+                EnableButton(closedBtn);
+
+            Button openBtn = phoneOpen.transform.GetChild(0).GetComponent<Button>();
+            if (openBtn != null)
+                EnableButton(openBtn);
+
+            var hover1 = closedBtn.GetComponent<Scr_HoverableUIElement>();
+
+            hover1.enabled = false;
+            hover1.enabled = true;
+
+            var hover2 = openBtn.GetComponent<Scr_HoverableUIElement>();
+
+            hover2.enabled = false;
+            hover2.enabled = true;
         }
     }
 
@@ -4343,6 +4358,14 @@ public class Scr_GameManager : MonoBehaviour
             tutorials.ShowNextTutorialBoxDelay(0.5f);
             EnableButton(stallNumbersButton);
         }
+        else if (!tutorials.tutorialCompleted && !tutorials.tutorialsShown[13] && tutorials.tutorialsShown[12])
+        {
+            tutorials.ShowNextTutorialBox();
+        }
+        else if (!tutorials.tutorialCompleted && !tutorials.tutorialsShown[15] && tutorials.tutorialsShown[14])
+        {
+            tutorials.ShowNextTutorialBox();
+        }
     }
 
     public void ClickTutorialSink()
@@ -4353,6 +4376,12 @@ public class Scr_GameManager : MonoBehaviour
             EnableButton(tutorials.hudButtons[1].GetComponent<Button>());
             tutorials.ShowElement(tutorials.hudButtons[1]);
             tutorials.HideElement(tutorials.fishBag);
+        }
+        else if (!tutorials.tutorialCompleted && !tutorials.tutorialsShown[14] && tutorials.tutorialsShown[13])
+        {
+            tutorials.ShowNextTutorialBox();
+            EnableButton(tutorials.fishBag.GetComponent<Button>());
+            tutorials.ShowElement(tutorials.fishBag);
         }
     }
 

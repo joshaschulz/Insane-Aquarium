@@ -30,7 +30,7 @@ public class Scr_TimeHandler : MonoBehaviour
     private float gameSeconds; //actual in game seconds that have passed
 
     private int startTimeInSeconds;
-    private int endTimeInSeconds;
+    public int endTimeInSeconds;
 
     [Header("UI Elements")]
     public TextMeshProUGUI timeDisplayText;
@@ -122,7 +122,7 @@ public class Scr_TimeHandler : MonoBehaviour
         endMinute = settings.endMinute;
     }
 
-    private void UpdateClockDisplay()
+    public void UpdateClockDisplay()
     {
         int hours = ((int)gameSeconds / 3600) % 24;
         int minutes = ((int)gameSeconds / 60) % 60;

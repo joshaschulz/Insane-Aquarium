@@ -33,6 +33,15 @@ public class Scr_Tutorials : MonoBehaviour
         gameManager.fishFood_1_Amount = 1;
     }
 
+    public void EndTutorial()
+    {
+        ShowNextTutorialBox();
+        tutorialCompleted = true;
+        gameManager.SetMoneyAmount(500);
+        gameManager.EnableAllButtons();
+        ShowAllHUDButtons();
+    }
+
     public IEnumerator OpenBox(GameObject box)
     {
         RectTransform rect = box.GetComponent<RectTransform>();
@@ -167,6 +176,16 @@ public class Scr_Tutorials : MonoBehaviour
                 else if (i == 4)
                 {
                     EnableButton(gameManager.fishingPole);
+                }
+                else if (i == 12)
+                {
+                    Vector2 cameraPos = new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.y);
+                    Vector2 foregroundTankPos = new Vector2(gameManager.foregroundTank.transform.position.x, gameManager.foregroundTank.transform.position.y);
+
+                    if (cameraPos != foregroundTankPos)
+                    {
+                        ShowNextTutorialBox();
+                    }
                 }
 
                 return;

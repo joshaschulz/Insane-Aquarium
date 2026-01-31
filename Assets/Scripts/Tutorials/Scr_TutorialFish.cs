@@ -85,7 +85,13 @@ public class Scr_TutorialFish : MonoBehaviour
         if (tutorials.tutorialsShown[10] && fishScript.freakCount < 100 && !shown12 && shown11)
         {
             shown12 = true;
+
+            fishScript.freakCount = 0;
+            fishScript.minutesUntilFreaky = 1000000;
             tutorials.ShowNextTutorialBox();
+            tutorials.HideNextTutorialBoxDelay(4f);
+            gameManager.Scr_Customer.InvokeFunctionWithDelay("SpawnTutorialCustomer", 8f);
+            tutorials.ShowNextTutorialBoxDelay(8f);
         }
     }
 }

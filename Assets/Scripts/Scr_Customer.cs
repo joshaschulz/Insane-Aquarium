@@ -44,6 +44,11 @@ public class Scr_Customer : MonoBehaviour
     public int customerFishQuantity;
     public TextMeshProUGUI quantityText;
 
+    public GameObject rejectButton;
+    public GameObject acceptButton;
+    public GameObject tutorialAcceptButton;
+    public GameObject borderTutorialRocks;
+
     public Scr_TankBounds[] forSaleTanks;
     private int ticksSinceOrderCreated = 0;
 
@@ -51,11 +56,13 @@ public class Scr_Customer : MonoBehaviour
 
     public int npcCooldownTicksRemaining = 0;
 
-
+    private void Awake()
+    {
+        gameManager = FindObjectOfType<Scr_GameManager>(); ;
+    }
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = Scr_GameManager.GMinstance;
 
         notifications = FindObjectOfType<Scr_Notifications>();
 
@@ -72,26 +79,11 @@ public class Scr_Customer : MonoBehaviour
 
     }
 
-    public void ChangeGameSettings()
-    {
-        Scr_GameSettings settings = Scr_GameManager.ActiveSettings;
-        ticksToSpawnChance = settings.customerTicksToSpawnChance;
-        ticksToExist = settings.customerTicksToExist;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     private void OnEnable()
     {
         Scr_TimeHandler = FindObjectOfType<Scr_TimeHandler>();
         Scr_UIElementsHandler = FindObjectOfType<Scr_UIElementsHandler>();
         Scr_FishyGuy = FindObjectOfType<Scr_FishyGuy>();
-
-
 
         float tickIntervalInMinutes = Scr_TimeHandler.tickInterval / 60;
 
@@ -99,6 +91,12 @@ public class Scr_Customer : MonoBehaviour
         {
             Scr_TimeHandler.tickEvent.AddListener(OnTickEvent);
         }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
     }
 
     public void OnTickEvent()
@@ -174,6 +172,13 @@ public class Scr_Customer : MonoBehaviour
             }
         }
 
+    }
+
+    public void ChangeGameSettings()
+    {
+        Scr_GameSettings settings = Scr_GameManager.ActiveSettings;
+        ticksToSpawnChance = settings.customerTicksToSpawnChance;
+        ticksToExist = settings.customerTicksToExist;
     }
 
     public bool CheckIfFishExist()
@@ -297,6 +302,8 @@ public class Scr_Customer : MonoBehaviour
 
     public void PickCustomer()
     {
+        rejectButton.transform.GetChild(0).gameObject.SetActive(true);
+
         GameObject activeCustomer = customerImages[Random.Range(0, customerImages.Length)];
 
         activeCustomer.SetActive(true);
@@ -554,7 +561,6 @@ public class Scr_Customer : MonoBehaviour
 
         notifications.Show($"{(tipped ? "Customer tipped 10%! " : "")}{fishToSell.Count} {fishToSell[0].tag} was sold for {totalMoney} krona!", false);
 
-
         gameManager.AddMoneyAmount(totalMoney);
 
 
@@ -566,6 +572,18 @@ public class Scr_Customer : MonoBehaviour
         //gameManager.dialogueBoxCustomer.StartCloseBoxEnum();
 
         CustomerGoAway();
+
+        if (!gameManager.tutorials.tutorialCompleted)
+        {
+            gameManager.Scr_TimeHandler.SetGameSeconds(gameManager.Scr_TimeHandler.endTimeInSeconds);
+            gameManager.Scr_TimeHandler.UpdateClockDisplay();
+            gameManager.EndDay();
+            gameManager.SetMoneyAmount(400);
+
+            gameManager.tutorials.ShowNextTutorialBoxDelay(1.5f);
+
+            HideTutorialAccept();
+        }
     }
 
     public void DenyCustomer()
@@ -616,5 +634,75 @@ public class Scr_Customer : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void SpawnTutorialCustomer()
+    {
+        customer.SetActive(true);
+
+        GameObject activeCustomer = customerImages[0]; //spawn mr duckworth
+
+        activeCustomer.SetActive(true);
+
+        foreach (Scr_CustomerContact customerContact in customerDialogues)
+        {
+            if (customerContact.contactName.Equals(activeCustomer.name))
+            {
+                Debug.Log("PICKED " + customerContact.contactName);
+                customerContactToUse = customerContact;
+            }
+        }
+
+        gameManager.IncrementVisits(customerContactToUse);
+        gameManager.StartCustomerDialogue(customerContactToUse, gameManager.customerTradePanel);
+        gameManager.dialogueBoxCustomer.customerName.text = activeCustomer.name.ToString();
+
+
+        foreach (GameObject customer in customerImages)
+        {
+            if (customer != activeCustomer)
+            {
+                customer.SetActive(false);
+            }
+        }
+
+
+        customerFishPrefab = gameManager.fishPrefabs[3]; //pick goldfish
+
+        customerFishQuantity = 1;
+
+        quantityText.text = "x" + customerFishQuantity;
+
+        SetFishImage(customerFishPrefab);
+
+        ShowTutorialAccept();
+    }
+
+    void ShowTutorialAccept()
+    {
+        gameManager.DisableButton(rejectButton.GetComponent<Button>());
+        gameManager.DisableButton(acceptButton.GetComponent<Button>());
+        rejectButton.transform.GetChild(0).gameObject.SetActive(false);
+        acceptButton.transform.GetChild(0).gameObject.SetActive(false);
+        borderTutorialRocks.SetActive(false);
+
+        tutorialAcceptButton.SetActive(true);
+        gameManager.EnableButton(tutorialAcceptButton.GetComponent<Button>());
+    }
+
+    void HideTutorialAccept()
+    {
+        tutorialAcceptButton.SetActive(false);
+
+        gameManager.EnableButton(rejectButton.GetComponent<Button>());
+        gameManager.EnableButton(acceptButton.GetComponent<Button>());
+        rejectButton.transform.GetChild(0).gameObject.SetActive(true);
+        acceptButton.transform.GetChild(0).gameObject.SetActive(true);
+        borderTutorialRocks.SetActive(true);
+    }
+
+    public void InvokeFunctionWithDelay(string functionName, float delay)
+    {
+        Invoke(functionName, delay);
     }
 }

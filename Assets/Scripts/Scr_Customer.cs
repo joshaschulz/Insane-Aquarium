@@ -103,6 +103,11 @@ public class Scr_Customer : MonoBehaviour
 
     public void OnTickEvent()
     {
+        if (!gameManager.tutorials.tutorialCompleted) //if tutorial happening
+        {
+            return;
+        }
+
         //startup delay before allowing ANY customer spawn
         if (!initialSpawnDelayComplete)
         {

@@ -13,6 +13,7 @@ public class Scr_GameManager : MonoBehaviour
 {
     public static Scr_GameManager GMinstance;
     public Scr_PlayerSkills skills;
+    public Scr_Tutorials tutorials;
     private Camera _Camera;
 
     public string businessName = "FishyBusinessSaveTest";
@@ -27,6 +28,10 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject stallNumbers;
     public GameObject fishingPole;
     public Button fishingPoleClickFunctions;
+    public Button bagsClickFunctions;
+    public Button foodClickFunctions;
+    public Button foodTutorialClickFunctions;
+    public Button structuresClickFunctions;
 
     public TMP_InputField newGameBusinessName;
     public Button newGameClickFunctions;
@@ -268,6 +273,7 @@ public class Scr_GameManager : MonoBehaviour
 
         Scr_SpawnToiletFish = FindObjectOfType<Scr_SpawnToiletFish>();
         Scr_UIElementsHandler = FindObjectOfType<Scr_UIElementsHandler>();
+        tutorials = FindObjectOfType<Scr_Tutorials>();
 
         _Camera = Camera.main;
 
@@ -4283,6 +4289,25 @@ public class Scr_GameManager : MonoBehaviour
         }
     }
 
+    public void ClickBags()
+    {
+        ClickButton(bagsClickFunctions);
+    }
+    public void ClickFood()
+    {
+        if (!tutorials.tutorialCompleted)
+        {
+            ClickButton(foodTutorialClickFunctions);
+            return;
+        }
+
+        ClickButton(foodClickFunctions);
+    }
+    public void ClickStructures()
+    {
+        ClickButton(structuresClickFunctions);
+    }
+
     public void ClickBeginGame()
     {
         if (string.IsNullOrWhiteSpace(newGameBusinessName.text))
@@ -4342,7 +4367,16 @@ public class Scr_GameManager : MonoBehaviour
         newFishScript.radiated = false;
         newFishScript.mutated = false;
         newFishScript.grown = true;
+        newFishScript.minutesUntilHungry = 120;
+        newFishScript.hungerCount = 100;
+
+        newFishScript.minutesUntilFreaky = 1000000;
+        newFishScript.minutesUntilPoop = 1000000;
+        newFishScript.minutesUntilGrown = 1000000;
+        newFishScript.minutesUntilDead = 1000000; //flopper shouldn't die
         newFishScript.generation = 1;
+
+        newFish.AddComponent<Scr_TutorialFish>();
 
         UpdateSpawnedLoadingFish(newFish);
 

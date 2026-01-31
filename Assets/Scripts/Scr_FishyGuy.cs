@@ -96,6 +96,11 @@ public class Scr_FishyGuy : MonoBehaviour
 
     public void OnTickEvent()
     {
+        if (!gameManager.tutorials.tutorialCompleted) //if tutorial happening
+        {
+            return;
+        }
+
         //fishy guy won't spawn if you have less than 500 krona
         if (gameManager.moneyAmount < 500)
             return;

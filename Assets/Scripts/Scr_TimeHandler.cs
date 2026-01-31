@@ -72,14 +72,19 @@ public class Scr_TimeHandler : MonoBehaviour
         if (timePaused)
             return;
 
-        float deltaGameSeconds = Time.deltaTime * timeScale; //amount of game seconds per frame
-        gameSeconds += deltaGameSeconds; //total number of in-game seconds that have passed (60 in-game seconds per real second)
-        tickAccumulator += deltaGameSeconds;
+        if (!gameManager.tutorials.tutorialCompleted && gameSeconds >= endTimeInSeconds)
+        {
+            return;
+        }
 
         if (gameSeconds >= endTimeInSeconds)
         {
             gameManager.EndDay();
         }
+
+        float deltaGameSeconds = Time.deltaTime * timeScale; //amount of game seconds per frame
+        gameSeconds += deltaGameSeconds; //total number of in-game seconds that have passed (60 in-game seconds per real second)
+        tickAccumulator += deltaGameSeconds;
 
         UpdateClockDisplay();
 
@@ -133,6 +138,11 @@ public class Scr_TimeHandler : MonoBehaviour
             {
                 timeDisplayText.text = formattedTime;
             }
+        }
+
+        if (!gameManager.tutorials.tutorialCompleted)
+        {
+            return;
         }
 
         if (!shownTimeNotification)

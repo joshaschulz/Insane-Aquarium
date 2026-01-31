@@ -186,7 +186,6 @@ public class Scr_ClickDetection : MonoBehaviour
         // ============================
         if (Input.GetMouseButtonDown(1))
         {
-            gameManager.PlaySelectSound(0.8f);
 
             gameManager.EnableElement(hudButtonPanel.GetChild(1).gameObject);
             gameManager.DisableElement(hudButtonPanel.GetChild(2).gameObject);
@@ -201,6 +200,8 @@ public class Scr_ClickDetection : MonoBehaviour
             if (gameManager.currentStructurePrefabSelected != null)
             {
                 gameManager.CancelStructurePlacement();
+                gameManager.PlaySelectSound(0.8f);
+
                 return;
             }
 
@@ -213,21 +214,34 @@ public class Scr_ClickDetection : MonoBehaviour
             if (gameManager.currentFishFoodSelected != null)
             {
                 gameManager.ChangeFishFoodTypeToDrop(null);
+                gameManager.PlaySelectSound(0.8f);
+
             }
 
             // Deselect bagging
             if (gameManager.canIBagFish)
             {
                 gameManager.DeselectFishBag();
+                gameManager.PlaySelectSound(0.8f);
+
             }
             // Deselect Wrench
             if (gameManager.canIRemoveStructures)
             {
                 gameManager.DeselectWrench();
+                gameManager.PlaySelectSound(0.8f);
+
             }
 
             // Hide fish info panel
-            infoPanel.Hide();
+
+            if (infoPanel.gameObject.activeSelf)
+            {
+                infoPanel.Hide();
+                gameManager.PlaySelectSound(0.8f);
+            }
+
+
 
             // --- CAST TO WORLD ---
             Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -265,9 +279,16 @@ public class Scr_ClickDetection : MonoBehaviour
                 if (fish != null)
                 {
                     if (infoPanel.gameObject.activeSelf && infoPanel.currentTarget == fish.transform)
+                    {
                         infoPanel.Hide();
+                        gameManager.PlaySelectSound(0.8f);
+                    }
                     else
+                    {
                         infoPanel.Show(fish);
+                        gameManager.PlaySelectSound(1f);
+
+                    }
 
                     return;
                 }
@@ -276,9 +297,16 @@ public class Scr_ClickDetection : MonoBehaviour
                 if (starfish != null)
                 {
                     if (infoPanel.gameObject.activeSelf && infoPanel.currentTarget == starfish.transform)
+                    {
                         infoPanel.Hide();
+                        gameManager.PlaySelectSound(0.8f);
+                    }
                     else
+                    {
                         infoPanel.ShowExotic(starfish);
+                        gameManager.PlaySelectSound(1f);
+
+                    }
 
                     return;
                 }

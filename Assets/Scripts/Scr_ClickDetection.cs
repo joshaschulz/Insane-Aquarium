@@ -288,6 +288,17 @@ public class Scr_ClickDetection : MonoBehaviour
                         infoPanel.Show(fish);
                         gameManager.PlaySelectSound(1f);
 
+                        if (!gameManager.tutorials.tutorialCompleted)
+                        {
+                            if (!gameManager.tutorials.tutorialsShown[1])
+                            {
+                                gameManager.tutorials.HideTutorialBox();
+                                GameObject flopper = FindObjectOfType<Scr_TutorialFish>().gameObject;
+
+                                flopper.GetComponent<Scr_Fish>().hungerCount = 999985;
+                            }
+                        }
+
                     }
 
                     return;

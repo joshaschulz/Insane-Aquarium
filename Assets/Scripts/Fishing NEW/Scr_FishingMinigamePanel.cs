@@ -35,6 +35,7 @@ public class Scr_FishingMinigamePanel : MonoBehaviour
 
     public Button bagFishButton;
     public Button flushFishButton;
+    public Button bagFishTutorialButton;
 
     public void Awake()
     {
@@ -76,6 +77,25 @@ public class Scr_FishingMinigamePanel : MonoBehaviour
             fishController.ForceWinUIAndStop();
 
         gameManager.PlaySoundEffect(gameManager.SFX_winner, 0.5f);
+
+        if (!gameManager.tutorials.tutorialCompleted)
+        {
+            flushFishButton.gameObject.SetActive(false);
+            bagFishButton.gameObject.SetActive(false);
+            bagFishTutorialButton.gameObject.SetActive(true);
+            gameManager.EnableButton(bagFishTutorialButton);
+            gameManager.DisableButton(gameManager.fishingPole.GetComponent<Button>());
+            gameManager.EnableButton(gameManager.foregroundSinkButton);
+            gameManager.EnableButton(gameManager.tutorials.hudButtons[0].GetComponent<Button>());
+            gameManager.EnableButton(gameManager.tutorials.hudButtons[2].GetComponent<Button>());
+
+        }
+        else
+        {
+            flushFishButton.gameObject.SetActive(true);
+            bagFishButton.gameObject.SetActive(true);
+            bagFishTutorialButton.gameObject.SetActive(false);
+        }
 
         if (moveRoutine != null)
             StopCoroutine(moveRoutine);
@@ -152,5 +172,4 @@ public class Scr_FishingMinigamePanel : MonoBehaviour
             group.sortingOrder = sortingOrder;
         }
     }
-
 }

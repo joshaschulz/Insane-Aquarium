@@ -14,32 +14,23 @@ public class Scr_Tutorials : MonoBehaviour
     public GameObject hudCanvas;
     public List<GameObject> hudButtons; //back, fish, food, structures
 
+    public GameObject fishBag;
+    public GameObject scrollViewFood;
+
     private void Awake()
     {
         gameManager = FindObjectOfType<Scr_GameManager>();
 
-        tutorialsShown = new List<bool>(10);
-        tutorialsShown.AddRange(new bool[10]);
+        tutorialsShown = new List<bool>(boxes.Count);
+        tutorialsShown.AddRange(new bool[boxes.Count]);
     }
 
     public void StartTutorial()
     {
 
         ShowHUDStart();
-    }
 
-    public void ShowTutorialBox(int index)
-    {
-        gameManager.PlaySoundEffect(gameManager.SFX_notif, 0.05f, 1.2f);
-
-        boxes[index].SetActive(true);
-
-        StartCoroutine(OpenBox(boxes[index]));
-    }
-
-    public void HideTutorialBox(int index)
-    {
-        StartCoroutine(CloseBox(boxes[index]));
+        gameManager.fishFood_1_Amount = 1;
     }
 
     public IEnumerator OpenBox(GameObject box)
@@ -105,13 +96,13 @@ public class Scr_Tutorials : MonoBehaviour
             button.SetActive(false);
         }
     }
-    public void DisableHUDButton(int index)
+    public void DisableButton(GameObject obj)
     {
-        hudButtons[index].GetComponent<Button>().interactable = false;
+        obj.GetComponent<Button>().interactable = false;
     }
-    public void EnableHUDButton(int index)
+    public void EnableButton(GameObject obj)
     {
-        hudButtons[index].GetComponent<Button>().interactable = true;
+        obj.GetComponent<Button>().interactable = true;
     }
     public void DisableAllHUDButtons()
     {
@@ -133,5 +124,80 @@ public class Scr_Tutorials : MonoBehaviour
         ShowElement(hudCanvas);
         HideAllHUDButtons();
 
+    }
+
+    public void ShowNextTutorialBoxDelay(float delay)
+    {
+        StartCoroutine(ShowNextTutorialBoxRoutine(delay));
+    }
+
+    private IEnumerator ShowNextTutorialBoxRoutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        ShowNextTutorialBox();
+    }
+
+    public void ShowNextTutorialBox()
+    {
+        foreach (GameObject box in boxes)
+        {
+            if (box.activeSelf)
+            {
+                Debug.Log($"{box.name} set inactive!");
+                box.SetActive(false);
+            }
+        }
+
+        for (int i = 0; i < tutorialsShown.Count; i++)
+        {
+            if (!tutorialsShown[i])
+            {
+                Debug.Log($"{boxes[i]} set active!");
+
+                gameManager.PlaySoundEffect(gameManager.SFX_notif, 0.05f, 1.2f);
+                boxes[i].SetActive(true);
+                StartCoroutine(OpenBox(boxes[i]));
+
+                tutorialsShown[i] = true;
+
+                if (i == 3) //fish biting
+                {
+                    ShowElement(hudButtons[0]);
+                }
+                else if (i == 4)
+                {
+                    EnableButton(gameManager.fishingPole);
+                }
+
+                return;
+            }
+        }
+    }
+
+    public void HideNextTutorialBoxDelay(float delay)
+    {
+        StartCoroutine(HideNextTutorialBoxRoutine(delay));
+    }
+
+    private IEnumerator HideNextTutorialBoxRoutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        HideTutorialBox();
+    }
+
+    public void HideTutorialBox()
+    {
+        foreach (GameObject box in boxes)
+        {
+            if (box.activeSelf)
+            {
+                StartCoroutine(CloseBox(box));
+            }
+        }
+    }
+
+    public void InvokeFunctionWithDelay(string functionName, float delay)
+    {
+        Invoke(functionName, delay);
     }
 }

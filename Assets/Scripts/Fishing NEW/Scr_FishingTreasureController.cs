@@ -142,6 +142,7 @@ public class Scr_FishingMinigameChestController : MonoBehaviour
         if (treasureChestPrefabs == null || treasureChestPrefabs.Length == 0) return;
         if (fishController == null) return;
         if (cam == null) return;
+        if (!gameManager.tutorials.tutorialCompleted) return;
 
         float fishT = fishController.GetFishProgress01();
         if (fishT < spawnAtFishProgress) return;

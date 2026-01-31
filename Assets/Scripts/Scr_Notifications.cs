@@ -29,6 +29,18 @@ public class Scr_Notifications : MonoBehaviour
         textRect = text.GetComponent<RectTransform>();
     }
 
+    public void ShowDelayed(string message, float delay, bool isWarning)
+    {
+        StartCoroutine(ShowDelayedRoutine(message, delay, isWarning));
+    }
+
+    private IEnumerator ShowDelayedRoutine(string message, float delay, bool isWarning)
+    {
+        yield return new WaitForSeconds(delay);
+        Show(message, isWarning);
+    }
+
+
     public void Show(string message, bool isWarning)
     {
         Show(message, autoHideSecondsDefault, isWarning);

@@ -176,6 +176,9 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
         GameObject prefab = PickWeightedFishPrefab();
         spawnedFishInstance = Instantiate(prefab, spawnPos, Quaternion.identity);
 
+        if (!gameManager.tutorials.tutorialCompleted)
+            spawnedFishInstance.GetComponent<Scr_FishMinigameMovement>().fastSpeed = 3;
+
         if (isLegendary)
             spawnedFishInstance.transform.localScale = new Vector3(spawnedFishInstance.transform.localScale.x * 1.3f, spawnedFishInstance.transform.localScale.y * 1.3f, spawnedFishInstance.transform.localScale.z);
 
@@ -217,9 +220,8 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
 
     private GameObject PickWeightedFishPrefab()
     {
-        if (!gameManager.fishedYet)//CHANGE THIS TO BOOL ISTUTORIAL
+        if (!gameManager.tutorials.tutorialCompleted)
         {
-            gameManager.fishedYet = true;
             return fishPrefabs[0];
         }
 
@@ -318,8 +320,6 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
         {
             if (minigameStarted)
             {
-                Debug.Log("XXXXXXXXXXXXXXXXXX");
-
                 if (gameManager.baitAndTackle.currentBaitEquipped == 1)
                     cachedFishMovement.peanutButterMoveSlower = false;
 
@@ -342,6 +342,9 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
         if (!hasWonThisRun && fishT01 >= 1f)
         {
             hasWonThisRun = true;
+
+            if (!gameManager.tutorials.tutorialCompleted)
+                gameManager.tutorials.HideTutorialBox();
 
             if (cachedFishMovement != null)
             {
@@ -380,6 +383,9 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
         }
         else if (!hasWonThisRun && fishT01 <= 0f)
         {
+            if (!gameManager.tutorials.tutorialCompleted)
+                return;
+
             hasWonThisRun = false;
 
             if (cachedFishMovement != null)

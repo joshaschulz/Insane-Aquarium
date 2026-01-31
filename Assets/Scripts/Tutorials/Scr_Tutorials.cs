@@ -25,6 +25,11 @@ public class Scr_Tutorials : MonoBehaviour
         tutorialsShown.AddRange(new bool[boxes.Count]);
     }
 
+    public void ToggleTutorials()
+    {
+        tutorialCompleted = !tutorialCompleted;
+    }
+
     public void StartTutorial()
     {
 

@@ -4330,6 +4330,14 @@ public class Scr_GameManager : MonoBehaviour
 
     }
 
+    public void StartGame()
+    {
+        SpawnFlopperAfterDelay();
+
+        if (!tutorials.tutorialCompleted)
+            tutorials.StartTutorial();
+    }
+
     public void SpawnFlopperAfterDelay()
     {
         StartCoroutine(SpawnFlopperRoutine());
@@ -4343,6 +4351,7 @@ public class Scr_GameManager : MonoBehaviour
 
     public void SpawnFlopper()
     {
+
         GameObject flopperPrefab = allFishPrefabs[3];
 
         Vector2 spawnPosition = new Vector2(allTanks[0].position.x, allTanks[0].position.y);
@@ -4367,16 +4376,24 @@ public class Scr_GameManager : MonoBehaviour
         newFishScript.radiated = false;
         newFishScript.mutated = false;
         newFishScript.grown = true;
-        newFishScript.minutesUntilHungry = 120;
-        newFishScript.hungerCount = 100;
 
-        newFishScript.minutesUntilFreaky = 1000000;
-        newFishScript.minutesUntilPoop = 1000000;
-        newFishScript.minutesUntilGrown = 1000000;
-        newFishScript.minutesUntilDead = 1000000; //flopper shouldn't die
+        if (!tutorials.tutorialCompleted) //if tutorial, alter flopper
+        {
+            newFishScript.minutesUntilHungry = 1000000;
+            newFishScript.hungerCount = 999980;
+
+            newFishScript.minutesUntilFreaky = 1000000;
+            newFishScript.minutesUntilPoop = 1000000;
+            newFishScript.minutesUntilGrown = 1000000;
+            newFishScript.minutesUntilDead = 1000000; //flopper shouldn't die
+
+            newFish.AddComponent<Scr_TutorialFish>();
+        }
+
+
         newFishScript.generation = 1;
 
-        newFish.AddComponent<Scr_TutorialFish>();
+
 
         UpdateSpawnedLoadingFish(newFish);
 

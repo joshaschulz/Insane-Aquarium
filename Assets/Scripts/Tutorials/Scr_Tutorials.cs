@@ -24,8 +24,8 @@ public class Scr_Tutorials : MonoBehaviour
 
     public void StartTutorial()
     {
+
         ShowHUDStart();
-        gameManager.SpawnFlopperAfterDelay();
     }
 
     public void ShowTutorialBox(int index)

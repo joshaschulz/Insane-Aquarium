@@ -45,6 +45,8 @@ public class Scr_GameManager : MonoBehaviour
 
     public GameObject oscar;
 
+    public TextMeshProUGUI billsHUDText;
+
     //FOR SAVING/LOADING
     public List<Transform> allTanks;
     public List<GameObject> allFishPrefabs;
@@ -415,7 +417,7 @@ public class Scr_GameManager : MonoBehaviour
     {
         Scr_GameSettings settings = ActiveSettings;
 
-        moneyAmount = settings.moneyAmount;
+        SetMoneyAmount(settings.moneyAmount);
         Debug.Log("MONEY AMOUNT: " + settings.moneyAmount);
         fishFood_1_Amount = settings.fishFood1Amount;
         fishFood_2_Amount = settings.fishFood2Amount;
@@ -793,8 +795,10 @@ public class Scr_GameManager : MonoBehaviour
                 float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
                 float screenHeightWorld = Camera.main.orthographicSize * 2;
 
-                float maxX = _Camera.transform.position.x + tank.transform.Find("Fish Swim Bounds").gameObject.GetComponent<BoxCollider2D>().bounds.size.x / 2;
-                float minX = _Camera.transform.position.x - tank.transform.Find("Fish Swim Bounds").gameObject.GetComponent<BoxCollider2D>().bounds.size.x / 2;
+                GameObject spawnTank = GetTankByPosition(_Camera.transform.position).gameObject;
+
+                float maxX = _Camera.transform.position.x + spawnTank.transform.Find("Fish Swim Bounds").gameObject.GetComponent<BoxCollider2D>().bounds.size.x / 2;
+                float minX = _Camera.transform.position.x - spawnTank.transform.Find("Fish Swim Bounds").gameObject.GetComponent<BoxCollider2D>().bounds.size.x / 2;
 
                 Vector2 randomSpawnBounds = new Vector2(minX, maxX);
 
@@ -2196,16 +2200,25 @@ public class Scr_GameManager : MonoBehaviour
     {
         moneyAmount = _newMoneyAmount;
         UpdateText(moneyText, moneyAmount);
+
+        CalculateBills();
+        UpdateText(billsHUDText, totalBillsValue);
     }
     public void AddMoneyAmount(int _moneyToAdd)
     {
         moneyAmount += _moneyToAdd;
         UpdateText(moneyText, moneyAmount);
+
+        CalculateBills();
+        UpdateText(billsHUDText, totalBillsValue);
     }
     public void SubtractMoneyAmount(int _moneyToSubtract)
     {
         moneyAmount -= _moneyToSubtract;
         UpdateText(moneyText, moneyAmount);
+
+        CalculateBills();
+        UpdateText(billsHUDText, totalBillsValue);
     }
     public int GetFishFoodAmount(GameObject _fishFoodType)
     {
@@ -2883,6 +2896,8 @@ public class Scr_GameManager : MonoBehaviour
     {
 
         UpdateText(moneyText, moneyAmount);
+        CalculateBills();
+        UpdateText(billsHUDText, totalBillsValue);
         UpdateFoodTexts();
         UpdateStructureTexts();
     }
@@ -3486,9 +3501,10 @@ public class Scr_GameManager : MonoBehaviour
                     {
                         if (moneyAmount > loanAmount)
                         {
-                            SubtractMoneyAmount(loanAmount);
                             loanAmount = 0;
                             tempLoanAmount = 0;
+
+                            SubtractMoneyAmount(loanAmount);
 
                             PlaySoundEffect(SFX_CashRegister, 0.4f, 1f, 1f);
                             PlaySoundEffect(SFX_MoneyCounter, 0.4f, 1f, 1f);
@@ -4119,7 +4135,7 @@ public class Scr_GameManager : MonoBehaviour
     {
         int totalBills;
 
-        int rent = ActiveSettings.rentAmount;
+        int rent = (int) (ActiveSettings.rentAmount * Mathf.Pow(1.2f, currentDay - 1));
         rentText.text = rent.ToString();
 
         int incomeTax = (skills.currentAccountingSkills[4]) ? 0 : moneyAmount * ActiveSettings.taxPercentage / 100;
@@ -4182,6 +4198,7 @@ public class Scr_GameManager : MonoBehaviour
             DisableUnderwaterAudio();
             
             UpdateText(Scr_EndDay.endDayMoneyText, moneyAmount);
+            UpdateSceneTexts();
             PlaySoundEffect(SFX_CashRegister, 0.4f, 1f, 1f);
             PlaySoundEffect(SFX_MoneyCounter, 0.4f, 1f, 1f);
 

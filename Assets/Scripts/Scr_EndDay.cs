@@ -192,6 +192,8 @@ public class Scr_EndDay : MonoBehaviour
         if (endOfDayCanvas != null)
             endOfDayCanvas.gameObject.SetActive(false);
 
+        gameManager.CalculateBills();
+        gameManager.UpdateSceneTexts();
         gameManager.FinishBuyingSKills();
     }
 

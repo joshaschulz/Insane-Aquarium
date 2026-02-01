@@ -14,6 +14,8 @@ public class Scr_Tutorials : MonoBehaviour
     public GameObject hudCanvas;
     public List<GameObject> hudButtons; //back, fish, food, structures
 
+    public GameObject billsHUDObj;
+
     public GameObject fishBag;
     public GameObject scrollViewFood;
 
@@ -23,6 +25,7 @@ public class Scr_Tutorials : MonoBehaviour
 
         tutorialsShown = new List<bool>(boxes.Count);
         tutorialsShown.AddRange(new bool[boxes.Count]);
+
     }
 
     public void ToggleTutorials()
@@ -34,9 +37,10 @@ public class Scr_Tutorials : MonoBehaviour
     {
 
         ShowHUDStart();
+        billsHUDObj.SetActive(false);
 
         gameManager.fishFood_1_Amount = 1;
-        gameManager.moneyAmount = 10;
+        gameManager.SetMoneyAmount(10);
     }
 
     public void EndTutorial()
@@ -48,6 +52,8 @@ public class Scr_Tutorials : MonoBehaviour
             gameManager.SetMoneyAmount(500);
             gameManager.EnableAllButtons();
             ShowAllHUDButtons();
+            billsHUDObj.SetActive(true);
+            gameManager.UpdateSceneTexts();
         }
     }
 

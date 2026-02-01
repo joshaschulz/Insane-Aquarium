@@ -30,7 +30,7 @@ public class Scr_PlayerSkills : MonoBehaviour
     public bool[] currentResearchSkills = new bool[5];
     public bool[] currentAccountingSkills = new bool[5];
 
-    public int[] skillCosts = new int[5] { 200, 300, 500, 800, 1300 };
+    public int[] skillCosts = new int[5] { 100, 200, 400, 600, 800 }; //200, 300, 500, 800, 1300 total 3100
 
     public Dictionary<GameObject, bool[]> skillMap;
 

@@ -127,29 +127,23 @@ public class Scr_Notifications : MonoBehaviour
     {
         if (background == null || text == null) return;
 
-        // force TMP to calculate correct geometry
         text.ForceMeshUpdate();
 
         RectTransform backgroundRect = background.GetComponent<RectTransform>();
 
         float wrapWidth = textRect.rect.width;
 
-        // exact size the text wants (pixels)
+        // preferred size of the rendered text (given wrapping constraint)
         Vector2 preferred = text.GetPreferredValues(text.text, wrapWidth, 0f);
-        
-        // resize background to text size + padding
-        backgroundRect.SetSizeWithCurrentAnchors(
-            RectTransform.Axis.Horizontal,
-            wrapWidth + backgroundPadding.x
-        );
 
-        backgroundRect.SetSizeWithCurrentAnchors(
-            RectTransform.Axis.Vertical,
-            preferred.y + backgroundPadding.y
-        ); ;
+        // width should be as small as possible, but never exceed wrap width
+        float targetWidth = Mathf.Min(preferred.x, wrapWidth) + backgroundPadding.x;
+        float targetHeight = preferred.y + backgroundPadding.y;
 
-        // keep background centered on text
-        backgroundRect.anchoredPosition = text.textBounds.center - new Vector3(0, backgroundPadding.y/4f, 0);
+        backgroundRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, targetWidth);
+        backgroundRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, targetHeight);
+
+        backgroundRect.anchoredPosition = text.textBounds.center - new Vector3(0f, backgroundPadding.y / 4f, 0f);
     }
 
     private IEnumerator AutoHideAfterDelay(float delay)

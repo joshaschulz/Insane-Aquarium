@@ -117,6 +117,13 @@ public class Scr_EndDay : MonoBehaviour
 
         if (nextDayButton != null)
             yield return SlideRect(nextDayButton, nextDayButtonOffScreenPos, nextDayButtonOnScreenPos, paperSlideSeconds);
+
+
+        if (!gameManager.tutorials.tutorialCompleted)
+        {
+            gameManager.tutorials.HideTutorialBox();
+            gameManager.tutorials.ShowNextTutorialBoxDelay(0.6f);
+        }
     }
 
     private IEnumerator OpenDialogueSequence()
@@ -156,6 +163,10 @@ public class Scr_EndDay : MonoBehaviour
         // 2) slide paper up
         if (endOfDayPaper != null)
             yield return SlideRect(endOfDayPaper, paperOffScreenPos, paperOnScreenPos, paperSlideSeconds);
+
+        gameManager.UpdateSceneTexts();
+        gameManager.UpdateText(endDayMoneyText, gameManager.moneyAmount);
+
     }
 
     private IEnumerator CloseEndDaySequence()

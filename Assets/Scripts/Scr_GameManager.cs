@@ -16,6 +16,8 @@ public class Scr_GameManager : MonoBehaviour
     public Scr_Tutorials tutorials;
     private Camera _Camera;
 
+    public Scr_FishInfoPanel infoPanel;
+
     public string businessName = "FishyBusinessSaveTest";
     public int currentDifficulty = -1; //0, 1, 2. -1 to check if no difficulty selected
 
@@ -31,6 +33,7 @@ public class Scr_GameManager : MonoBehaviour
     public Button bagsClickFunctions;
     public Button foodClickFunctions;
     public Button foodTutorialClickFunctions;
+    public Button foodTutorialClickFunctionsWithBags;
     public Button structuresClickFunctions;
     public Button foregroundSinkButton;
     public Button stallNumbersButton;
@@ -599,25 +602,31 @@ public class Scr_GameManager : MonoBehaviour
 
             Vector2 spawnTank = new Vector2(Camera.main.transform.position.x, Camera.main.transform.position.y);
 
+            SpriteRenderer tank = GetTankBounds(spawnTank);
+
+
             float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
             float screenHeightWorld = Camera.main.orthographicSize * 2;
 
-            float maxX = spawnTank.x + screenWidthWorld / 2;
-            float minX = spawnTank.x - screenWidthWorld / 2;
+            float maxX = spawnTank.x + tank.transform.Find("Fish Swim Bounds").gameObject.GetComponent<BoxCollider2D>().bounds.size.x / 2;
+            float minX = spawnTank.x - tank.transform.Find("Fish Swim Bounds").gameObject.GetComponent<BoxCollider2D>().bounds.size.x / 2;
 
             Vector2 foodSpawnPos;
 
             //checks if the placed food is outside the screen
             if (mouseWorldPosition.x > maxX)
             {
+                Debug.Log("GREATER THAN MAX X");
                 foodSpawnPos = new Vector2(maxX, Camera.main.transform.position.y + screenHeightWorld / 2);
             }
             else if (mouseWorldPosition.x < minX)
             {
+                Debug.Log("GREATER THAN MIN X");
                 foodSpawnPos = new Vector2(minX, Camera.main.transform.position.y + screenHeightWorld / 2);
             }
             else
             {
+                Debug.Log("NEITHER");
                 foodSpawnPos = new Vector2(mouseWorldPosition.x, Camera.main.transform.position.y + screenHeightWorld / 2);
             }
 
@@ -3029,6 +3038,19 @@ public class Scr_GameManager : MonoBehaviour
         return null;
     }
 
+    public SpriteRenderer GetTankBounds(Vector2 pos)
+    {
+        foreach (SpriteRenderer tank in tankSpriteRenderers)
+        {
+            if (tank.bounds.Contains(pos))
+            {
+                return tank;
+            }
+        }
+
+        return null;
+    }
+
     public void ClickKeypad(int key)
     {
 
@@ -4071,6 +4093,8 @@ public class Scr_GameManager : MonoBehaviour
 
         currentDayText.text = currentDay.ToString();
 
+        UpdateText(Scr_EndDay.endDayMoneyText, moneyAmount);
+
         Scr_EndDay.PlayEndDayUI();
 
     }
@@ -4153,6 +4177,26 @@ public class Scr_GameManager : MonoBehaviour
             UpdateText(Scr_EndDay.endDayMoneyText, moneyAmount);
             PlaySoundEffect(SFX_CashRegister, 0.4f, 1f, 1f);
             PlaySoundEffect(SFX_MoneyCounter, 0.4f, 1f, 1f);
+
+            if (!tutorials.tutorialCompleted)
+            {
+                tutorials.HideTutorialBox();
+                Scr_Fish[] fishes = FindObjectsOfType<Scr_Fish>();
+
+                foreach (Scr_Fish fish in fishes)
+                {
+                    if (fish.GetComponent<Scr_TutorialFish>() != null)
+                        Destroy(fish.GetComponent<Scr_TutorialFish>());
+
+                    fish.minutesUntilHungry = ActiveSettings.minutesUntilHungry_Goldfish;
+                    fish.hungerCount = 0; //999980 remember
+                    fish.minutesUntilFreaky = ActiveSettings.minutesUntilFreaky_Goldfish;
+                    fish.freakCount = 0;
+                    fish.minutesUntilPoop = ActiveSettings.minutesUntilPoop_Goldfish;
+                    fish.minutesUntilGrown = ActiveSettings.minutesUntilGrown_Goldfish;
+                    fish.minutesUntilDead = ActiveSettings.minutesUntilDead_Goldfish; //flopper shouldn't die
+                }
+            }
 
             //Scr_EndDay.PlayCloseEndDayUI();
             Scr_EndDay.PlayOpenDialogue();
@@ -4273,22 +4317,21 @@ public class Scr_GameManager : MonoBehaviour
 
     public void ClickFishingPole()
     {
-
-        if (CheckIfFullFishBags())
-        {
-            //PlaySoundEffect(SFX_Error, 0.3f);
-
-            FlashColor(fishingPole, Color.red, 0.5f, 0.1f);
-
-            notifications.Show("Your fish bags are full.", 2f, true);
-        }
-        else if (!canFish)
+        if (!canFish)
         {
             //PlaySoundEffect(SFX_Error, 0.3f);
 
             FlashColor(fishingPole, Color.red, 0.5f, 0.1f);
 
             notifications.Show("No nibbles yet.", 2f, true);
+        }
+        else if (CheckIfFullFishBags())
+        {
+            //PlaySoundEffect(SFX_Error, 0.3f);
+
+            FlashColor(fishingPole, Color.red, 0.5f, 0.1f);
+
+            notifications.Show("Your fish bags are full.", 2f, true);
         }
         else
         {
@@ -4361,6 +4404,13 @@ public class Scr_GameManager : MonoBehaviour
         else if (!tutorials.tutorialCompleted && !tutorials.tutorialsShown[13] && tutorials.tutorialsShown[12])
         {
             tutorials.ShowNextTutorialBox();
+
+            EnableElement(GetComponent<Scr_ClickDetection>().hudButtonPanel.GetChild(1).gameObject);
+            DisableElement(GetComponent<Scr_ClickDetection>().hudButtonPanel.GetChild(2).gameObject);
+            EnableElement(GetComponent<Scr_ClickDetection>().hudButtonPanel.GetChild(3).gameObject);
+            DisableElement(GetComponent<Scr_ClickDetection>().hudButtonPanel.GetChild(4).gameObject);
+            EnableElement(GetComponent<Scr_ClickDetection>().hudButtonPanel.GetChild(5).gameObject);
+            DisableElement(GetComponent<Scr_ClickDetection>().hudButtonPanel.GetChild(6).gameObject);
         }
         else if (!tutorials.tutorialCompleted && !tutorials.tutorialsShown[15] && tutorials.tutorialsShown[14])
         {
@@ -4393,11 +4443,11 @@ public class Scr_GameManager : MonoBehaviour
 
             foreach (Scr_Fish fishScript in tutorialFishScrpts)
             {
-                fishScript.hungerCount = 999980;
+                fishScript.hungerCount = 999990;
             }
 
             tutorials.HideTutorialBox();
-            Invoke(nameof(TutorialNotificationToFeedFish), 12f);
+            Invoke(nameof(TutorialNotificationToFeedFish), 7.5f);
         }
     }
 
@@ -4427,7 +4477,10 @@ public class Scr_GameManager : MonoBehaviour
     {
         if (!tutorials.tutorialCompleted)
         {
-            ClickButton(foodTutorialClickFunctions);
+            if (!tutorials.tutorialsShown[6])
+                ClickButton(foodTutorialClickFunctions);
+            else
+                ClickButton(foodTutorialClickFunctionsWithBags);
             return;
         }
 

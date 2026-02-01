@@ -460,6 +460,8 @@ public class Scr_Fish : MonoBehaviour
 
         PoopCounter();
 
+        UpdateFishInfoPanel();
+
         if ((isHungry && FindClosestFood() != null))
         {
             CancelInvoke("IdleOrMove");
@@ -506,7 +508,7 @@ public class Scr_Fish : MonoBehaviour
 
                             if (isFreaky && collisionObjScr.isFreaky)
                             {
-
+                                UpdateFishInfoPanel();
                                 freakCount = 0;
                                 isFreaky = false;
                                 collisionObjScr.isFreaky = false;
@@ -592,6 +594,10 @@ public class Scr_Fish : MonoBehaviour
         {
             Debug.Log("Got to here even!");
             SetNotHungry();
+
+            //if the info panel is active and showing this fish, update it
+            UpdateFishInfoPanel();
+
             //SetTarget(transform.position);
             IdleOrMove();
 
@@ -790,8 +796,8 @@ public class Scr_Fish : MonoBehaviour
         gameManager.foodFishDictionary.Remove(gameObject);
         gameManager.RemoveFoodFromExistingFishDiets(gameObject);
 
-        if (FindObjectOfType<Scr_FishInfoPanel>() != null)
-            FindObjectOfType<Scr_FishInfoPanel>().HideIfFish(this); //hide the fish info ui panel if it's showing this fish
+        if (gameManager.infoPanel != null)
+            gameManager.infoPanel.HideIfFish(this); //hide the fish info ui panel if it's showing this fish
 
 
         Destroy(gameObject);
@@ -984,6 +990,14 @@ public class Scr_Fish : MonoBehaviour
         else
         {
             return false;
+        }
+    }
+
+    public void UpdateFishInfoPanel()
+    {
+        if (gameManager.infoPanel.gameObject.activeSelf && gameManager.infoPanel.currentFish == this)
+        {
+            gameManager.infoPanel.Show(this);
         }
     }
 

@@ -75,7 +75,7 @@ public class Scr_TutorialFish : MonoBehaviour
 
             foreach (Scr_Fish fishScript in tutorialFishScrpts)
             {
-                fishScript.freakCount = 999985;
+                fishScript.freakCount = 999992;
             }
         }
     }
@@ -90,8 +90,8 @@ public class Scr_TutorialFish : MonoBehaviour
             fishScript.minutesUntilFreaky = 1000000;
             tutorials.ShowNextTutorialBox();
             tutorials.HideNextTutorialBoxDelay(4f);
-            gameManager.Scr_Customer.InvokeFunctionWithDelay("SpawnTutorialCustomer", 8f);
-            tutorials.ShowNextTutorialBoxDelay(8f);
+            gameManager.Scr_Customer.InvokeFunctionWithDelay("SpawnTutorialCustomer", 6f);
+            tutorials.ShowNextTutorialBoxDelay(6f);
         }
     }
 }

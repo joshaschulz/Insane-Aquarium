@@ -36,6 +36,7 @@ public class Scr_Tutorials : MonoBehaviour
         ShowHUDStart();
 
         gameManager.fishFood_1_Amount = 1;
+        gameManager.moneyAmount = 10;
     }
 
     public void EndTutorial()

@@ -55,7 +55,7 @@ public class Scr_FoodBehavior : MonoBehaviour
             spinAmount = -spinAmount;
         InvokeRepeating("rotateFood", 0f, 1 / spinSpeed);
 
-        groundBarrier = new Vector2(0, transform.position.y - 10);
+        FindGroundBarrier();
         //Camera.main.ScreenToWorldPoint(new Vector2(0, Screen.height * groundBarrierPercentage));
 
         if (particleEffectPrefabs.Count > 0)
@@ -178,5 +178,18 @@ public class Scr_FoodBehavior : MonoBehaviour
 
         shotVelocity.x = -Mathf.Cos(rad) * shotSpeed * ((!flipped) ? 1 : -1); // left
         shotVelocity.y = Mathf.Sin(rad) * shotSpeed;  // up
+    }
+
+    public void FindGroundBarrier()
+    {
+        GameObject tank = gameManager.GetTankPos(transform.position).gameObject;
+
+        BoxCollider2D fishSwimBounds = tank.transform.Find("Fish Swim Bounds").GetComponent<BoxCollider2D>();
+
+        Debug.Log(tank.name);
+
+        groundBarrier.y = fishSwimBounds.transform.position.y - fishSwimBounds.bounds.size.y / 2 + fishSwimBounds.offset.y + Random.Range(0f, 1f);
+
+        Debug.Log(groundBarrier.y);
     }
 }

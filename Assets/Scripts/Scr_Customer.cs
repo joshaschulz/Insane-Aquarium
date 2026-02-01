@@ -577,10 +577,11 @@ public class Scr_Customer : MonoBehaviour
         {
             gameManager.Scr_TimeHandler.SetGameSeconds(gameManager.Scr_TimeHandler.endTimeInSeconds);
             gameManager.Scr_TimeHandler.UpdateClockDisplay();
-            gameManager.EndDay();
+            gameManager.tutorials.HideTutorialBox();
             gameManager.SetMoneyAmount(400);
+            gameManager.EndDay();
 
-            gameManager.tutorials.ShowNextTutorialBoxDelay(1.5f);
+            gameManager.tutorials.ShowNextTutorialBoxDelay(2.2f);
 
             HideTutorialAccept();
         }

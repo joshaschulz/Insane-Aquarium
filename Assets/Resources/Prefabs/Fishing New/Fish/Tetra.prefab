@@ -385,8 +385,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fishAnimation: {fileID: 290879803996485776}
-  baseSpeed: 4
-  fastSpeed: 4
+  baseSpeed: 1.5
+  fastSpeed: 2
   peanutButterMoveSlower: 0
   movementBounds:
     m_Center: {x: 0, y: 0, z: 0}

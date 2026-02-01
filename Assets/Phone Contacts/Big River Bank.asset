@@ -19,8 +19,8 @@ MonoBehaviour:
   - Please enter your password.
   - Welcome! When taking out a loan, please understand that 5% interest will be charged
     daily, until you pay back the loan in full!
-  - We offer loans in amounts of 2500, 5000, and 7500 krona. Please enter one of
-    these amounts and press enter.
+  - We offer loans in amounts of 300, 500, and 1000 krona. Please enter one of these
+    amounts and press enter.
   - PURHCASE TEXT
   - LOAN AMOUNT
   - PAY OFF LOAN

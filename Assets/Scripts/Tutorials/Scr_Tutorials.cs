@@ -41,11 +41,14 @@ public class Scr_Tutorials : MonoBehaviour
 
     public void EndTutorial()
     {
-        ShowNextTutorialBox();
-        tutorialCompleted = true;
-        gameManager.SetMoneyAmount(500);
-        gameManager.EnableAllButtons();
-        ShowAllHUDButtons();
+        if (!tutorialCompleted)
+        {
+            ShowNextTutorialBox();
+            tutorialCompleted = true;
+            gameManager.SetMoneyAmount(500);
+            gameManager.EnableAllButtons();
+            ShowAllHUDButtons();
+        }
     }
 
     public IEnumerator OpenBox(GameObject box)

@@ -3454,22 +3454,22 @@ public class Scr_GameManager : MonoBehaviour
                 }
                 else if (CheckIfOnSelectionDialogue2())
                 {
-                    if (textNum == 2500)
+                    if (textNum == 300)
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"You've selected a loan in the amount of 2500 krona. Enter 1 to confirm your selection.";
-                        tempLoanAmount = 2500;
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"You've selected a loan in the amount of 300 krona. Enter 1 to confirm your selection.";
+                        tempLoanAmount = 300;
                         dialogueBoxPhone.NextLine();
                     }
-                    else if (textNum == 5000)
+                    else if (textNum == 500)
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"You've selected a loan in the amount of 5000 krona. Enter 1 to confirm your selection.";
-                        tempLoanAmount = 5000;
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"You've selected a loan in the amount of 500 krona. Enter 1 to confirm your selection.";
+                        tempLoanAmount = 500;
                         dialogueBoxPhone.NextLine();
                     }
-                    else if (textNum == 7500)
+                    else if (textNum == 1000)
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"You've selected a loan in the amount of 7500 krona. Enter 1 to confirm your selection.";
-                        tempLoanAmount = 7500;
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"You've selected a loan in the amount of 1000 krona. Enter 1 to confirm your selection.";
+                        tempLoanAmount = 1000;
                         dialogueBoxPhone.NextLine();
                     }
                 }

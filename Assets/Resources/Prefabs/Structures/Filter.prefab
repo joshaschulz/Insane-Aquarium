@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 249152b8762a0154dbb6972d1f94d5c2, type: 3}
-  m_Color: {r: 0.59607846, g: 0.6666667, b: 0.7058824, a: 1}
+  m_Color: {r: 0.929, g: 0.929, b: 0.929, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -103,6 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   structureButton: {fileID: 0}
   thisPrefab: {fileID: 3024260648436506323}
+  placedOnRight: 0
   cost: 200
   anchorMode: 1
   offsetFromCameraBottom: 3
@@ -123,7 +124,6 @@ MonoBehaviour:
   poopRemovedPerClean: 1
   cleanIntervalTicks: 1
   filterBubblesPrefab: {fileID: 4984479626245641391}
-  myTankPos: {x: 0, y: 0}
 --- !u!210 &3556068176606125869
 SortingGroup:
   m_ObjectHideFlags: 0

@@ -334,7 +334,7 @@ public class Scr_Fish : MonoBehaviour
         Debug.Log("legendary aura: " + fishValue);
 
 
-        if (skills.currentFishkeepingSkills[4])
+        if (skills.currentFishkeepingSkills[3])
         {
             stressScr.maxComfortableTankPopulation = (int)(maxCapacityOriginal * 1.5);
         }

@@ -793,10 +793,14 @@ public class Scr_GameManager : MonoBehaviour
                 float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
                 float screenHeightWorld = Camera.main.orthographicSize * 2;
 
+                float maxX = _Camera.transform.position.x + tank.transform.Find("Fish Swim Bounds").gameObject.GetComponent<BoxCollider2D>().bounds.size.x / 2;
+                float minX = _Camera.transform.position.x - tank.transform.Find("Fish Swim Bounds").gameObject.GetComponent<BoxCollider2D>().bounds.size.x / 2;
+
+                Vector2 randomSpawnBounds = new Vector2(minX, maxX);
+
                 float randomSpawnHeight = Random.Range(0.4f, 1.2f);
 
                 spawnPosition.y = (spawnPosition.y + screenHeightWorld / 2) - (screenHeightWorld / 2) * randomSpawnHeight;
-                Vector2 randomSpawnBounds = new Vector2(spawnPosition.x - screenWidthWorld / 2, spawnPosition.x + screenWidthWorld / 2);
 
 
                 float randPosX = Random.Range(randomSpawnBounds.x, randomSpawnBounds.y);
@@ -893,8 +897,11 @@ public class Scr_GameManager : MonoBehaviour
                 float randomSpawnHeight = Random.Range(0.4f, 1.2f);
 
                 spawnPosition.y = (spawnPosition.y + screenHeightWorld / 2) - (screenHeightWorld / 2) * randomSpawnHeight;
-                Vector2 randomSpawnBounds = new Vector2(spawnPosition.x - screenWidthWorld / 2, spawnPosition.x + screenWidthWorld / 2);
 
+                float maxX = _Camera.transform.position.x + tank.transform.Find("Fish Swim Bounds").gameObject.GetComponent<BoxCollider2D>().bounds.size.x / 2;
+                float minX = _Camera.transform.position.x - tank.transform.Find("Fish Swim Bounds").gameObject.GetComponent<BoxCollider2D>().bounds.size.x / 2;
+
+                Vector2 randomSpawnBounds = new Vector2(minX, maxX);
 
                 float randPosX = Random.Range(randomSpawnBounds.x, randomSpawnBounds.y);
 
@@ -3310,7 +3317,7 @@ public class Scr_GameManager : MonoBehaviour
                 {
                     if (textNum == 1 && skills.currentResearchSkills[0])
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Filters are {(skills.currentAccountingSkills[0] ? (int) (structurePrefabs[0].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[0].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Filters are {(skills.currentAccountingSkills[0] ? (int) (structurePrefabs[0].GetComponent<Scr_StructurePlacementRules>().cost * 0.5f) : structurePrefabs[0].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
 
                         structureToPurchase = structurePrefabs[0];
                         dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
@@ -3318,7 +3325,7 @@ public class Scr_GameManager : MonoBehaviour
                     }
                     else if (textNum == 1 && skills.currentCustomerServiceSkills[0])
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Sale Signs are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Sale Signs are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost * 0.5f) : structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
 
                         structureToPurchase = structurePrefabs[2];
                         dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
@@ -3327,7 +3334,7 @@ public class Scr_GameManager : MonoBehaviour
 
                     if (textNum == 2 && skills.currentResearchSkills[0])
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Feeders are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[1].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[1].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Feeders are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[1].GetComponent<Scr_StructurePlacementRules>().cost * 0.5f) : structurePrefabs[1].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
 
                         structureToPurchase = structurePrefabs[1];
                         dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
@@ -3337,7 +3344,7 @@ public class Scr_GameManager : MonoBehaviour
 
                     if (textNum == 3 && skills.currentCustomerServiceSkills[0] && skills.currentResearchSkills[0])
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Sale Signs are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Sale Signs are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost * 0.5f) : structurePrefabs[2].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
 
                         structureToPurchase = structurePrefabs[2];
                         dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
@@ -3346,7 +3353,7 @@ public class Scr_GameManager : MonoBehaviour
                     }
                     else if (textNum == 3 && !skills.currentCustomerServiceSkills[0] && skills.currentResearchSkills[2])
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Advanced Feeders are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[3].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[3].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Advanced Feeders are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[3].GetComponent<Scr_StructurePlacementRules>().cost * 0.5f) : structurePrefabs[3].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
 
                         structureToPurchase = structurePrefabs[3];
                         dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
@@ -3355,7 +3362,7 @@ public class Scr_GameManager : MonoBehaviour
 
                     if (textNum == 4 && skills.currentResearchSkills[2] && skills.currentCustomerServiceSkills[0])
                     {
-                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Advanced Feeders are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[3].GetComponent<Scr_StructurePlacementRules>().cost * 0.8f) : structurePrefabs[3].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
+                        dialogueBoxPhone.lines[dialogueBoxPhone.currentContact.indexToEnableFinalPurchase] = $"Advanced Feeders are {(skills.currentAccountingSkills[0] ? (int)(structurePrefabs[3].GetComponent<Scr_StructurePlacementRules>().cost * 0.5f) : structurePrefabs[3].GetComponent<Scr_StructurePlacementRules>().cost)} Krona each. Enter the amount you wish to purchase and press enter.";
 
                         structureToPurchase = structurePrefabs[3];
                         dialogueBoxPhone.index = dialogueBoxPhone.currentContact.indexToEnableFinalPurchase - 1;
@@ -3377,7 +3384,7 @@ public class Scr_GameManager : MonoBehaviour
 
                         if (skills.currentAccountingSkills[0])
                         {
-                            totalPrice = (int) (structureToPurchase.GetComponent<Scr_StructurePlacementRules>().cost * textNum * 0.8);
+                            totalPrice = (int) (structureToPurchase.GetComponent<Scr_StructurePlacementRules>().cost * textNum * 0.5);
                         }
                         else
                         {

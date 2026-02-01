@@ -477,10 +477,15 @@ public class Scr_Customer : MonoBehaviour
 
         customerFishPrefab = chosenPrefab;
 
-        if (gameManager.skills.currentCustomerServiceSkills[3]) //Reel deal skill customers can buy multiple fish at once
-            customerFishQuantity = (chosenQuantity > 15) ? 3 : (chosenQuantity > 10) ? 2 : 1;
+        if (gameManager.skills.currentCustomerServiceSkills[3]) // Reel Deal skill
+        {
+            // every 5 fish increases purchase amount by 1
+            customerFishQuantity = Mathf.Max(1, Mathf.CeilToInt(chosenQuantity / 5f));
+        }
         else
+        {
             customerFishQuantity = 1;
+        }
 
         quantityText.text = "x" + customerFishQuantity;
 

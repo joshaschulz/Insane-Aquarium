@@ -26,6 +26,7 @@ public class Scr_SaveLoad : MonoBehaviour
         gameManager.baitAndTackle.currentTackleEquipped = progress.tackleEquipped;
         gameManager.SetOscarState(progress.oscarState);
         gameManager.currentDifficulty = progress.currentDifficulty;
+        gameManager.tutorials.tutorialCompleted = progress.tutorialsCompleted == 1 ? true : false;
 
         gameManager.UpdateSceneTexts();
         gameManager.UpdateGameSettingsFromDifficulty();

@@ -15,6 +15,15 @@ public class Scr_Fish : MonoBehaviour
 
     private Scr_GameManager gameManager;
     private Scr_Stress stressScr;
+
+    public int minComfortableSameSpeciesPopulation = 0;
+    public int maxComfortableTankPopulation = 10;
+    public bool maxIsInfinite = true;
+    public bool comfortableWithPredators = false;
+    public int comfortablePoopLevel = 75;
+
+    public int gameManagerFishPrefabsIndex;
+
     private int maxCapacityOriginal;
 
     public GameObject sideCrown;
@@ -66,6 +75,7 @@ public class Scr_Fish : MonoBehaviour
     private Vector2 target;
 
     public Transform spawnTank; //keeps track of fish's spawned tank
+    public Scr_Tank currentTankScript;
     public float minX, maxX, minY, maxY;
 
     public GameObject bloodEffectPrefab;
@@ -128,11 +138,13 @@ public class Scr_Fish : MonoBehaviour
         gameManager = Scr_GameManager.GMinstance;
         stressScr = GetComponent<Scr_Stress>();
 
-        maxCapacityOriginal = stressScr.maxComfortableTankPopulation;
+        maxCapacityOriginal = maxComfortableTankPopulation;
 
         ChangeGameSettings();
 
         originalfishValue = fishValue;
+
+        SetMinAndMax();
     }
     private void OnEnable()
     {
@@ -163,6 +175,8 @@ public class Scr_Fish : MonoBehaviour
         Debug.Log(gameManager.legendaryCountBySpecies[gameObject.tag]);
 
         UpdateSkills();
+
+        currentTankScript = gameManager.GetTankPos(gameObject.transform).GetComponent<Scr_Tank>();
     }
 
     private void OnDisable()
@@ -191,8 +205,6 @@ public class Scr_Fish : MonoBehaviour
         originalScale = gameObject.transform.localScale;
         hungrySpeed = baseSpeed * 1.5f;
 
-        // Each fish has a different max range they can travel, based on their size
-        SetMinAndMax();
 
         // Start not targeting anything
         SetTarget(gameObject.transform.position);
@@ -257,6 +269,46 @@ public class Scr_Fish : MonoBehaviour
             IdleOrMove();
         }
 
+    }
+
+    public void OnTickEvent()
+    {
+        //Debug.Log($"{gameObject.name} received a tick event!");
+
+        CheckIfStressed();
+
+        HungerCounter();
+
+        GrowCounter();
+
+        FreakCounter();
+
+        PoopCounter();
+
+        UpdateFishInfoPanel();
+
+        if ((isHungry && FindClosestFood() != null))
+        {
+            CancelInvoke("IdleOrMove");
+        }
+
+        if (!radiated || gameManager.skills.currentResearchSkills[3]) //radiated fish can't breed unless have designer guppies skill
+        {
+            if ((isFreaky && FindClosestMate() != null))
+            {
+                CancelInvoke("IdleOrMove");
+            }
+        }
+
+        // Your fish behavior here, e.g., update hunger status.
+    }
+
+    public void CheckIfStressed()
+    {
+        if (currentTankScript.speciesStressDict[thisPrefab].Count > 0)
+            SetStressed();
+        else
+            SetNotStressed();
     }
 
     public void UpdateSkills()
@@ -336,7 +388,7 @@ public class Scr_Fish : MonoBehaviour
 
         if (skills.currentFishkeepingSkills[3])
         {
-            stressScr.maxComfortableTankPopulation = (int)(maxCapacityOriginal * 1.5);
+            maxComfortableTankPopulation = (int)(maxCapacityOriginal * 1.5);
         }
 
     }
@@ -446,37 +498,7 @@ public class Scr_Fish : MonoBehaviour
         string nameOption = nameOptions[Random.Range(0, nameOptions.Length)];
         return prefix + " " + nameOption;
     }
-    public void OnTickEvent()
-    {
-        //Debug.Log($"{gameObject.name} received a tick event!");
 
-        stressScr.CheckStress();
-
-        HungerCounter();
-
-        GrowCounter();
-
-        FreakCounter();
-
-        PoopCounter();
-
-        UpdateFishInfoPanel();
-
-        if ((isHungry && FindClosestFood() != null))
-        {
-            CancelInvoke("IdleOrMove");
-        }
-
-        if (!radiated || gameManager.skills.currentResearchSkills[3]) //radiated fish can't breed unless have designer guppies skill
-        {
-            if ((isFreaky && FindClosestMate() != null))
-            {
-                CancelInvoke("IdleOrMove");
-            }
-        }
-
-        // Your fish behavior here, e.g., update hunger status.
-    }
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(transform.position, target);
@@ -609,8 +631,8 @@ public class Scr_Fish : MonoBehaviour
                 {
                     radiated = true;
                     SetRadiatedHue();
-                    gameManager.SpawnParticles(radiationOutlineEffectPrefab, transform.position, transform.rotation, transform);
-                    gameManager.SpawnParticles(radiationEffectPrefab, transform.position, transform.rotation, transform);
+                    //gameManager.SpawnParticles(radiationOutlineEffectPrefab, transform.position, transform.rotation, transform);
+                    //gameManager.SpawnParticles(radiationEffectPrefab, transform.position, transform.rotation, transform);
                 }
             }
 
@@ -623,8 +645,8 @@ public class Scr_Fish : MonoBehaviour
                     {
                         radiated = true;
                         SetRadiatedHue();
-                        gameManager.SpawnParticles(radiationOutlineEffectPrefab, transform.position, transform.rotation, transform);
-                        gameManager.SpawnParticles(radiationEffectPrefab, transform.position, transform.rotation, transform);
+                        //gameManager.SpawnParticles(radiationOutlineEffectPrefab, transform.position, transform.rotation, transform);
+                        //gameManager.SpawnParticles(radiationEffectPrefab, transform.position, transform.rotation, transform);
                     }
 
                     collisionObj.GetComponent<Scr_Fish>().Die();
@@ -799,6 +821,7 @@ public class Scr_Fish : MonoBehaviour
         if (gameManager.infoPanel != null)
             gameManager.infoPanel.HideIfFish(this); //hide the fish info ui panel if it's showing this fish
 
+        currentTankScript.RemoveFish(thisPrefab);
 
         Destroy(gameObject);
 
@@ -952,9 +975,10 @@ public class Scr_Fish : MonoBehaviour
 
     private void SetMinAndMax() //set the min and max of where fish can travel
     {
-        spawnTank = gameManager.GetTankPos(gameObject.transform);
+        currentTankScript = gameManager.GetTankPos(gameObject.transform).GetComponent<Scr_Tank>();
+        spawnTank = currentTankScript.gameObject.transform;
 
-        GameObject tankFishSwimBounds = gameManager.GetTankSwimBounds(spawnTank);
+        GameObject tankFishSwimBounds = currentTankScript.fishSwimBounds;
 
         BoxCollider2D box = tankFishSwimBounds.GetComponent<BoxCollider2D>();
         Bounds bounds = box.bounds;
@@ -967,9 +991,10 @@ public class Scr_Fish : MonoBehaviour
     }
     private void SetMinAndMax(Vector2 _spawnTank) //set the min and max of where fish can travel
     {
-        spawnTank = gameManager.GetTankPos(_spawnTank);
+        currentTankScript = gameManager.GetTankPos(gameObject.transform).GetComponent<Scr_Tank>();
+        spawnTank = currentTankScript.gameObject.transform;
 
-        GameObject tankFishSwimBounds = gameManager.GetTankSwimBounds(spawnTank);
+        GameObject tankFishSwimBounds = currentTankScript.fishSwimBounds;
 
         BoxCollider2D box = tankFishSwimBounds.GetComponent<BoxCollider2D>();
         Bounds bounds = box.bounds;

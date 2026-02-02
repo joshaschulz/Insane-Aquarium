@@ -157,7 +157,7 @@ public class Scr_FishInfoPanel : MonoBehaviour
         if (currentFish.isStressed)
         {
             int numOfStressFactors = 0;
-            foreach (Scr_Stress.StressFactor s in currentFish.GetComponent<Scr_Stress>().activeStressFactors)
+            foreach (Scr_Stress.StressFactor s in currentFish.currentTankScript.speciesStressDict[currentFish.thisPrefab])
             {
                 numOfStressFactors++;
                 GameObject newStressFactor = Instantiate(stressFactorTextPrefab, fishStateText.transform);

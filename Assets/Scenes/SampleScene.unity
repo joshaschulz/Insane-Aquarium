@@ -13354,7 +13354,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 600, y: 0}
+  m_AnchoredPosition: {x: 600.00006, y: 0}
   m_SizeDelta: {x: 415, y: 315}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!95 &150198980
@@ -32550,6 +32550,7 @@ GameObject:
   m_Component:
   - component: {fileID: 352481008}
   - component: {fileID: 352481009}
+  - component: {fileID: 352481010}
   m_Layer: 0
   m_Name: Foreground Sink
   m_TagString: Untagged
@@ -32628,6 +32629,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &352481010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 352481007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22488102e9fc5244a8be981bffe1a42a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tankBounds: {fileID: 1488993798}
+  fishSwimBounds: {fileID: 1576505998}
 --- !u!1 &352642456
 GameObject:
   m_ObjectHideFlags: 0
@@ -48917,7 +48932,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &529144278
 RectTransform:
   m_ObjectHideFlags: 0
@@ -74324,6 +74339,7 @@ GameObject:
   m_Component:
   - component: {fileID: 823700867}
   - component: {fileID: 823700866}
+  - component: {fileID: 823700868}
   m_Layer: 0
   m_Name: Background Sink
   m_TagString: Untagged
@@ -74402,6 +74418,20 @@ Transform:
   - {fileID: 1182155005}
   m_Father: {fileID: 2104815768}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &823700868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 823700865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22488102e9fc5244a8be981bffe1a42a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tankBounds: {fileID: 698263191}
+  fishSwimBounds: {fileID: 1182155003}
 --- !u!1 &823978604
 GameObject:
   m_ObjectHideFlags: 0
@@ -76094,7 +76124,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &836564951
 RectTransform:
   m_ObjectHideFlags: 0
@@ -94654,6 +94684,7 @@ GameObject:
   - component: {fileID: 1031440127}
   - component: {fileID: 1031440128}
   - component: {fileID: 1031440129}
+  - component: {fileID: 1031440130}
   - component: {fileID: 1031440125}
   m_Layer: 0
   m_Name: GameManager
@@ -94820,7 +94851,7 @@ MonoBehaviour:
   - {fileID: 4929024843989503357, guid: 1b6025f71b44d9440b143f28f48a2896, type: 3}
   - {fileID: 5584873671986153646, guid: 323bc94d685bd9c4bb9ed482f6a4caf4, type: 3}
   - {fileID: 4929024843989503357, guid: cd2346ccfe32b5147a77ccdd4381805e, type: 3}
-  structureStartingAmounts: 00000000000000000000000000000000
+  structureStartingAmounts: 04000000040000000400000004000000
   structureButtons:
   - {fileID: 529144277}
   - {fileID: 836564950}
@@ -95150,6 +95181,18 @@ MonoBehaviour:
   earthwormNumOf10Minutes: 1
   peanutButterSlowFactor: 0.8
   leadBobberDrainFactor: 0.5
+--- !u!114 &1031440130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031440119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b71fddc933fc8634c9104e37f0ccdf7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1031494837
 GameObject:
   m_ObjectHideFlags: 0
@@ -100386,7 +100429,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1091295577
 RectTransform:
   m_ObjectHideFlags: 0
@@ -124617,7 +124660,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 600, y: 0}
+  m_AnchoredPosition: {x: 600.00006, y: 0}
   m_SizeDelta: {x: 415, y: 315}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!95 &1330364511
@@ -141036,7 +141079,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 600, y: 0}
+  m_AnchoredPosition: {x: 600.00006, y: 0}
   m_SizeDelta: {x: 415, y: 315}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1514173906
@@ -164389,7 +164432,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1765217030
 RectTransform:
   m_ObjectHideFlags: 0
@@ -171211,7 +171254,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1839496746
 RectTransform:
   m_ObjectHideFlags: 0
@@ -185875,7 +185918,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1979041713
 RectTransform:
   m_ObjectHideFlags: 0

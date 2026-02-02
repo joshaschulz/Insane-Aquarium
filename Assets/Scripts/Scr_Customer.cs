@@ -271,6 +271,8 @@ public class Scr_Customer : MonoBehaviour
                     gameManager.foodFishDictionary.Remove(fishToSell.gameObject);
                 }
 
+                fishToSell.currentTankScript.RemoveFish(fishToSell.thisPrefab);
+
                 Destroy(fishToSell.gameObject);
 
             }

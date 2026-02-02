@@ -31,6 +31,7 @@ public class Scr_SaveLoad : MonoBehaviour
         gameManager.UpdateSceneTexts();
         gameManager.UpdateGameSettingsFromDifficulty();
 
+
         for (int i = 0; i < progress.fishSpecies.Length; i++)
         {
             GameObject newFish = gameManager.SpawnFish(gameManager.allFishPrefabs[progress.fishSpecies[i]], gameManager.allTanks[progress.fishTanks[i]]);
@@ -169,6 +170,12 @@ public class Scr_SaveLoad : MonoBehaviour
             }
         }
 
+        Scr_Tank[] tanks = FindObjectsOfType<Scr_Tank>();
+        foreach (Scr_Tank tank in tanks)
+        {
+            tank.ResetDictionaries();
+            tank.PopulateFishCountDict();
+        }
 
     }
 }

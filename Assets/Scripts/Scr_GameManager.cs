@@ -759,11 +759,12 @@ public class Scr_GameManager : MonoBehaviour
             {
                 GameObject releasedFish = baggedFishSocketToUse.transform.GetChild(0).gameObject;
 
-                //STRANGE WATERS SKILL - only 1 exotic fish at a time
-                List<GameObject> fishInTank = GetAllFishInTank(GetTankByPosition(_Camera.transform.position));
 
                 if (releasedFish.GetComponent<Scr_ExoticFish>() != null && !skills.currentFishkeepingSkills[4])
                 {
+                    //STRANGE WATERS SKILL - only 1 exotic fish at a time
+                    List<GameObject> fishInTank = GetAllFishInTank(GetTankByPosition(_Camera.transform.position));
+
                     foreach (GameObject fish in fishInTank)
                     {
                         if (fish.GetComponent<Scr_ExoticFish>() != null)
@@ -826,6 +827,8 @@ public class Scr_GameManager : MonoBehaviour
 
                 AddFoodToSpawnedFishDietAndSpawnedFishToExistingFishDiets(releasedFish, releasedFishScript.thisPrefab);
 
+                releasedFishScript.currentTankScript.AddFish(releasedFishScript.thisPrefab);
+
                 PlaySoundEffect(SFX_DropFish, 1, 0.5f, 1.5f);
 
                 Debug.Log(releasedFish.name + " was released");
@@ -841,9 +844,9 @@ public class Scr_GameManager : MonoBehaviour
 
                 releasedFishScript.Start();
                 releasedFishAnimScript.Awake();
+                    
 
-                //baggedFishButton.SetActive(false);
-                // DeselectBaggedFish();
+
             }
 
 
@@ -985,6 +988,8 @@ public class Scr_GameManager : MonoBehaviour
         Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
         newFishScript.thisPrefab = _fishToSpawn;
 
+        newFishScript.currentTankScript.AddFish(newFishScript.thisPrefab);
+
         //newFishScript.ChangeGameSettings();
 
         if (!newFishScript.grown)
@@ -1030,6 +1035,9 @@ public class Scr_GameManager : MonoBehaviour
 
         Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
         newFishScript.thisPrefab = _fishToSpawn;
+
+        newFishScript.currentTankScript.AddFish(newFishScript.thisPrefab);
+
 
 
         return newFish;
@@ -1187,6 +1195,7 @@ public class Scr_GameManager : MonoBehaviour
 
         Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
         newFishScript.thisPrefab = _fishToSpawn;
+
         //newFishScript.ChangeGameSettings();
 
         if (!newFishScript.grown)
@@ -1347,6 +1356,9 @@ public class Scr_GameManager : MonoBehaviour
 
         foodFishDictionary.Add(newFish, _fishToSpawn);
         newFishScript.thisPrefab = _fishToSpawn;
+
+        newFishScript.currentTankScript.AddFish(newFishScript.thisPrefab);
+
 
         newFishScript.grown = false;
 
@@ -1615,7 +1627,7 @@ public class Scr_GameManager : MonoBehaviour
         if (FindObjectOfType<Scr_FishInfoPanel>() != null)
             FindObjectOfType<Scr_FishInfoPanel>().HideIfFish(fishScript); //hide the fish info ui panel if it's showing this fish
 
-
+        fishScript.currentTankScript.RemoveFish(fishScript.thisPrefab);
 
         float screenWidthWorld = Camera.main.orthographicSize * 2 * Camera.main.aspect;
 
@@ -4575,6 +4587,8 @@ public class Scr_GameManager : MonoBehaviour
 
         Scr_Fish newFishScript = newFish.GetComponent<Scr_Fish>();
         newFishScript.thisPrefab = flopperPrefab;
+
+        newFishScript.currentTankScript.AddFish(newFishScript.thisPrefab);
 
 
         PlaySoundEffect(SFX_DropFish, 1, 0.5f, 1.5f);

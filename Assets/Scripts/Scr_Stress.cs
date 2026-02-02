@@ -6,13 +6,6 @@ public class Scr_Stress : MonoBehaviour
 {
 
     private Scr_GameManager gameManager;
-    private Scr_Fish fishScr;
-
-    public int minComfortableSameSpeciesPopulation = 0;
-    public int maxComfortableTankPopulation = 10;
-    public bool maxIsInfinite = true;
-    public bool comfortableWithPredators = false;
-    public int comfortablePoopLevel = 75;
 
     public enum StressFactor
     {
@@ -24,75 +17,54 @@ public class Scr_Stress : MonoBehaviour
     }
 
 
-    public HashSet<StressFactor> activeStressFactors = new HashSet<StressFactor>();
-
     // Start is called before the first frame update
     void Start()
     {
         gameManager = Scr_GameManager.GMinstance;
-        fishScr = GetComponent<Scr_Fish>();
     }
 
-    public void CheckStress()
+    public HashSet<StressFactor> CheckStress(GameObject tank, GameObject fishPrefab)
     {
-        activeStressFactors.Clear();
+        HashSet<StressFactor> activeStressFactors = new HashSet<StressFactor>();
 
-        List<GameObject> fishInTank = gameManager.GetAllFishInTank(fishScr.spawnTank);
+        Scr_Fish fishPrefabScr = fishPrefab.GetComponent<Scr_Fish>();
+        Scr_Tank tankScr = tank.GetComponent<Scr_Tank>();
 
+        int totalFish = 0;
+        foreach (var kvp in tankScr.fishCountBySpeciesDict)
+        {
+            totalFish += kvp.Value;
+        }
 
         // If the total population of the tank is over the comfortable limit...
-        if (!maxIsInfinite && fishInTank.Count > maxComfortableTankPopulation)
+        if (!fishPrefabScr.maxIsInfinite && totalFish > fishPrefabScr.maxComfortableTankPopulation)
         {
             activeStressFactors.Add(StressFactor.Crowded);
         }
 
 
-        // If the population of this species is under the comfortable limit...
-        List<GameObject> sameSpeciesInTank = new List<GameObject>();
-        foreach (GameObject otherFish in fishInTank)
-        {
-            if (otherFish.CompareTag(fishScr.tag))
-            {
-                sameSpeciesInTank.Add(otherFish);
-            }
-        }
-        if (sameSpeciesInTank.Count < minComfortableSameSpeciesPopulation)
+        if (tankScr.fishCountBySpeciesDict[fishPrefab] < fishPrefabScr.minComfortableSameSpeciesPopulation)
         {
             activeStressFactors.Add(StressFactor.Lonely);
         }
 
-
-        // If the fish is hungry...
-        if (fishScr.isHungry)
+        foreach (var kvp in tankScr.fishCountBySpeciesDict)
         {
-            activeStressFactors.Add(StressFactor.Hungry);
-        }
-
-
-        // If a predator is nearby...
-        foreach (GameObject otherFish in fishInTank)
-        {
-            // If an exotic fish ever eats a fish, add it here...
-            if (otherFish.GetComponent<Scr_Fish>())
+            if (kvp.Key.GetComponent<Scr_Fish>().fishDiet.Contains(fishPrefab) && kvp.Value > 0)
             {
-                if (otherFish.GetComponent<Scr_Fish>().fishDiet.Contains(fishScr.thisPrefab))
-                {
-                    activeStressFactors.Add(StressFactor.PredatorNearby);
-                    break;
-                }
+                activeStressFactors.Add(StressFactor.PredatorNearby);
+                break;
             }
-
         }
 
 
         // If the tank's poop level is over the limit...
-        if (gameManager.GetPoopLevel(new Vector2(fishScr.spawnTank.transform.position.x, fishScr.spawnTank.transform.position.y)) > comfortablePoopLevel)
+        if (gameManager.GetPoopLevel(new Vector2(tank.transform.position.x, tank.transform.position.y)) > fishPrefabScr.comfortablePoopLevel)
         {
             activeStressFactors.Add(StressFactor.DirtyTank);
         }
 
-
-        fishScr.isStressed = activeStressFactors.Count > 0;
+        return activeStressFactors;
     }
 
 }

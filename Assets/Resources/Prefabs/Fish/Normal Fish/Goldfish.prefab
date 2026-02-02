@@ -1433,7 +1433,6 @@ GameObject:
   - component: {fileID: -7987699502141357884}
   - component: {fileID: 69115643324086938}
   - component: {fileID: 5934414389463618201}
-  - component: {fileID: 1270603500979951597}
   m_Layer: 15
   m_Name: Goldfish
   m_TagString: Goldfish
@@ -1475,6 +1474,12 @@ MonoBehaviour:
   fishAnimation: {fileID: 8000885825827803795}
   thisPrefab: {fileID: 0}
   fishDescription: Everybody's first pet fish.
+  minComfortableSameSpeciesPopulation: 0
+  maxComfortableTankPopulation: 30
+  maxIsInfinite: 0
+  comfortableWithPredators: 1
+  comfortablePoopLevel: 85
+  gameManagerFishPrefabsIndex: 3
   sideCrown: {fileID: 7256365103005318129}
   frontCrown: {fileID: 2802210309825741651}
   legendary: 0
@@ -1502,6 +1507,7 @@ MonoBehaviour:
   originalfishValue: 0
   originalScale: {x: 0, y: 0, z: 0}
   spawnTank: {fileID: 0}
+  currentTankScript: {fileID: 0}
   minX: 0
   maxX: 0
   minY: 0
@@ -1670,23 +1676,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultHueValue: 1
   thisFishHue: 0
---- !u!114 &1270603500979951597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8672692834543181141}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b71fddc933fc8634c9104e37f0ccdf7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minComfortableSameSpeciesPopulation: 0
-  maxComfortableTankPopulation: 30
-  maxIsInfinite: 0
-  comfortableWithPredators: 1
-  comfortablePoopLevel: 85
 --- !u!1 &9031824185968622659
 GameObject:
   m_ObjectHideFlags: 0

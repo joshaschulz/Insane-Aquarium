@@ -58,7 +58,7 @@ public class Scr_Customer : MonoBehaviour
 
     private void Awake()
     {
-        gameManager = FindObjectOfType<Scr_GameManager>(); ;
+        gameManager = FindObjectOfType<Scr_GameManager>();
     }
     // Start is called before the first frame update
     void Start()

@@ -20,6 +20,31 @@ public class Scr_SceneTransitionDelay : MonoBehaviour
 
     }
 
+    // Not doing the back to main menu bubbles for now because resetting the scene destroys the bubbles
+    /*
+    public void BackToMainMenu()
+    {
+        Debug.LogWarning("DELAY START");
+        // 1. Start bubbles immediately
+        if (bubbleParticles != null)
+        {
+            bubbleParticles.Play();
+
+            // Play the bubbles popping sound effects (Low and High pitch bubbles)
+            Invoke(nameof(PlayBubblesTransitionSound), 0.5f);
+        }
+
+        // Go back to main menu after a delay
+        StartCoroutine(FireDelayedBackToMainMenu());
+    }
+
+    private System.Collections.IEnumerator FireDelayedBackToMainMenu()
+    {
+        yield return new WaitForSeconds(delay);
+        gameManager.ResetScene();
+        bubbleParticles.Play();
+    }
+    */
     public void OnButtonClicked()
     {
         Debug.LogWarning("DELAY START");

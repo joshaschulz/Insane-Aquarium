@@ -2751,7 +2751,7 @@ public class Scr_GameManager : MonoBehaviour
         else if (_Camera.transform.position == new Vector3(transform.position.x, transform.position.y, _Camera.transform.position.z))
         {
             pauseMenu.SetActive(true);
-            DisableAllButtons();
+            DisableAllButtons(pauseMenu.transform);
             backButton.GetComponent<Button>().interactable = true;
 
             gameObject.GetComponent<Scr_TimeHandler>().PauseTime();

@@ -28,6 +28,10 @@ public class Scr_LogoMovement : MonoBehaviour
 
     private RectTransform rt;
     private Vector2 targetPosition;
+    void Awake()
+    {
+        Scr_MenuRockFall.AllowFalling = false;
+    }
 
     void Start()
     {

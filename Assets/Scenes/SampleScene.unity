@@ -13292,7 +13292,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 600, y: 0}
+  m_AnchoredPosition: {x: 600.00006, y: 0}
   m_SizeDelta: {x: 415, y: 315}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!95 &150198980
@@ -124624,7 +124624,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 600, y: 0}
+  m_AnchoredPosition: {x: 600.00006, y: 0}
   m_SizeDelta: {x: 415, y: 315}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!95 &1330364511
@@ -141043,7 +141043,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 600, y: 0}
+  m_AnchoredPosition: {x: 600.00006, y: 0}
   m_SizeDelta: {x: 415, y: 315}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &1514173906
@@ -154709,6 +154709,7 @@ MonoBehaviour:
   minCursorFollowSpeed: 3
   activeChest: {fileID: 0}
   hookedCrateImage: {fileID: 1254797423}
+  chestHovering: 0
   lastChest: {fileID: 0}
 --- !u!114 &1654857287
 MonoBehaviour:
@@ -154727,7 +154728,7 @@ MonoBehaviour:
   fishLayerMask:
     serializedVersion: 2
     m_Bits: 4194304
-  legendaryFishChance: 100
+  legendaryFishChance: 50
   legendaryFishPrefabs:
   - {fileID: 8672692834543181141, guid: 0f2b8a46e6ee43640bf31e0d373cd50b, type: 3}
   - {fileID: 1863455049823253984, guid: b08d0f766cd9cec4f9c7cb6aa3475ab1, type: 3}
@@ -154766,6 +154767,8 @@ MonoBehaviour:
   hookedCrateImage: {fileID: 1254797423}
   fishHookImage: {fileID: 235394826}
   winPanel: {fileID: 1654857285}
+  reelAudioSource: {fileID: 0}
+  reelSoundPlaying: 0
 --- !u!1 &1654977259
 GameObject:
   m_ObjectHideFlags: 0

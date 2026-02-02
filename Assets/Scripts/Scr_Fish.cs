@@ -214,8 +214,8 @@ public class Scr_Fish : MonoBehaviour
 
         if (radiated)
         {
-            gameManager.SpawnParticles(radiationOutlineEffectPrefab, transform.position, transform.rotation, transform);
-            gameManager.SpawnParticles(radiationEffectPrefab, transform.position, transform.rotation, transform);
+            //gameManager.SpawnParticles(radiationOutlineEffectPrefab, transform.position, transform.rotation, transform);
+            //gameManager.SpawnParticles(radiationEffectPrefab, transform.position, transform.rotation, transform);
         }
 
     }

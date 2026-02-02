@@ -4117,6 +4117,8 @@ public class Scr_GameManager : MonoBehaviour
 
         CalculateBills();
 
+        FindObjectOfType<Scr_FishInfoPanel>().Hide();
+
         MoveToScene(bathroom);
 
         currentDayText.text = currentDay.ToString();

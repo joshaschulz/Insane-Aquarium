@@ -76,9 +76,21 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
     public Scr_FishingMinigamePanel winPanel;
     private bool hasWonThisRun = false;
 
+    public AudioSource reelAudioSource;
+    public bool reelSoundPlaying = false;
+
     private void Awake()
     {
         gameManager = Scr_GameManager.GMinstance;
+
+
+        reelAudioSource = gameObject.AddComponent<AudioSource>();
+
+        reelAudioSource.clip = gameManager.SFX_Reeling;
+        reelAudioSource.loop = true;
+        reelAudioSource.playOnAwake = false;
+        reelAudioSource.spatialBlend = 0f; // UI-style 2D sound
+
 
         cam = Camera.main;
 
@@ -307,9 +319,25 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
 
         bool minigameStarted = (cachedFishMovement != null && cachedFishMovement.hooked);
 
+        
+
+        if (reelSoundPlaying)
+        {
+            float targetPitch = (hoveringFish || GetComponent<Scr_FishingMinigameChestController>().chestHovering) ? 1f : 0.8f;
+            reelAudioSource.pitch = targetPitch;
+            reelAudioSource.volume = 0.5f;
+        }
+
+        if (minigameStarted && !reelSoundPlaying)
+        {
+            reelAudioSource.pitch = 1f;
+            reelAudioSource.volume = 0.5f;
+            reelAudioSource.Play();
+            reelSoundPlaying = true;
+        }
+
         if (hoveringFish)
         {
-            Debug.Log("HOVERING FISH");
             float fillRate = 1f / Mathf.Max(0.01f, secondsToFill);
             fishT01 += fillRate * Time.deltaTime;
 
@@ -521,9 +549,14 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
 
     public void FlushFish()
     {
+        reelAudioSource.Stop();
+        reelSoundPlaying = false;
+
         gameManager.PlaySoundEffect(gameManager.SFX_Flush, 0.1f);
         ResetFishingMinigame();
         DespawnFishingMinigame();
+
+
     }
 
     public void ResetFishingMinigame()

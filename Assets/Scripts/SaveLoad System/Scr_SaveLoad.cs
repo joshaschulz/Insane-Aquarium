@@ -17,7 +17,7 @@ public class Scr_SaveLoad : MonoBehaviour
 
     public void LoadBusiness()
     {
-        Scr_ProgressData progress = Scr_SaveSystem.LoadBusiness(gameManager.businessName);
+        Scr_ProgressData progress = Scr_SaveSystem.LoadBusiness(gameManager.businessName, gameManager.currentDifficulty);
 
         gameManager.currentDay = progress.day;
         gameManager.moneyAmount = progress.moneyAmount;
@@ -26,7 +26,7 @@ public class Scr_SaveLoad : MonoBehaviour
         gameManager.baitAndTackle.currentTackleEquipped = progress.tackleEquipped;
         gameManager.SetOscarState(progress.oscarState);
         gameManager.currentDifficulty = progress.currentDifficulty;
-        gameManager.tutorials.tutorialCompleted = progress.tutorialsCompleted == 1 ? true : false;
+        gameManager.tutorials.tutorialCompleted = true;
 
         gameManager.UpdateSceneTexts();
         gameManager.UpdateGameSettingsFromDifficulty();

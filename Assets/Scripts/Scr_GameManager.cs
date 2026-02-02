@@ -902,8 +902,10 @@ public class Scr_GameManager : MonoBehaviour
 
                 spawnPosition.y = (spawnPosition.y + screenHeightWorld / 2) - (screenHeightWorld / 2) * randomSpawnHeight;
 
-                float maxX = _Camera.transform.position.x + tank.transform.Find("Fish Swim Bounds").gameObject.GetComponent<BoxCollider2D>().bounds.size.x / 2;
-                float minX = _Camera.transform.position.x - tank.transform.Find("Fish Swim Bounds").gameObject.GetComponent<BoxCollider2D>().bounds.size.x / 2;
+                GameObject spawnTank = GetTankByPosition(_Camera.transform.position).gameObject;
+
+                float maxX = _Camera.transform.position.x + spawnTank.transform.Find("Fish Swim Bounds").gameObject.GetComponent<BoxCollider2D>().bounds.size.x / 2;
+                float minX = _Camera.transform.position.x - spawnTank.transform.Find("Fish Swim Bounds").gameObject.GetComponent<BoxCollider2D>().bounds.size.x / 2;
 
                 Vector2 randomSpawnBounds = new Vector2(minX, maxX);
 
@@ -2200,25 +2202,16 @@ public class Scr_GameManager : MonoBehaviour
     {
         moneyAmount = _newMoneyAmount;
         UpdateText(moneyText, moneyAmount);
-
-        CalculateBills();
-        UpdateText(billsHUDText, totalBillsValue);
     }
     public void AddMoneyAmount(int _moneyToAdd)
     {
         moneyAmount += _moneyToAdd;
         UpdateText(moneyText, moneyAmount);
-
-        CalculateBills();
-        UpdateText(billsHUDText, totalBillsValue);
     }
     public void SubtractMoneyAmount(int _moneyToSubtract)
     {
         moneyAmount -= _moneyToSubtract;
         UpdateText(moneyText, moneyAmount);
-
-        CalculateBills();
-        UpdateText(billsHUDText, totalBillsValue);
     }
     public int GetFishFoodAmount(GameObject _fishFoodType)
     {
@@ -4135,7 +4128,7 @@ public class Scr_GameManager : MonoBehaviour
     {
         int totalBills;
 
-        int rent = (int) (ActiveSettings.rentAmount * Mathf.Pow(1.2f, currentDay - 1));
+        int rent = (int) (ActiveSettings.rentAmount * Mathf.Pow(1 + ActiveSettings.rentPercentageIncrease, currentDay - 1));
         rentText.text = rent.ToString();
 
         int incomeTax = (skills.currentAccountingSkills[4]) ? 0 : moneyAmount * ActiveSettings.taxPercentage / 100;
@@ -4636,7 +4629,9 @@ public class Scr_GameManager : MonoBehaviour
         float currentDifficultyMultiplier = (currentDifficulty == 0 ? 1.25f : (currentDifficulty == 1) ? 1f : 0.8f); //25% easier, normal, 25% harder
 
 
+
         ActiveSettings.rentAmount = (int)(300 / currentDifficultyMultiplier);
+        ActiveSettings.rentPercentageIncrease = (currentDifficulty == 0 ? 0 : currentDifficulty == 1 ? 0.1f : 0.2f);
         ActiveSettings.taxPercentage = (int)(6 / currentDifficultyMultiplier);
         ActiveSettings.exoticFishTaxAmount = (int)(75/ currentDifficultyMultiplier);
 

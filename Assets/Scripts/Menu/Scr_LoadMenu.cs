@@ -10,6 +10,10 @@ public class Scr_LoadMenu : MonoBehaviour
     [SerializeField] Button saveButtonPrefab;
     [SerializeField] Scr_GameManager gameManager;
 
+    public Sprite easyImage;
+    public Sprite mediumImage;
+    public Sprite hardImage;
+
     void OnEnable()
     {
         PopulateList();
@@ -24,15 +28,27 @@ public class Scr_LoadMenu : MonoBehaviour
         // get save names from YOUR save system
         string[] saves = Scr_SaveSystem.GetAllBusinessSaves();
 
-        foreach (string businessName in saves)
+        foreach (string saveName in saves)
         {
+            Debug.Log("LOADED: " + saveName);
+            int difficulty = int.Parse(saveName[0].ToString());
+            Debug.Log("DIFFICULTY: " + difficulty);
+
+            string businessName = saveName.Substring(1);
+            Debug.Log("BUSINESS NAME: " + businessName);
+
+
             Button btn = Instantiate(saveButtonPrefab, saveListContent);
 
             btn.GetComponentInChildren<TextMeshProUGUI>().text = businessName;
 
+            GameObject btnImages = btn.transform.Find("Images").gameObject;
+            btnImages.transform.GetChild(difficulty).gameObject.SetActive(true);
+
             btn.onClick.AddListener(() =>
             {
                 gameManager.businessName = businessName;
+                gameManager.currentDifficulty = difficulty;
                 //FindObjectOfType<Scr_SaveLoad>().LoadBusiness();
             });
 
@@ -41,14 +57,14 @@ public class Scr_LoadMenu : MonoBehaviour
 
             deleteBtn.onClick.AddListener(() =>
             {
-                DeleteSave(businessName);
+                DeleteSave(businessName, difficulty);
             });
         }
     }
 
-    public void DeleteSave(string businessName)
+    public void DeleteSave(string businessName, int difficulty)
     {
-        string path = Application.persistentDataPath + "/" + businessName + ".fishy";
+        string path = Application.persistentDataPath + "/"  + difficulty + businessName + ".fishy";
 
         if (System.IO.File.Exists(path))
         {

@@ -79,7 +79,7 @@ public class Scr_FishingMinigameChestController : MonoBehaviour
     private float chestFullFillHeight = 0f;
 
     private float lastChestHoverHitTime = -999f;
-    private bool chestHovering = false;
+    public bool chestHovering = false;
 
     private bool chestRolledThisRun = false;
     public GameObject lastChest;

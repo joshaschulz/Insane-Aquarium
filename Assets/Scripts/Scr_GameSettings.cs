@@ -33,6 +33,7 @@ public class Scr_GameSettings : ScriptableObject
     public int fishFood2Amount; //GameManager
     public int fishFood3Amount; //GameManager
     public int rentAmount;
+    public float rentPercentageIncrease;
     public int taxPercentage;
     public int exoticFishTaxAmount;
 

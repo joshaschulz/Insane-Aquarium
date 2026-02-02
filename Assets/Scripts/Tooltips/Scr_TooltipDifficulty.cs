@@ -30,15 +30,15 @@ public class Scr_TooltipDifficulty : MonoBehaviour,
 
         if (gameObject.name.Contains("Easy"))
         {
-            message = $"+25% fishkeeping\n-25% rent and taxes";
+            message = $"• Fish need less care\n• Fish are more valuable\n• Rent stays constant";
         }
         else if (gameObject.name.Contains("Medium"))
         {
-            message = $"+0% fishkeeping\n-0% rent and taxes";
+            message = $"• Standard fish behavior and value\n• Rent increases daily";
         }
         else if (gameObject.name.Contains("Hard"))
         {
-            message = $"-25% fishkeeping\n+25% rent and taxes\nTime is paused less";
+            message = $"• Fish require more care\n• Fish are less valuable\n• Rent increases even faster\n• Time continues while fishing and calling";
         }
 
         return message;

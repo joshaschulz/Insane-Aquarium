@@ -70,11 +70,16 @@ public class Scr_FishingMinigamePanel : MonoBehaviour
         if (lineConnectorRoot != null)
             lineConnectorRoot.SetActive(false);
 
+
+
         // freeze fish bar at green/full and stop it from draining
         Scr_FishingMinigameFishController fishController =
             GetComponent<Scr_FishingMinigameFishController>();
         if (fishController != null)
             fishController.ForceWinUIAndStop();
+
+        fishController.reelAudioSource.Stop();
+        fishController.reelSoundPlaying = false;
 
         gameManager.PlaySoundEffect(gameManager.SFX_winner, 0.5f);
 

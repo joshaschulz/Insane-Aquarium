@@ -147,9 +147,9 @@ public class Scr_TimeHandler : MonoBehaviour
 
         if (!shownTimeNotification)
         {
-            if (gameSeconds > (endTimeInSeconds - 7200))
+            if (gameSeconds > (endTimeInSeconds - 10800))
             {
-                FindObjectOfType<Scr_Notifications>().Show("Two hours left until rent is due!", true);
+                FindObjectOfType<Scr_Notifications>().Show("Three hours left until bills are due!", true);
                 shownTimeNotification = true;
             }
 

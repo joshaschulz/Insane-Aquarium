@@ -36,6 +36,7 @@ public class Scr_TooltipRent : MonoBehaviour,
 
         string message;
 
+        /*
         message = $"Rent: {gameManager.rentText.text}\nIncome Tax: {gameManager.incomeTaxText.text}";
 
         if (gameManager.loanAmount > 0)
@@ -43,7 +44,9 @@ public class Scr_TooltipRent : MonoBehaviour,
 
         if (gameManager.exoticFishTaxText.text != "0")
             message += $"\nExotic Fish Tax: {gameManager.exoticFishTaxText.text}";
+        */
 
+        message = $"Due Tomorrow: {gameManager.totalBillsText.text}";
 
         return message;
     }

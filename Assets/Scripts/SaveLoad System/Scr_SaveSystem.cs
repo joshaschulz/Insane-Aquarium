@@ -20,7 +20,9 @@ public static class Scr_SaveSystem
     public static void SaveBusiness(Scr_GameManager gameManager, string businessName)
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + "/" + businessName + ext;
+        string path = Application.persistentDataPath + "/"  + gameManager.currentDifficulty + businessName + ext;
+
+        Debug.Log("SAVED TO: " + path);
         FileStream stream = new FileStream(path, FileMode.Create);
 
         Scr_ProgressData progress = new Scr_ProgressData(gameManager);
@@ -29,9 +31,9 @@ public static class Scr_SaveSystem
         stream.Close();
     }
 
-    public static Scr_ProgressData LoadBusiness(string businessName)
+    public static Scr_ProgressData LoadBusiness(string businessName, int difficulty)
     {
-        string path = Application.persistentDataPath + "/" + businessName + ext;
+        string path = Application.persistentDataPath + "/" + difficulty + businessName + ext;
         if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();

@@ -10,6 +10,7 @@ public class Scr_SceneTransitionDelay : MonoBehaviour
     public ParticleSystem bubbleParticles;
     public float delay = 2f; // time before firing the actual events
 
+
     // Drag-and-drop your existing OnClick actions here
     public UnityEvent delayedEvents;
 
@@ -24,12 +25,16 @@ public class Scr_SceneTransitionDelay : MonoBehaviour
         Debug.LogWarning("DELAY START");
         // 1. Start bubbles immediately
         if (bubbleParticles != null)
+        {
             bubbleParticles.Play();
+
+            // Play the bubbles popping sound effects (Low and High pitch bubbles)
+            Invoke(nameof(PlayBubblesTransitionSound), 0.5f);
+        }
 
         // 2. Fire the delayed events after a delay
         StartCoroutine(FireDelayedEvents());
     }
-
     private System.Collections.IEnumerator FireDelayedEvents()
     {
         yield return new WaitForSeconds(delay);
@@ -37,4 +42,10 @@ public class Scr_SceneTransitionDelay : MonoBehaviour
         gameManager.GetComponent<Scr_TimeHandler>().UnpauseTime();
 
     }
+
+    private void PlayBubblesTransitionSound()
+    {
+        gameManager.PlaySoundEffect(gameManager.SFX_bubblesTransition, 0.7f);
+    }
+
 }

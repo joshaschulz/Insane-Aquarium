@@ -29,7 +29,7 @@ public class Scr_BubbleHover : MonoBehaviour,
     }
     public void PopBubble()
     {
-        gameManager.PlaySoundEffect(gameManager.SFX_bubblePop, 1f);
+        gameManager.PlaySoundEffect(gameManager.SFX_bubblePop, 1f, 0.85f, 1.15f);
         animator.SetTrigger("Pop");
         popped = true;
     }

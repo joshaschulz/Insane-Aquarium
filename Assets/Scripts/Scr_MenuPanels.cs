@@ -7,36 +7,62 @@ public class Scr_MenuPanels : MonoBehaviour
     private Scr_GameManager gameManager;
     public Animator PanelAnimator;
 
+    private Scr_MenuPanels[] allMenuPanels; 
+
     private void Awake()
     {
         gameManager = FindObjectOfType<Scr_GameManager>();
-    }
-    public void TogglePanel()
-    {
-        bool currentlyOpen = PanelAnimator.GetBool("isOpen");
-        if (currentlyOpen)
-            PanelOff();
-        else
-            PanelOn();
+
+        allMenuPanels = FindObjectsOfType<Scr_MenuPanels>();
     }
     public void PanelOff()
     {
         PanelAnimator.SetBool("isOpen", false);
-        gameManager.PlaySoundEffect(gameManager.SFX_moveInWater, 0.1f, 0.8f);
+        PullInWaterSound();
     }
     public void PanelOn()
     {
+        // If any other panels are currently on, turn them off, wait a second, then turn this one on. If not, turn on immediately.
+        float activationDelay = 0f;
+        foreach (Scr_MenuPanels panel in allMenuPanels)
+        {
+            if (panel.PanelAnimator.GetBool("isOpen"))
+            {
+                AllPanelsOff();
+                activationDelay = 0.5f;
+                break;
+            }
+        }
+
+        Invoke("PullPanel", activationDelay);
+    }
+    public void PullPanel()
+    {
         PanelAnimator.SetBool("isOpen", true);
-        gameManager.PlaySoundEffect(gameManager.SFX_moveInWater, 0.1f);
+        Invoke("PullInWaterSound", 0.2f);
+        Invoke("CrateCatchSound", 0.2f);
+    }
+    public void AllPanelsOff()
+    {
+        foreach (Scr_MenuPanels panel in allMenuPanels)
+        {
+            if (panel.PanelAnimator.GetBool("isOpen"))
+            {
+                panel.PanelOff();
+            }
+        }
     }
 
-
-    public void RockClickSound()
+    public void PullInWaterSound()
     {
-        gameManager.PlaySoundEffect(gameManager.SFX_mainMenuButtons, 0.5f);
+        gameManager.PlaySoundEffect(gameManager.SFX_moveInWater, 0.3f);
+    }
+    public void CrateCatchSound()
+    {
+        gameManager.PlaySoundEffect(gameManager.SFX_catchCrate, 0.5f);
     }
     public void UIClickSound()
     {
-        gameManager.PlaySoundEffect(gameManager.SFX_nonRockUI, 0.07f);
+        gameManager.PlaySoundEffect(gameManager.SFX_woodThud, 0.4f, 0.85f, 1.15f);
     }
 }

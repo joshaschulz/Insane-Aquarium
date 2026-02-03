@@ -12,9 +12,19 @@ public class Scr_AnimationEvents : MonoBehaviour
 
     private int rewardIndex = 0;
 
+    private AudioSource reelAudioSource;
+    private AudioSource snapAudioSource;
+    public AudioClip reelAudioClip;
+    public AudioClip lineSnapClip;
+
+
+
     public void Awake()
     {
         gameManager = FindObjectOfType<Scr_GameManager>();
+
+        reelAudioSource = gameObject.AddComponent<AudioSource>();
+        snapAudioSource = gameObject.AddComponent<AudioSource>();
 
         chestControllerScr = FindObjectOfType<Scr_FishingMinigameChestController>();
         fishingPanelScr = FindObjectOfType<Scr_FishingMinigamePanel>();
@@ -65,5 +75,34 @@ public class Scr_AnimationEvents : MonoBehaviour
         fishingPanelScr.treasureQuantityText.SetActive(true);
 
         gameManager.PlaySoundEffect(gameManager.SFX_crateOpen, 0.8f);
+    }
+
+    public void StartPlayFishReeling()
+    {
+        reelAudioSource.clip = reelAudioClip;
+        reelAudioSource.loop = true;
+        reelAudioSource.playOnAwake = false;
+        reelAudioSource.spatialBlend = 0f; // UI-style 2D sound
+
+        reelAudioSource.pitch = 1f;
+        reelAudioSource.volume = 0.5f;
+        reelAudioSource.Play();
+    }
+
+    public void StopFishReeling()
+    {
+        reelAudioSource.Stop();
+    }
+
+    public void PlayFishLineBreak()
+    {
+        snapAudioSource.clip = lineSnapClip;
+        snapAudioSource.loop = false;
+        snapAudioSource.playOnAwake = false;
+        snapAudioSource.spatialBlend = 0f; // UI-style 2D sound
+
+        snapAudioSource.pitch = 1f;
+        snapAudioSource.volume = 0.5f;
+        snapAudioSource.Play();
     }
 }

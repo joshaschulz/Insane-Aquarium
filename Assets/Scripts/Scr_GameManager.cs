@@ -24,6 +24,10 @@ public class Scr_GameManager : MonoBehaviour
     public Scr_Notifications notifications;
     public Scr_BaitTackle baitAndTackle;
 
+    public GameObject lightSwitchOn;
+    public GameObject lightSwitchOff;
+    public GameObject lightsOff;
+
     public GameObject phoneOpen;
     public GameObject phoneClosed;
 
@@ -4730,6 +4734,16 @@ public class Scr_GameManager : MonoBehaviour
     {
         PlaySoundEffect(SFX_Select, 0.7f, pitch);
     }
+
+    public void ToggleLightSwitch()
+    {
+        PlaySelectSound(1f);
+
+        lightSwitchOn.SetActive(!lightSwitchOn.gameObject.activeSelf);
+        lightSwitchOff.SetActive(!lightSwitchOff.gameObject.activeSelf);
+        lightsOff.SetActive(!lightsOff.gameObject.activeSelf);
+    }
+
     public void QuitGame()
     {
         Application.Quit();

@@ -158,7 +158,7 @@ public class Scr_EndDay : MonoBehaviour
 
         // 1) fade black in
         if (blackScreenCanvasGroup != null)
-            yield return FadeCanvasGroup(blackScreenCanvasGroup, 0f, 0.92f, fadeInSeconds);
+            yield return FadeCanvasGroup(blackScreenCanvasGroup, blackScreenCanvasGroup.alpha, 0.92f, fadeInSeconds);
 
         // 2) slide paper up
         if (endOfDayPaper != null)
@@ -186,7 +186,7 @@ public class Scr_EndDay : MonoBehaviour
         // fade black screen out
 
         if (blackScreenCanvasGroup != null)
-            yield return FadeCanvasGroup(blackScreenCanvasGroup, 1f, 0f, fadeInSeconds);
+            yield return FadeCanvasGroup(blackScreenCanvasGroup, 0.92f, 0f, fadeInSeconds);
 
         // disable canvas
         if (endOfDayCanvas != null)
@@ -195,6 +195,11 @@ public class Scr_EndDay : MonoBehaviour
         gameManager.CalculateBills();
         gameManager.UpdateSceneTexts();
         gameManager.FinishBuyingSKills();
+
+        gameManager.PlaySelectSound(1f);
+        gameManager.lightSwitchOn.SetActive(true);
+        gameManager.lightSwitchOff.SetActive(false);
+        gameManager.lightsOff.SetActive(false);
     }
 
     private IEnumerator FadeCanvasGroup(CanvasGroup cg, float from, float to, float seconds)

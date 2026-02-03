@@ -2860,6 +2860,14 @@ public class Scr_GameManager : MonoBehaviour
     {
         _inputField.interactable = false;
     }
+    public void EnableToggle(Toggle _toggle)
+    {
+        _toggle.interactable = true;
+    }
+    public void DisableToggle(Toggle _toggle)
+    {
+        _toggle.interactable = false;
+    }
 
     public void RodToDisplay()
     {
@@ -4117,7 +4125,8 @@ public class Scr_GameManager : MonoBehaviour
 
         CalculateBills();
 
-        FindObjectOfType<Scr_FishInfoPanel>().Hide();
+        if (FindObjectOfType<Scr_FishInfoPanel>() != null)
+            FindObjectOfType<Scr_FishInfoPanel>().Hide();
 
         MoveToScene(bathroom);
 

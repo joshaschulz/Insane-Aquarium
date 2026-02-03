@@ -144,7 +144,6 @@ public class Scr_Fish : MonoBehaviour
 
         originalfishValue = fishValue;
 
-        SetMinAndMax();
     }
     private void OnEnable()
     {
@@ -176,7 +175,11 @@ public class Scr_Fish : MonoBehaviour
 
         UpdateSkills();
 
-        currentTankScript = gameManager.GetTankPos(gameObject.transform).GetComponent<Scr_Tank>();
+        if (gameManager.GetTankPos(gameObject.transform) != null)
+        {
+            SetMinAndMax();
+            currentTankScript = gameManager.GetTankPos(gameObject.transform).GetComponent<Scr_Tank>();
+        }
     }
 
     private void OnDisable()

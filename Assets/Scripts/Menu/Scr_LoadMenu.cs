@@ -52,6 +52,12 @@ public class Scr_LoadMenu : MonoBehaviour
                 //FindObjectOfType<Scr_SaveLoad>().LoadBusiness();
             });
 
+            btn.onClick.AddListener(() =>
+            {
+                // Get a menu panel and add UIClickSound to OnClick
+                FindFirstObjectByType<Scr_MenuPanels>().UIClickSound();
+            });
+
             // DELETE BUTTON (child button inside the prefab)
             Button deleteBtn = btn.transform.Find("Delete Button").GetComponent<Button>();
 

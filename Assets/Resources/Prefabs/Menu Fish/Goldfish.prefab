@@ -1129,6 +1129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1060343861014338719}
   - component: {fileID: 5919308840896458460}
+  - component: {fileID: 3663380739991401028}
   m_Layer: 0
   m_Name: Goldfish
   m_TagString: Menu Fish
@@ -1177,6 +1178,52 @@ MonoBehaviour:
   babySpeedMultiplier: 1.2
   bobAmplitude: 0.06
   bobFrequency: 1.2
+  isHovered: 0
+--- !u!61 &3663380739991401028
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8672692834543181141}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.16566288, y: 0.031341612}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.653697, y: 1.4208733}
+  m_EdgeRadius: 0
 --- !u!1 &8852675032413696332
 GameObject:
   m_ObjectHideFlags: 0

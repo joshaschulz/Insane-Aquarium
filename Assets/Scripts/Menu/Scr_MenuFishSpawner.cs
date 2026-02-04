@@ -9,6 +9,7 @@ public class Scr_MenuFishSpawner : MonoBehaviour
 
     [Header("Swim area bounds")]
     public BoxCollider2D swimBounds2D;
+    public BoxCollider2D spawnBounds2D;
     public float edgePadding = 0.25f;
 
     [Header("Spawn timing")]
@@ -64,7 +65,7 @@ public class Scr_MenuFishSpawner : MonoBehaviour
                 continue;
             }
 
-            if (f.transform.position.x > rightEdge + edgePadding)
+            if (!b.Contains(f.transform.position))
             {
                 Destroy(f);
                 activeFish.RemoveAt(i);
@@ -77,9 +78,11 @@ public class Scr_MenuFishSpawner : MonoBehaviour
         if (spawnTimer >= spawnInterval && activeFish.Count < maxFishOnScreen)
         {
             spawnTimer = 0f;
-            SpawnOne(b);
+            SpawnOne(spawnBounds2D.bounds);
         }
     }
+
+
 
     public void StopAndClear()
     {
@@ -126,7 +129,7 @@ public class Scr_MenuFishSpawner : MonoBehaviour
         currentOrderInLayer++;
 
         fish.tag = "Menu Fish";
-        fish.transform.position = new Vector3(b.min.x - edgePadding, y, 0f);
+        fish.transform.position = new Vector3(Random.Range(b.min.x, b.max.x), Random.Range(b.min.y, b.max.y), 0f);
 
         var script = fish.GetComponent<Scr_MenuFish>();
         if (script != null)

@@ -44,6 +44,7 @@ public class Scr_GameManager : MonoBehaviour
 
     public TMP_InputField newGameBusinessName;
     public Button newGameClickFunctions;
+    public Button loadGameClickFunctions;
 
     public int scene2Cost;
 
@@ -4589,6 +4590,17 @@ public class Scr_GameManager : MonoBehaviour
         PlaySongWithFade(bathroomSong, 0.3f, 5f);
 
     }
+    public void ClickLoadGame()
+    {
+        if (string.IsNullOrWhiteSpace(businessName))
+        {
+            notifications.Show("Select a game to load.", 4f, true);
+            return;
+        }
+        //update difficulty
+        ClickButton(loadGameClickFunctions);
+    }
+
     public void InvokeFunctionWithDelay(string functionName, float delay)
     {
         Invoke(functionName, delay);

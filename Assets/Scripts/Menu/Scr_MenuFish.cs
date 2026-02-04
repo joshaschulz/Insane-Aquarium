@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class Scr_MenuFish : MonoBehaviour
 {
@@ -30,13 +32,15 @@ public class Scr_MenuFish : MonoBehaviour
     private float baseY;
     private float bobOffset;
 
-    private bool hovered;
+    private bool isIdle;
     private int isForward = 1;
 
     private Collider2D myCollider;
     private Animator sideAnimator;
 
     private int clicks = 0;
+
+    private float randomScale;
 
     public void Initialize(float startY)
     {
@@ -45,7 +49,7 @@ public class Scr_MenuFish : MonoBehaviour
         baseY = startY;
         bobOffset = Random.Range(0f, 1000f);
 
-        float randomScale = Random.Range(0.4f, 1.1f);
+        randomScale = Random.Range(0.4f, 1.1f);
 
         bool isBaby = Random.value < babyChance;
         bool isZoomy = Random.value < zoomyChance;
@@ -69,6 +73,10 @@ public class Scr_MenuFish : MonoBehaviour
 
         transform.localScale *= randomScale;
 
+        transform.GetChild(0).GetComponent<SortingGroup>().sortingOrder = (int)(10 * randomScale);
+        transform.GetChild(1).GetComponent<SortingGroup>().sortingOrder = (int)(10 * randomScale);
+
+
         finalSpeed = baseSpeed * speedMult * randomScale;
 
         sideAnimator.speed = finalSpeed;
@@ -91,7 +99,7 @@ public class Scr_MenuFish : MonoBehaviour
             CheckMouseClick();
         }
 
-        if (hovered)
+        if (isIdle)
             return;
 
         transform.position += Vector3.right * finalSpeed * Time.unscaledDeltaTime * isForward;
@@ -101,31 +109,21 @@ public class Scr_MenuFish : MonoBehaviour
         p.y = baseY + bob;
         transform.position = p;
     }
-    /*
-    private void OnMouseEnter()
-    {
-        if (!hovered)
-        {
-            hovered = true;
-            transform.GetChild(0).gameObject.SetActive(false);
-            transform.GetChild(1).gameObject.SetActive(true);
-            Invoke(nameof(MoveAgain), Random.Range(2f, 4f));
-        }
 
-    }
-    */
     private void MoveAgain()
     {
-        hovered = false;
+        isIdle = false;
         transform.GetChild(0).gameObject.SetActive(true);
         transform.GetChild(1).gameObject.SetActive(false);
+        finalSpeed *= 1.5f;
     }
 
     private void StopMoving()
     {
-        hovered = true;
+        isIdle = true;
         transform.GetChild(0).gameObject.SetActive(false);
         transform.GetChild(1).gameObject.SetActive(true);
+        Invoke(nameof(MoveAgain), 2f);
     }
     void CheckMouseClick()
     {
@@ -137,27 +135,23 @@ public class Scr_MenuFish : MonoBehaviour
         {
             if (hits[i].collider == myCollider)
             {
-                clicks++;
-
-                if (clicks == 1)
+                if (!isIdle)
                 {
-                    transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
-                    isForward = -1;
-                    return;
-                }
-                else if (clicks == 2)
-                {
+                    transform.GetChild(0).gameObject.transform.localScale = new Vector3(transform.GetChild(0).gameObject.transform.localScale.x * -1, transform.GetChild(0).gameObject.transform.localScale.y, transform.GetChild(0).gameObject.transform.localScale.z);
+                    isForward = -isForward;
                     StopMoving();
-                    Invoke(nameof(MoveAgain), Random.Range(2f, 4f));
-                    transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
-                    isForward = 1;
-                    return;
-                }
-                else
-                {
-                    return;
-                }
 
+                    Scr_GameManager gameManager = FindObjectOfType<Scr_GameManager>();
+
+                    List <AudioClip> bubblesSFX = new List<AudioClip> { gameManager.SFX_Bubbles1, gameManager.SFX_Bubbles2 };
+                    List<float> bubblesVolumes = new List<float> { 7f, 0.5f };
+                    List<float> bubblesLowerPitches = new List<float> { 0.9f, 0.6f };
+                    List<float> bubblesUpperPitches = new List<float> { 1.1f, 0.8f };
+                    gameManager.PlayRandomSoundEffect(bubblesSFX, bubblesVolumes, bubblesLowerPitches, bubblesUpperPitches);
+
+                    gameManager.SpawnParticles(gameManager.bubblesEffectPrefab, transform.position, transform.rotation, null);
+                    return;
+                }
             }
         }
     }

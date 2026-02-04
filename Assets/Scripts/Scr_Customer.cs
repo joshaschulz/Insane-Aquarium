@@ -502,7 +502,7 @@ public class Scr_Customer : MonoBehaviour
     {
         customerFishImage.sprite = prefab.GetComponent<Scr_FishAnimation>().sideSprite;
         customerFishImage.SetNativeSize();
-        customerFishImage.rectTransform.localScale = Vector3.one / 9f;
+        customerFishImage.rectTransform.localScale = Vector3.one / 2f;
     }
 
     public void DestroyCustomerFish()

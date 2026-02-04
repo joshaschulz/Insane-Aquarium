@@ -1633,6 +1633,8 @@ public class Scr_GameManager : MonoBehaviour
 
         SetSortingGroupToLayer(_fishToBag, "UI2");
 
+
+
         fishScript.SetTarget(_fishToBag.transform.position);
         fishAnimScript.SetState(Scr_FishAnimation.FishState.Idle);
         fishScript.CancelInvoke();

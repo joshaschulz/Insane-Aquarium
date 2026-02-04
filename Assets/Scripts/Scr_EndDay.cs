@@ -158,7 +158,7 @@ public class Scr_EndDay : MonoBehaviour
 
         // 1) fade black in
         if (blackScreenCanvasGroup != null)
-            yield return FadeCanvasGroup(blackScreenCanvasGroup, blackScreenCanvasGroup.alpha, 0.92f, fadeInSeconds);
+            yield return FadeCanvasGroup(blackScreenCanvasGroup, blackScreenCanvasGroup.alpha, 0.5f, fadeInSeconds);
 
         // 2) slide paper up
         if (endOfDayPaper != null)
@@ -186,7 +186,10 @@ public class Scr_EndDay : MonoBehaviour
         // fade black screen out
 
         if (blackScreenCanvasGroup != null)
-            yield return FadeCanvasGroup(blackScreenCanvasGroup, 0.92f, 0f, fadeInSeconds);
+        {
+            blackScreenCanvasGroup.blocksRaycasts = false; //blocks clicks behind it
+            yield return FadeCanvasGroup(blackScreenCanvasGroup, 0.5f, 0f, fadeInSeconds);
+        }
 
         // disable canvas
         if (endOfDayCanvas != null)

@@ -388,11 +388,12 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
 
             // NEW FISHPEDIA CODE
             // Enabling fishpedia buttons upon catching a fish
-            foreach (var prefab in gameManager.fishPrefabs)
+            foreach (GameObject prefab in gameManager.allFishPrefabs)
             {
                 if (prefab.CompareTag(cachedFishMovement.tag))
                 {
-                    prefab.GetComponent<Scr_Fish>().numberCaught++;
+
+                    gameManager.allFishCaughtAmounts[gameManager.allFishPrefabs.IndexOf(prefab)]++;
                     int buttonIndex = 0;
                     foreach (Button button in fishpedia.buttons)
                     {
@@ -400,7 +401,7 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
                         {
                             Notify(prefab, button);
                             fishpedia.EnableEntryButton(buttonIndex);
-                            fishpedia.entries[buttonIndex].transform.GetChild(2).Find("# Caught Numbers").GetComponent<TextMeshProUGUI>().text = prefab.GetComponent<Scr_Fish>().numberCaught.ToString();
+                            fishpedia.entries[buttonIndex].transform.GetChild(2).Find("# Caught Numbers").GetComponent<TextMeshProUGUI>().text = gameManager.allFishCaughtAmounts[gameManager.allFishPrefabs.IndexOf(prefab)].ToString();
                         }
                         buttonIndex++;
                     }

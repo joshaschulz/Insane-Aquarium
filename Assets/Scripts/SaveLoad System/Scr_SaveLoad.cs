@@ -49,11 +49,22 @@ public class Scr_SaveLoad : MonoBehaviour
             newFishScript.hungerCount = progress.fishHungerCounts[i];
             newFishScript.poopCount = progress.fishPoopCounts[i];
             newFishScript.GetComponent<Scr_FishHue>().SetHue(progress.fishHues[i]);
+
+            newFishScript.UpdateTankScript();
             //fishpediaNumCaughtAmounts PALCEHOLDER
 
             gameManager.UpdateSpawnedLoadingFish(newFish);
 
+
         }
+
+        for (int i = 0; i < progress.fishpediaNumCaughtAmounts.Length; i++)
+        {
+            gameManager.allFishCaughtAmounts[i] = progress.fishpediaNumCaughtAmounts[i];
+        }
+
+        gameManager.RefreshFishpedia();
+
 
         int j = 0;
         for (int i = 0; i < progress.exoticFishSpecies.Length; i++)
@@ -175,6 +186,13 @@ public class Scr_SaveLoad : MonoBehaviour
         {
             tank.ResetDictionaries();
             tank.PopulateFishCountDict();
+        }
+
+        foreach (Transform tank in gameManager.allTanks)
+        {
+            tank.GetComponent<Scr_Tank>().ResetDictionaries();
+            tank.GetComponent<Scr_Tank>().PopulateFishCountDict();
+
         }
 
     }

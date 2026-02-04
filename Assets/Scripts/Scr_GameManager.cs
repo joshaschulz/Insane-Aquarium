@@ -60,6 +60,8 @@ public class Scr_GameManager : MonoBehaviour
     public List<GameObject> allStructurePrefabs;
     public List<GameObject> allBagButtons;
 
+    public List<int> allFishCaughtAmounts;
+
     public List<GameObject> structuresInScene;
 
     public GameObject stickyNoteBaitStallNumbers;
@@ -290,6 +292,11 @@ public class Scr_GameManager : MonoBehaviour
         notifications = FindObjectOfType<Scr_Notifications>();
 
         foodFishDictionary = new Dictionary<GameObject, GameObject>(); //have to instantiate a dictionary for some reason
+
+        foreach (GameObject fishPrefab in allFishPrefabs)
+        {
+            allFishCaughtAmounts.Add(0);
+        }
 
         fishPrefabs = Resources.LoadAll<GameObject>("Prefabs/Fish/Normal Fish");
         exoticFishPrefabs = Resources.LoadAll<GameObject>("Prefabs/Fish/Exotic Fish");
@@ -1605,7 +1612,7 @@ public class Scr_GameManager : MonoBehaviour
         PlaySoundEffect(SFX_Bag, 1);
         Scr_Fish fishScript = _fishToBag.GetComponent<Scr_Fish>();
         Scr_FishAnimation fishAnimScript = _fishToBag.GetComponent<Scr_FishAnimation>();
-        SpawnParticles(fishScript.bubblesEffectPrefab, transform.position, transform.rotation, null);
+        SpawnParticles(fishScript.bubblesEffectPrefab, _fishToBag.transform.position, transform.rotation, null);
 
 
         // Teleport the fish to the BaggedFishButton it is to be associated with, deactivate its fish script and other components, make it uneatable
@@ -4686,6 +4693,16 @@ public class Scr_GameManager : MonoBehaviour
         newFishAnimScript.Awake();
 
         
+    }
+
+    public void RefreshFishpedia()
+    {
+        TextMeshProUGUI[] caughtTexts = fishpedia.GetComponentsInChildren<TextMeshProUGUI>(true).Where(t => t.gameObject.name == "# Caught Numbers").ToArray();
+
+        for (int i = 0; i < caughtTexts.Length; i++)
+        {
+            caughtTexts[i].text = allFishCaughtAmounts[i].ToString();
+        }
     }
 
     public void ClickDifficulty(int difficulty)

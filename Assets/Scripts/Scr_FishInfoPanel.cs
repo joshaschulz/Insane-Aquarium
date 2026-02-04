@@ -85,6 +85,16 @@ public class Scr_FishInfoPanel : MonoBehaviour
 
     }
 
+    public void UpdatePanelWhileActive(Scr_Fish fish)
+    {
+        speciesText.text = fish.tag;
+        generationText.text = fish.generation.ToString();
+        radiatedText.text = fish.radiated ? "Yes" : "No";
+        wildText.text = fish.wild ? "Yes" : "No";
+        valueText.text = fish.fishValue.ToString();
+        DetermineFishState();
+    }
+
     public void ShowExotic(Scr_Starfish fish)
     {
         gameObject.SetActive(true);

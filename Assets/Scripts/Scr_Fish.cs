@@ -96,8 +96,6 @@ public class Scr_Fish : MonoBehaviour
 
     private float tickIntervalInMinutes;
 
-    public int numberCaught;
-
     public int generation = 1;
 
     public string name;
@@ -493,6 +491,15 @@ public class Scr_Fish : MonoBehaviour
                 break;
         }
 
+    }
+
+    public void UpdateTankScript()
+    {
+        if (gameManager.GetTankPos(gameObject.transform) != null)
+        {
+            SetMinAndMax();
+            currentTankScript = gameManager.GetTankPos(gameObject.transform).GetComponent<Scr_Tank>();
+        }
     }
 
     public string GenerateRandomName()
@@ -1025,7 +1032,7 @@ public class Scr_Fish : MonoBehaviour
     {
         if (gameManager.infoPanel.gameObject.activeSelf && gameManager.infoPanel.currentFish == this)
         {
-            gameManager.infoPanel.Show(this);
+            gameManager.infoPanel.UpdatePanelWhileActive(this);
         }
     }
 

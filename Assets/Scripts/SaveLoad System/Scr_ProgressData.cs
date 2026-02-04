@@ -117,13 +117,14 @@ public class Scr_ProgressData
         fishPoopCounts = new float[numFish];
         fishSpecies = new int[numFish];
         fishHues = new float[numFish];
-        fishpediaNumCaughtAmounts = new int[numFish];
+        fishpediaNumCaughtAmounts = new int[gameManager.allFishPrefabs.Count];
 
         exoticFishNames = new string[numExoticFish];
         exoticFishTanks = new int[numExoticFish];
         exoticFishSpecies = new int[numExoticFish];
 
         starfishLegCounts = new int[numStarfish];
+
 
         for (int i = 0; i < fishList.Count; i++)
         {
@@ -141,7 +142,11 @@ public class Scr_ProgressData
             fishPoopCounts[i] = fishList[i].poopCount;
             fishSpecies[i] = gameManager.allFishPrefabs.IndexOf(fishList[i].thisPrefab);
             fishHues[i] = fishList[i].GetComponent<Scr_FishHue>().GetHue();
-            fishpediaNumCaughtAmounts[i] = fishList[i].numberCaught;
+        }
+
+        for (int i = 0; i < gameManager.allFishCaughtAmounts.Count; i++)
+        {
+            fishpediaNumCaughtAmounts[i] = gameManager.allFishCaughtAmounts[i];
         }
 
         for (int i = 0; i < exoticFishList.Count; i++)

@@ -31485,7 +31485,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -40655,7 +40655,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &433132933
 RectTransform:
   m_ObjectHideFlags: 0
@@ -88602,8 +88602,8 @@ MonoBehaviour:
   stickyNoteBankStallNumbers: {fileID: 2024433254}
   loanAmount: 0
   musicSource: {fileID: 330247320}
-  mainMenuSong: {fileID: 8300000, guid: 34285e6a62bd98d4b9ea902f77de6de9, type: 3}
-  bathroomSong: {fileID: 8300000, guid: 0623013676c172d4a968d1d81080abb7, type: 3}
+  mainMenuSong: {fileID: 8300000, guid: a8a6eca2f77a0e0499b5bc7665a558a0, type: 3}
+  bathroomSong: {fileID: 8300000, guid: 840e174c92daa1a49824c266fc1634a4, type: 3}
   tickEventsPer10Min: 0
   useTestSettings: 1
   buildSettings: {fileID: 11400000, guid: be4f36254a417374595025d5aec304a8, type: 2}

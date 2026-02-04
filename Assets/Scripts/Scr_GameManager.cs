@@ -326,6 +326,7 @@ public class Scr_GameManager : MonoBehaviour
 
         baitAndTackle.InitializeBaitsAndTackles();
 
+        FadeSongIn(mainMenuSong, 0.3f, 7f);
     }
 
     private void Update()
@@ -2390,6 +2391,7 @@ public class Scr_GameManager : MonoBehaviour
         if (currentSong == song)
             return;
 
+        StopAllCoroutines();
         StartCoroutine(FadeAndSwitch(song, volume, fadeTime));
     }
 
@@ -2420,7 +2422,38 @@ public class Scr_GameManager : MonoBehaviour
 
         musicSource.volume = volume;
     }
+    public void FadeSongIn(
+    AudioClip song,
+    float targetVolume = 1f,
+    float fadeTime = 1f)
+    {
+        if (song == null)
+            return;
 
+        StopAllCoroutines();
+
+        currentSong = song;
+
+        musicSource.Stop();
+        musicSource.clip = song;
+        musicSource.volume = 0f;
+        musicSource.pitch = 1f;
+        musicSource.loop = true;
+
+        musicSource.Play();
+
+        StartCoroutine(FadeIn(targetVolume, fadeTime));
+    }
+    private IEnumerator FadeIn(float targetVolume, float fadeTime)
+    {
+        while (musicSource.volume < targetVolume)
+        {
+            musicSource.volume += Time.deltaTime / fadeTime;
+            yield return null;
+        }
+
+        musicSource.volume = targetVolume;
+    }
     public void EnableUnderwaterAudio()
     {
         underwaterSnapshot.TransitionTo(0.3f);
@@ -4553,7 +4586,7 @@ public class Scr_GameManager : MonoBehaviour
         //update difficulty
         ClickButton(newGameClickFunctions);
 
-        PlaySongWithFade(bathroomSong, 1f, 2f);
+        PlaySongWithFade(bathroomSong, 0.3f, 5f);
 
     }
     public void InvokeFunctionWithDelay(string functionName, float delay)

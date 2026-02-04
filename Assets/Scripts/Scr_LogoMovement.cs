@@ -89,7 +89,7 @@ public class Scr_LogoMovement : MonoBehaviour
         // Trigger rocks to fall
         Scr_MenuRockFall.AllowFalling = true;
 
-        gameManager.PlaySong(gameManager.mainMenuSong);
+        //gameManager.PlaySong(gameManager.mainMenuSong);
     }
 
     private IEnumerator MoveWithJitter(Vector2 destination, float duration)

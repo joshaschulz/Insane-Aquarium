@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed06819329252df4eabcad43b6959053, type: 3}
-  m_Name: Bait Shop
+  m_Name: Barb's Bait Barn
   m_EditorClassIdentifier: 
-  contactName: Bait Shop
+  contactName: Barb's Bait Barn
   phoneNumber: 5106998713
   dialogueLines:
-  - Welcome to Bait Shop!
-  - We've only the finest baits and tackles!
+  - "Hello, you\u2019ve reached Barb from Barb\u2019s Bait Barn.\r"
+  - "We\u2019ve got the best bait in the Bay!\r"
   - Enter 1 for Baits, or 2 for Tackles and press enter.
   - Enter 1 for Earthworms, or 2 for Peanut Butter and press enter.
   - Enter 1 for a Lead Bobber, or 2 for a Ducky Bobber and press enter.
@@ -24,7 +24,7 @@ MonoBehaviour:
   - Would you like to purchase anything else? Enter 1 for yes, or 2 for no and press
     enter.
   - PURCHASE TEXT
-  - Thanks for shopping at the Bait Shop!
+  - "Thanks for shopping at Barb\u2019s Bait Barn. Have a blessed day!\r"
   indexToEnableSelection: 2
   indexToEnableSelection2: 3
   indexToEnableSelection3: 4

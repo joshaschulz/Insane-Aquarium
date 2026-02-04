@@ -24,6 +24,8 @@ public class Scr_GameManager : MonoBehaviour
     public Scr_Notifications notifications;
     public Scr_BaitTackle baitAndTackle;
 
+    public GameObject phoneLogos;
+
     public GameObject lightSwitchOn;
     public GameObject lightSwitchOff;
     public GameObject lightsOff;
@@ -3204,7 +3206,7 @@ public class Scr_GameManager : MonoBehaviour
                 contact = null;
             }
 
-            if (contact != null && contact.contactName == "Bait Shop" && !skills.currentFishingSkills[0]) //bait and tackle shop
+            if (contact != null && contact.contactName == "Barb's Bait Barn" && !skills.currentFishingSkills[0]) //bait and tackle shop
             {
                 contact = null;
             }
@@ -3384,7 +3386,7 @@ public class Scr_GameManager : MonoBehaviour
                     dialogueBoxPhone.AdvanceText();
                 }
             }
-            else if (currentlyCalling == "The Aquarium Emporium")
+            else if (currentlyCalling == "Fish Bowl Exchange")
             {
                 if (CheckIfOnSelectionDialogue1())
                 {
@@ -3624,7 +3626,7 @@ public class Scr_GameManager : MonoBehaviour
                     }
                 }
             }
-            else if (currentlyCalling == "Bait Shop")
+            else if (currentlyCalling == "Barb's Bait Barn")
             {
                 if (CheckIfOnSelectionDialogue1())
                 {
@@ -3956,6 +3958,13 @@ public class Scr_GameManager : MonoBehaviour
         //dialogueBoxPhone.lines = contact.dialogueLines;
         dialogueBoxPhone.currentContact = contact;
 
+        for (int i = 0; i < phoneLogos.transform.childCount; i++)
+        {
+            GameObject logo = phoneLogos.transform.GetChild(i).gameObject;
+
+            logo.SetActive(logo.name == contact.contactName);
+        }
+
         //change dialogue based on skills
         if (contact.contactName == "The Hungry Guppy")
         {
@@ -3964,7 +3973,7 @@ public class Scr_GameManager : MonoBehaviour
                 dialogueBoxPhone.lines[contact.indexToEnableSelection] = "Enter 1 for Pellets, or 2 for Flakes and press enter.";
             }
         }
-        else if (contact.contactName == "The Aquarium Emporium")
+        else if (contact.contactName == "Fish Bowl Exchange")
         {
             if (skills.currentCustomerServiceSkills[0]) //have for sale
             {
@@ -3998,7 +4007,7 @@ public class Scr_GameManager : MonoBehaviour
                 }
             }
         }
-        else if (contact.contactName == "Bait Shop")
+        else if (contact.contactName == "Barb's Bait Barn")
         {
             if (skills.currentFishingSkills[1]) //have tackle unlocked
             {
@@ -4697,11 +4706,29 @@ public class Scr_GameManager : MonoBehaviour
 
     public void RefreshFishpedia()
     {
-        TextMeshProUGUI[] caughtTexts = fishpedia.GetComponentsInChildren<TextMeshProUGUI>(true).Where(t => t.gameObject.name == "# Caught Numbers").ToArray();
+        List<TextMeshProUGUI> caughtNumberTexts = new List<TextMeshProUGUI>();
 
-        for (int i = 0; i < caughtTexts.Length; i++)
+        GameObject parent = fishpedia.transform.GetChild(0).transform.GetChild(0).gameObject;
+
+        Dictionary<GameObject, GameObject> entryCaughtDict = new Dictionary<GameObject, GameObject>();
+
+
+        for (int i = 0; i < allFishPrefabs.Count; i++)
         {
-            caughtTexts[i].text = allFishCaughtAmounts[i].ToString();
+            GameObject child = parent.transform.GetChild(i).gameObject;
+
+            entryCaughtDict.Add(child, child.transform.Find("Statistics Box/# Caught Numbers").GetComponent<TextMeshProUGUI>().gameObject);
+        }
+
+        foreach (var kvp in entryCaughtDict)
+        {
+            foreach (GameObject prefab in allFishPrefabs)
+            {
+                if (kvp.Key.name.Contains(prefab.name))
+                {
+                    kvp.Value.GetComponent<TextMeshProUGUI>().text = allFishCaughtAmounts[allFishPrefabs.IndexOf(prefab)].ToString();
+                }
+            }
         }
     }
 

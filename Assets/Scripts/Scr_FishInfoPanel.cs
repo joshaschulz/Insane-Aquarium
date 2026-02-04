@@ -169,9 +169,9 @@ public class Scr_FishInfoPanel : MonoBehaviour
             int numOfStressFactors = 0;
             foreach (Scr_Stress.StressFactor s in currentFish.currentTankScript.speciesStressDict[currentFish.thisPrefab])
             {
-                numOfStressFactors++;
                 GameObject newStressFactor = Instantiate(stressFactorTextPrefab, fishStateText.transform);
-                newStressFactor.transform.localPosition += stressFactorOffset * numOfStressFactors;
+                newStressFactor.transform.localPosition += (stressFactorOffset / 2) + stressFactorOffset * numOfStressFactors;
+                numOfStressFactors++;
                 switch (s)
                 {
                     case Scr_Stress.StressFactor.Crowded:

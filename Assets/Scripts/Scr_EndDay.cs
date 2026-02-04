@@ -20,7 +20,7 @@ public class Scr_EndDay : MonoBehaviour
     public Scr_Dialogue dialogueBox;
     public Scr_CustomerContact fishyGuyDialogue;
 
-    public RectTransform nextDayButton;
+    public RectTransform nextDaySign;
 
     [Header("timing")]
     public float fadeInSeconds = 0.6f;
@@ -58,9 +58,9 @@ public class Scr_EndDay : MonoBehaviour
             paperOffScreenPos = paperOnScreenPos + new Vector2(0f, -paperStartOffsetY);
         }
 
-        if (nextDayButton != null)
+        if (nextDaySign != null)
         {
-            nextDayButtonOnScreenPos = nextDayButton.anchoredPosition;
+            nextDayButtonOnScreenPos = nextDaySign.anchoredPosition;
             nextDayButtonOffScreenPos = nextDayButtonOnScreenPos + new Vector2(400, 0);
         }
 
@@ -110,13 +110,13 @@ public class Scr_EndDay : MonoBehaviour
         if (skillsStarfish != null)
             yield return SlideTransform(skillsStarfish.transform, skillsStarfish.transform.position, Vector3.zero, paperSlideSeconds);
 
-        if (nextDayButton != null)
+        if (nextDaySign != null)
         {
-            nextDayButton.gameObject.SetActive(true);
+            nextDaySign.gameObject.SetActive(true);
         }
 
-        if (nextDayButton != null)
-            yield return SlideRect(nextDayButton, nextDayButtonOffScreenPos, nextDayButtonOnScreenPos, paperSlideSeconds);
+        if (nextDaySign != null)
+            yield return SlideRect(nextDaySign, nextDayButtonOffScreenPos, nextDayButtonOnScreenPos, paperSlideSeconds);
 
 
         if (!gameManager.tutorials.tutorialCompleted)
@@ -174,10 +174,10 @@ public class Scr_EndDay : MonoBehaviour
         skillsStarfish.GetComponent<BoxCollider2D>().enabled = false;
 
         // slide paper back down
-        if (nextDayButton != null)
-            yield return SlideRect(nextDayButton, nextDayButtonOnScreenPos, nextDayButtonOffScreenPos, paperSlideSeconds);
+        if (nextDaySign != null)
+            yield return SlideRect(nextDaySign, nextDayButtonOnScreenPos, nextDayButtonOffScreenPos, paperSlideSeconds);
 
-        nextDayButton.gameObject.SetActive(false);
+        nextDaySign.gameObject.SetActive(false);
 
         if (skillsStarfish != null)
             yield return SlideTransform(skillsStarfish.transform, skillsStarfish.transform.position, starfishOriginalPos, paperSlideSeconds);

@@ -133,6 +133,7 @@ public class Scr_FoodBehavior : MonoBehaviour
         {
             currentTimeforFade += Time.deltaTime;
             float alpha = 1f - Mathf.Clamp01(currentTimeforFade / gameManager.groundTimeUntilDespawn);
+            CancelInvoke(nameof(rotateFood));
 
             Color currentColor = spriteRenderer.material.color;
             currentColor.a = alpha;

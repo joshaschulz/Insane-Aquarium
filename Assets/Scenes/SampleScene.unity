@@ -3502,7 +3502,7 @@ MonoBehaviour:
   m_text: '###'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cd8025094c93ae84db7c06ba9df80530, type: 2}
-  m_sharedMaterial: {fileID: 315234153199892475, guid: 7f6e8f0684e05414e9171e07547da7b7, type: 2}
+  m_sharedMaterial: {fileID: 315234153199892475, guid: cd8025094c93ae84db7c06ba9df80530, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3565,7 +3565,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: -1.5015274}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &82281159
@@ -24510,7 +24510,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &433132933
 RectTransform:
   m_ObjectHideFlags: 0
@@ -29232,7 +29232,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &529144278
 RectTransform:
   m_ObjectHideFlags: 0
@@ -41371,7 +41371,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &836564951
 RectTransform:
   m_ObjectHideFlags: 0
@@ -50459,7 +50459,7 @@ MonoBehaviour:
   - {fileID: 4929024843989503357, guid: 1b6025f71b44d9440b143f28f48a2896, type: 3}
   - {fileID: 5584873671986153646, guid: 323bc94d685bd9c4bb9ed482f6a4caf4, type: 3}
   - {fileID: 4929024843989503357, guid: cd2346ccfe32b5147a77ccdd4381805e, type: 3}
-  structureStartingAmounts: 04000000040000000400000004000000
+  structureStartingAmounts: 00000000000000000000000000000000
   structureButtons:
   - {fileID: 529144277}
   - {fileID: 836564950}
@@ -53552,7 +53552,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1091295577
 RectTransform:
   m_ObjectHideFlags: 0
@@ -83535,7 +83535,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1765217030
 RectTransform:
   m_ObjectHideFlags: 0
@@ -87293,7 +87293,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1839496746
 RectTransform:
   m_ObjectHideFlags: 0
@@ -88464,6 +88464,10 @@ PrefabInstance:
     - target: {fileID: 2644365405309952411, guid: d7bcd3d83ba043b439de0b3dfcc5e61e, type: 3}
       propertyPath: m_SortingLayerID
       value: -106794153
+      objectReference: {fileID: 0}
+    - target: {fileID: 2829190338027178778, guid: d7bcd3d83ba043b439de0b3dfcc5e61e, type: 3}
+      propertyPath: skillDescription
+      value: All structures cost 50% less.
       objectReference: {fileID: 0}
     - target: {fileID: 3006892350567131438, guid: d7bcd3d83ba043b439de0b3dfcc5e61e, type: 3}
       propertyPath: m_SortingLayer
@@ -100238,7 +100242,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1979041713
 RectTransform:
   m_ObjectHideFlags: 0

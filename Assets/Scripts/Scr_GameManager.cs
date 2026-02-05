@@ -4267,6 +4267,7 @@ public class Scr_GameManager : MonoBehaviour
             SubtractMoneyAmount(totalBillsValue);
 
             EnableAllButtons();
+            DisableButton(backButton.GetComponent<Button>());
             ResetPhone();
             DisableUnderwaterAudio();
             

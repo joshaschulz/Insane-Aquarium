@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -11,9 +11,19 @@ public class Scr_Tooltip : MonoBehaviour
     public Vector3 tooltipOffset = new Vector3(0.05f, -0.05f, 0f);
     public float screenPaddingPixels = 10f;
 
-    public SpriteRenderer backgroundRenderer;
+    public GameObject tinyBox;
+    public GameObject smallBox;
+    public GameObject normalBox;
+    public GameObject largeBox;
+    public GameObject hugeBox;
+
+    private List<GameObject> boxes;
+
     public Vector2 backgroundPadding = new Vector2(0.15f, 0.1f); // world units
     public Vector3 backgroundLocalOffset = new Vector3(0f, 0f, 0.01f);
+
+    private float boxScaleReduction = 0.25f; // 1 = full size, 0.9 = slightly smaller
+
 
     private Camera cam;
     private Renderer textRenderer;
@@ -22,6 +32,8 @@ public class Scr_Tooltip : MonoBehaviour
     private void Awake()
     {
         cam = Camera.main;
+
+        boxes = new List<GameObject> { tinyBox, smallBox, normalBox, largeBox, hugeBox };
 
         if (text != null)
             textRenderer = text.GetComponent<Renderer>();
@@ -111,21 +123,39 @@ public class Scr_Tooltip : MonoBehaviour
 
     private void ResizeBackgroundToText()
     {
-        if (backgroundRenderer == null || text == null) return;
-
-        // ensure text bounds are correct this frame
         text.ForceMeshUpdate();
 
-        // bounds are in LOCAL space for TextMeshPro
-        Bounds tb = text.bounds;
+        // measure text (pick ONE method; preferred is fine for tooltips)
+        Vector2 textSize = text.GetRenderedValues();
+        float neededW = textSize.x + backgroundPadding.x;
+        float neededH = textSize.y + backgroundPadding.y;
 
-        // size the sprite to text size + padding
-        backgroundRenderer.size = new Vector2(
-            tb.size.x + backgroundPadding.x,
-            tb.size.y + backgroundPadding.y
-        );
+        bool found = false;
 
-        // center background on text
-        backgroundRenderer.transform.localPosition = tb.center + backgroundLocalOffset;
+        for (int i = 0; i < boxes.Count; i++)
+        {
+            GameObject b = boxes[i];
+            if (b == null) continue;
+
+            SpriteRenderer r = b.GetComponent<SpriteRenderer>();
+
+            float boxHeight = r.bounds.size.y;
+            float boxWidth = r.bounds.size.x;
+
+            if (boxHeight >= neededH && boxWidth >= neededW && !found)
+            {
+                b.SetActive(true);
+                //b.transform.localScale *= scale;
+
+                // align behind text (local is best since tooltip root moves)
+                b.transform.localPosition = text.bounds.center;
+
+                found = true;
+            }
+            else
+            {
+                b.SetActive(false);
+            }
+        }
     }
 }

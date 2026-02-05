@@ -2,16 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Scr_Notifications : MonoBehaviour
 {
     private Scr_GameManager gameManager;
 
     public GameObject container;
-    public GameObject background;
     public TextMeshProUGUI text;
 
     private int autoHideSecondsDefault = 5;
+
+
+    public GameObject tinyBox;
+    public GameObject smallBox;
+    public GameObject normalBox;
+    public GameObject largeBox;
+    public GameObject hugeBox;
+
+    private List<GameObject> boxes;
 
     //for resizing the background
     public Vector2 backgroundPadding; // pixels
@@ -23,6 +32,8 @@ public class Scr_Notifications : MonoBehaviour
     {
         gameManager = Scr_GameManager.GMinstance;
         text.text = string.Empty;
+
+        boxes = new List<GameObject> { tinyBox, smallBox, normalBox, largeBox, hugeBox };
 
         containerOriginalScale = container.transform.localScale;
 
@@ -125,25 +136,48 @@ public class Scr_Notifications : MonoBehaviour
 
     private void ResizeBackgroundToText()
     {
-        if (background == null || text == null) return;
+        if (text == null) return;
 
+        // ensure TMP is updated so rendered size is correct
         text.ForceMeshUpdate();
 
-        RectTransform backgroundRect = background.GetComponent<RectTransform>();
+        // 1) actual rendered size in PIXELS
+        Vector2 textPx = text.GetRenderedValues(false);
+        float neededW = textPx.x + backgroundPadding.x;
+        float neededH = textPx.y + backgroundPadding.y;
 
-        float wrapWidth = textRect.rect.width;
+        bool found = false;
 
-        // preferred size of the rendered text (given wrapping constraint)
-        Vector2 preferred = text.GetPreferredValues(text.text, wrapWidth, 0f);
+        for (int i = 0; i < boxes.Count; i++)
+        {
+            GameObject boxObj = boxes[i];
+            if (boxObj == null) continue;
 
-        // width should be as small as possible, but never exceed wrap width
-        float targetWidth = Mathf.Min(preferred.x, wrapWidth) + backgroundPadding.x;
-        float targetHeight = preferred.y + backgroundPadding.y;
+            var img = boxObj.GetComponent<Image>();
+            var rt = boxObj.GetComponent<RectTransform>();
+            if (img == null || rt == null || img.sprite == null) continue;
 
-        backgroundRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, targetWidth);
-        backgroundRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, targetHeight);
+            // 2) sprite size in PIXELS (from the sprite rect)
+            Vector2 spritePx = img.sprite.rect.size;
+            float boxW = spritePx.x * boxObj.transform.localScale.x;
+            float boxH = spritePx.y * boxObj.transform.localScale.y;
 
-        backgroundRect.anchoredPosition = text.textBounds.center - new Vector3(0f, backgroundPadding.y / 4f, 0f);
+            Debug.LogError(boxW + " and " + neededW);
+
+            if (!found && boxH >= neededH && boxW >= neededW) // pick by height first (your original goal)
+            {
+                found = true;
+
+                boxObj.SetActive(true);
+
+                // align: center behind the text (UI local space)
+                rt.anchoredPosition = text.rectTransform.anchoredPosition;
+            }
+            else
+            {
+                boxObj.SetActive(false);
+            }
+        }
     }
 
     private IEnumerator AutoHideAfterDelay(float delay)

@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Swing in
+  m_Name: Fishing Pull Out
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -23,44 +23,35 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 600
-        inSlope: -2828.5674
-        outSlope: -2828.5674
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.06039828
-      - serializedVersion: 3
-        time: 0.56666666
-        value: -50.865513
-        inSlope: -27.862507
-        outSlope: -27.862507
-        tangentMode: 0
+        value: 100
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.85
-        value: -39.818405
-        inSlope: -207.06374
-        outSlope: -207.06374
-        tangentMode: 0
+        time: 0.15
+        value: 63.1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
         weightedMode: 0
-        inWeight: 0.16136274
-        outWeight: 0.28178534
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1
-        value: -40
-        inSlope: -110.97717
-        outSlope: -110.97717
-        tangentMode: 0
+        time: 0.5
+        value: 629.5025
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
         weightedMode: 0
-        inWeight: 0.44945008
+        inWeight: 0.33333334
         outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: m_AnchoredPosition.x
+    attribute: m_AnchoredPosition.y
     path: 
     classID: 224
     script: {fileID: 0}
@@ -75,7 +66,7 @@ AnimationClip:
     genericBindings:
     - serializedVersion: 2
       path: 0
-      attribute: 1460864421
+      attribute: 538195251
       script: {fileID: 0}
       typeID: 224
       customType: 28
@@ -88,7 +79,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1
+    m_StopTime: 0.5
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -110,44 +101,35 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 600
-        inSlope: -2828.5674
-        outSlope: -2828.5674
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.06039828
-      - serializedVersion: 3
-        time: 0.56666666
-        value: -50.865513
-        inSlope: -27.862507
-        outSlope: -27.862507
-        tangentMode: 0
+        value: 100
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.85
-        value: -39.818405
-        inSlope: -207.06374
-        outSlope: -207.06374
-        tangentMode: 0
+        time: 0.15
+        value: 63.1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
         weightedMode: 0
-        inWeight: 0.16136274
-        outWeight: 0.28178534
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       - serializedVersion: 3
-        time: 1
-        value: -40
-        inSlope: -110.97717
-        outSlope: -110.97717
-        tangentMode: 0
+        time: 0.5
+        value: 629.5025
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
         weightedMode: 0
-        inWeight: 0.44945008
+        inWeight: 0.33333334
         outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: m_AnchoredPosition.x
+    attribute: m_AnchoredPosition.y
     path: 
     classID: 224
     script: {fileID: 0}

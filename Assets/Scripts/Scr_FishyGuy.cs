@@ -195,7 +195,7 @@ public class Scr_FishyGuy : MonoBehaviour
         {
             fishyGuyFishImage1.sprite = fishSprite1;
             fishyGuyFishImage1.SetNativeSize();
-            fishyGuyFishImage1.rectTransform.localScale = Vector3.one / 11f; //from native size to about the size of a fish in the tank
+            fishyGuyFishImage1.rectTransform.localScale = Vector3.one / 2.6f; //from native size to about the size of a fish in the tank
 
         }
         else

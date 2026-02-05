@@ -304,7 +304,7 @@ public class Scr_Customer : MonoBehaviour
 
     public void PickCustomer()
     {
-        rejectButton.transform.GetChild(0).gameObject.SetActive(gameManager.tutorials.tutorialCompleted);
+        rejectButton.transform.GetChild(0).gameObject.SetActive(true);
 
         GameObject activeCustomer = customerImages[Random.Range(0, customerImages.Length)];
 
@@ -502,7 +502,7 @@ public class Scr_Customer : MonoBehaviour
     {
         customerFishImage.sprite = prefab.GetComponent<Scr_FishAnimation>().sideSprite;
         customerFishImage.SetNativeSize();
-        customerFishImage.rectTransform.localScale = Vector3.one / 2.6f;
+        customerFishImage.rectTransform.localScale = Vector3.one / 2f;
     }
 
     public void DestroyCustomerFish()
@@ -589,6 +589,8 @@ public class Scr_Customer : MonoBehaviour
             gameManager.EndDay();
 
             gameManager.tutorials.ShowNextTutorialBoxDelay(2.2f);
+
+            HideTutorialAccept();
         }
     }
 
@@ -646,9 +648,6 @@ public class Scr_Customer : MonoBehaviour
     {
         customer.SetActive(true);
 
-        rejectButton.transform.GetChild(0).gameObject.SetActive(false);
-        gameManager.EnableButton(acceptButton.GetComponent<Button>());
-
         GameObject activeCustomer = customerImages[0]; //spawn mr duckworth
 
         activeCustomer.SetActive(true);
@@ -684,6 +683,30 @@ public class Scr_Customer : MonoBehaviour
 
         SetFishImage(customerFishPrefab);
 
+        ShowTutorialAccept();
+    }
+
+    void ShowTutorialAccept()
+    {
+        gameManager.DisableButton(rejectButton.GetComponent<Button>());
+        gameManager.DisableButton(acceptButton.GetComponent<Button>());
+        rejectButton.transform.GetChild(0).gameObject.SetActive(false);
+        acceptButton.transform.GetChild(0).gameObject.SetActive(false);
+        borderTutorialRocks.SetActive(false);
+
+        tutorialAcceptButton.SetActive(true);
+        gameManager.EnableButton(tutorialAcceptButton.GetComponent<Button>());
+    }
+
+    void HideTutorialAccept()
+    {
+        tutorialAcceptButton.SetActive(false);
+
+        gameManager.EnableButton(rejectButton.GetComponent<Button>());
+        gameManager.EnableButton(acceptButton.GetComponent<Button>());
+        rejectButton.transform.GetChild(0).gameObject.SetActive(true);
+        acceptButton.transform.GetChild(0).gameObject.SetActive(true);
+        borderTutorialRocks.SetActive(true);
     }
 
     public void InvokeFunctionWithDelay(string functionName, float delay)

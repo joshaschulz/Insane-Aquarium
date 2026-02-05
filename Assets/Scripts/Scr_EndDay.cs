@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Scr_EndDay : MonoBehaviour
 {
@@ -199,8 +198,6 @@ public class Scr_EndDay : MonoBehaviour
         gameManager.CalculateBills();
         gameManager.UpdateSceneTexts();
         gameManager.FinishBuyingSKills();
-        gameManager.EnableButton(gameManager.backButton.GetComponent<Button>());
-
 
         gameManager.PlaySelectSound(1f);
         gameManager.lightSwitchOn.SetActive(true);

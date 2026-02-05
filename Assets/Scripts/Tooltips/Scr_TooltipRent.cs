@@ -46,7 +46,7 @@ public class Scr_TooltipRent : MonoBehaviour,
             message += $"\nExotic Fish Tax: {gameManager.exoticFishTaxText.text}";
         */
 
-        message = $"Due Tonight: {gameManager.totalBillsText.text}";
+        message = $"Due Tomorrow: {gameManager.totalBillsText.text}";
 
         return message;
     }

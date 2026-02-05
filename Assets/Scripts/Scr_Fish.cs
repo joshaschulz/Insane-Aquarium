@@ -306,8 +306,7 @@ public class Scr_Fish : MonoBehaviour
 
     public void CheckIfStressed()
     {
-        if (currentTankScript == null)
-            return;
+        Debug.Log(currentTankScript);
         if (currentTankScript.speciesStressDict[thisPrefab].Count > 0)
             SetStressed();
         else

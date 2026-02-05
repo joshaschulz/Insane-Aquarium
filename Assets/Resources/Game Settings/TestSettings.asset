@@ -28,58 +28,58 @@ MonoBehaviour:
   fastForwardFast: 4
   fastForwardFastest: 50
   moneyAmount: 500
-  fishFood1Amount: 30
-  fishFood2Amount: 0
-  fishFood3Amount: 0
-  rentAmount: 240
-  rentPercentageIncrease: 0
-  taxPercentage: 4
-  exoticFishTaxAmount: 60
+  fishFood1Amount: 300
+  fishFood2Amount: 300
+  fishFood3Amount: 300
+  rentAmount: 300
+  rentPercentageIncrease: 0.1
+  taxPercentage: 6
+  exoticFishTaxAmount: 75
   minutesUntilGrown_Goldfish: 120
-  minutesUntilHungry_Goldfish: 150
-  minutesUntilFreaky_Goldfish: 162
-  minutesUntilPoop_Goldfish: 112
-  minutesUntilDead_Goldfish: 112
+  minutesUntilHungry_Goldfish: 120
+  minutesUntilFreaky_Goldfish: 130
+  minutesUntilPoop_Goldfish: 90
+  minutesUntilDead_Goldfish: 90
   baseSpeed_Goldfish: 1.5
-  baseFishCost_Goldfish: 124
-  fishValue_Goldfish: 62
+  baseFishCost_Goldfish: 100
+  fishValue_Goldfish: 50
   minutesUntilGrown_BettaFish: 120
-  minutesUntilHungry_BettaFish: 150
-  minutesUntilFreaky_BettaFish: 162
-  minutesUntilPoop_BettaFish: 112
-  minutesUntilDead_BettaFish: 112
+  minutesUntilHungry_BettaFish: 120
+  minutesUntilFreaky_BettaFish: 130
+  minutesUntilPoop_BettaFish: 90
+  minutesUntilDead_BettaFish: 90
   baseSpeed_BettaFish: 1.5
-  baseFishCost_BettaFish: 374
-  fishValue_BettaFish: 187
+  baseFishCost_BettaFish: 300
+  fishValue_BettaFish: 150
   minutesUntilGrown_Piranha: 120
-  minutesUntilHungry_Piranha: 150
-  minutesUntilFreaky_Piranha: 162
-  minutesUntilPoop_Piranha: 112
-  minutesUntilDead_Piranha: 112
+  minutesUntilHungry_Piranha: 120
+  minutesUntilFreaky_Piranha: 130
+  minutesUntilPoop_Piranha: 90
+  minutesUntilDead_Piranha: 90
   baseSpeed_Piranha: 2
-  baseFishCost_Piranha: 374
-  fishValue_Piranha: 187
+  baseFishCost_Piranha: 300
+  fishValue_Piranha: 150
   minutesUntilGrown_Clownfish: 120
-  minutesUntilHungry_Clownfish: 150
-  minutesUntilFreaky_Clownfish: 162
-  minutesUntilPoop_Clownfish: 112
-  minutesUntilDead_Clownfish: 112
+  minutesUntilHungry_Clownfish: 120
+  minutesUntilFreaky_Clownfish: 130
+  minutesUntilPoop_Clownfish: 90
+  minutesUntilDead_Clownfish: 90
   baseSpeed_Clownfish: 2
-  baseFishCost_Clownfish: 250
-  fishValue_Clownfish: 125
+  baseFishCost_Clownfish: 200
+  fishValue_Clownfish: 100
   minutesUntilGrown_BlueTang: 120
-  minutesUntilHungry_BlueTang: 150
-  minutesUntilFreaky_BlueTang: 162
-  minutesUntilPoop_BlueTang: 112
-  minutesUntilDead_BlueTang: 112
+  minutesUntilHungry_BlueTang: 120
+  minutesUntilFreaky_BlueTang: 130
+  minutesUntilPoop_BlueTang: 90
+  minutesUntilDead_BlueTang: 90
   baseSpeed_BlueTang: 2
-  baseFishCost_BlueTang: 200
-  fishValue_BlueTang: 100
+  baseFishCost_BlueTang: 160
+  fishValue_BlueTang: 80
   minutesUntilGrown_Tetra: 120
-  minutesUntilHungry_Tetra: 150
-  minutesUntilFreaky_Tetra: 162
-  minutesUntilPoop_Tetra: 112
-  minutesUntilDead_Tetra: 112
+  minutesUntilHungry_Tetra: 120
+  minutesUntilFreaky_Tetra: 130
+  minutesUntilPoop_Tetra: 90
+  minutesUntilDead_Tetra: 90
   baseSpeed_Tetra: 3
-  baseFishCost_Tetra: 74
-  fishValue_Tetra: 37
+  baseFishCost_Tetra: 60
+  fishValue_Tetra: 30

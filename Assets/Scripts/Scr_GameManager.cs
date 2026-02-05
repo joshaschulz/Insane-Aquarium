@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine.Audio;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
-using UnityEngine.Video;
+
 
 public class Scr_GameManager : MonoBehaviour
 {
@@ -20,9 +20,6 @@ public class Scr_GameManager : MonoBehaviour
 
     public string businessName = "FishyBusinessSaveTest";
     public int currentDifficulty = -1; //0, 1, 2. -1 to check if no difficulty selected
-
-    public VideoPlayer introVideoPlayer;
-    public GameObject introVideoImage;
 
     public Scr_Notifications notifications;
     public Scr_BaitTackle baitAndTackle;
@@ -4267,7 +4264,6 @@ public class Scr_GameManager : MonoBehaviour
             SubtractMoneyAmount(totalBillsValue);
 
             EnableAllButtons();
-            DisableButton(backButton.GetComponent<Button>());
             ResetPhone();
             DisableUnderwaterAudio();
             
@@ -4474,6 +4470,15 @@ public class Scr_GameManager : MonoBehaviour
             if (openBtn != null)
                 EnableButton(openBtn);
 
+            var hover1 = closedBtn.GetComponent<Scr_HoverableUIElement>();
+
+            hover1.enabled = false;
+            hover1.enabled = true;
+
+            var hover2 = openBtn.GetComponent<Scr_HoverableUIElement>();
+
+            hover2.enabled = false;
+            hover2.enabled = true;
         }
     }
 
@@ -4595,73 +4600,12 @@ public class Scr_GameManager : MonoBehaviour
         }
 
         businessName = newGameBusinessName.text;
-
-        BeginGameSequence();
-
-    }
-
-    private void BeginGameSequence()
-    {
-        ParticleSystem bubbles = FindObjectOfType<Scr_SceneTransitionDelay>().bubbleParticles;
-        if (bubbles != null)
-        {
-            bubbles.Play();
-
-            // Play the bubbles popping sound effects (Low and High pitch bubbles)
-            Invoke(nameof(PlayBubblesTransitionSound), 0.5f);
-        }
-
-        StartCoroutine(FadeMusicOut(3f));
-        StartCoroutine(PlayVideoAfterBubbles(3f));
-
-    }
-
-    private IEnumerator PlayVideoAfterBubbles(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-
-
-        introVideoImage.SetActive(true);
-
-        introVideoPlayer.Stop();
-        introVideoPlayer.Prepare();
-        introVideoPlayer.Play();
-
-        double len = introVideoPlayer.length;
-        yield return new WaitForSecondsRealtime((float)len - 3f);
-
-        // hide video
-        //introVideoImage.SetActive(false);
-
-        Invoke(nameof(StartMusicAfterIntro), 3f);
-        
-        // NOW do the normal click logic
+        //update difficulty
         ClickButton(newGameClickFunctions);
-    }
 
-    private IEnumerator FadeMusicOut(float fadeOutTime)
-    {
-
-        float startVolume = musicSource.volume;
-        while (musicSource.volume > 0)
-        {
-            musicSource.volume -= startVolume * Time.deltaTime / fadeOutTime;
-            yield return null;
-        }
-
-        musicSource.Stop();
-    }
-
-    private void StartMusicAfterIntro()
-    {
         PlaySongWithFade(bathroomSong, 0.3f, 5f);
-    }
 
-    private void PlayBubblesTransitionSound()
-    {
-        PlaySoundEffect(SFX_bubblesTransition, 0.7f);
     }
-
     public void ClickLoadGame()
     {
         if (string.IsNullOrWhiteSpace(businessName))

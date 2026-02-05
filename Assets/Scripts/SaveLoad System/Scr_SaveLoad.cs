@@ -148,9 +148,9 @@ public class Scr_SaveLoad : MonoBehaviour
                 newFishScript.mutated = progress.fishBagsIsMutated[i] == 1;
                 newFishScript.grown = progress.fishBagsIsGrown[i] == 1;
                 newFishScript.generation = progress.fishBagsGenerations[i];
-                newFishScript.growCount = progress.fishBagsGrowCounts[i];
+                newFishScript.growCount = progress.fishGrowCounts[i];
                 newFishScript.freakCount = progress.fishBagsFreakCounts[i];
-                newFishScript.hungerCount = progress.fishBagsHungerCounts[i];
+                newFishScript.hungerCount = progress.fishHungerCounts[i];
                 newFishScript.poopCount = progress.fishBagsPoopCounts[i];
                 newFishScript.GetComponent<Scr_FishHue>().SetHue(progress.fishBagsHues[i]);
 

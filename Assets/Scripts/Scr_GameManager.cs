@@ -52,7 +52,6 @@ public class Scr_GameManager : MonoBehaviour
 
     public GameObject oscar;
 
-    public TextMeshProUGUI billsHUDText;
 
     //FOR SAVING/LOADING
     public List<Transform> allTanks;
@@ -2959,7 +2958,6 @@ public class Scr_GameManager : MonoBehaviour
 
         UpdateText(moneyText, moneyAmount);
         CalculateBills();
-        UpdateText(billsHUDText, totalBillsValue);
         UpdateFoodTexts();
         UpdateStructureTexts();
     }

@@ -11,13 +11,20 @@ public class Scr_BubbleHover : MonoBehaviour,
 
     private Animator animator;
     private bool popped = false;
+    public float timeToFloatUpInitially = 0f;
 
     void Awake()
     {
         gameManager = FindObjectOfType<Scr_GameManager>();
         animator = GetComponent<Animator>();
     }
-
+    
+    public void Start()
+    {
+        PauseAnimation();
+        Invoke("UnpauseAnimation", timeToFloatUpInitially);
+    }
+    
     public void OnPointerEnter(PointerEventData eventData)
     {
         animator.SetBool("Hovered", true);
@@ -41,5 +48,13 @@ public class Scr_BubbleHover : MonoBehaviour,
             animator.Play("Rise Up");
             popped = false;
         }
+    }
+    public void PauseAnimation()
+    {
+        animator.speed = 0;
+    }
+    public void UnpauseAnimation()
+    {
+        animator.speed = 1;
     }
 }

@@ -125,6 +125,9 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject fishpedia;
     public GameObject baitAndTackleScreen;
 
+    public GameObject skipIntroButton;
+    private Coroutine intro;
+
     public GameObject rodIdle, rodHooked;
 
     public GameObject tank;
@@ -208,6 +211,12 @@ public class Scr_GameManager : MonoBehaviour
     public bool canIRemoveStructures;
     //public List<(GameObject, int)> baggedFish; // Fish Prefab, HungerCount
     public bool canIBagFish;
+
+    private Dictionary<GameObject, float> flashEndTimes = new Dictionary<GameObject, float>();
+    private HashSet<GameObject> flashingObjects = new HashSet<GameObject>();
+
+    private Dictionary<TextMeshProUGUI, float> textFlashEndTimes = new Dictionary<TextMeshProUGUI, float>();
+    private HashSet<TextMeshProUGUI> flashingTexts = new HashSet<TextMeshProUGUI>();
 
     public GameObject baggedFish_Button1;
     public GameObject baggedFish_Button2;
@@ -2721,11 +2730,19 @@ public class Scr_GameManager : MonoBehaviour
 
     public void FlashColor(GameObject _object, Color _colorToChange, float _flashTime, float _flashInterval)
     {
-        StartCoroutine(FlashColorCoroutine(_object, _colorToChange, _flashTime, _flashInterval));
+        // spam-clicking just extends how long it should keep flashing
+        flashEndTimes[_object] = Time.time + _flashTime;
+
+        // only start one coroutine per object
+        if (!flashingObjects.Contains(_object))
+            StartCoroutine(FlashColorCoroutine(_object, _colorToChange, _flashInterval));
     }
 
-    private IEnumerator FlashColorCoroutine(GameObject _object, Color _colorToChange, float _flashTime, float _flashInterval)
+    private IEnumerator FlashColorCoroutine(GameObject _object, Color _colorToChange, float _flashInterval)
     {
+        flashingObjects.Add(_object);
+
+        // cache original colors once
         Dictionary<Component, Color> originalColors = new Dictionary<Component, Color>();
 
         foreach (SpriteRenderer sr in _object.GetComponentsInChildren<SpriteRenderer>(true))
@@ -2734,58 +2751,70 @@ public class Scr_GameManager : MonoBehaviour
         foreach (Image img in _object.GetComponentsInChildren<Image>(true))
             originalColors[img] = img.color;
 
-        float elapsedTime = 0f;
+        bool on = false;
 
-        while (elapsedTime < _flashTime)
+        while (_object != null && flashEndTimes.ContainsKey(_object) && Time.time < flashEndTimes[_object])
         {
-            ChangeColor(_object, _colorToChange);
-            yield return new WaitForSeconds(_flashInterval);
-            elapsedTime += _flashInterval;
+            on = !on;
 
-            foreach (var kvp in originalColors)
+            if (on)
             {
-                if (kvp.Key is SpriteRenderer sr)
-                    sr.color = kvp.Value;
-                else if (kvp.Key is Image img)
-                    img.color = kvp.Value;
+                ChangeColor(_object, _colorToChange);
+            }
+            else
+            {
+                foreach (var kvp in originalColors)
+                {
+                    if (kvp.Key is SpriteRenderer sr) sr.color = kvp.Value;
+                    else if (kvp.Key is Image img) img.color = kvp.Value;
+                }
             }
 
             yield return new WaitForSeconds(_flashInterval);
-            elapsedTime += _flashInterval;
         }
 
-        // Final safety restore
-        foreach (var kvp in originalColors)
+        // final restore
+        if (_object != null)
         {
-            if (kvp.Key is SpriteRenderer sr)
-                sr.color = kvp.Value;
-            else if (kvp.Key is Image img)
-                img.color = kvp.Value;
+            foreach (var kvp in originalColors)
+            {
+                if (kvp.Key is SpriteRenderer sr) sr.color = kvp.Value;
+                else if (kvp.Key is Image img) img.color = kvp.Value;
+            }
         }
+
+        flashingObjects.Remove(_object);
+        flashEndTimes.Remove(_object);
     }
 
     public void FlashTextColor(TextMeshProUGUI _textObject, Color _colorToChange, float _flashTime, float _flashInterval)
     {
-        StartCoroutine(FlashTextColorCoroutine(_textObject, _colorToChange, _flashTime, _flashInterval));
+        textFlashEndTimes[_textObject] = Time.time + _flashTime;
+
+        if (!flashingTexts.Contains(_textObject))
+            StartCoroutine(FlashTextColorCoroutine(_textObject, _colorToChange, _flashInterval));
     }
-    private IEnumerator FlashTextColorCoroutine(TextMeshProUGUI _textObject, Color _colorToChange, float _flashTime, float _flashInterval)
+    private IEnumerator FlashTextColorCoroutine(TextMeshProUGUI _textObject, Color _colorToChange, float _flashInterval)
     {
-        float elapsedTime = 0f;
+        flashingTexts.Add(_textObject);
+
         Color originalColor = _textObject.color;
+        bool on = false;
 
-        while (elapsedTime < _flashTime)
+        while (_textObject != null && textFlashEndTimes.ContainsKey(_textObject) && Time.time < textFlashEndTimes[_textObject])
         {
-            _textObject.color = _colorToChange;
-            yield return new WaitForSeconds(_flashInterval);
-            elapsedTime += _flashInterval;
+            on = !on;
+            _textObject.color = on ? _colorToChange : originalColor;
 
-            _textObject.color = originalColor;
             yield return new WaitForSeconds(_flashInterval);
-            elapsedTime += _flashInterval;
         }
 
-        // Safety restore
-        _textObject.color = originalColor;
+        // final restore
+        if (_textObject != null)
+            _textObject.color = originalColor;
+
+        flashingTexts.Remove(_textObject);
+        textFlashEndTimes.Remove(_textObject);
     }
 
     public void MoveToSceneOrPause(Transform transform)
@@ -4252,12 +4281,23 @@ public class Scr_GameManager : MonoBehaviour
             }
         }
 
+
+        if (!tutorials.tutorialCompleted)
+        {
+            rent = 300;
+            rentText.text = rent.ToString();
+
+            incomeTax = 45;
+            incomeTaxText.text = incomeTax.ToString();
+        }
+
         int exoticFishTax = (skills.currentAccountingSkills[3]) ? 0 : ActiveSettings.exoticFishTaxAmount * numExoticFish;
         exoticFishTaxText.text = exoticFishTax.ToString();
 
         totalBills = rent + incomeTax + exoticFishTax + loanInterest;
         totalBillsValue = totalBills;
         totalBillsText.text = totalBills.ToString();
+
     }
 
     public void PayUpOrLose()
@@ -4612,12 +4652,13 @@ public class Scr_GameManager : MonoBehaviour
         }
 
         StartCoroutine(FadeMusicOut(3f));
-        StartCoroutine(PlayVideoAfterBubbles(3f));
+        intro = StartCoroutine(PlayVideoAfterBubbles(3f));
 
     }
 
     private IEnumerator PlayVideoAfterBubbles(float delay)
     {
+
         yield return new WaitForSeconds(delay);
 
 
@@ -4628,15 +4669,19 @@ public class Scr_GameManager : MonoBehaviour
         introVideoPlayer.Play();
 
         double len = introVideoPlayer.length;
+
+        Invoke(nameof(SetActiveSkipIntroButton), 7f);
+
         yield return new WaitForSecondsRealtime((float)len - 3f);
 
         // hide video
         //introVideoImage.SetActive(false);
 
         Invoke(nameof(StartMusicAfterIntro), 3f);
-        
+
         // NOW do the normal click logic
         ClickButton(newGameClickFunctions);
+
     }
 
     private IEnumerator FadeMusicOut(float fadeOutTime)
@@ -4650,6 +4695,28 @@ public class Scr_GameManager : MonoBehaviour
         }
 
         musicSource.Stop();
+    }
+
+    public void SetActiveSkipIntroButton()
+    {
+        EnableElement(skipIntroButton);
+    }
+
+    public void SkipIntro()
+    {
+        StopCoroutine(intro);
+
+        Invoke(nameof(StopIntro), 2f);
+
+        Invoke(nameof(StartMusicAfterIntro), 3f);
+
+        // NOW do the normal click logic
+        ClickButton(newGameClickFunctions);
+    }
+
+    private void StopIntro()
+    {
+        introVideoPlayer.Stop();
     }
 
     private void StartMusicAfterIntro()

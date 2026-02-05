@@ -162,8 +162,6 @@ public class Scr_Notifications : MonoBehaviour
             float boxW = spritePx.x * boxObj.transform.localScale.x;
             float boxH = spritePx.y * boxObj.transform.localScale.y;
 
-            Debug.LogError(boxW + " and " + neededW);
-
             if (!found && boxH >= neededH && boxW >= neededW) // pick by height first (your original goal)
             {
                 found = true;

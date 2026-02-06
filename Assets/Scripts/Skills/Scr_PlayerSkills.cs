@@ -44,6 +44,7 @@ public class Scr_PlayerSkills : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             skillsObj.SetActive(true);
@@ -54,6 +55,7 @@ public class Scr_PlayerSkills : MonoBehaviour
             skillsObj.SetActive(false);
             buySkillsButton.SetActive(false);
         }
+        */
     }
     public void BuyAllSkills()
     {

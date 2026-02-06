@@ -355,6 +355,7 @@ public class Scr_GameManager : MonoBehaviour
 
     private void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.Keypad1))
         {
             SpawnFish(fishPrefabs[0]);
@@ -391,7 +392,7 @@ public class Scr_GameManager : MonoBehaviour
         {
             baitAndTackle.BuyAllBaitsAndTackles();
         }
-
+        */
     }
 
     public void ResetFishStates()

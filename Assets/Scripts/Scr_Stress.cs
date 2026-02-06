@@ -37,7 +37,7 @@ public class Scr_Stress : MonoBehaviour
         }
 
         // If the total population of the tank is over the comfortable limit...
-        if (!fishPrefabScr.maxIsInfinite && totalFish > fishPrefabScr.maxComfortableTankPopulation)
+        if (!fishPrefabScr.maxIsInfinite && totalFish > ((gameManager.skills.currentFishkeepingSkills[3]) ? fishPrefabScr.maxComfortableTankPopulation * 1.5f : fishPrefabScr.maxComfortableTankPopulation))
         {
             activeStressFactors.Add(StressFactor.Crowded);
         }

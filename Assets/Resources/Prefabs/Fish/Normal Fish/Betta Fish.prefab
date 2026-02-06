@@ -541,7 +541,6 @@ MonoBehaviour:
   - {fileID: 5447806642486513699, guid: ef302d57c9a62814f8e8425e495c442f, type: 3}
   - {fileID: 5447806642486513699, guid: 1ab43b254f256dd4a802af59dd57dfdd, type: 3}
   foodInScene: []
-  numberCaught: 1
   generation: 1
   name: 
 --- !u!114 &290879803996485776

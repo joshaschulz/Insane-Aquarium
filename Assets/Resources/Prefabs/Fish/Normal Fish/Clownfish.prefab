@@ -576,7 +576,7 @@ MonoBehaviour:
   fishDescription: I need to find my son!
   minComfortableSameSpeciesPopulation: 0
   maxComfortableTankPopulation: 20
-  maxIsInfinite: 1
+  maxIsInfinite: 0
   comfortableWithPredators: 1
   comfortablePoopLevel: 75
   gameManagerFishPrefabsIndex: 2
@@ -625,7 +625,6 @@ MonoBehaviour:
   - {fileID: 5447806642486513699, guid: ef302d57c9a62814f8e8425e495c442f, type: 3}
   - {fileID: 5447806642486513699, guid: 1ab43b254f256dd4a802af59dd57dfdd, type: 3}
   foodInScene: []
-  numberCaught: 1
   generation: 1
   name: 
 --- !u!114 &3871281075918225225

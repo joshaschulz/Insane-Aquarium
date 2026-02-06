@@ -457,7 +457,6 @@ MonoBehaviour:
   - {fileID: 5447806642486513699, guid: ef302d57c9a62814f8e8425e495c442f, type: 3}
   - {fileID: 5447806642486513699, guid: 1ab43b254f256dd4a802af59dd57dfdd, type: 3}
   foodInScene: []
-  numberCaught: 0
   generation: 1
   name: 
 --- !u!114 &3311125974278403097
@@ -499,7 +498,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0

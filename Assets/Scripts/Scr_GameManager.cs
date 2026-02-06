@@ -160,6 +160,7 @@ public class Scr_GameManager : MonoBehaviour
 
     private Dictionary<Scr_CustomerContact, int> visitsByContact = new Dictionary<Scr_CustomerContact, int>();
 
+    public GameObject fishingLocation;
 
     public float radiationHueShift;
 
@@ -4212,7 +4213,8 @@ public class Scr_GameManager : MonoBehaviour
 
         ResetCustomer();
 
-        ResetFishing();
+        if (fishingCanvas.activeSelf)
+            ResetFishing();
 
         canFish = true;
         canFishCounter = 0;

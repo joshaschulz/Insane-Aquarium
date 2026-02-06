@@ -556,8 +556,6 @@ public class Scr_FishingMinigameFishController : MonoBehaviour
         gameManager.PlaySoundEffect(gameManager.SFX_Flush, 0.1f);
         ResetFishingMinigame();
         DespawnFishingMinigame();
-
-
     }
 
     public void ResetFishingMinigame()

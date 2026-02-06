@@ -133,7 +133,7 @@ public class Scr_PlayerSkills : MonoBehaviour
     {
         if (index == 0 || skills[index - 1]) //it's the first skill or has boughten the previous skill
         {
-            if (gameManager.moneyAmount > skillCosts[index]) //check enough money
+            if (gameManager.moneyAmount >= skillCosts[index]) //check enough money
             {
                 return true;
             }

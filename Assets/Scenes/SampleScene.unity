@@ -50893,6 +50893,7 @@ MonoBehaviour:
   dialogueBoxEndDay: {fileID: 260248575}
   customerTradePanel: {fileID: 915992733}
   fishyGuyTradePanel: {fileID: 2029106280}
+  fishingLocation: {fileID: 0}
   radiationHueShift: 0.3
   moneyAmount: 550
   moneyText: {fileID: 82281158}

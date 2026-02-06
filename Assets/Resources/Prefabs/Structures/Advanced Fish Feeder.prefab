@@ -1539,7 +1539,7 @@ MonoBehaviour:
   structureButton: {fileID: 0}
   thisPrefab: {fileID: 4929024843989503357}
   placedOnRight: 0
-  cost: 300
+  cost: 600
   anchorMode: 2
   offsetFromCameraBottom: 0.5
   offsetFromCameraSide: 0.9

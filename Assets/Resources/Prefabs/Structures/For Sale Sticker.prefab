@@ -50,7 +50,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   structureButton: {fileID: 0}
   thisPrefab: {fileID: 5584873671986153646}
-  cost: 100
+  placedOnRight: 0
+  cost: 250
   anchorMode: 3
   offsetFromCameraBottom: 3
   offsetFromCameraSide: 0.5

@@ -287,7 +287,7 @@ public class Scr_Customer : MonoBehaviour
             if (gameManager.skills.currentCustomerServiceSkills[1]) //customer tip skill
             {
                 tipAmount = Random.Range(5,31);
-                money = (int)(money * (1 + tipAmount/100));
+                money = (int)(money * (1 + tipAmount/100f));
                 tipped = true;
             }
 
@@ -576,7 +576,7 @@ public class Scr_Customer : MonoBehaviour
         if (gameManager.skills.currentCustomerServiceSkills[1]) //customer tip skill
         {
             tipAmount = Random.Range(5, 31);
-            totalMoney = (int)(totalMoney * (1 + tipAmount/100));
+            totalMoney = (int)(totalMoney * (1 + tipAmount/100f));
             tipped = true;
         }
 

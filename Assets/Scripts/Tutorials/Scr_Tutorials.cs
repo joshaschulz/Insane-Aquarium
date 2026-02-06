@@ -47,6 +47,7 @@ public class Scr_Tutorials : MonoBehaviour
             ShowNextTutorialBox();
             tutorialCompleted = true;
             gameManager.SetMoneyAmount(500);
+            gameManager.SetFishFoodAmount(gameManager.fishFood_1_Prefab, 30);
             gameManager.EnableAllButtons();
             ShowAllHUDButtons();
             gameManager.UpdateSceneTexts();

@@ -4880,42 +4880,42 @@ public class Scr_GameManager : MonoBehaviour
 
         //FISH
         ActiveSettings.minutesUntilHungry_Goldfish = (int)(120 * currentDifficultyMultiplier);
-        ActiveSettings.minutesUntilFreaky_Goldfish = (int)(130 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilFreaky_Goldfish = (int)(130 / currentDifficultyMultiplier);
         ActiveSettings.minutesUntilPoop_Goldfish = (int)(90 * currentDifficultyMultiplier);
         ActiveSettings.minutesUntilDead_Goldfish = (int)(90 * currentDifficultyMultiplier);
         ActiveSettings.fishValue_Goldfish = (int)(50 * currentDifficultyMultiplier);
         ActiveSettings.baseFishCost_Goldfish = ActiveSettings.fishValue_Goldfish * 2;
 
         ActiveSettings.minutesUntilHungry_BettaFish = (int)(120 * currentDifficultyMultiplier);
-        ActiveSettings.minutesUntilFreaky_BettaFish = (int)(130 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilFreaky_BettaFish = (int)(130 / currentDifficultyMultiplier);
         ActiveSettings.minutesUntilPoop_BettaFish = (int)(90 * currentDifficultyMultiplier);
         ActiveSettings.minutesUntilDead_BettaFish = (int)(90 * currentDifficultyMultiplier);
         ActiveSettings.fishValue_BettaFish = (int)(150 * currentDifficultyMultiplier);
         ActiveSettings.baseFishCost_BettaFish = ActiveSettings.fishValue_BettaFish * 2;
 
         ActiveSettings.minutesUntilHungry_Piranha = (int)(120 * currentDifficultyMultiplier);
-        ActiveSettings.minutesUntilFreaky_Piranha = (int)(130 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilFreaky_Piranha = (int)(130 / currentDifficultyMultiplier);
         ActiveSettings.minutesUntilPoop_Piranha = (int)(90 * currentDifficultyMultiplier);
         ActiveSettings.minutesUntilDead_Piranha = (int)(90 * currentDifficultyMultiplier);
         ActiveSettings.fishValue_Piranha = (int)(150 * currentDifficultyMultiplier);
         ActiveSettings.baseFishCost_Piranha = ActiveSettings.fishValue_Piranha * 2;
 
         ActiveSettings.minutesUntilHungry_Clownfish = (int)(120 * currentDifficultyMultiplier);
-        ActiveSettings.minutesUntilFreaky_Clownfish = (int)(130 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilFreaky_Clownfish = (int)(130 / currentDifficultyMultiplier);
         ActiveSettings.minutesUntilPoop_Clownfish = (int)(90 * currentDifficultyMultiplier);
         ActiveSettings.minutesUntilDead_Clownfish = (int)(90 * currentDifficultyMultiplier);
         ActiveSettings.fishValue_Clownfish = (int)(100 * currentDifficultyMultiplier);
         ActiveSettings.baseFishCost_Clownfish = ActiveSettings.fishValue_Clownfish * 2;
 
         ActiveSettings.minutesUntilHungry_BlueTang = (int)(120 * currentDifficultyMultiplier);
-        ActiveSettings.minutesUntilFreaky_BlueTang = (int)(130 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilFreaky_BlueTang = (int)(130 / currentDifficultyMultiplier);
         ActiveSettings.minutesUntilPoop_BlueTang = (int)(90 * currentDifficultyMultiplier);
         ActiveSettings.minutesUntilDead_BlueTang = (int)(90 * currentDifficultyMultiplier);
         ActiveSettings.fishValue_BlueTang = (int)(80 * currentDifficultyMultiplier);
         ActiveSettings.baseFishCost_BlueTang = ActiveSettings.fishValue_BlueTang * 2;
 
         ActiveSettings.minutesUntilHungry_Tetra = (int)(120 * currentDifficultyMultiplier);
-        ActiveSettings.minutesUntilFreaky_Tetra = (int)(130 * currentDifficultyMultiplier);
+        ActiveSettings.minutesUntilFreaky_Tetra = (int)(130 / currentDifficultyMultiplier);
         ActiveSettings.minutesUntilPoop_Tetra = (int)(90 * currentDifficultyMultiplier);
         ActiveSettings.minutesUntilDead_Tetra = (int)(90 * currentDifficultyMultiplier);
         ActiveSettings.fishValue_Tetra = (int)(30 * currentDifficultyMultiplier);

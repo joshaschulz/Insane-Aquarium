@@ -639,7 +639,7 @@ public class Scr_Fish : MonoBehaviour
 
             if (collisionObj.GetComponent<Scr_FoodBehavior>() != null)
             {
-                if (collisionObj.GetComponent<Scr_FoodBehavior>().radiated && !radiated)
+                if (collisionObj.GetComponent<Scr_FoodBehavior>().radiated)
                 {
                     radiated = true;
                     SetRadiatedHue();

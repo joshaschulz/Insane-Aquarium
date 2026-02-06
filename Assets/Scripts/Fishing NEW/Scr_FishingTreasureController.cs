@@ -327,24 +327,19 @@ public class Scr_FishingMinigameChestController : MonoBehaviour
 
         chestBarRoot.gameObject.SetActive(true);
 
-        //Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(cam, activeChest.transform.position);
         Vector2 screenPoint = cam.WorldToScreenPoint(activeChest.transform.position);
-        //screenPoint += chestBarPixelOffset;
-        screenPoint += canvasOffset;
 
         RectTransform canvasRect = uiCanvas.transform as RectTransform;
 
-        Vector2 localPoint;
-        bool ok = RectTransformUtility.ScreenPointToLocalPointInRectangle(
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
             canvasRect,
             screenPoint,
-            uiCanvas.worldCamera,
-            out localPoint
+            uiCanvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : uiCanvas.worldCamera,
+            out Vector2 localPoint
         );
 
-        if (!ok) return;
-
-        chestBarRoot.anchoredPosition = localPoint;
+        // NOW add offset in canvas units
+        chestBarRoot.anchoredPosition = localPoint + canvasOffset;
     }
 
     private void SetChestFillHeight(float t)

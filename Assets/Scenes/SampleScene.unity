@@ -81003,7 +81003,7 @@ MonoBehaviour:
   uiCanvas: {fileID: 1991904554}
   chestBarRoot: {fileID: 174297921}
   chestBarPixelOffset: {x: 0, y: -30}
-  canvasOffset: {x: 0, y: -50}
+  canvasOffset: {x: 0, y: -25}
   chestCount: 0
   fishingLine: {fileID: 1884585757}
   cursorLagIncreasePerChest: 25

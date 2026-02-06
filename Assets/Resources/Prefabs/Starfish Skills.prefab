@@ -411,7 +411,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   correspondingSkill: {fileID: 141810645976039665}
   skillName: Gamma Grub
-  skillDescription: Unlocks radiation food for purchase.
+  skillDescription: Unlocks radiation food for purchase. When eaten, mutates the
+    fish, increasing its value, but rendering it unable to breed.
 --- !u!60 &3882663653128965532
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -566,7 +567,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   correspondingSkill: {fileID: 988226132101438226}
   skillName: Oscar
-  skillDescription: Unlocks Oscar.
+  skillDescription: Unlocks Oscar, who will bag and sell fish from for sale tanks.
 --- !u!60 &3493621297780815989
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -838,7 +839,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   correspondingSkill: {fileID: 2934887319543555621}
   skillName: The Big One
-  skillDescription: Unlocks the ability to catch legendary fish.
+  skillDescription: Unlocks the ability to catch legendary fish, which boost the
+    value of other fish.
 --- !u!60 &2716803750322233302
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -2617,7 +2619,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   correspondingSkill: {fileID: 4062678986480700414}
   skillName: Oversupply
-  skillDescription: All structures cost 50% less.
+  skillDescription: All structures are 50% cheaper.
 --- !u!60 &6074509560446424922
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -3201,7 +3203,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5707399903110053382
 Transform:
   m_ObjectHideFlags: 0
@@ -5138,14 +5140,14 @@ RectTransform:
   m_GameObject: {fileID: 7098817417467530235}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.18, y: 0.18, z: 0.18}
+  m_LocalScale: {x: 0.36, y: 0.36, z: 0.36}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1327277852230924793}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.79, y: 0.06}
+  m_AnchoredPosition: {x: -2.06, y: -0.1}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &4698846208622140077
@@ -5300,7 +5302,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   correspondingSkill: {fileID: 1012589871866409848}
   skillName: Best Sellers
-  skillDescription: Unlocks the for sale sticker for purchase.
+  skillDescription: Unlocks the for sale sticker for purchase. Customers will request
+    fish in for sale tanks.
 --- !u!60 &1964600905355247145
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -6008,8 +6011,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.22999993, y: -1.04}
-  m_SizeDelta: {x: 3.11, y: 2.12}
+  m_AnchoredPosition: {x: 0.2, y: -1.04}
+  m_SizeDelta: {x: 3.75, y: 2.12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &8358695697759068315
 MeshRenderer:
@@ -6031,7 +6034,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 315234153199892475, guid: 7f6e8f0684e05414e9171e07547da7b7, type: 2}
+  - {fileID: 315234153199892475, guid: cd8025094c93ae84db7c06ba9df80530, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6075,8 +6078,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: SKILL DESCRIPTION
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7f6e8f0684e05414e9171e07547da7b7, type: 2}
-  m_sharedMaterial: {fileID: 315234153199892475, guid: 7f6e8f0684e05414e9171e07547da7b7, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: cd8025094c93ae84db7c06ba9df80530, type: 2}
+  m_sharedMaterial: {fileID: 315234153199892475, guid: cd8025094c93ae84db7c06ba9df80530, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6136,7 +6139,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: -0.34476316}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0
@@ -6467,7 +6470,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -2777621119939936393, guid: 500b34eb26f85f94b9418c7ec72088ed, type: 2}
+  - {fileID: -2777621119939936393, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6511,8 +6514,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: CHECKOUT TABLET
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 500b34eb26f85f94b9418c7ec72088ed, type: 2}
-  m_sharedMaterial: {fileID: -2777621119939936393, guid: 500b34eb26f85f94b9418c7ec72088ed, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
+  m_sharedMaterial: {fileID: -2777621119939936393, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6749,7 +6752,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.61, y: -2.04}
+  m_AnchoredPosition: {x: 2.55, y: 5.85}
   m_SizeDelta: {x: 3.11, y: 0.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &8035268239027106970
@@ -6772,7 +6775,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 315234153199892475, guid: 7f6e8f0684e05414e9171e07547da7b7, type: 2}
+  - {fileID: 315234153199892475, guid: cd8025094c93ae84db7c06ba9df80530, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6816,8 +6819,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 500
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 7f6e8f0684e05414e9171e07547da7b7, type: 2}
-  m_sharedMaterial: {fileID: 315234153199892475, guid: 7f6e8f0684e05414e9171e07547da7b7, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: cd8025094c93ae84db7c06ba9df80530, type: 2}
+  m_sharedMaterial: {fileID: 315234153199892475, guid: cd8025094c93ae84db7c06ba9df80530, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6841,8 +6844,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 3
-  m_fontSizeBase: 3
+  m_fontSize: 6
+  m_fontSizeBase: 6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -7395,7 +7398,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   correspondingSkill: {fileID: 8031023183345141855}
   skillName: Feeding Frenzy
-  skillDescription: Unlocks the advanced fish feeder for purchase.
+  skillDescription: Unlocks the advanced fish feeder for purchase, ensuring no fish
+    goes hungry.
 --- !u!60 &5531066791695970501
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -7550,7 +7554,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   correspondingSkill: {fileID: 8314037452764626974}
   skillName: Checkout Tablet
-  skillDescription: Customers will tip 10% after every sale.
+  skillDescription: Customers will tip after every sale.
 --- !u!60 &6059974250220009027
 PolygonCollider2D:
   m_ObjectHideFlags: 0

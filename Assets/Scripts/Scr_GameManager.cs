@@ -409,6 +409,8 @@ public class Scr_GameManager : MonoBehaviour
     {
         CheckOscar();
         CheckStickyNotes();
+
+        skills.SendFishUpdate();
     }
 
     public int GetOscarState()

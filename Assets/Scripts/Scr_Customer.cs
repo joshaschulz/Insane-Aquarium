@@ -282,14 +282,24 @@ public class Scr_Customer : MonoBehaviour
         if (sold)
         {
             bool tipped = false;
+            int tipAmount = 0;
 
             if (gameManager.skills.currentCustomerServiceSkills[1]) //customer tip skill
             {
-                money = (int)(money * 1.1);
+                tipAmount = Random.Range(5,31);
+                money = (int)(money * (1 + tipAmount/100));
                 tipped = true;
             }
 
-            notifications.Show($"{(tipped ? "Customer tipped 10%! " : "")} {numSold} {customerFishPrefab.tag} was sold for {money} krona!", false);
+            if (tipped)
+            {
+                notifications.Show($"Customer tipped {tipAmount}%! {numSold} {customerFishPrefab.tag} sold for {money} krona!", false);
+            }
+            else
+            {
+                notifications.Show($"{numSold} {customerFishPrefab.tag} sold for {money} krona!", false);
+            }
+
             gameManager.AddMoneyAmount(money);
 
             gameManager.PlaySoundEffect(gameManager.SFX_CashRegister, 0.4f, 1f, 1f);
@@ -559,14 +569,25 @@ public class Scr_Customer : MonoBehaviour
             Destroy(t.gameObject);
         }
 
+
         bool tipped = false;
+        int tipAmount = 0;
+
         if (gameManager.skills.currentCustomerServiceSkills[1]) //customer tip skill
         {
-            totalMoney = (int)(totalMoney * 1.1);
+            tipAmount = Random.Range(5, 31);
+            totalMoney = (int)(totalMoney * (1 + tipAmount/100));
             tipped = true;
         }
 
-        notifications.Show($"{(tipped ? "Customer tipped 10%! " : "")}{fishToSell.Count} {fishToSell[0].tag} was sold for {totalMoney} krona!", false);
+        if (tipped)
+        {
+            notifications.Show($"Customer tipped {tipAmount}%! {fishToSell.Count} {fishToSell[0].tag} sold for {totalMoney} krona!", false);
+        }
+        else
+        {
+            notifications.Show($"{fishToSell.Count} {fishToSell[0].tag} sold for {totalMoney} krona!", false);
+        }
 
         gameManager.AddMoneyAmount(totalMoney);
 

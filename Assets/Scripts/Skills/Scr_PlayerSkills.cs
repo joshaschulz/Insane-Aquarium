@@ -99,7 +99,7 @@ public class Scr_PlayerSkills : MonoBehaviour
 
                         legObj.GetComponent<Scr_SkillsHover>().correspondingSkill.SetActive(true);
 
-                        SendFishUpdate();
+                        //SendFishUpdate();
 
                         return;
                     }
@@ -183,7 +183,7 @@ public class Scr_PlayerSkills : MonoBehaviour
         };
     }
 
-    private void SendFishUpdate()
+    public void SendFishUpdate()
     {
         //UPDATE EXISTING FISH'S SKILLS
         //ALL FISH IN SCENE

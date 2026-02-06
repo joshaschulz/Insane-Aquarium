@@ -169,6 +169,8 @@ public class Scr_BaitTackle : MonoBehaviour
             {
                 baitAmountTexts[i].text = baitListAmount[i].ToString();
 
+                baits.transform.GetChild(i).GetComponent<Scr_TooltipUse>().enabled = true;
+
                 foreach (Image img in baits.transform.GetChild(i).GetComponentsInChildren<Image>(true))
                 {
                     img.color = Color.white;
@@ -185,6 +187,9 @@ public class Scr_BaitTackle : MonoBehaviour
 
             if (tackleListAmount[i] != -1)
             {
+
+                tackles.transform.GetChild(i).GetComponent<Scr_TooltipUse>().enabled = true;
+
                 foreach (Image img in tackles.transform.GetChild(i).GetComponentsInChildren<Image>(true))
                 {
                     img.color = Color.white;

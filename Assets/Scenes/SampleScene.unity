@@ -3865,6 +3865,7 @@ GameObject:
   - component: {fileID: 88213813}
   - component: {fileID: 88213814}
   - component: {fileID: 88213815}
+  - component: {fileID: 88213816}
   m_Layer: 5
   m_Name: Lead Bobber
   m_TagString: Untagged
@@ -4002,6 +4003,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 409.3153, y: 312.0398}
   m_EdgeRadius: 0
+--- !u!114 &88213816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 88213810}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e7556db747bf5b45a43edfa7d0b6477, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltip: {fileID: 1717543148}
+  message: "Less fishing progress is lost when a fish is escaping.\r"
 --- !u!1 &88356283
 GameObject:
   m_ObjectHideFlags: 0
@@ -4738,7 +4753,7 @@ MonoBehaviour:
   m_text: '#'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
-  m_sharedMaterial: {fileID: -2777621119939936393, guid: 500b34eb26f85f94b9418c7ec72088ed, type: 2}
+  m_sharedMaterial: {fileID: -2777621119939936393, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4896,41 +4911,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &114503637
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 114503638}
-  m_Layer: 5
-  m_Name: Fish Mouth
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &114503638
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 114503637}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 669776426}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -36.2, y: 232.5}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &117230108
 GameObject:
   m_ObjectHideFlags: 0
@@ -10787,7 +10767,7 @@ MonoBehaviour:
   m_text: '#'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
-  m_sharedMaterial: {fileID: -2777621119939936393, guid: 500b34eb26f85f94b9418c7ec72088ed, type: 2}
+  m_sharedMaterial: {fileID: -2777621119939936393, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -13075,81 +13055,6 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 184046404}
-  m_CullTransparentMesh: 1
---- !u!1 &184736116
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 184736117}
-  - component: {fileID: 184736119}
-  - component: {fileID: 184736118}
-  m_Layer: 5
-  m_Name: Logo Line
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &184736117
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 184736116}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.972973, y: 0.972973, z: 0.972973}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 669776426}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -36.540264, y: 245.08119}
-  m_SizeDelta: {x: 3, y: 6000}
-  m_Pivot: {x: 0.5, y: 0}
---- !u!114 &184736118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 184736116}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &184736119
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 184736116}
   m_CullTransparentMesh: 1
 --- !u!1 &187192761
 GameObject:
@@ -24094,7 +23999,7 @@ MonoBehaviour:
   m_text: '#'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
-  m_sharedMaterial: {fileID: -2777621119939936393, guid: 500b34eb26f85f94b9418c7ec72088ed, type: 2}
+  m_sharedMaterial: {fileID: -2777621119939936393, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -24714,7 +24619,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 155.48, y: 165.84}
+  m_AnchoredPosition: {x: -4, y: 197}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &436015954
@@ -28702,7 +28607,7 @@ MonoBehaviour:
   m_text: '#'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
-  m_sharedMaterial: {fileID: -2777621119939936393, guid: 500b34eb26f85f94b9418c7ec72088ed, type: 2}
+  m_sharedMaterial: {fileID: -2777621119939936393, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -31892,7 +31797,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 42.016438, y: 42.016438, z: 42.016438}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 669776426}
   m_Father: {fileID: 893609180}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &592870091
@@ -35227,7 +35133,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &669776426
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35237,17 +35143,15 @@ RectTransform:
   m_GameObject: {fileID: 669776425}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.185, y: 0.185, z: 0.185}
+  m_LocalScale: {x: 0.00486, y: 0.00485, z: 0.00485}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 184736117}
   - {fileID: 554355870}
-  - {fileID: 114503638}
-  m_Father: {fileID: 1570855322}
+  m_Father: {fileID: 592870090}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -276, y: -10}
+  m_AnchoredPosition: {x: -6.23, y: 4.93}
   m_SizeDelta: {x: 1078, y: 570}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &669776427
@@ -35295,7 +35199,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 669776425}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22fd03ce316edc04081b9df612550f2b, type: 3}
   m_Name: 
@@ -35307,7 +35211,7 @@ MonoBehaviour:
   maxJitterX: 5
   maxJitterY: 5
   jitterFrequency: 20
-  fishingLine: {fileID: 184736117}
+  fishingLine: {fileID: 0}
   lineEnd: {fileID: 792050907}
   lineRetractDuration: 0.2
   lineRetractSpeedMultiplier: 1.5
@@ -42149,7 +42053,7 @@ MonoBehaviour:
   m_text: '#'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
-  m_sharedMaterial: {fileID: -2777621119939936393, guid: 500b34eb26f85f94b9418c7ec72088ed, type: 2}
+  m_sharedMaterial: {fileID: -2777621119939936393, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -49330,7 +49234,7 @@ MonoBehaviour:
   m_text: '#'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
-  m_sharedMaterial: {fileID: -2777621119939936393, guid: 500b34eb26f85f94b9418c7ec72088ed, type: 2}
+  m_sharedMaterial: {fileID: -2777621119939936393, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -52675,7 +52579,7 @@ MonoBehaviour:
   m_text: '#'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
-  m_sharedMaterial: {fileID: -2777621119939936393, guid: 500b34eb26f85f94b9418c7ec72088ed, type: 2}
+  m_sharedMaterial: {fileID: -2777621119939936393, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -58887,6 +58791,7 @@ GameObject:
   - component: {fileID: 1186411628}
   - component: {fileID: 1186411629}
   - component: {fileID: 1186411630}
+  - component: {fileID: 1186411631}
   m_Layer: 5
   m_Name: Peanut Butter
   m_TagString: Untagged
@@ -59025,6 +58930,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 420.72424, y: 316.74518}
   m_EdgeRadius: 0
+--- !u!114 &1186411631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186411625}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e7556db747bf5b45a43edfa7d0b6477, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltip: {fileID: 1717543148}
+  message: Fish move slower when hooked.
 --- !u!1 &1189493039
 GameObject:
   m_ObjectHideFlags: 0
@@ -67641,8 +67560,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1103804938}
   - {fileID: 1579469656}
+  - {fileID: 1103804938}
   m_Father: {fileID: 1864382954}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -73608,6 +73527,7 @@ GameObject:
   - component: {fileID: 1508306089}
   - component: {fileID: 1508306090}
   - component: {fileID: 1508306091}
+  - component: {fileID: 1508306092}
   m_Layer: 5
   m_Name: Ducky Bobber
   m_TagString: Untagged
@@ -73745,6 +73665,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 563.30084, y: 452.93365}
   m_EdgeRadius: 0
+--- !u!114 &1508306092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508306086}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e7556db747bf5b45a43edfa7d0b6477, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltip: {fileID: 1717543148}
+  message: Counteracts the weight of crates.
 --- !u!1 &1508775810
 GameObject:
   m_ObjectHideFlags: 0
@@ -76248,7 +76182,6 @@ RectTransform:
   - {fileID: 1481934262}
   - {fileID: 845081891}
   - {fileID: 1978028506}
-  - {fileID: 669776426}
   - {fileID: 792050907}
   m_Father: {fileID: 893609180}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -83931,7 +83864,7 @@ MonoBehaviour:
   m_text: '#'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
-  m_sharedMaterial: {fileID: -2777621119939936393, guid: 500b34eb26f85f94b9418c7ec72088ed, type: 2}
+  m_sharedMaterial: {fileID: -2777621119939936393, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -88182,6 +88115,7 @@ GameObject:
   - component: {fileID: 1836787056}
   - component: {fileID: 1836787057}
   - component: {fileID: 1836787058}
+  - component: {fileID: 1836787059}
   m_Layer: 5
   m_Name: Earthworm
   m_TagString: Untagged
@@ -88321,6 +88255,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 356.65857, y: 273.62842}
   m_EdgeRadius: 0
+--- !u!114 &1836787059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836787053}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e7556db747bf5b45a43edfa7d0b6477, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltip: {fileID: 1717543148}
+  message: Reduces bite time by 10 minutes.
 --- !u!1 &1837836424
 GameObject:
   m_ObjectHideFlags: 0
@@ -93963,7 +93911,7 @@ MonoBehaviour:
   m_text: '#'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
-  m_sharedMaterial: {fileID: -2777621119939936393, guid: 500b34eb26f85f94b9418c7ec72088ed, type: 2}
+  m_sharedMaterial: {fileID: -2777621119939936393, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -99861,7 +99809,7 @@ MonoBehaviour:
   m_text: '#'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
-  m_sharedMaterial: {fileID: -2777621119939936393, guid: 500b34eb26f85f94b9418c7ec72088ed, type: 2}
+  m_sharedMaterial: {fileID: -2777621119939936393, guid: 17069b794fca3214288f67fd1fafdb22, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

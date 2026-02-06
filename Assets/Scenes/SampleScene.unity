@@ -50786,6 +50786,7 @@ MonoBehaviour:
   currentDifficulty: -1
   introVideoPlayer: {fileID: 902977865}
   introVideoImage: {fileID: 731078486}
+  fishingController: {fileID: 1654857287}
   notifications: {fileID: 0}
   baitAndTackle: {fileID: 42130147}
   phoneLogos: {fileID: 1088456448}
@@ -50860,6 +50861,7 @@ MonoBehaviour:
   mainMenuCanvas: {fileID: 893609176}
   gameCanvas: {fileID: 672596395}
   hudCanvas: {fileID: 1583551543}
+  fishingCanvas: {fileID: 1991904552}
   AS: {fileID: 1031440125}
   normalSnapshot: {fileID: 24500006, guid: cf2a04c0dd72560439165a42d93979ad, type: 2}
   underwaterSnapshot: {fileID: 3137943638556364632, guid: cf2a04c0dd72560439165a42d93979ad, type: 2}
@@ -73135,7 +73137,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1492024531}
-  - component: {fileID: 1492024532}
   m_Layer: 5
   m_Name: Cell Phone Closed
   m_TagString: Untagged
@@ -73163,20 +73164,6 @@ RectTransform:
   m_AnchoredPosition: {x: 1.0899848, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1492024532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1492024530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48e5428b90ea7b245b7b7c56e822907d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scaleAmount: 1.05
-  pulseSpeed: 1.1
 --- !u!1 &1494545156
 GameObject:
   m_ObjectHideFlags: 0
@@ -88581,7 +88568,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1841038394}
-  - component: {fileID: 1841038395}
   m_Layer: 5
   m_Name: Cell Phone Opened
   m_TagString: Untagged
@@ -88622,20 +88608,6 @@ RectTransform:
   m_AnchoredPosition: {x: 1.09, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1841038395
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1841038393}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48e5428b90ea7b245b7b7c56e822907d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scaleAmount: 1.05
-  pulseSpeed: 1.1
 --- !u!1 &1843492697
 GameObject:
   m_ObjectHideFlags: 0

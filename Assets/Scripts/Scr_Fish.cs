@@ -288,6 +288,9 @@ public class Scr_Fish : MonoBehaviour
 
         UpdateFishInfoPanel();
 
+        //JUST A FIX FOR THE DEMO - THE TELEPORTING GLITCH ////////////////////////////////////////////////// FIX EVENTUALLY
+        AdjustTeleportingPositions();
+
         if ((isHungry && FindClosestFood() != null))
         {
             CancelInvoke("IdleOrMove");
@@ -302,6 +305,12 @@ public class Scr_Fish : MonoBehaviour
         }
 
         // Your fish behavior here, e.g., update hunger status.
+    }
+
+    public void AdjustTeleportingPositions()
+    {
+        transform.GetChild(0).localPosition = Vector3.zero;
+        transform.GetChild(1).localPosition = Vector3.zero;
     }
 
     public void CheckIfStressed()

@@ -24,6 +24,8 @@ public class Scr_GameManager : MonoBehaviour
     public VideoPlayer introVideoPlayer;
     public GameObject introVideoImage;
 
+    public Scr_FishingMinigameFishController fishingController;
+
     public Scr_Notifications notifications;
     public Scr_BaitTackle baitAndTackle;
 
@@ -111,6 +113,7 @@ public class Scr_GameManager : MonoBehaviour
     public GameObject mainMenuCanvas;
     public GameObject gameCanvas;
     public GameObject hudCanvas;
+    public GameObject fishingCanvas;
 
     public AudioSource AS;
     public AudioMixerSnapshot normalSnapshot;
@@ -4207,6 +4210,9 @@ public class Scr_GameManager : MonoBehaviour
         EnableButton(payUpButton);
 
         ResetCustomer();
+
+        ResetFishing();
+
         canFish = true;
         canFishCounter = 0;
         //ResetPhone();
@@ -4217,13 +4223,23 @@ public class Scr_GameManager : MonoBehaviour
             FindObjectOfType<Scr_FishInfoPanel>().Hide();
 
         MoveToScene(bathroom);
+        
 
         currentDayText.text = currentDay.ToString();
 
         UpdateText(Scr_EndDay.endDayMoneyText, moneyAmount);
 
         Scr_EndDay.PlayEndDayUI();
+    }
 
+    private void ResetFishing()
+    {
+        EnableElement(hudCanvas);
+        fishingController.FlushFish();
+        DisableElement(fishingCanvas);
+        DisableElement(fishingController.gameObject);
+        EnableElement(gameCanvas);
+        DisableUnderwaterAudio();
     }
 
     public void NextScene()
